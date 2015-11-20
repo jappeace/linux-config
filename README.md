@@ -1,4 +1,6 @@
-linux-config
-============
+# Config files
 
-a collection of .config files which work for certain machines
+This project contains config files so that they're backuped and can be shared
+across multiple devices.
+
+It also contains so called "dot files", which are for user specific configs.
