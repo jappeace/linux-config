@@ -1,0 +1,35 @@
+execute pathogen#infect()
+syntax on
+filetype plugin indent on
+
+
+" summerfruit256 as a light theme
+colorscheme molokai
+set number
+set ruler
+set cursorline
+
+
+"highlight OverLength ctermbg=darkred ctermfg=white guibg=#592929
+"match OverLength /\%81v.\+/
+"set colorcolumn=+1
+:au BufWinEnter * let w:m1=matchadd('Search', '\%<81v.\%>77v', -1)
+:au BufWinEnter * let w:m2=matchadd('ErrorMsg', '\%>80v.\+', -1)
+
+let c_space_errors=1
+highlight WhitespaceEOL ctermbg=red guibg=red
+match WhitespaceEOL /\s\+$/
+
+set autoindent
+set noexpandtab
+set tabstop=4
+set shiftwidth=4
+
+set guifont=Monospace\ 16
+
+nmap <CR> o<Esc>
+nnoremap K <Esc>i<CR><Esc>
+nnoremap K <Esc>i<CR><Esc>
+" somitimes I mess up K in visual mode
+vmap K k
+
