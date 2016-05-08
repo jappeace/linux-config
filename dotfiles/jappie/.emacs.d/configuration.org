@@ -1,0 +1,38 @@
+#+TITLE: Emacs configuration
+* Personal info
+
+#+BEGIN_SRC emacs-lisp
+  (setq user-full-name "Jappie T. Klooster"
+        user-mail-address "jappieklooster@hotmail.com"
+        calendar-latitude 52.782
+        calendar-longitude 6.331
+        calendar-location-name "Kerkdijk 2, Ansen")
+#+END_SRC
+
+* Remap keys
+i3 already uses alt, remap it to windows key
+#+BEGIN_SRC emacs-lisp
+  (setq x-super-keysym 'meta) 
+#+END_SRC
+* Shiny
+** Lambda to \lambda
+  #+BEGIN_SRC emacs-lisp
+  (global-prettify-symbols-mode t)
+  #+END_SRC
+** line numbers
+  #+BEGIN_SRC emacs-lisp
+  (add-hook 'prog-mode-hook #'linum-mode)
+  (add-hook 'prog-mode-hook #'linum-relative-toggle)
+  #+END_SRC
+
+* You complete me
+The deamon
+(require 'ycmd)
+(add-hook 'after-init-hook #'global-ycmd-mode)
+(set-variable 'ycmd-server-command '("python" "/home/jappie/.vim/bundle/YouCompleteMe/third_party/ycmd/ycmd"))
+
+How to present the completions:
+(require 'company-ycmd)
+(company-ycmd-setup)
+  
+
