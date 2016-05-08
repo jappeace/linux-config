@@ -24,15 +24,3 @@ i3 already uses alt, remap it to windows key
   (add-hook 'prog-mode-hook #'linum-mode)
   (add-hook 'prog-mode-hook #'linum-relative-toggle)
   #+END_SRC
-
-* You complete me
-The deamon
-(require 'ycmd)
-(add-hook 'after-init-hook #'global-ycmd-mode)
-(set-variable 'ycmd-server-command '("python" "/home/jappie/.vim/bundle/YouCompleteMe/third_party/ycmd/ycmd"))
-
-How to present the completions:
-(require 'company-ycmd)
-(company-ycmd-setup)
-  
-
