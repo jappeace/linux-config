@@ -14,6 +14,13 @@ i3 already uses alt, remap it to windows key
 #+BEGIN_SRC emacs-lisp
   (setq x-super-keysym 'meta) 
 #+END_SRC
+Fucking K is insert enter alright?! I'm so freaking
+used to this, and I *NEVER* want to search for the current
+word in the manual.
+
+#+BEGIN_SRC emacs-lisp
+(define-key evil-normal-state-map (kbd "K") 'newline)
+#+END_SRC
 * Shiny
 ** Lambda to \lambda
   #+BEGIN_SRC emacs-lisp
@@ -24,3 +31,21 @@ i3 already uses alt, remap it to windows key
   (add-hook 'prog-mode-hook #'linum-mode)
   (add-hook 'prog-mode-hook #'linum-relative-toggle)
   #+END_SRC
+** tab width
+#+BEGIN_SRC emacs-lisp
+  (setq-default tab-width 4)
+#+END_SRC
+
+* YCM
+Where is the daemon?
+#+BEGIN_SRC emacs-lisp
+  (set-variable 'ycmd-server-command '("python" "/home/jappie/.vim/bundle/YouCompleteMe/third_party/ycmd/ycmd"))
+#+END_SRC
+
+Which languages to complete?
+#+BEGIN_SRC emacs-lisp
+  (add-hook 'c++-mode-hook 'ycmd-mode)
+  (add-hook 'rust-mode-hook 'ycmd-mode)
+  (add-hook 'python-mode-hook 'ycmd-mode)
+#+END_SRC
+
