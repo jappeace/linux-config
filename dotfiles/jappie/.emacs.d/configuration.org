@@ -21,6 +21,13 @@ word in the manual.
 #+BEGIN_SRC emacs-lisp
 (define-key evil-normal-state-map (kbd "K") 'newline)
 #+END_SRC
+
+Python execute with c x like in rust:
+#+BEGIN_SRC emacs-lisp
+(spacemacs/set-leader-keys-for-major-mode 'python-mode
+  "cx" 'spacemacs/python-execute-file
+)
+#+END_SRC
 * Shiny
 ** Lambda to \lambda
   #+BEGIN_SRC emacs-lisp
@@ -48,4 +55,50 @@ Which languages to complete?
   (add-hook 'rust-mode-hook 'ycmd-mode)
   (add-hook 'python-mode-hook 'ycmd-mode)
 #+END_SRC
+* Org mode
+** Shiny org
+Having + instead of ...
+#+BEGIN_SRC emacs-lisp
+(setq org-ellipsis " ▼")
+#+END_SRC
+
+Syntax highlighting in source blocks while editing
+#+BEGIN_SRC emacs-lisp
+(setq org-src-fontify-natively t)
+#+END_SRC
+
+Use the language's tab major mode
+#+BEGIN_SRC emacs-lisp
+(setq org-src-tab-acts-natively t)
+#+END_SRC
+
+UTF-8 symbols for late shortcuts (such as \alpha).
+
+#+BEGIN_SRC emacs-lisp
+(setq org-pretty-entities t)
+#+END_SRC
+
+Make latex previews (of complex formulas ie stuff inside []):
+#+BEGIN_SRC emacs-lisp
+(setq org-startup-with-latex-preview 'latexpreview)
+#+END_SRC
+
+** Task management
+Org directory
+#+BEGIN_SRC emacs-lisp
+(setq org-directory "~/org")
+(defun org-file-path (filename)
+  "Return the absolute address of an org file, given its relative name."
+  (concat (file-name-as-directory org-directory) filename))
+#+END_SRC
+
+define planning.org as the location to dump todo items in.
+#+BEGIN_SRC emacs-lisp
+(setq org-index-file (org-file-path "planning.org"))
+(setq org-archive-location
+      (concat (org-file-path "archive.org") "::* From %s"))
+#+END_SRC
+
+anyway more is [[https://github.com/hrs/dotfiles/blob/master/emacs.d/configuration.org][here]]
+
 

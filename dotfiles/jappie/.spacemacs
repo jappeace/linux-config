@@ -41,6 +41,7 @@ values."
            rust-enable-racer 'f)
      python
      flycheck
+     latex
      (version-control :variables
                       vc-follow-symlinks t)
      )
