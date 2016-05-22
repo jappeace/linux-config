@@ -22,12 +22,20 @@ word in the manual.
 (define-key evil-normal-state-map (kbd "K") 'newline)
 #+END_SRC
 
+** Space menu
 Python execute with c x like in rust:
 #+BEGIN_SRC emacs-lisp
 (spacemacs/set-leader-keys-for-major-mode 'python-mode
   "cx" 'spacemacs/python-execute-file
 )
 #+END_SRC
+
+I have no idea what the default is but I want to be able to
+ctrl click with the keyboad please.
+#+BEGIN_SRC emacs-lisp
+(spacemacs/set-leader-keys "y" 'ycmd-goto)
+#+END_SRC
+
 * Shiny
 ** Lambda to \lambda
   #+BEGIN_SRC emacs-lisp
@@ -101,4 +109,10 @@ define planning.org as the location to dump todo items in.
 
 anyway more is [[https://github.com/hrs/dotfiles/blob/master/emacs.d/configuration.org][here]]
 
-
+* Emacs behavior
+Don't lock dammit! Its a bad hack to prevent race conditions anyway,
+besides the kernel should figure this out. and this way I don't
+have to update every gitignore ever.
+#+BEGIN_SRC emacs-lisp
+  (setq create-lockfiles nil)
+#+END_SRC
