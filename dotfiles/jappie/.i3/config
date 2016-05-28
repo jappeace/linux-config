@@ -190,8 +190,9 @@ bar {
   }
 }
 assign [class="Steam"] $w1
-assign [class="Transmission-qt"] $w1
+assign [class="transmission" instance="transmission-qt" title="Transmission"] $w1
 assign [class="Chromium"] $w9
+assign [class="ksysguard" instance="ksysguard" title="System Monitor"] $w10
 
 client.background \#000000
 # class					border	backgr. text	indicator
