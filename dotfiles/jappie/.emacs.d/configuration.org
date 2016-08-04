@@ -68,6 +68,20 @@ Which languages to complete?
   (add-hook 'rust-mode-hook 'ycmd-mode)
   (add-hook 'python-mode-hook 'ycmd-mode)
 #+END_SRC
+
+** Upgrading ycmd/rust
+First upgrade rust on the system. Then upgrade the vim ycmd plugin. You
+can also choose to upgrade racer. Don't forget to also upgrade the emacs
+packages.
+
+If ymcd is giving mysterious timeout errors make sure you're using python 3.
+ie something like:
+  ycmd--start-server: ERROR: Ycmd server timeout
+
+If ymcd still won't start the emacs version of the client and the server
+version's protocol may be to far apart. In this case just try fucking around
+with git on the server.
+
 * Org mode
 ** Shiny org
 Having + instead of ...
@@ -97,6 +111,7 @@ Make latex previews (of complex formulas ie stuff inside []):
 #+END_SRC
 
 ** Task management
+
 Org directory
 #+BEGIN_SRC emacs-lisp
 (setq org-directory "~/org")
@@ -114,6 +129,14 @@ define planning.org as the location to dump todo items in.
 
 anyway more is [[https://github.com/hrs/dotfiles/blob/master/emacs.d/configuration.org][here]]
 
+** Chinese
+To use chinese we need to use xelatex instead of pdflatex
+#+BEGIN_SRC emacs-lisp
+(setq org-latex-to-pdf-process
+      '("xelatex -interaction nonstopmode -output-directory %o %f"
+        "xelatex -interaction nonstopmode -output-directory %o %f"
+        "xelatex -interaction nonstopmode -output-directory %o %f"))
+#+END_SRC
 * Emacs behavior
 Don't lock dammit! Its a bad hack to prevent race conditions anyway,
 besides the kernel should figure this out. and this way I don't
@@ -121,3 +144,26 @@ have to update every gitignore ever.
 #+BEGIN_SRC emacs-lisp
   (setq create-lockfiles nil)
 #+END_SRC
+
+** Invert pdf's
+most likely there is an already built-in solution, but i did not find
+it.  I like to read white letters on dark background for pdf-files,
+too. So this is my solution:
+
+#+BEGIN_SRC emacs-lisp
+  (defun doc-view-invert ()
+    "to view inverted pdfs"
+    (interactive)
+    (let ((pattern (format "%s/*.png" doc-view-current-cache-dir)) )
+      (dolist (png-fname(file-expand-wildcards pattern))
+        (start-process-shell-command
+        "-doc-view-inverting-" "-doc-view-inverting-"
+        "convert" png-fname "-negate" png-fname))
+      (clear-image-cache ) ))
+  (defun doc-view-clear-image-cache ()
+    "to get doc-view-invert(ed) current page update"
+    (interactive)
+    (clear-image-cache))
+#+END_SRC
+
+

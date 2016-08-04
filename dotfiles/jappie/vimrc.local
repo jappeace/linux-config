@@ -53,4 +53,3 @@ vmap K k
 set laststatus=2
 
 nnoremap <C-j> :YcmCompleter GoTo<CR>
-let g:ycm_rust_src_path = '/usr/portage/distfiles/rustc-1.5.0-src.tar.gz'

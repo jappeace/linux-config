@@ -36,12 +36,14 @@ values."
             shell-default-position 'bottom)
      spell-checking
      syntax-checking
-     ycmd
      (rust :variables
            rust-enable-racer 'f)
      python
-     flycheck
      latex
+     html
+     javascript
+     ycmd
+     ranger
      (version-control :variables
                       vc-follow-symlinks t)
      )
