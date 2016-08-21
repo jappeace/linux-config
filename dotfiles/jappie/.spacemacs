@@ -43,6 +43,7 @@ values."
      html
      javascript
      ycmd
+     haskell
      ranger
      (version-control :variables
                       vc-follow-symlinks t)

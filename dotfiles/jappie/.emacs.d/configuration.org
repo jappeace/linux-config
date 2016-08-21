@@ -23,6 +23,7 @@ word in the manual.
 #+END_SRC
 
 ** Space menu
+*** Python execute
 Python execute with c x like in rust:
 #+BEGIN_SRC emacs-lisp
 (spacemacs/set-leader-keys-for-major-mode 'python-mode
@@ -30,10 +31,18 @@ Python execute with c x like in rust:
 )
 #+END_SRC
 
+*** YCM goto
 I have no idea what the default is but I want to be able to
 ctrl click with the keyboad please.
 #+BEGIN_SRC emacs-lisp
 (spacemacs/set-leader-keys "y" 'ycmd-goto)
+#+END_SRC
+*** Haskell execute
+To execute a haskell file similarly to rust and python:
+#+BEGIN_SRC emacs-lisp
+(spacemacs/set-leader-keys-for-major-mode 'haskell-mode
+  "cx" 'inferior-haskell-load-and-run
+)
 #+END_SRC
 
 * Shiny
