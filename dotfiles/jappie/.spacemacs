@@ -45,6 +45,7 @@ values."
      ycmd
      haskell
      ranger
+     ess ;; R langague
      (version-control :variables
                       vc-follow-symlinks t)
      )
