@@ -51,6 +51,21 @@ To execute a haskell file similarly to rust and python:
 )
 #+END_SRC
 
+
+** Change between english/dutch
+I often have to cycle between these two, define f8 to do that for me.
+Source [[https://www.emacswiki.org/emacs/FlySpell][here.]]
+#+BEGIN_SRC emacs-lisp
+      (defun fd-switch-dictionary()
+      (interactive)
+      (let* ((dic ispell-current-dictionary)
+    	 (change (if (string= dic "dutch") "english" "dutch")))
+        (ispell-change-dictionary change)
+        (message "Dictionary switched from %s to %s" dic change)
+        ))
+    
+      (global-set-key (kbd "<f8>")   'fd-switch-dictionary)
+#+END_SRC
 * Shiny
 ** Lambda to \lambda
   #+BEGIN_SRC emacs-lisp
@@ -104,6 +119,11 @@ Having + instead of ...
 (setq org-ellipsis " ▼")
 #+END_SRC
 
+Fancy lists?
+#+BEGIN_SRC emacs-lisp
+(setq org-bullets-bullet-list '("■" "◆" "▲" "▶"))
+#+END_SRC
+
 Syntax highlighting in source blocks while editing
 #+BEGIN_SRC emacs-lisp
 (setq org-src-fontify-natively t)
@@ -123,6 +143,26 @@ UTF-8 symbols for late shortcuts (such as \alpha).
 Make latex previews (of complex formulas ie stuff inside []):
 #+BEGIN_SRC emacs-lisp
 (setq org-startup-with-latex-preview 'latexpreview)
+#+END_SRC
+
+Load koma script exporter and letter make stuff
+#+BEGIN_SRC emacs-lisp
+(add-to-list 'load-path "/home/jappie/org/ox-koma-letter.el")
+(eval-after-load 'ox '(require 'ox-koma-letter))
+(eval-after-load 'ox-latex
+  '(add-to-list 'org-latex-packages-alist '("AUTO" "babel" t) t))
+(eval-after-load 'ox-koma-letter
+  '(progn
+     (add-to-list 'org-latex-classes
+                  '("dutch-letter"
+                    "\\documentclass\{scrlttr2\}
+     \\usepackage[dutch]{babel}
+     \\setkomavar{frombank}{(1234)\\,567\\,890}
+     \[DEFAULT-PACKAGES]
+     \[PACKAGES]
+     \[EXTRA]"))
+
+     (setq org-koma-letter-default-class "dutch-letter")))
 #+END_SRC
 
 ** Task management
