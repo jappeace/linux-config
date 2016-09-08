@@ -76,6 +76,10 @@ Source [[https://www.emacswiki.org/emacs/FlySpell][here.]]
 (add-hook 'prog-mode-hook #'linum-mode)
 (add-hook 'prog-mode-hook #'linum-relative-toggle)
   #+END_SRC
+** Highlight indentation
+  #+BEGIN_SRC emacs-lisp
+  (add-hook 'prog-mode-hook #'highlight-indentation-mode)
+  #+END_SRC
 ** tab width
 #+BEGIN_SRC emacs-lisp
   (setq-default tab-width 4)
