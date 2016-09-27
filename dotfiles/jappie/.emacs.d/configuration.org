@@ -52,6 +52,13 @@ To execute a haskell file similarly to rust and python:
 #+END_SRC
 
 
+*** ESS (R) execute
+ESS, execute a file like in Rust, Haskell python ...
+#+BEGIN_SRC emacs-lisp
+(spacemacs/set-leader-keys-for-major-mode 'ess-mode
+  "cx" 'ess-load-file
+)
+#+END_SRC
 ** Change between english/dutch
 I often have to cycle between these two, define f8 to do that for me.
 Source [[https://www.emacswiki.org/emacs/FlySpell][here.]]
