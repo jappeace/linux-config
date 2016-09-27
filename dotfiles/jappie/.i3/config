@@ -209,6 +209,9 @@ bindsym $mod+n exec xcalib -i -a
 #bind browser to b, use new window otherwise it'l complain
 bindsym $mod+b exec firefox -new-window
 
+#block hosts if I'm slacking to much
+bindsym $mod+Shift+b exec sudo hostblock -b
+
 #invert colors
 #not necisary with kde
 #exec xcalib -i -a
