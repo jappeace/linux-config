@@ -31,6 +31,7 @@ values."
       git-gutter-use-fringe t)
      markdown
      org
+     bibtex
      (shell :variables
             shell-default-height 30
             shell-default-position 'bottom)

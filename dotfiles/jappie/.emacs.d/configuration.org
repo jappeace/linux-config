@@ -51,7 +51,6 @@ To execute a haskell file similarly to rust and python:
 )
 #+END_SRC
 
-
 *** ESS (R) execute
 ESS, execute a file like in Rust, Haskell python ...
 #+BEGIN_SRC emacs-lisp
@@ -112,10 +111,27 @@ Which languages to complete?
 #+END_SRC
 
 ** Upgrading ycmd/rust
-First upgrade rust on the system. Then upgrade the vim ycmd plugin. You
-can also choose to upgrade racer. Don't forget to also upgrade the emacs
-packages.
+First upgrade rust on the system. Then upgrade the vim ycmd plugin
+(git pull in ~/.vim/bundle/YouCompleteMe), (also maybe the submodules)
+and then:
+./install.py --clang-completer --tern-completer --racer-completer
 
+*** upgrade racer
+You can also choose to upgrade racer. in ~/Projects/racer/
+git pull and then cargo compile --release
+then
+#+BEGIN_SRC bash
+cp /usr/portage/distfiles/rustc-1.$MINOR_VERSION-src.tar.gz ~/Projects/racer/target
+cd ~/Projects/racer/target
+tar zxf rustc-1.$MINOR_VERSION-src.tar.gz 
+#+END_SRC
+
+Don't forget to update the rust sources in: ~/.config/shell-globals.sh
+
+*** emacs
+The emacs packages have to be upgraded.
+
+*** error handling
 If ymcd is giving mysterious timeout errors make sure you're using python 3.
 ie something like:
   ycmd--start-server: ERROR: Ycmd server timeout
@@ -204,6 +220,13 @@ To use chinese we need to use xelatex instead of pdflatex
         "xelatex -interaction nonstopmode -output-directory %o %f"
         "xelatex -interaction nonstopmode -output-directory %o %f"))
 #+END_SRC
+** References
+  Where to find references
+  #+BEGIN_SRC emacs-lisp
+  (setq org-ref-default-bibliography '("~/Papers/references.bib")
+        org-ref-pdf-directory "~/Papers/"
+        org-ref-bibliography-notes "~/Papers/notes.org")
+  #+END_SRC
 * Emacs behavior
 Don't lock dammit! Its a bad hack to prevent race conditions anyway,
 besides the kernel should figure this out. and this way I don't
@@ -232,3 +255,4 @@ too. So this is my solution:
     (interactive)
     (clear-image-cache))
 #+END_SRC
+
