@@ -223,9 +223,8 @@ To use chinese we need to use xelatex instead of pdflatex
 ** References
   Where to find references
   #+BEGIN_SRC emacs-lisp
-  (setq org-ref-default-bibliography '("~/Papers/references.bib")
-        org-ref-pdf-directory "~/Papers/"
-        org-ref-bibliography-notes "~/Papers/notes.org")
+    (setq org-ref-default-bibliography '("~/Papers/references.bib"))
+    (setq org-latex-to-pdf-process (list "latexmk %f && pdflatex %f"))
   #+END_SRC
 * Emacs behavior
 Don't lock dammit! Its a bad hack to prevent race conditions anyway,
@@ -235,6 +234,11 @@ have to update every gitignore ever.
   (setq create-lockfiles nil)
 #+END_SRC
 
+** workaround invalid search error
+Found solution [[https://github.com/philippe-grenet/exordium#bugs][here]].
+#+BEGIN_SRC emacs-lisp
+  (setq exordium-git-gutter-non-fringe t) 
+#+END_SRC
 ** Invert pdf's
 most likely there is an already built-in solution, but i did not find
 it.  I like to read white letters on dark background for pdf-files,
