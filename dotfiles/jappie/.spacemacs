@@ -45,6 +45,7 @@ values."
      latex
      html
      javascript
+     java 
      ycmd
      haskell
      ranger

@@ -104,175 +104,9 @@ Source [[https://www.emacswiki.org/emacs/FlySpell][here.]]
 (global-fci-mode 1)
 #+END_SRC
 
-* YCM
-Where is the daemon?
-#+BEGIN_SRC emacs-lisp
-  (set-variable 'ycmd-server-command '("python" "/home/jappie/.vim/bundle/YouCompleteMe/third_party/ycmd/ycmd"))
-#+END_SRC
-
-Which languages to complete?
-#+BEGIN_SRC emacs-lisp
-  (add-hook 'c++-mode-hook 'ycmd-mode)
-  (add-hook 'rust-mode-hook 'ycmd-mode)
-  (add-hook 'python-mode-hook 'ycmd-mode)
-#+END_SRC
-
-** Upgrading ycmd/rust
-First upgrade rust on the system. Then upgrade the vim ycmd plugin
-(git pull in ~/.vim/bundle/YouCompleteMe), (also maybe the submodules)
-and then:
-./install.py --clang-completer --tern-completer --racer-completer
-
-*** upgrade racer
-You can also choose to upgrade racer. in ~/Projects/racer/
-git pull and then cargo compile --release
-then
-#+BEGIN_SRC bash
-cp /usr/portage/distfiles/rustc-1.$MINOR_VERSION-src.tar.gz ~/Projects/racer/target
-cd ~/Projects/racer/target
-tar zxf rustc-1.$MINOR_VERSION-src.tar.gz 
-#+END_SRC
-
-Don't forget to update the rust sources in: ~/.config/shell-globals.sh
-
-*** emacs
-The emacs packages have to be upgraded.
-
-*** error handling
-If ymcd is giving mysterious timeout errors make sure you're using python 3.
-ie something like:
-  ycmd--start-server: ERROR: Ycmd server timeout
-
-If ymcd still won't start the emacs version of the client and the server
-version's protocol may be to far apart. In this case just try fucking around
-with git on the server.
-
-* Org mode
-** Shiny org
-Having + instead of ...
-#+BEGIN_SRC emacs-lisp
-(setq org-ellipsis " ▼")
-#+END_SRC
-
-Fancy lists?
-#+BEGIN_SRC emacs-lisp
-(setq org-bullets-bullet-list '("■" "◆" "▲" "▶"))
-#+END_SRC
-
-Syntax highlighting in source blocks while editing
-#+BEGIN_SRC emacs-lisp
-(setq org-src-fontify-natively t)
-#+END_SRC
-
-Use the language's tab major mode
-#+BEGIN_SRC emacs-lisp
-(setq org-src-tab-acts-natively t)
-#+END_SRC
-
-UTF-8 symbols for late shortcuts (such as \alpha).
-
-#+BEGIN_SRC emacs-lisp
-(setq org-pretty-entities t)
-#+END_SRC
-
-Make latex previews (of complex formulas ie stuff inside []):
-#+BEGIN_SRC emacs-lisp
-(setq org-startup-with-latex-preview 'latexpreview)
-#+END_SRC
-
-Load koma script exporter and letter make stuff
-#+BEGIN_SRC emacs-lisp
-(add-to-list 'load-path "/home/jappie/org/ox-koma-letter.el")
-(eval-after-load 'ox '(require 'ox-koma-letter))
-(eval-after-load 'ox-latex
-  '(add-to-list 'org-latex-packages-alist '("AUTO" "babel" t) t))
-(eval-after-load 'ox-koma-letter
-  '(progn
-     (add-to-list 'org-latex-classes
-                  '("dutch-letter"
-                    "\\documentclass\{scrlttr2\}
-     \\usepackage[dutch]{babel}
-     \\setkomavar{frombank}{(1234)\\,567\\,890}
-     \[DEFAULT-PACKAGES]
-     \[PACKAGES]
-     \[EXTRA]"))
-
-     (setq org-koma-letter-default-class "dutch-letter")))
-#+END_SRC
-
-** Task management
-
-Org directory
-#+BEGIN_SRC emacs-lisp
-(setq org-directory "~/org")
-(defun org-file-path (filename)
-  "Return the absolute address of an org file, given its relative name."
-  (concat (file-name-as-directory org-directory) filename))
-#+END_SRC
-
-define planning.org as the location to dump todo items in.
-#+BEGIN_SRC emacs-lisp
-(setq org-index-file (org-file-path "planning.org"))
-(setq org-archive-location
-      (concat (org-file-path "archive.org") "::* From %s"))
-#+END_SRC
-
-anyway more is [[https://github.com/hrs/dotfiles/blob/master/emacs.d/configuration.org][here]]
-
-** Chinese
-To use chinese we need to use xelatex instead of pdflatex
-#+BEGIN_SRC emacs-lisp
-(setq org-latex-to-pdf-process
-      '("xelatex -interaction nonstopmode -output-directory %o %f"
-        "xelatex -interaction nonstopmode -output-directory %o %f"
-        "xelatex -interaction nonstopmode -output-directory %o %f"))
-#+END_SRC
-** References
-  Where to find references
-  #+BEGIN_SRC emacs-lisp
-    (setq org-ref-default-bibliography '("~/Papers/references.bib"))
-    (setq org-latex-to-pdf-process (list "latexmk %f && pdflatex %f"))
-  #+END_SRC
-  
-* Emacs behavior
-Don't lock dammit! Its a bad hack to prevent race conditions anyway,
-besides the kernel should figure this out. and this way I don't
-have to update every gitignore ever.
-#+BEGIN_SRC emacs-lisp
-  (setq create-lockfiles nil)
-#+END_SRC
-
-** workaround invalid search error
-Found solution [[https://github.com/philippe-grenet/exordium#bugs][here]] 
-#+BEGIN_SRC emacs-lisp
-  (setq exordium-git-gutter-non-fringe t) 
-#+END_SRC
-** Invert pdf's
-most likely there is an already built-in solution, but i did not find
-it.  I like to read white letters on dark background for pdf-files,
-too. So this is my solution:
-
-#+BEGIN_SRC emacs-lisp
-  (defun doc-view-invert ()
-    "to view inverted pdfs"
-    (interactive)
-    (let ((pattern (format "%s/*.png" doc-view-current-cache-dir)) )
-      (dolist (png-fname(file-expand-wildcards pattern))
-        (start-process-shell-command
-        "-doc-view-inverting-" "-doc-view-inverting-"
-        "convert" png-fname "-negate" png-fname))
-      (clear-image-cache ) ))
-  (defun doc-view-clear-image-cache ()
-    "to get doc-view-invert(ed) current page update"
-    (interactive)
-    (clear-image-cache))
-#+END_SRC
-
-
 ** Fira code font
 
 #+BEGIN_SRC emacs-lisp
-;;; Fira code
 ;; This works when using emacs --daemon + emacsclient
 (add-hook 'after-make-frame-functions (lambda (frame) (set-fontset-font t '(#Xe100 . #Xe16f) "Fira Code")))
 ;; This works when using emacs without server/client
@@ -405,3 +239,175 @@ too. So this is my solution:
 (add-hook 'prog-mode-hook
 #'add-fira-code-symbol-keywords)
 #+END_SRC
+
+* Deamons
+** YCM
+ Where is the daemon?
+ #+BEGIN_SRC emacs-lisp
+   (set-variable 'ycmd-server-command '("python" "/home/jappie/.vim/bundle/YouCompleteMe/third_party/ycmd/ycmd"))
+ #+END_SRC
+
+ Which languages to complete?
+ #+BEGIN_SRC emacs-lisp
+   (add-hook 'c++-mode-hook 'ycmd-mode)
+   (add-hook 'rust-mode-hook 'ycmd-mode)
+   (add-hook 'python-mode-hook 'ycmd-mode)
+ #+END_SRC
+
+*** Upgrading ycmd/rust
+ First upgrade rust on the system. Then upgrade the vim ycmd plugin
+ (git pull in ~/.vim/bundle/YouCompleteMe), (also maybe the submodules)
+ and then:
+ ./install.py --clang-completer --tern-completer --racer-completer
+
+**** upgrade racer
+ You can also choose to upgrade racer. in ~/Projects/racer/
+ git pull and then cargo compile --release
+ then
+ #+BEGIN_SRC bash
+ cp /usr/portage/distfiles/rustc-1.$MINOR_VERSION-src.tar.gz ~/Projects/racer/target
+ cd ~/Projects/racer/target
+ tar zxf rustc-1.$MINOR_VERSION-src.tar.gz 
+ #+END_SRC
+
+ Don't forget to update the rust sources in: ~/.config/shell-globals.sh
+
+**** emacs
+ The emacs packages have to be upgraded.
+
+**** error handling
+ If ymcd is giving mysterious timeout errors make sure you're using python 3.
+ ie something like:
+   ycmd--start-server: ERROR: Ycmd server timeout
+
+ If ymcd still won't start the emacs version of the client and the server
+ version's protocol may be to far apart. In this case just try fucking around
+ with git on the server.
+
+** Eclim
+ #+BEGIN_SRC emacs-lisp
+ (setq eclim-eclipse-dirs "/opt/eclipse"
+       eclim-executable "/opt/eclipse/eclim")
+ #+END_SRC
+* Org mode
+** Shiny org
+Having + instead of ...
+#+BEGIN_SRC emacs-lisp
+(setq org-ellipsis " ▼")
+#+END_SRC
+
+Fancy lists?
+#+BEGIN_SRC emacs-lisp
+(setq org-bullets-bullet-list '("■" "◆" "▲" "▶"))
+#+END_SRC
+
+Syntax highlighting in source blocks while editing
+#+BEGIN_SRC emacs-lisp
+(setq org-src-fontify-natively t)
+#+END_SRC
+
+Use the language's tab major mode
+#+BEGIN_SRC emacs-lisp
+(setq org-src-tab-acts-natively t)
+#+END_SRC
+
+UTF-8 symbols for late shortcuts (such as \alpha).
+
+#+BEGIN_SRC emacs-lisp
+(setq org-pretty-entities t)
+#+END_SRC
+
+Make latex previews (of complex formulas ie stuff inside []):
+#+BEGIN_SRC emacs-lisp
+(setq org-startup-with-latex-preview 'latexpreview)
+#+END_SRC
+
+Load koma script exporter and letter make stuff
+#+BEGIN_SRC emacs-lisp
+(add-to-list 'load-path "/home/jappie/org/ox-koma-letter.el")
+(eval-after-load 'ox '(require 'ox-koma-letter))
+(eval-after-load 'ox-latex
+  '(add-to-list 'org-latex-packages-alist '("AUTO" "babel" t) t))
+(eval-after-load 'ox-koma-letter
+  '(progn
+     (add-to-list 'org-latex-classes
+                  '("dutch-letter"
+                    "\\documentclass\{scrlttr2\}
+     \\usepackage[dutch]{babel}
+     \\setkomavar{frombank}{(1234)\\,567\\,890}
+     \[DEFAULT-PACKAGES]
+     \[PACKAGES]
+     \[EXTRA]"))
+
+     (setq org-koma-letter-default-class "dutch-letter")))
+#+END_SRC
+
+** Task management
+
+Org directory
+#+BEGIN_SRC emacs-lisp
+(setq org-directory "~/org")
+(defun org-file-path (filename)
+  "Return the absolute address of an org file, given its relative name."
+  (concat (file-name-as-directory org-directory) filename))
+#+END_SRC
+
+define planning.org as the location to dump todo items in.
+#+BEGIN_SRC emacs-lisp
+(setq org-index-file (org-file-path "planning.org"))
+(setq org-archive-location
+      (concat (org-file-path "archive.org") "::* From %s"))
+#+END_SRC
+
+anyway more is [[https://github.com/hrs/dotfiles/blob/master/emacs.d/configuration.org][here]]
+
+** Chinese
+To use chinese we need to use xelatex instead of pdflatex
+#+BEGIN_SRC emacs-lisp
+(setq org-latex-to-pdf-process
+      '("xelatex -interaction nonstopmode -output-directory %o %f"
+        "xelatex -interaction nonstopmode -output-directory %o %f"
+        "xelatex -interaction nonstopmode -output-directory %o %f"))
+#+END_SRC
+** References
+  Where to find references
+  #+BEGIN_SRC emacs-lisp
+    (setq org-ref-default-bibliography '("~/Papers/references.bib"))
+    (setq org-latex-to-pdf-process (list "latexmk %f && pdflatex %f"))
+  #+END_SRC
+  
+* Emacs behavior
+Don't lock dammit! Its a bad hack to prevent race conditions anyway,
+besides the kernel should figure this out. and this way I don't
+have to update every gitignore ever.
+#+BEGIN_SRC emacs-lisp
+  (setq create-lockfiles nil)
+#+END_SRC
+
+** workaround invalid search error
+Found solution [[https://github.com/philippe-grenet/exordium#bugs][here]] 
+#+BEGIN_SRC emacs-lisp
+  (setq exordium-git-gutter-non-fringe t) 
+#+END_SRC
+** Invert pdf's
+most likely there is an already built-in solution, but i did not find
+it.  I like to read white letters on dark background for pdf-files,
+too. So this is my solution:
+
+#+BEGIN_SRC emacs-lisp
+  (defun doc-view-invert ()
+    "to view inverted pdfs"
+    (interactive)
+    (let ((pattern (format "%s/*.png" doc-view-current-cache-dir)) )
+      (dolist (png-fname(file-expand-wildcards pattern))
+        (start-process-shell-command
+        "-doc-view-inverting-" "-doc-view-inverting-"
+        "convert" png-fname "-negate" png-fname))
+      (clear-image-cache ) ))
+  (defun doc-view-clear-image-cache ()
+    "to get doc-view-invert(ed) current page update"
+    (interactive)
+    (clear-image-cache))
+#+END_SRC
+
+
