@@ -240,6 +240,7 @@ Source [[https://www.emacswiki.org/emacs/FlySpell][here.]]
 #'add-fira-code-symbol-keywords)
 #+END_SRC
 
+
 * Deamons
 ** YCM
  Where is the daemon?
@@ -376,6 +377,22 @@ To use chinese we need to use xelatex instead of pdflatex
     (setq org-latex-to-pdf-process (list "latexmk %f && pdflatex %f"))
   #+END_SRC
   
+** Plant uml
+see [[http://spacemacs.org/layers/+lang/plantuml/README.html][this]] and [[https://eschulte.github.io/babel-dev/DONE-integrate-plantuml-support.html][that.]] 
+The jar is installed trough portage.
+  #+BEGIN_SRC emacs-lisp
+(setq org-plantuml-jar-path
+      (expand-file-name "/usr/share/plantuml/lib/plantuml.jar"))
+  #+END_SRC
+examples on usage can be found [[https://raw.githubusercontent.com/dfeich/org-babel-examples/master/plantuml/plantuml-babel.org][here.]]
+
+*** disable ask for evalution for plantuml
+  #+BEGIN_SRC emacs-lisp
+  (defun my-org-confirm-babel-evaluate (lang body)
+      (not (string= lang "plantuml")))
+  (setq org-confirm-babel-evaluate 'my-org-confirm-babel-evaluate)
+  #+END_SRC
+
 * Emacs behavior
 Don't lock dammit! Its a bad hack to prevent race conditions anyway,
 besides the kernel should figure this out. and this way I don't
