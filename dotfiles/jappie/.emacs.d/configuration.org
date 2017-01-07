@@ -378,14 +378,18 @@ To use chinese we need to use xelatex instead of pdflatex
   #+END_SRC
   
 ** Plant uml
-see [[http://spacemacs.org/layers/+lang/plantuml/README.html][this]] and [[https://eschulte.github.io/babel-dev/DONE-integrate-plantuml-support.html][that.]] 
-The jar is installed trough portage.
+  see [[http://spacemacs.org/layers/+lang/plantuml/README.html][this]] and [[https://eschulte.github.io/babel-dev/DONE-integrate-plantuml-support.html][that.]] 
+  The jar is installed trough portage.
   #+BEGIN_SRC emacs-lisp
-(setq org-plantuml-jar-path
-      (expand-file-name "/usr/share/plantuml/lib/plantuml.jar"))
+    (setq org-plantuml-jar-path
+          (expand-file-name "/usr/share/plantuml/lib/plantuml.jar"))
   #+END_SRC
 examples on usage can be found [[https://raw.githubusercontent.com/dfeich/org-babel-examples/master/plantuml/plantuml-babel.org][here.]]
 
+** table captions below table
+  #+BEGIN_SRC emacs-lisp
+    (setq org-latex-caption-above nil)
+  #+END_SRC
 *** disable ask for evalution for plantuml
   #+BEGIN_SRC emacs-lisp
   (defun my-org-confirm-babel-evaluate (lang body)
