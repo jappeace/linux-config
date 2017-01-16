@@ -47,3 +47,5 @@ export XDG_CURRENT_DESKTOP=kde
 export QT_STYLE_OVERRIDE=GTK+
 export LS_COLORS='di=0;35'
 
+export LINUX_CONFIG="/usr/local/src/linux-config/"
+export DOT_FILES="$LINUX_CONFIG/dotfiles/jappie"
