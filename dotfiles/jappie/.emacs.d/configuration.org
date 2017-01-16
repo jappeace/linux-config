@@ -65,6 +65,20 @@ ESS, execute a file like in Rust, Haskell python ...
   "cx" 'elm-preview-main
 )
 #+END_SRC
+
+*** Git
+Push quickly
+#+BEGIN_SRC emacs-lisp
+(spacemacs/set-leader-keys
+  "gp" 'magit-push-to-remote
+)
+#+END_SRC
+Pull quickly
+#+BEGIN_SRC emacs-lisp
+(spacemacs/set-leader-keys
+  "gf" 'magit-pull
+)
+#+END_SRC
 ** Change between english/dutch
 I often have to cycle between these two, define f8 to do that for me.
 Source [[https://www.emacswiki.org/emacs/FlySpell][here.]]
