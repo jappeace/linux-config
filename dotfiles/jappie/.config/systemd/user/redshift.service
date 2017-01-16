@@ -1,0 +1,10 @@
+[Unit]
+Description=Redshift: makes the screen hue change depending on the time of the day
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/redshift -l geoclue2
+Restart=always
+
+[Install]
+WantedBy=default.target
