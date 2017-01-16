@@ -221,14 +221,11 @@ bindsym $mod+Shift+b exec sudo hostblock -b
 #exec i3-msg 'workspace $w1;exec dropbox; exec dbus-launch nm-applet &'
 exec i3-msg 'exec dbus-launch nm-applet &'
 exec i3-msg 'exec fcitx' #type chinese
-exec i3-msg 'workspace $wf1;exec thunderbird'
-exec i3-msg 'workspace $w2;exec konsole'
-exec i3-msg 'workspace $w3;exec dolphin'
-exec i3-msg 'workspace $w9;exec firefox'
-exec i3-msg 'workspace $w10; exec konsole -x htop; workspace $w10; exec ksysguard'
-exec i3-msg 'workspace $w1;exec transmission-qt'
+exec i3-msg 'workspace $wf1; exec thunderbird; workspace $w9; exec firefox; workspace $w10; exec konsole -x htop; workspace $w10; exec ksysguard; workspace $w1;exec transmission-qt'
+# exec i3-msg 'workspace $w2;exec konsole'
+# exec i3-msg 'workspace $w3;exec dolphin'
 #exec i3-msg 'workspace $w1;exec steam'
-exec sudo brightness 1500
+exec sudo brightness 500
 
 client.focused #3b1261 #3b1261 #ffffff #662b9c
 client.focused_inactive #333333 #5f676a #ffffff #484e50
