@@ -31,49 +31,11 @@ Python execute with c x like in rust:
 )
 #+END_SRC
 
-*** YCM goto
-I have no idea what the default is but I want to be able to
-ctrl click with the keyboad please.
-#+BEGIN_SRC emacs-lisp
-  (spacemacs/set-leader-keys "y" 'ycmd-goto)
-#+END_SRC
-*** Haskell execute
-To execute a haskell file similarly to rust and python:
-#+BEGIN_SRC emacs-lisp
-(spacemacs/set-leader-keys-for-major-mode 'haskell-mode
-  "cx" 'inferior-haskell-load-and-run
-)
-#+END_SRC
-
-#+BEGIN_SRC emacs-lisp
-(spacemacs/set-leader-keys-for-major-mode 'haskell-mode
-  "y" 'haskell-mode-jump-to-def
-)
-#+END_SRC
-
-*** ESS (R) execute
-ESS, execute a file like in Rust, Haskell python ...
-#+BEGIN_SRC emacs-lisp
-(spacemacs/set-leader-keys-for-major-mode 'ess-mode
-  "cx" 'ess-load-file
-)
-#+END_SRC
-*** elm execute
-    Load the elm project's main in the browser
-#+BEGIN_SRC emacs-lisp
-(spacemacs/set-leader-keys-for-major-mode 'elm-mode
-  "cx" 'elm-preview-main
-)
-#+END_SRC
-
 *** Git
 Push quickly
 #+BEGIN_SRC emacs-lisp
 (spacemacs/set-leader-keys
   "gp" 'magit-push-to-remote
-)
-(spacemacs/set-leader-keys
-  "gmp" 'magit-push-to-remote ;; muscle memory
 )
 #+END_SRC
 Pull quickly
@@ -259,18 +221,6 @@ Source [[https://www.emacswiki.org/emacs/FlySpell][here.]]
 
 
 * Deamons
-** YCM
- Where is the daemon?
- #+BEGIN_SRC emacs-lisp
-   (set-variable 'ycmd-server-command '("python" "/home/jappie/.vim/bundle/YouCompleteMe/third_party/ycmd/ycmd"))
- #+END_SRC
-
- Which languages to complete?
- #+BEGIN_SRC emacs-lisp
-   (add-hook 'c++-mode-hook 'ycmd-mode)
-   (add-hook 'rust-mode-hook 'ycmd-mode)
-   (add-hook 'python-mode-hook 'ycmd-mode)
- #+END_SRC
 
 *** Upgrading ycmd/rust
  First upgrade rust on the system. Then upgrade the vim ycmd plugin
@@ -302,11 +252,6 @@ Source [[https://www.emacswiki.org/emacs/FlySpell][here.]]
  version's protocol may be to far apart. In this case just try fucking around
  with git on the server.
 
-** Eclim
- #+BEGIN_SRC emacs-lisp
- (setq eclim-eclipse-dirs "/opt/eclipse"
-       eclim-executable "/opt/eclipse/eclim")
- #+END_SRC
 * Org mode
 ** Shiny org
 Having + instead of ...
@@ -340,26 +285,6 @@ Make latex previews (of complex formulas ie stuff inside []):
 (setq org-startup-with-latex-preview 'latexpreview)
 #+END_SRC
 
-Load koma script exporter and letter make stuff
-#+BEGIN_SRC emacs-lisp
-(add-to-list 'load-path "/home/jappie/org/ox-koma-letter.el")
-(eval-after-load 'ox '(require 'ox-koma-letter))
-(eval-after-load 'ox-latex
-  '(add-to-list 'org-latex-packages-alist '("AUTO" "babel" t) t))
-(eval-after-load 'ox-koma-letter
-  '(progn
-     (add-to-list 'org-latex-classes
-                  '("dutch-letter"
-                    "\\documentclass\{scrlttr2\}
-     \\usepackage[dutch]{babel}
-     \\setkomavar{frombank}{(1234)\\,567\\,890}
-     \[DEFAULT-PACKAGES]
-     \[PACKAGES]
-     \[EXTRA]"))
-
-     (setq org-koma-letter-default-class "dutch-letter")))
-#+END_SRC
-
 ** Task management
 
 Org directory
@@ -379,14 +304,6 @@ define planning.org as the location to dump todo items in.
 
 anyway more is [[https://github.com/hrs/dotfiles/blob/master/emacs.d/configuration.org][here]]
 
-** Chinese
-To use chinese we need to use xelatex instead of pdflatex
-#+BEGIN_SRC emacs-lisp
-(setq org-latex-to-pdf-process
-      '("xelatex -interaction nonstopmode -output-directory %o %f"
-        "xelatex -interaction nonstopmode -output-directory %o %f"
-        "xelatex -interaction nonstopmode -output-directory %o %f"))
-#+END_SRC
 ** References
   Where to find references
   #+BEGIN_SRC emacs-lisp
