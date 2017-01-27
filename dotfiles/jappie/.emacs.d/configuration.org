@@ -72,9 +72,6 @@ Push quickly
 (spacemacs/set-leader-keys
   "gp" 'magit-push-to-remote
 )
-(spacemacs/set-leader-keys
-  "gmp" 'magit-push-to-remote ;; muscle memory
-)
 #+END_SRC
 Pull quickly
 #+BEGIN_SRC emacs-lisp
