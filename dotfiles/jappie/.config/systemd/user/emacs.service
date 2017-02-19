@@ -5,6 +5,7 @@ Description=Emacs: the extensible, self-documenting text editor
 Type=forking
 ExecStart=/usr/bin/emacs --daemon
 ExecStop=/usr/bin/emacsclient --eval "(kill-emacs)"
+TimeoutStopSec=5
 Restart=always
 
 [Install]

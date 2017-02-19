@@ -4,6 +4,7 @@ Description=Redshift: makes the screen hue change depending on the time of the d
 [Service]
 Type=simple
 ExecStart=/usr/bin/redshift -l geoclue2
+TimeoutStopSec=5
 Restart=always
 
 [Install]
