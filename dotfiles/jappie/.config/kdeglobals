@@ -174,7 +174,7 @@ Show hidden files=true
 Sort by=Name
 Sort directories first=true
 Sort reversed=false
-Speedbar Width=188
+Speedbar Width=192
 View Style=Simple
 listViewIconSize=0
 
@@ -215,6 +215,12 @@ DisabledEffect=togray
 DisabledSemiTransparent=true
 DisabledValue=1
 Size=32
+
+[Shortcuts]
+Close=Alt+Shift+Q; Ctrl+Esc
+FullScreen=Alt+F
+Redo=Ctrl+R
+Replace=
 
 [SmallIcons]
 ActiveColor=169,156,255

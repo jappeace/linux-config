@@ -9,8 +9,8 @@
 #
 # Please see http://i3wm.org/docs/userguide.html for a complete reference!
 
-set $mod Ctrl 
-
+# set $mod Ctrl 
+set $mod Alt
 # Font for window titles. Will also be used by the bar unless a different font
 # is used in the bar {} block below. ISO 10646 = Unicode
 font -misc-fixed-medium-r-normal--13-120-75-75-C-70-iso10646-1
@@ -24,7 +24,7 @@ font -misc-fixed-medium-r-normal--13-120-75-75-C-70-iso10646-1
 
 
 # start a terminal
-bindsym $mod+Return exec i3-sensible-terminal
+bindsym $mod+Return exec konsole
 
 # kill focused window
 bindsym $mod+Shift+q kill
@@ -218,11 +218,6 @@ bindsym $mod+b exec firefox -new-window
 #exec i3-msg 'workspace $w1;exec dropbox; exec dbus-launch nm-applet &'
 exec i3-msg 'exec dbus-launch nm-applet &'
 exec i3-msg 'exec fcitx' #type chinese
-exec i3-msg 'workspace $wf1;exec thunderbird'
-exec i3-msg 'workspace $w2;exec terminator'
-exec i3-msg 'workspace $w3;exec dolphin'
-exec i3-msg 'workspace $w9;exec firefox'
-exec i3-msg 'workspace $w10; exec terminator -x htop; exec ksysguard; '
-exec i3-msg 'workspace $w1;exec transmission-qt'
+exec i3-msg 'workspace '$wf1'; exec thunderbird; workspace '$w9'; exec firefox; workspace '$w10'; exec konsole -x htop; workspace '$w10'; exec ksysguard; workspace '$w1';exec transmission-qt'
 #exec i3-msg 'workspace $w1;exec steam'
 exec sudo brightness 1500
