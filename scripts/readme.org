@@ -1,0 +1,8 @@
+#+TITLE: random scripts
+
+Used for system maintenance mainly
+I just have them lying around in /home/ 
+but they tend to get bigger over time so I decided to track them in here.
+
+* LICENSE
+They're all gplv3
