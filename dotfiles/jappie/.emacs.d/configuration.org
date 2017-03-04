@@ -444,5 +444,13 @@ too. So this is my solution:
     (interactive)
     (clear-image-cache))
 #+END_SRC
-
-
+** Locale
+#+BEGIN_SRC emacs-lisp
+(eval-after-load "ispell"
+  (progn
+    (setq
+      ispell-dictionary "english"
+    )
+  )
+)
+#+END_SRC
