@@ -16,7 +16,7 @@ export ANDROID_HOME="/opt/android-sdk-update-manager"
 # javascript packages in path
 export PATH=${PATH}:$HOME'/node_modules/.bin'
 
-export TERMCMD='konsole'
+export TERMCMD='gnome-terminal'
 
 export CCACHE_COMPRESS=1
 
