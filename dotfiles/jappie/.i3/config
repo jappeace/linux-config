@@ -194,7 +194,8 @@ exec --no-startup-id xfce4-panel --disable-wm-check
 assign [class="Steam"] $w1
 assign [class="transmission" instance="transmission-qt" title="Transmission"] $w1
 assign [class="Chromium"] $w9
-assign [class="ksysguard" instance="ksysguard" title="System Monitor"] $w10
+assign [class="ksysguard"] $w10
+assign [class="keepassxc"] $wf8
 
 client.background \#000000
 # class					border	backgr. text	indicator
@@ -219,9 +220,14 @@ bindsym $mod+Shift+b exec sudo hostblock -b
 #exec xcalib -i -a
 #startup some applications
 #exec i3-msg 'workspace $w1;exec dropbox; exec dbus-launch nm-applet &'
-exec i3-msg 'exec dbus-launch nm-applet &'
-exec i3-msg 'exec fcitx' #type chinese
-exec i3-msg 'workspace $wf1; exec thunderbird; workspace $w9; exec firefox; workspace $w10; exec konsole -x htop; workspace $w10; exec ksysguard; workspace $w1;exec transmission-qt'
+exec dbus-launch nm-applet &
+exec fcitx
+
+exec i3-msg 'workspace $wf1; exec thunderbird'
+exec i3-msg 'workspace $w9; exec firefox'
+exec i3-msg 'workspace $w10;exec ksysguard'
+exec i3-msg 'workspace $w1; transmission-qt'
+exec i3-msg 'workspace $wf8; exec keepassxc'
 # exec i3-msg 'workspace $w2;exec konsole'
 # exec i3-msg 'workspace $w3;exec dolphin'
 #exec i3-msg 'workspace $w1;exec steam'
