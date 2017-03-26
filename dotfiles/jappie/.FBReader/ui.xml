@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+  <group name="Colors">
+    <option name="Background" value="1903627"/>
+    <option name="BookHyperlink" value="4751807"/>
+    <option name="ExternalHyperlink" value="2183167"/>
+    <option name="Hyperlink" value="7775999"/>
+    <option name="SelectedText" value="16747845"/>
+    <option name="SelectionBackground" value="1053325"/>
+    <option name="Text" value="13750416"/>
+  </group>
+  <group name="InfoDialog">
+    <option name="SelectedTab" value="Common"/>
+    <option name="Width" value="465"/>
+  </group>
+  <group name="OpenFileDialog">
+    <option name="File" value="/home/jappie/ADFADS"/>
+    <option name="Height" value="427"/>
+    <option name="Width" value="644"/>
+    <option name="X" value="636"/>
+    <option name="Y" value="287"/>
+  </group>
+  <group name="Options">
+    <option name="Height" value="1041"/>
+    <option name="Width" value="636"/>
+    <option name="WindowState" value="2"/>
+    <option name="XPosition" value="640"/>
+    <option name="YPosition" value="18"/>
+  </group>
+  <group name="Style">
+    <option name="Base:fontSize" value="28"/>
+    <option name="Preformatted text:fontFamily" value="Courier"/>
+  </group>
+  <group name="ToggleButtonGroup">
+    <option name="booksOrder" value="byAuthor"/>
+  </group>
+</config>
