@@ -1,3 +1,4 @@
+#! /bin/bash
 #temnial collors
 export TERM='konsole-256color'
 
@@ -30,7 +31,7 @@ export PATH=$PATH:/opt/usertools/jappie/bin
 
 #rust
 export PATH=$PATH:~/Projects/racer/target/release
-export RUST_SRC_PATH=$HOME/Projects/racer/target/rustc-1.12.1/src
+export RUST_SRC_PATH=$HOME/Projects/racer/target/rustc-1.16.0-src/src
 export PATH=$PATH:$HOME/.cargo/bin
 
 #haskell packages in pat
