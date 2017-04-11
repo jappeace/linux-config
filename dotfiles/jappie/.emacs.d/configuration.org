@@ -342,6 +342,7 @@ Make latex previews (of complex formulas ie stuff inside []):
 (setq org-startup-with-latex-preview 'latexpreview)
 #+END_SRC
 
+*** koma
 Load koma script exporter and letter make stuff
 #+BEGIN_SRC emacs-lisp
 (add-to-list 'load-path "/home/jappie/org/ox-koma-letter.el")
@@ -360,6 +361,21 @@ Load koma script exporter and letter make stuff
      \[EXTRA]"))
 
      (setq org-koma-letter-default-class "dutch-letter")))
+#+END_SRC
+
+*** Minted
+#+BEGIN_SRC emacs-lisp
+(when (require 'ox-latex nil 'noerror)
+  ;; Add minted to the defaults packages to include when exporting.
+  (add-to-list 'org-latex-packages-alist '("" "minted"))
+  ;; Tell the latex export to use the minted package for source
+  ;; code coloration.
+  (setq org-latex-listings 'minted)
+  ;; Let the exporter use the -shell-escape option to let latex
+  ;; execute external programs.
+  ;; This obviously and can be dangerous to activate!
+  (setq org-latex-pdf-process
+        '("xelatex -shell-escape -interaction nonstopmode -output-directory %o %f")))
 #+END_SRC
 
 ** Task management
