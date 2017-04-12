@@ -98,11 +98,6 @@ Source [[https://www.emacswiki.org/emacs/FlySpell][here.]]
   #+BEGIN_SRC emacs-lisp
   (global-prettify-symbols-mode t)
   #+END_SRC
-** line numbers
-  #+BEGIN_SRC emacs-lisp
-(add-hook 'prog-mode-hook #'linum-mode)
-(add-hook 'prog-mode-hook #'linum-relative-toggle)
-  #+END_SRC
 ** Highlight indentation
   #+BEGIN_SRC emacs-lisp
   (add-hook 'prog-mode-hook #'highlight-indentation-mode)
@@ -434,7 +429,6 @@ examples on usage can be found [[https://raw.githubusercontent.com/dfeich/org-ba
       (not (string= lang "plantuml")))
   (setq org-confirm-babel-evaluate 'my-org-confirm-babel-evaluate)
   #+END_SRC
-
 
 ** Load langauges
 I don't know why but: https://github.com/syl20bnr/spacemacs/issues/7641
