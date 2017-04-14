@@ -27,7 +27,8 @@ echo "cleaning old build"
 make clean
 
 echo "building and installing"
-make -j9 && make modules_install && echo "removing old kernal" && rm /boot/$KERNEL
+make -j$(nproc) && make modules_install && echo "removing old kernal" && rm /boot/$KERNEL
+
 echo "copying new kernal"
 cp arch/x86/boot/bzImage /boot/$KERNEL
 
