@@ -67,8 +67,10 @@
         <value type="string" value="hexchat"/>
         <value type="string" value="kmix"/>
         <value type="string" value="electron"/>
+        <value type="string" value="ibus-ui-gtk3"/>
         <value type="string" value="keepassx"/>
         <value type="string" value="javaembeddedframe"/>
+        <value type="string" value="hp-systray"/>
       </property>
       <property name="names-hidden" type="array">
         <value type="string" value="synapse"/>
