@@ -65,8 +65,8 @@
         <value type="string" value="skype"/>
         <value type="string" value="steam"/>
         <value type="string" value="hexchat"/>
-        <value type="string" value="kmix"/>
         <value type="string" value="electron"/>
+        <value type="string" value="kmix"/>
         <value type="string" value="ibus-ui-gtk3"/>
         <value type="string" value="keepassx"/>
         <value type="string" value="javaembeddedframe"/>
