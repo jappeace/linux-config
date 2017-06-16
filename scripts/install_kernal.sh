@@ -10,7 +10,7 @@ if mount | grep $MOUNTEDFOLDER > /dev/null; then
     echo "boot folder mounted"
 else
 	echo "boot folder not mounted, please mount at $MOUNTEDFOLDER"
-	echo "(last time it was: $ mount /dev/sda2 /boot)"
+	echo "(last time it was: $ mount /dev/nvme0n1p1 /boot)"
 	exit 126
 fi
 
