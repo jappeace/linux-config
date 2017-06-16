@@ -52,6 +52,7 @@ values."
             shell-default-height 30
             shell-default-position 'bottom)
      (spell-checking :variables
+            spell-checking-enable-auto-dictionary t
             enable-flyspell-auto-completion t)
      syntax-checking
      (rust :variables
@@ -63,7 +64,11 @@ values."
      java 
      ycmd
      haskell
-     ranger
+     (scala :variables scala-enable-eldoc t)
+     (ranger :variables
+             ranger-cleanup-eagerly t
+             ranger-parent-depth 0
+     )
      elm
      (version-control :variables
                       vc-follow-symlinks t)
