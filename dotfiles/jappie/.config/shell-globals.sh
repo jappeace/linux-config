@@ -4,11 +4,9 @@ export TERM='konsole-256color'
 
 # stuff on JVM
 export GRAILS_HOME='/usr/local/lib/grails-core'
-export GRADLE_HOME='/usr/local/lib/gradle'
 export SCALA_HOME='/usr/local/lib/scala'
 export PATH=${PATH}:${GRAILS_HOME}'/bin'
 export PATH=${PATH}:$HOME'/Projects/bash-simple-ci/bin'
-export PATH=${PATH}:${GRADLE_HOME}'/bin'
 export PATH=${PATH}:${SCALA_HOME}'/bin'
 export PATH=${PATH}:$HOME'/programs/bin' # programs that aren't installed trough potrage
 export JAVA_OPTS="-Xms1024m -Xmx4048m -XX:MaxPermSize=512m";
