@@ -445,6 +445,7 @@ right?
  '((shell . t)
    (plantuml . t)
    )
+)
   #+END_SRC
 * Emacs behavior
 Don't lock dammit! Its a bad hack to prevent race conditions anyway,
