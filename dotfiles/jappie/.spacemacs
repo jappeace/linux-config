@@ -355,7 +355,7 @@ you should place your code here."
  '(evil-want-Y-yank-to-eol nil)
  '(org-agenda-files
    (quote
-    ("~/huiswerk/thesis/thesis.org" "~/huiswerk/philosophy/paper/paper.org"))))
+    ("~/Projects/jappeaceApplication/content/my-thesis.org" "~/huiswerk/thesis/thesis.org" "~/huiswerk/philosophy/paper/paper.org"))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.

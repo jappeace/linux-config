@@ -339,7 +339,8 @@ UTF-8 symbols for late shortcuts (such as \alpha).
 
 Make latex previews (of complex formulas ie stuff inside []):
 #+BEGIN_SRC emacs-lisp
-(setq org-startup-with-latex-preview 'latexpreview)
+; It now has black font color making it difficult to read
+; (setq org-startup-with-latex-preview 'latexpreview)
 #+END_SRC
 
 *** koma

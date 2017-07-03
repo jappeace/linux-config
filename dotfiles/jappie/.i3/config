@@ -21,7 +21,17 @@ font -misc-fixed-medium-r-normal--13-120-75-75-C-70-iso10646-1
 # font pango:DejaVu Sans Mono 10
 
 # Use Mouse+$mod to drag floating windows to their wanted position
-
+bindsym --release $mod+Ctrl+e exec --no-startup-id "xdotool keyup ctrl keyup alt type --delay 5 jappieklooster@hotmail.com"
+bindsym --release $mod+Ctrl+p exec --no-startup-id "xdotool keyup ctrl keyup alt type --delay 5 0031522\ 471280"
+bindsym --release $mod+Ctrl+m exec --no-startup-id "xdotool keyup ctrl keyup alt type --delay 5 00316\ 40166188"
+bindsym --release $mod+Ctrl+s exec --no-startup-id "xdotool keyup ctrl keyup alt type --delay 5 Kerkdijk\ 2"
+bindsym --release $mod+Ctrl+c exec --no-startup-id "xdotool keyup ctrl keyup alt type --delay 5 The\ Netherlands"
+bindsym --release $mod+Ctrl+d exec --no-startup-id "xdotool keyup ctrl keyup alt type --delay 5 Drenthe"
+bindsym --release $mod+Ctrl+l exec --no-startup-id "xdotool keyup ctrl keyup alt type --delay 5 Ansen"
+bindsym --release $mod+Ctrl+z exec --no-startup-id "xdotool keyup ctrl keyup alt type --delay 5 7964KB"
+bindsym --release $mod+Ctrl+n exec --no-startup-id "xdotool keyup ctrl keyup alt type --delay 5 Jappie\ Klooster"
+bindsym --release $mod+Ctrl+1 exec --no-startup-id "xdotool keyup ctrl keyup alt type --delay 5 Jappie"
+bindsym --release $mod+Ctrl+2 exec --no-startup-id "xdotool keyup ctrl keyup alt type --delay 5 Klooster"
 
 # start a terminal
 bindsym $mod+Return exec gnome-terminal
