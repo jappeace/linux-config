@@ -236,7 +236,7 @@ exec fcitx
 # exec i3-msg 'workspace $wf1; exec thunderbird' #... disabled cuase its addicting
 exec i3-msg 'workspace $w9; exec firefox'
 exec i3-msg 'workspace $w10;exec ksysguard'
-exec i3-msg 'workspace $w1; exec transmission-qt'
+exec i3-msg 'workspace $w1; exec deluge'
 exec i3-msg 'workspace $wf8; exec keepassxc'
 # exec i3-msg 'workspace $w2;exec konsole'
 # exec i3-msg 'workspace $w3;exec dolphin'
