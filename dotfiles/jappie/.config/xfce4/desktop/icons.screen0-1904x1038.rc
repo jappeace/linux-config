@@ -5,6 +5,10 @@
 row=4
 col=2
 
+[/home/jappie/Desktop/Yuri's Revenge.lnk]
+row=0
+col=3
+
 [/home/jappie/Desktop/TSEV Skyrim LE.lnk]
 row=3
 col=1
@@ -36,6 +40,18 @@ col=2
 [/home/jappie/Desktop/Fallout 4.desktop]
 row=8
 col=1
+
+[/home/jappie/Desktop/Red Alert 2.desktop]
+row=8
+col=2
+
+[/home/jappie/Desktop/Factorio.desktop]
+row=3
+col=0
+
+[/home/jappie/Desktop/Yuri's Revenge.desktop]
+row=4
+col=0
 
 [/home/jappie/Desktop/Dawn of Civilization.lnk]
 row=1
@@ -69,6 +85,10 @@ col=0
 row=3
 col=2
 
+[/home/jappie/Desktop/Red Alert 2.lnk]
+row=1
+col=3
+
 [/home/jappie/Desktop/Pinball.lnk]
 row=7
 col=1
@@ -84,14 +104,6 @@ col=2
 [/home/jappie/Desktop/The Elder Scrolls III Morrowind GOTY.desktop]
 row=7
 col=2
-
-[196cf58a-1b1f-4fe8-8dcb-f49b4a401455]
-row=3
-col=0
-
-[2afc21d4-994c-463b-b727-a89730e0b19a]
-row=4
-col=0
 
 [Prullenbak]
 row=0
