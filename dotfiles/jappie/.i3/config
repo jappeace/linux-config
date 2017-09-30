@@ -24,6 +24,8 @@ font -misc-fixed-medium-r-normal--13-120-75-75-C-70-iso10646-1
 bindsym --release $mod+Ctrl+e exec --no-startup-id "xdotool keyup ctrl keyup alt type --delay 5 jappieklooster@hotmail.com"
 bindsym --release $mod+Ctrl+p exec --no-startup-id "xdotool keyup ctrl keyup alt type --delay 5 0031522\ 471280"
 bindsym --release $mod+Ctrl+m exec --no-startup-id "xdotool keyup ctrl keyup alt type --delay 5 00316\ 40166188"
+bindsym --release $mod+Ctrl+i exec --no-startup-id "xdotool keyup ctrl keyup alt type --delay 5 00628\ 7763810853"
+bindsym --release $mod+Ctrl+a exec --no-startup-id "xdotool keyup ctrl keyup alt type --delay 5 0061\ 452476854"
 bindsym --release $mod+Ctrl+s exec --no-startup-id "xdotool keyup ctrl keyup alt type --delay 5 Kerkdijk\ 2"
 bindsym --release $mod+Ctrl+c exec --no-startup-id "xdotool keyup ctrl keyup alt type --delay 5 The\ Netherlands"
 bindsym --release $mod+Ctrl+d exec --no-startup-id "xdotool keyup ctrl keyup alt type --delay 5 Drenthe"
@@ -237,7 +239,7 @@ exec fcitx
 # exec i3-msg 'workspace $wf1; exec thunderbird' #... disabled cuase its addicting
 exec i3-msg 'workspace $w9; exec firefox'
 exec i3-msg 'workspace $w10;exec ksysguard'
-exec i3-msg 'workspace $w1; exec deluge'
+# exec i3-msg 'workspace $w1; exec deluge'
 exec i3-msg 'workspace $wf8; exec keepassxc'
 # exec i3-msg 'workspace $w2;exec konsole'
 # exec i3-msg 'workspace $w3;exec dolphin'
