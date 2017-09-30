@@ -131,7 +131,7 @@ Size=32
 
 [DirSelect Dialog]
 DirSelectDialog Size=640,480
-History Items[$e]=file:///,file:$HOME/Downloads/The Elder Scrolls III Morrowind GOTY [MULTI][PCDVD][WaLMaRT][WwW.GamesTorrents.CoM],file:///mnt/iso/WALMART,file:///mnt/iso,file:///mnt/msata/home/jappie/games
+History Items[$e]=file:///,file:///mnt/bigstore/home/music/pre-australia-dump-2017-08-11/,file:///mnt/bigstore/home/pictures/pre-australia-dump/Card,file:///mnt/bigstore/home/pictures/pre-australia-dump/Card/,file:///mnt/bigstore/home/pictures/pre-australia-dump/Phone,file:$HOME/Downloads/The Elder Scrolls III Morrowind GOTY [MULTI][PCDVD][WaLMaRT][WwW.GamesTorrents.CoM],file:///mnt/iso/WALMART,file:///mnt/iso,file:///mnt/msata/home/jappie/games
 
 [General]
 ColorScheme=Purper
@@ -174,7 +174,7 @@ Show hidden files=true
 Sort by=Name
 Sort directories first=true
 Sort reversed=false
-Speedbar Width=239
+Speedbar Width=249
 View Style=Simple
 listViewIconSize=0
 

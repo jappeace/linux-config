@@ -51,9 +51,9 @@
     </property>
     <property name="plugin-5" type="string" value="clock">
       <property name="mode" type="uint" value="3"/>
-      <property name="timezone" type="string" value=""/>
+      <property name="timezone" type="string" value="Australia/Sydney"/>
       <property name="digital-format" type="string" value="%d %b %H:%m"/>
-      <property name="fuzziness" type="uint" value="1"/>
+      <property name="fuzziness" type="uint" value="0"/>
       <property name="show-grid" type="bool" value="false"/>
       <property name="show-seconds" type="bool" value="false"/>
     </property>
@@ -65,10 +65,10 @@
         <value type="string" value="skype"/>
         <value type="string" value="steam"/>
         <value type="string" value="hexchat"/>
-        <value type="string" value="kmix"/>
         <value type="string" value="electron"/>
-        <value type="string" value="deluge"/>
+        <value type="string" value="kmix"/>
         <value type="string" value="ibus-ui-gtk3"/>
+        <value type="string" value="deluge"/>
         <value type="string" value="keepassx"/>
         <value type="string" value="javaembeddedframe"/>
         <value type="string" value="hp-systray"/>
