@@ -53,3 +53,6 @@ vmap K k
 set laststatus=2
 
 nnoremap <C-j> :YcmCompleter GoTo<CR>
+
+" vim turds (move swapfiles to dedicated directory)
+set directory=~/.vim/swap
