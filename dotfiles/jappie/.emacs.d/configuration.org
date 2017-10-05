@@ -83,15 +83,15 @@ Pull quickly
 I often have to cycle between these two, define f8 to do that for me.
 Source [[https://www.emacswiki.org/emacs/FlySpell][here.]]
 #+BEGIN_SRC emacs-lisp
-      (defun fd-switch-dictionary()
-      (interactive)
-      (let* ((dic ispell-current-dictionary)
-    	 (change (if (string= dic "dutch") "english" "dutch")))
-        (ispell-change-dictionary change)
-        (message "Dictionary switched from %s to %s" dic change)
-        ))
-    
-      (global-set-key (kbd "<f8>")   'fd-switch-dictionary)
+  (defun fd-switch-dictionary()
+    (interactive)
+    (let* ((dic ispell-current-dictionary)
+        (change (if (string= dic "dutch") "english" "dutch")))
+      (ispell-change-dictionary change)
+      (message "Dictionary switched from %s to %s" dic change)
+      ))
+
+  (global-set-key (kbd "<f8>")   'fd-switch-dictionary)
   (setq ispell-dictionary "en_US")
 #+END_SRC
 * Shiny
@@ -108,7 +108,23 @@ Source [[https://www.emacswiki.org/emacs/FlySpell][here.]]
   (setq-default tab-width 4)
 #+END_SRC
 
-** Column width
+** JS indentation
+#+BEGIN_SRC emacs-lisp
+  ; JSON
+  (setq-default
+  ;; js2-mode
+  js2-basic-offset 2
+  ;; web-mode
+  css-indent-offset 2
+  web-mode-markup-indent-offset 2
+  web-mode-css-indent-offset 2
+  web-mode-code-indent-offset 2
+  web-mode-attr-indent-offset 2
+  ;; idk
+  js-indent-level 2)
+#+END_SRC
+
+ width
 #+BEGIN_SRC emacs-lisp
 (define-globalized-minor-mode global-fci-mode fci-mode (lambda () (fci-mode 1)))
 (global-fci-mode 1)
@@ -302,6 +318,19 @@ too. So this is my solution:
 #+END_SRC
 
 
+** Try and fix freezing
+Also using ivy layer rater than helm for commands.
+#+BEGIN_SRC emacs-lisp
+  (setq dotspacemacs-mode-line-unicode-symbols nil)
+  (setq ediff-window-setup-function 'ediff-setup-windows-default)
+#+END_SRC
+
+** Fix helm maybe
+(it doesn't work with magit now)
+I gues this fixed it.
+#+BEGIN_SRC emacs-lisp
+(require 'helm-bookmark)
+#+END_SRC
 * Layers
 
 ** Auto complete
