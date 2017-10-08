@@ -56,3 +56,6 @@ nnoremap <C-j> :YcmCompleter GoTo<CR>
 
 " vim turds (move swapfiles to dedicated directory)
 set directory=~/.vim/swap
+
+" Warn better, so that I don't make many readonly edits
+hi WarningMsg ctermfg=white ctermbg=red guifg=White guibg=Red gui=None
