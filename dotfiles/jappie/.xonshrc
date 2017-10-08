@@ -1,0 +1,77 @@
+$MULTILINE_PROMPT = '`·.,¸,.·*¯`·.,¸,.·*¯'
+$XONSH_SHOW_TRACEBACK = True
+$XONSH_STORE_STDOUT = True
+
+# make dirty branches red and clean ones green
+#from xonsh.prompt.vc_branch import git_dirty_working_directory
+#$PROMPT_FIELDS['branch_color'] = lambda: ('{BOLD_INTENSE_RED}'
+#                                               if git_dirty_working_directory(include_untracked=True)
+#                                               else '{BOLD_INTENSE_GREEN}')
+
+# better ls collors?
+$LS_COLORS='rs=0:di=01;36:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:su=37;41:sg=30;43:ca=30;41:tw=30;42:ow=34;42:st=37;44:ex=01;32:'
+
+# where are the dist files (source code of installed software)
+$DISTDIR='/usr/portage/distfiles'
+
+#temnial collors
+$TERM='konsole-256color'
+
+# stuff on JVM
+$GRAILS_HOME='/usr/local/lib/grails-core'
+$SCALA_HOME='/usr/local/lib/scala'
+
+$JAVA_OPTS="-Xms1024m -Xmx4048m -XX:MaxPermSize=512m";
+$ANDROID_HOME="/opt/android-sdk-update-manager"
+
+
+$TERMCMD='gnome-terminal'
+
+$CCACHE_COMPRESS=1
+
+$KEYSTORE="$HOME/.android/debug.keystore"
+$KEYSTORE_PASSWORD="android"
+$KEY_ALIAS="androiddebugkey"
+$KEY_PASSWORD="android"
+$SCALA_STDLIB='%s/lib/scala-library.jar' % $SCALA_HOME
+
+#firefox hardware acceleration
+$MOZ_USE_OMTC=1
+
+# we want qt to look like the kde theme
+$XDG_CURRENT_DESKTOP='kde'
+$QT_STYLE_OVERRIDE='GTK+'
+$LS_COLORS='di=0;35'
+
+# crappy jump around mechanism
+$LINUX_CONFIG="/usr/local/src/linux-config/"
+$DOT_FILES="$LINUX_CONFIG/dotfiles/jappie"
+
+# Prevent Wine from adding menu entries and desktop links.
+$WINEDLLOVERRIDES='winemenubuilder.exe=d'
+
+$PROJECT_DIRS = ["~/Projects"]
+
+rustVersion = $(eselect rust list | grep \* | sed 's/.*-//' | sed 's/ \*$//').strip()
+
+# add shit to the path
+addToPath = [
+	# stuff on JVM
+	[$GRAILS_HOME, '/bin'],
+	[$SCALA_HOME, '/bin'],
+	# programs that aren't installed trough potrage
+	[$HOME, '/programs/bin'],
+	['/opt/usertools/jappie/bin'],
+
+	# javascript packages in path
+	[$HOME, '/node_modules/.bin'],
+
+	#rust
+	['~/Projects/racer/target/release'],
+	[$DISTDIR, '/rustc-', rustVersion,'-src.tar.gz'],
+	[$HOME, '/.cargo/bin']
+]
+
+for program in addToPath:
+	candidate = ''.join(program)
+	$PATH.append(candidate)
