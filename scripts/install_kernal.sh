@@ -1,5 +1,6 @@
 #!/bin/bash
 
+
 cd /usr/src/linux
 VERSION=`LC_ALL=C stat /usr/src/linux | grep File | sed s/File.\*x\-// | sed s/\-gentoo// | sed s/\'// | sed s/\ \*//`
 echo "installing linux version: $VERSION"
@@ -29,8 +30,10 @@ make clean
 echo "building and installing"
 make -j$(nproc) && make modules_install && echo "removing old kernal" && rm /boot/$KERNEL
 
+die() { echo "$@" 1>&2 ; exit 1; }
+
 echo "copying new kernal"
-cp arch/x86/boot/bzImage /boot/$KERNEL
+cp arch/x86/boot/bzImage /boot/$KERNEL || die "WARNING: Couldn't copy kernel, probably ran out of disk space, exiting"
 
 if (( IS_SAME_VERSION == 1 )); then
 	echo "rebuilding modules"
