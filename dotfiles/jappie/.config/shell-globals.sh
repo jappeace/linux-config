@@ -35,8 +35,8 @@ export PATH=$PATH:/opt/usertools/jappie/bin
 
 #rust
 export PATH=$PATH:~/Projects/racer/target/release
-export RUST_SRC_PATH=$DISTDIR/rustc-$(eselect rust list | grep \* | sed 's/.*-//' | sed 's/ \*$//')-src.tar.gz
-export PATH=$PATH:$HOME/.cargo/bin
+#export RUST_SRC_PATH=$DISTDIR/rustc-$(eselect rust list | grep \* | sed 's/.*-//' | sed 's/ \*$//')-src.tar.gz
+#export PATH=$PATH:$HOME/.cargo/bin
 
 #firefox hardware acceleration
 export MOZ_USE_OMTC=1
