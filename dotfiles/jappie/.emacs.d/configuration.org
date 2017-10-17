@@ -254,6 +254,7 @@ examples on usage can be found [[https://raw.githubusercontent.com/dfeich/org-ba
   (defun my-org-confirm-babel-evaluate (lang body)
       (not (string= lang "plantuml")))
   (setq org-confirm-babel-evaluate 'my-org-confirm-babel-evaluate)
+
   #+END_SRC
 
 ** Load langauges
@@ -261,14 +262,19 @@ I don't know why but: https://github.com/syl20bnr/spacemacs/issues/7641
 Maybe its security or something? Or efficiency? I dunno layers should fix that
 right?
 
-  #+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp
+(require 'ob-plantuml)
+(require 'ob-sh)
+(require 'ob-lisp)
+
 (org-babel-do-load-languages
- 'org-babel-load-languages
- '((shell . t)
-   (plantuml . t)
-   )
+  'org-babel-load-languages
+  '((sh . t)
+    (plantuml . t)
+    (lisp . t)
+    )
 )
-  #+END_SRC
+#+END_SRC
 
 ** Recursive todo list update entries
 http://orgmode.org/manual/Breaking-down-tasks.html
@@ -332,7 +338,6 @@ I gues this fixed it.
 (require 'helm-bookmark)
 #+END_SRC
 * Layers
-
 ** Auto complete
 Just use company everywhere:
 #+BEGIN_SRC emacs-lisp
