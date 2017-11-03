@@ -41,7 +41,7 @@ values."
      (auto-completion :variables
                       auto-completion-enable-snippets-in-popup t
                       auto-completion-enable-help-tooltip 'manual
-                      auto-completion-complete-with-key-sequence-delay 0.2
+                      auto-completion-complete-with-key-sequence-delay 0.5
                       auto-completion-enable-sort-by-usage t
                       )
      better-defaults
@@ -61,8 +61,11 @@ values."
             spell-checking-enable-auto-dictionary t
             enable-flyspell-auto-completion t
             ispell-dictionary "en_US"
+            spell-checking-enable-by-default nil
             )
-     syntax-checking
+     (syntax-checking :variables
+                      syntax-checking-enable-by-default nil
+                      )
      (rust :variables
            rust-format-on-save t
            )
@@ -80,7 +83,9 @@ values."
              ranger-parent-depth 0
      )
      (version-control :variables
-                      vc-follow-symlinks t)
+                      vc-follow-symlinks t
+                      version-control-diff-tool 'git-gutter+
+                      )
      plantuml
      )
    ;; List of additional packages that will be installed without being
@@ -370,3 +375,27 @@ you should place your code here."
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(default ((((class color) (min-colors 257)) (:foreground "#F8F8F2" :background "#272822")) (((class color) (min-colors 89)) (:foreground "#F5F5F5" :background "#1B1E1C")))))
+(defun dotspacemacs/emacs-custom-settings ()
+  "Emacs custom settings.
+This is an auto-generated function, do not modify its content directly, use
+Emacs customize menu instead.
+This function is called at the very end of Spacemacs initialization."
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(evil-want-Y-yank-to-eol nil)
+ '(org-agenda-files
+   (quote
+    ("~/Projects/ideas/chores.org" "~/Projects/ideas/planning.org" "~/Projects/jappeaceApplication/content/my-thesis.org" "~/huiswerk/thesis/thesis.org" "~/huiswerk/philosophy/paper/paper.org")))
+ '(package-selected-packages
+   (quote
+    (zenburn-theme symon string-inflection password-generator org-brain impatient-mode helm-purpose window-purpose imenu-list evil-org evil-lion editorconfig dante browse-at-remote pony-mode sql-indent anaconda-mode tern iedit goto-chg alert git-commit simple-httpd s flyspell-correct wgrep smex ivy-hydra flyspell-correct-ivy counsel-projectile counsel swiper pdf-tools org-category-capture helm-bibtex packed auctex projectile async hydra dash company-quickhelp powerline ivy markdown-mode multiple-cursors ghc haskell-mode smartparens highlight evil undo-tree yasnippet helm helm-core avy skewer-mode js2-mode org-plus-contrib magit magit-popup with-editor flycheck company rust-mode haml-mode psci purescript-mode psc-ide yapfify yaml-mode xterm-color ws-butler winum which-key web-mode web-beautify volatile-highlights vi-tilde-fringe uuidgen use-package unfill toml-mode toc-org tagedit spaceline solarized-theme smeargle slim-mode shell-pop scss-mode sass-mode restart-emacs ranger rainbow-delimiters racer pyvenv pytest pyenv-mode py-isort pug-mode popwin plantuml-mode pip-requirements persp-mode pcre2el paradox ox-reveal orgit org-ref org-projectile org-present org-pomodoro org-download org-bullets open-junk-file noflet neotree mwim multi-term move-text monokai-theme mmm-mode markdown-toc magit-gitflow macrostep lorem-ipsum livid-mode live-py-mode linum-relative link-hint less-css-mode json-mode js2-refactor js-doc intero info+ indent-guide hy-mode hungry-delete htmlize hlint-refactor hl-todo hindent highlight-parentheses highlight-numbers highlight-indentation hide-comnt help-fns+ helm-themes helm-swoop helm-pydoc helm-projectile helm-mode-manager helm-make helm-hoogle helm-gitignore helm-flx helm-descbinds helm-css-scss helm-company helm-c-yasnippet helm-ag haskell-snippets google-translate golden-ratio gnuplot gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link git-gutter-fringe git-gutter-fringe+ gh-md fuzzy flyspell-popup flyspell-correct-helm flycheck-ycmd flycheck-rust flycheck-pos-tip flycheck-haskell flycheck-elm flx-ido fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-magit evil-lisp-state evil-indent-plus evil-iedit-state evil-exchange evil-escape evil-ediff evil-args evil-anzu eval-sexp-fu eshell-z eshell-prompt-extras esh-help ensime emmet-mode elm-mode elisp-slime-nav dumb-jump diff-hl define-word cython-mode company-ycmd company-web company-tern company-statistics company-ghci company-ghc company-emacs-eclim company-cabal company-auctex company-anaconda column-enforce-mode coffee-mode cmm-mode clean-aindent-mode cargo auto-yasnippet auto-highlight-symbol auto-dictionary auto-compile auctex-latexmk aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line ac-ispell))))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(default ((((class color) (min-colors 257)) (:foreground "#F8F8F2" :background "#272822")) (((class color) (min-colors 89)) (:foreground "#F5F5F5" :background "#1B1E1C")))))
+)
