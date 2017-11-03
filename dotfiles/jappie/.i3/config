@@ -217,6 +217,9 @@ client.background \#000000
 #bind brightness ctl
 bindsym $mod+z exec brightness-
 bindsym $mod+x exec brightness+
+bindsym $mod+Shift+s exec sudo sleep-memory
+bindsym $mod+Shift+z exec --no-startup-id /home/jappie/bin/monitor
+bindsym $mod+Shift+a exec --no-startup-id /home/jappie/bin/monitor-2
 
 #bindsym $mod+Shift+i exec sudo reboot
 
