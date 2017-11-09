@@ -343,3 +343,14 @@ Just use company everywhere:
 #+BEGIN_SRC emacs-lisp
 (global-company-mode)
 #+END_SRC
+
+** Use pylint
+
+#+BEGIN_SRC emacs-lisp
+(add-hook 'python-mode-hook (lambda ()
+                               (flycheck-mode 1)
+                               (semantic-mode 1)
+                               (setq flycheck-checker 'python-pylint
+                                     flycheck-checker-error-threshold 400
+                                     flycheck-pylintrc "~/.pylintrc")))
+#+END_SRC

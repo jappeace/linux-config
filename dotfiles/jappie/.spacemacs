@@ -64,12 +64,15 @@ values."
             spell-checking-enable-by-default nil
             )
      (syntax-checking :variables
+                      ;; TODO Disable this once we have a sepearte laptop
                       syntax-checking-enable-by-default nil
                       )
      (rust :variables
            rust-format-on-save t
            )
-     python
+     (python :variables
+              python-auto-set-local-pyvenv-virtualenv 'on-project-switch
+              )
      latex
      html
      django
