@@ -43,10 +43,16 @@ precmd() { eval "$PROMPT_COMMAND" }
 
 function prompt()
 {
-    if [ "$PWD" != "$MYOLDPWD" ]; then
-        MYOLDPWD="$PWD"
-        test -e .venv && workon `cat .venv`
-    fi
+	if [ -e .venv ]
+	then
+		desired=$(cat .venv)
+		current=$(basename "$VIRTUAL_ENV")
+		if [ "$current" = "$desired" ]
+		then
+			return 0
+		fi
+	    workon $desired
+	fi
 }
 
 dls () {
