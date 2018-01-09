@@ -6,7 +6,8 @@ unset GREP_OPTIONS
 export DISTDIR='/usr/portage/distfiles'
 
 #temnial collors
-export TERM='konsole-256color'
+# export TERM='konsole-256color'
+export TERM='screen-256color'
 
 # stuff on JVM
 export GRAILS_HOME='/usr/local/lib/grails-core'
@@ -15,6 +16,9 @@ export PATH=${PATH}:${GRAILS_HOME}'/bin'
 export PATH=${PATH}:$HOME'/Projects/bash-simple-ci/bin'
 export PATH=${PATH}:${SCALA_HOME}'/bin'
 export PATH=${PATH}:$HOME'/programs/bin' # programs that aren't installed trough potrage
+export PATH=${PATH}:$HOME'/.local/bin'
+export PATH=${PATH}:$HOME'/.yarn/bin'
+export PATH=${PATH}:$HOME'/google-cloud-sdk/bin'
 export JAVA_OPTS="-Xms1024m -Xmx4048m -XX:MaxPermSize=512m";
 export ANDROID_HOME="/opt/android-sdk-update-manager"
 
@@ -52,3 +56,6 @@ export DOT_FILES="$LINUX_CONFIG/dotfiles/jappie"
 
 # Prevent Wine from adding menu entries and desktop links.
 export WINEDLLOVERRIDES='winemenubuilder.exe=d'
+
+# random cowsay in ansible
+export ANSIBLE_COW_SELECTION=random

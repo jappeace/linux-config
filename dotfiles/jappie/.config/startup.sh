@@ -28,6 +28,7 @@ cowfile=${cowfiles[$((((RANDOM % ((num_files - 1)))) + 1))]}
 
 fortune | cowsay -W 35 ${cow_mode[$rng]} -f $cowfile
 
+
 # work
 export WORKON_HOME=$HOME/.virtualenvs
 export PROJECT_HOME=$HOME/Devel
@@ -37,6 +38,7 @@ source /usr/bin/virtualenvwrapper.sh
 #auto virtual env wit .venv file
 # Support for bash
 PROMPT_COMMAND='prompt'
+
 
 # Mirrored support for zsh. See: https://superuser.com/questions/735660/whats-the-zsh-equivalent-of-bashs-prompt-command/735969#735969 
 precmd() { eval "$PROMPT_COMMAND" }
