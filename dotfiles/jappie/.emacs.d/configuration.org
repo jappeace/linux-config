@@ -337,6 +337,18 @@ I gues this fixed it.
 #+BEGIN_SRC emacs-lisp
 (require 'helm-bookmark)
 #+END_SRC
+
+** Load webmode for *.jin files
+#+BEGIN_SRC emacs-lisp
+  (add-to-list 'auto-mode-alist '("\\.jin$" . web-mode))
+#+END_SRC
+
+** prettier JS
+   Disable because it's on save
+#+BEGIN_SRC emacs-lisp
+  ;(add-hook 'js2-mode-hook 'prettier-js-mode)
+  ;(add-hook 'web-mode-hook 'prettier-js-mode)
+#+END_SRC
 * Layers
 ** Auto complete
 Just use company everywhere:
@@ -347,10 +359,10 @@ Just use company everywhere:
 ** Use pylint
 
 #+BEGIN_SRC emacs-lisp
-(add-hook 'python-mode-hook (lambda ()
-                               (flycheck-mode 1)
-                               (semantic-mode 1)
-                               (setq flycheck-checker 'python-pylint
-                                     flycheck-checker-error-threshold 400
-                                     flycheck-pylintrc "~/.pylintrc")))
+  (add-hook 'python-mode-hook (lambda ()
+                           (flycheck-mode 1)
+                           (semantic-mode 1)
+                           (setq flycheck-checker 'python-pylint
+                                 flycheck-checker-error-threshold 400
+                                 flycheck-pylintrc "~/.pylintrc")))
 #+END_SRC
