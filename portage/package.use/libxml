@@ -1,0 +1,6 @@
+#to install chromium I needed
+
+>=dev-libs/libxml2-2.9.1-r1 icu
+
+# to prevent blocking with kde
+>=dev-qt/qtwebkit-4.8.4 icu

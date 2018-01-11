@@ -1,0 +1,7 @@
+dev-libs/jansson abi_x86_32
+dev-libs/openssl abi_x86_32
+media-libs/libpng abi_x86_32
+media-libs/sdl2-ttf abi_x86_32
+media-libs/speex abi_x86_32
+misc/curl abi_x86_32
+games-strategy/openrct2 abi_x86_32

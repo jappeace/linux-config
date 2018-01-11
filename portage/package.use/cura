@@ -1,0 +1,9 @@
+# required by sci-libs/scipy-0.16.1::gentoo
+# required by media-gfx/cura-2.6.0::gentoo
+# required by cura (argument)
+dev-python/numpy lapack
+# required by media-gfx/cura-2.6.0::gentoo
+# required by cura (argument)
+dev-libs/libarcus python
+
+

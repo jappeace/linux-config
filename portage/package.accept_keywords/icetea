@@ -1,0 +1,14 @@
+#the stable variant of ice tea supports netbeans poorly.
+#thats why I go unstable:
+>=dev-java/icedtea-7.2.6.8 ~amd64
+=dev-java/icedtea-web-1.3.2-r7 ~amd64
+
+#to boostrap you need the binary
+=dev-java/icedtea-bin-7.2.4.1 ~amd64
+
+# to update it needed systemtap, the stable did not build
+=dev-util/systemtap-2.4 ~amd64
+=dev-java/icedtea-3.9999 ~amd64
+
+# is this jdk 8??
+dev-java/icedtea ~amd64

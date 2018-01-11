@@ -1,0 +1,17 @@
+media-video/openshot ~amd64
+
+# required by media-libs/libopenshot-0.1.2::gentoo
+# required by media-video/openshot-2.1.0::gentoo
+# required by @selected
+# required by @world (argument)
+=media-libs/libopenshot-audio-0.1.2-r1 ~amd64
+# required by media-libs/libopenshot-0.1.2::gentoo
+# required by media-video/openshot-2.1.0::gentoo
+# required by @selected
+# required by @world (argument)
+=net-libs/cppzmq-0_pre150606 ~amd64
+# required by media-video/openshot-2.1.0::gentoo
+# required by @selected
+# required by @world (argument)
+=media-libs/libopenshot-0.1.2 ~amd64
+

@@ -1,0 +1,3 @@
+>=net-im/skype-4.2.0.11-r1 skype-4.0.0.7-copyright
+# required by gimps (argument)
+>=sci-mathematics/gimps-28.7 GIMPS

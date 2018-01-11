@@ -1,0 +1,15 @@
+# required by dev-lang/rust-1.8.0::gentoo[system-llvm]
+# required by @selected
+# required by @world (argument)
+sys-devel/llvm multitarget 
+# get a weird error without this:
+sys-devel/llvm llvm_targets_AArch64 llvm_targets_ARM llvm_targets_Hexagon llvm_targets_Mips llvm_targets_MSP430 llvm_targets_PowerPC llvm_targets_Sparc llvm_targets_SystemZ llvm_targets_XCore
+# required by media-libs/mesa-12.0.1::gentoo[llvm]
+# required by media-video/movit-1.2.0::gentoo
+# required by media-libs/mlt-6.2.0-r2::gentoo[opengl]
+# required by media-video/openshot-1.4.3::gentoo
+# required by @selected
+# required by @world (argument)
+sys-devel/llvm abi_x86_32
+
+dev-lang/rust system-llvm source tools

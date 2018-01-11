@@ -1,0 +1,5 @@
+# required by dev-java/sbt-0.13.8-r1::gentoo
+# required by sbt (argument)
+dev-lang/scala ~amd64
+# required by sbt (argument)
+dev-java/sbt ~amd64

@@ -1,0 +1,3 @@
+>=dev-lang/python-2.7.5:2.7 sqlite 
+mail-client/thunderbird system-cairo system-harfbuzz system-icu system-jpeg 
+mail-client/thunderbird system-libevent system-libvpx system-sqlite

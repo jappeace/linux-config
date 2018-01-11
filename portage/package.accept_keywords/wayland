@@ -1,0 +1,3 @@
+dev-libs/wlc ~amd64
+dev-libs/sway ~amd64
+dev-libs/wayland-protocols ~amd64

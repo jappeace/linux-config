@@ -1,0 +1,2 @@
+#pulsaudio did not agree with systemd, the newer variant might
+<=media-sound/pulseaudio-4.0 ~amd64

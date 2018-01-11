@@ -1,0 +1,6 @@
+# required by lolcat (argument)
+=games-misc/lolcat-42.1.43 ~amd64
+# required by games-misc/lolcat-42.1.43::gentoo[ruby_targets_ruby21]
+# required by lolcat (argument)
+=dev-ruby/paint-2.0.0 ~amd64
+

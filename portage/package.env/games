@@ -1,0 +1,47 @@
+#allows steam 32 bit games to extract texures
+media-libs/libtxc_dxtn multilib.conf
+
+# allows 32bit apps to be easaly loaded in primus
+x11-misc/primus multilib.conf
+
+#mount and blade wants libGLEW 32 bit
+media-libs/glew multilib.conf
+sys-apps/util-linux multilib.conf
+x11-libs/libXt multilib.conf
+x11-libs/libXi multilib.conf
+x11-libs/libXmu multilib.conf
+x11-libs/libICE multilib.conf
+media-libs/glu multilib.conf
+virtual/glu multilib.conf
+x11-libs/libSM multilib.conf
+
+#sdl mount and blade :)
+media-libs/libsdl2 multilib.conf
+x11-libs/libXrandr multilib.conf
+x11-libs/libXScrnSaver multilib.conf
+x11-proto/xineramaproto multilib.conf
+x11-libs/libXrender multilib.conf
+x11-proto/renderproto multilib.conf
+x11-proto/scrnsaverproto multilib.conf
+x11-libs/libXcursor multilib.conf
+sys-apps/dbus multilib.conf
+x11-proto/randrproto multilib.conf
+x11-libs/libXinerama multilib.conf
+media-libs/alsa-lib multilib.conf
+
+# mount and blade loves multilib
+net-misc/curl multilib.conf
+dev-util/pkgconfig multilib.conf
+dev-libs/openssl multilib.conf
+virtual/pkgconfig multilib.conf
+net-nds/openldap multilib.conf
+media-libs/libpng multilib.conf
+
+# openrct
+dev-libs/jansson multilib.conf
+media-libs/libsdl2 multilib.conf
+media-libs/sdl2-mixer multilib.conf
+media-libs/sdl2-ttf multilib.conf
+media-libs/speex multilib.conf
+net-misc/curl multilib.conf
+media-libs/fontconfig multilib.conf

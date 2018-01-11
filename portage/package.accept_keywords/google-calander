@@ -1,0 +1,6 @@
+#to install gcalcli I needed:
+=dev-python/python-gflags-2.0 ~amd64
+=app-misc/gcalcli-2.4.2 ~amd64
+=dev-python/google-api-python-client-1.1 ~amd64
+=dev-python/httplib2-0.8 ~amd64
+

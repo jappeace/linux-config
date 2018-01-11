@@ -1,0 +1,37 @@
+# wine wines about multilib
+dev-libs/icu multilib.conf
+virtual/libintl multilib.conf
+x11-libs/libXcomposite multilib.conf
+media-libs/freetype multilib.conf
+media-libs/lcms multilib.conf
+virtual/jpeg multilib.conf
+app-arch/bzip2 multilib.conf
+dev-libs/libgcrypt multilib.conf
+x11-proto/compositeproto multilib.conf
+sys-devel/gettext multilib.conf
+dev-libs/libxml2 multilib.conf
+media-sound/mpg123 multilib.conf
+media-libs/tiff multilib.conf
+media-libs/fontconfig.0 multilib.conf
+net-print/cups multilib.conf
+media-libs/libjpeg-turbo multilib.conf
+dev-libs/libxslt multilib.conf
+net-libs/gnutls multilib.conf
+
+
+# required by dev-libs/nettle-3.2-r1::gentoo[gmp]
+# required by net-libs/gnutls-3.3.24-r1::gentoo
+# required by net-libs/glib-networking-2.48.2::gentoo[ssl]
+# required by net-libs/libsoup-2.54.1-r1::gentoo
+# required by net-misc/networkmanager-1.4.0-r1::gentoo
+# required by net-misc/networkmanager-openvpn-1.2.4::gentoo
+# required by @selected
+# required by @world (argument)
+dev-libs/gmp multilib.conf
+# required by dev-libs/libgcrypt-1.7.3::gentoo
+# required by gnome-base/gnome-keyring-3.20.0::gentoo
+# required by app-crypt/libsecret-0.18.5::gentoo
+# required by net-misc/networkmanager-openvpn-1.2.4::gentoo[gtk]
+# required by @selected
+# required by @world (argument)
+dev-libs/libgpg-error multilib.conf

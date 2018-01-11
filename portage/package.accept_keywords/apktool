@@ -1,0 +1,14 @@
+dev-util/apktool ~amd64
+
+# required by virtual/gradle-0::mva
+# required by dev-util/apktool-2.2.0::mva
+# required by apktool (argument)
+=dev-java/gradle-bin-3.4 ~amd64
+# required by dev-java/gradle-bin-3.4::mva
+# required by virtual/gradle-0::mva
+# required by dev-util/apktool-2.2.0::mva
+# required by apktool (argument)
+=app-eselect/eselect-gradle-0.1 ~amd64
+# required by dev-util/apktool-2.2.0::mva
+# required by apktool (argument)
+=virtual/gradle-0 ~amd64

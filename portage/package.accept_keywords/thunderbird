@@ -1,0 +1,4 @@
+# required by mail-client/thunderbird-52.3.0::gentoo
+# required by @selected
+# required by @world (argument)
+=media-libs/libpng-1.6.34 ~amd64

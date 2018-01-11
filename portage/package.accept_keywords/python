@@ -1,0 +1,9 @@
+=dev-python/imaging-1.1.7-r5 ~amd64
+
+# required by x11-libs/libxcb-1.12-r2::gentoo
+# required by x11-libs/xcb-util-wm-0.4.1-r1::gentoo
+# required by dev-libs/wlc-0.0.10::gentoo[X,xwayland]
+# required by dev-libs/sway-0.14.0::gentoo
+# required by @selected
+# required by @world (argument)
+=dev-lang/python-3.6.3 ~amd64

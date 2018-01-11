@@ -1,0 +1,6 @@
+# required by net-misc/networkmanager-1.0.12-r1::gentoo[nss]
+# required by kde-misc/networkmanagement-0.9.0.12::gentoo
+# required by @selected
+# required by @world (argument)
+dev-libs/nss ~amd64
+

@@ -1,0 +1,20 @@
+media-gfx/freecad ~amd64
+
+# required by sci-libs/opencascade-6.9.1-r2::gentoo
+# required by media-gfx/freecad-0.16.6712::gentoo
+# required by freecad (argument)
+=app-eselect/eselect-opencascade-0 ~amd64
+# required by media-gfx/freecad-0.16.6712::gentoo
+# required by freecad (argument)
+=sci-libs/orocos_kdl-1.3.1-r1 ~amd64
+# required by media-gfx/freecad-0.16.6712::gentoo
+# required by freecad (argument)
+=dev-python/pivy-0.5_alpha20110303-r1 ~amd64
+# required by media-gfx/freecad-0.16.6712::gentoo
+# required by freecad (argument)
+=sci-libs/opencascade-6.9.1-r2 ~amd64
+# required by dev-python/pivy-0.5_alpha20110303-r1::gentoo
+# required by media-gfx/freecad-0.16.6712::gentoo
+# required by freecad (argument)
+=media-libs/SoQt-1.5.0-r1 ~amd64
+

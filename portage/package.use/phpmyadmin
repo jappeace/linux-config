@@ -1,0 +1,8 @@
+# required by virtual/httpd-php-5.5
+# required by dev-db/phpmyadmin-4.0.5
+# required by phpmyadmin (argument)
+=dev-lang/php-5.5.4 gd fpm mysqli
+# required by dev-lang/php-5.5.4
+# required by dev-db/phpmyadmin-4.0.5
+# required by phpmyadmin (argument)
+=app-admin/eselect-php-0.7.1 fpm

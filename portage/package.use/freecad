@@ -1,0 +1,4 @@
+
+# required by media-gfx/freecad-0.16.6712::gentoo
+# required by freecad (argument)
+>=dev-libs/xerces-c-3.1.4-r1 icu

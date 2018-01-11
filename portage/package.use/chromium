@@ -1,0 +1,8 @@
+#an update required the use of this package
+>=media-video/ffmpeg-1.0.7 opus
+# required by www-client/chromium-44.0.2403.89::gentoo
+# required by @selected
+# required by @world (argument)
+>=media-libs/libvpx-1.4.0 postproc svc
+
+www-client/chromium system-ffmpeg

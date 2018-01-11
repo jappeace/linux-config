@@ -1,0 +1,59 @@
+# required by x11-libs/cairo-1.14.6::gentoo
+# required by x11-libs/pango-1.38.1::gentoo
+# required by media-libs/gst-plugins-base-1.6.3::gentoo[pango]
+# required by media-libs/gst-plugins-good-1.6.3::gentoo
+# required by www-client/firefox-45.0.1::gentoo[gstreamer]
+# required by @selected
+# required by @world (argument)
+dev-libs/lzo multilib.conf
+# required by media-libs/gst-plugins-base-1.6.3::gentoo[pango]
+# required by media-libs/gst-plugins-good-1.6.3::gentoo
+# required by www-client/firefox-45.0.1::gentoo[gstreamer]
+# required by @selected
+# required by @world (argument)
+x11-libs/pango multilib.conf
+# required by x11-libs/cairo-1.14.6::gentoo
+# required by x11-libs/pango-1.38.1::gentoo
+# required by media-libs/gst-plugins-base-1.6.3::gentoo[pango]
+# required by media-libs/gst-plugins-good-1.6.3::gentoo
+# required by www-client/firefox-45.0.1::gentoo[gstreamer]
+# required by @selected
+# required by @world (argument)
+sys-libs/binutils-libs multilib.conf
+# required by x11-libs/pango-1.38.1::gentoo
+# required by media-libs/gst-plugins-base-1.6.3::gentoo[pango]
+# required by media-libs/gst-plugins-good-1.6.3::gentoo
+# required by www-client/firefox-45.0.1::gentoo[gstreamer]
+# required by @selected
+# required by @world (argument)
+media-libs/harfbuzz multilib.conf
+# required by x11-libs/cairo-1.14.6::gentoo
+# required by x11-libs/pango-1.38.1::gentoo
+# required by media-libs/gst-plugins-base-1.6.3::gentoo[pango]
+# required by media-libs/gst-plugins-good-1.6.3::gentoo
+# required by www-client/firefox-45.0.1::gentoo[gstreamer]
+# required by @selected
+# required by @world (argument)
+x11-libs/pixman multilib.conf
+# required by media-libs/harfbuzz-1.1.3::gentoo[graphite]
+# required by x11-libs/pango-1.38.1::gentoo
+# required by media-libs/gst-plugins-base-1.6.3::gentoo[pango]
+# required by media-libs/gst-plugins-good-1.6.3::gentoo
+# required by www-client/firefox-45.0.1::gentoo[gstreamer]
+# required by @selected
+# required by @world (argument)
+media-gfx/graphite2 multilib.conf
+# required by x11-libs/pango-1.38.1::gentoo[X]
+# required by media-libs/gst-plugins-base-1.6.3::gentoo[pango]
+# required by media-libs/gst-plugins-good-1.6.3::gentoo
+# required by www-client/firefox-45.0.1::gentoo[gstreamer]
+# required by @selected
+# required by @world (argument)
+x11-libs/libXft multilib.conf
+# required by x11-libs/pango-1.38.1::gentoo
+# required by media-libs/gst-plugins-base-1.6.3::gentoo[pango]
+# required by media-libs/gst-plugins-good-1.6.3::gentoo
+# required by www-client/firefox-45.0.1::gentoo[gstreamer]
+# required by @selected
+# required by @world (argument)
+x11-libs/cairo multilib.conf

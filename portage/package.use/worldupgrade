@@ -1,0 +1,76 @@
+# required by net-libs/webkit-gtk-2.18.2::gentoo[gstreamer]
+# required by www-client/midori-0.5.11-r2::gentoo
+# required by @selected
+# required by @world (argument)
+>=media-libs/gst-plugins-bad-1.10.5 egl
+# required by dev-python/cryptography-2.0.2-r1::gentoo
+# required by dev-python/urllib3-1.22::gentoo
+# required by dev-python/requests-2.11.1::gentoo
+# required by dev-python/sphinx-1.6.3-r2::gentoo
+# required by dev-python/sphinxcontrib-websupport-1.0.1::gentoo
+>=dev-python/asn1crypto-0.22.0 python_targets_python3_5
+# required by dev-python/urllib3-1.22::gentoo
+# required by dev-python/requests-2.11.1::gentoo
+# required by dev-python/sphinx-1.6.3-r2::gentoo
+# required by dev-python/sphinxcontrib-websupport-1.0.1::gentoo
+>=virtual/python-ipaddress-1.0-r1 python_targets_python3_5
+# required by dev-python/cryptography-2.0.2-r1::gentoo[python_targets_python3_5,python_targets_python3_4,python_targets_python2_7]
+# required by dev-python/urllib3-1.22::gentoo
+# required by dev-python/requests-2.11.1::gentoo
+# required by dev-python/sphinx-1.6.3-r2::gentoo
+# required by dev-python/sphinxcontrib-websupport-1.0.1::gentoo
+>=dev-python/cffi-1.9.1 python_targets_python3_5
+# required by dev-python/setuptools-34.0.2-r1::gentoo
+# required by dev-python/backports-ssl-match-hostname-3.5.0.1-r1::gentoo
+# required by app-emulation/docker-compose-1.17.1::gentoo[python_targets_python2_7]
+# required by @selected
+# required by @world (argument)
+>=dev-python/six-1.10.0 python_targets_python3_5
+# required by dev-python/setuptools-34.0.2-r1::gentoo
+# required by dev-python/backports-ssl-match-hostname-3.5.0.1-r1::gentoo
+# required by app-emulation/docker-compose-1.17.1::gentoo[python_targets_python2_7]
+# required by @selected
+# required by @world (argument)
+>=dev-python/packaging-16.8 python_targets_python3_5
+# required by dev-python/cffi-1.9.1::gentoo
+# required by dev-python/cryptography-2.0.2-r1::gentoo[python_targets_python3_5,python_targets_python3_4,python_targets_python2_7]
+# required by dev-python/urllib3-1.22::gentoo
+# required by dev-python/requests-2.11.1::gentoo
+# required by dev-python/sphinx-1.6.3-r2::gentoo
+# required by dev-python/sphinxcontrib-websupport-1.0.1::gentoo
+>=dev-python/pycparser-2.14 python_targets_python3_5
+# required by dev-python/setuptools-34.0.2-r1::gentoo
+# required by dev-python/backports-ssl-match-hostname-3.5.0.1-r1::gentoo
+# required by app-emulation/docker-compose-1.17.1::gentoo[python_targets_python2_7]
+# required by @selected
+# required by @world (argument)
+>=dev-python/appdirs-1.4.3 python_targets_python3_5
+# required by app-office/libreoffice-5.4.2.2::gentoo
+# required by @selected
+# required by @world (argument)
+>=dev-libs/xmlsec-1.2.24-r1 nss
+# required by dev-python/packaging-16.8::gentoo
+# required by dev-python/setuptools-34.0.2-r1::gentoo
+# required by dev-python/backports-ssl-match-hostname-3.5.0.1-r1::gentoo
+# required by app-emulation/docker-compose-1.17.1::gentoo[python_targets_python2_7]
+# required by @selected
+# required by @world (argument)
+>=dev-python/pyparsing-2.2.0 python_targets_python3_5
+# required by dev-python/pycparser-2.14::gentoo
+# required by dev-python/cffi-1.9.1::gentoo
+# required by dev-python/cryptography-2.0.2-r1::gentoo[python_targets_python3_5,python_targets_python3_4,python_targets_python2_7]
+# required by dev-python/urllib3-1.22::gentoo
+# required by dev-python/requests-2.11.1::gentoo
+# required by dev-python/sphinx-1.6.3-r2::gentoo
+# required by dev-python/sphinxcontrib-websupport-1.0.1::gentoo
+>=dev-python/ply-3.9 python_targets_python3_5
+# required by dev-python/urllib3-1.22::gentoo
+# required by dev-python/requests-2.11.1::gentoo
+# required by dev-python/sphinx-1.6.3-r2::gentoo
+# required by dev-python/sphinxcontrib-websupport-1.0.1::gentoo
+>=dev-python/PySocks-1.6.7 python_targets_python3_5
+# required by sci-libs/opencascade-6.9.1-r2::gentoo[vtk]
+# required by media-gfx/freecad-0.16.6712::gentoo
+# required by @selected
+# required by @world (argument)
+>=sci-libs/vtk-7.1.0 imaging

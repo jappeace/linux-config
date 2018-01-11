@@ -1,0 +1,5 @@
+# required by games-engines/openmw-0.39.0::gentoo
+# required by openmw (argument)
+dev-games/openscenegraph ffmpeg
+dev-games/mygui -ogre
+

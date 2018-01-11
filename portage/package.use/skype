@@ -1,0 +1,4 @@
+# required by net-im/skype-4.3.0.37-r6::gentoo
+# required by skype (argument)
+>=dev-qt/qtwebkit-4.8.6-r1:4 -exceptions
+

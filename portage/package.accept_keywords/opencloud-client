@@ -1,0 +1,5 @@
+#to install opencloud
+
+=net-misc/ocsync-0.90.4 ~amd64
+=x11-misc/qtkeychain-0.1.0-r3 ~amd64
+=net-misc/mirall-1.4.2 ~amd64

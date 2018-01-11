@@ -1,0 +1,6 @@
+#I just wanted a version wich did not had a channel bug
+=net-wireless/aircrack-ng-1.2_beta1 ~amd64
+
+#and then I needed to accept:
+=net-wireless/lorcon-0.0_p20130212 ~amd64
+

@@ -1,0 +1,7 @@
+app-editors/emacs -gtk gtk3 -athena xft
+
+# required by net-libs/gnutls-3.3.24-r1::gentoo
+# required by app-editors/emacs-24.5-r3::gentoo[ssl]
+# required by @__auto_slot_operator_replace_installed__ (argument)
+>=dev-libs/libtasn1-4.8 abi_x86_32
+

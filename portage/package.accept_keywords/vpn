@@ -1,0 +1,22 @@
+=net-misc/networkmanager-openvpn-0.9.10.0 ~amd64
+# required by net-misc/networkmanager-0.9.10.0
+# required by gnome-extra/nm-applet-0.9.10.0
+# required by net-misc/networkmanager-openvpn-0.9.10.0[gtk]
+# required by @selected
+# required by @world (argument)
+=net-libs/libndp-1.4 ~amd64
+# required by gnome-extra/nm-applet-0.9.10.0
+# required by net-misc/networkmanager-openvpn-0.9.10.0[gtk]
+# required by @selected
+# required by @world (argument)
+=net-misc/networkmanager-0.9.10.0 ~amd64
+# required by net-misc/networkmanager-openvpn-0.9.10.0[gtk]
+# required by @selected
+# required by @world (argument)
+=gnome-extra/nm-applet-0.9.10.0 ~amd64
+# required by net-misc/networkmanager-0.9.10.0[ncurses]
+# required by gnome-extra/nm-applet-0.9.10.0
+# required by net-misc/networkmanager-openvpn-0.9.10.0[gtk]
+# required by @selected
+# required by @world (argument)
+=dev-libs/newt-0.52.15 ~amd64

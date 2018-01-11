@@ -1,0 +1,11 @@
+# required by sway (argument)
+=dev-libs/sway-0.8 ~amd64
+# required by dev-libs/wlc-9999::gentoo
+# required by dev-libs/sway-0.6::gentoo
+# required by sway (argument)
+=dev-libs/wayland-protocols-1.3 ~amd64
+
+# required by dev-libs/sway-0.15.0::gentoo
+# required by @selected
+# required by @world (argument)
+=dev-libs/json-c-0.12.1 ~amd64

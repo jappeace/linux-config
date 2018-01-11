@@ -1,0 +1,5 @@
+www-client/firefox gstreamer system-cairo system-harfbuzz system-icu system-jpeg system-libevent system-sqlite system-libvpx
+
+# required by www-client/firefox-48.0.1::gentoo[system-sqlite]
+# required by firefox (argument)
+>=dev-db/sqlite-3.14.1 secure-delete

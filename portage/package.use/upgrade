@@ -1,0 +1,219 @@
+# required by dev-libs/nettle-3.3-r2::gentoo
+# required by net-libs/gnutls-3.5.15::gentoo
+# required by net-print/cups-2.1.4::gentoo[ssl]
+# required by www-client/chromium-62.0.3202.94::gentoo[cups]
+# required by @selected
+# required by @world (argument)
+>=dev-libs/gmp-6.1.2 abi_x86_32
+# required by x11-libs/cairo-1.14.8::gentoo
+# required by dev-python/pygobject-3.22.0::gentoo[cairo,-test]
+# required by x11-misc/redshift-1.11-r1::gentoo[gtk]
+# required by @selected
+# required by @world (argument)
+>=sys-libs/binutils-libs-2.29.1-r1 abi_x86_32
+# required by x11-libs/gtk+-2.24.31-r1::gentoo
+# required by app-editors/gvim-8.0.0386::gentoo[gtk,-gtk3]
+# required by @selected
+# required by @world (argument)
+>=x11-libs/libXcursor-1.1.15 abi_x86_32
+
+# required by x11-libs/cairo-1.14.8::gentoo[opengl]
+# required by www-client/firefox-bin-57.0.1::gentoo
+# required by @selected
+# required by @world (argument)
+>=media-libs/mesa-17.1.10 abi_x86_32
+
+
+# required by media-libs/mesa-17.1.10::gentoo
+# required by media-libs/libtxc_dxtn-1.0.1-r1::gentoo
+# required by @selected
+# required by @world (argument)
+>=x11-libs/libdrm-2.4.82 abi_x86_32
+
+# required by x11-libs/cairo-1.14.8::gentoo
+# required by www-client/chromium-62.0.3202.94::gentoo
+# required by @selected
+# required by @world (argument)
+=sys-libs/binutils-libs-2.28.1 abi_x86_32
+
+# required by games-util/nml-0.4.4-r1::gentoo
+# required by games-misc/opengfx-0.5.4::gentoo
+# required by games-simulation/openttd-1.7.1-r1::gentoo[openmedia]
+# required by @selected
+# required by @world (argument)
+>=dev-python/pillow-3.4.2-r1 python_targets_python3_4
+
+# required by media-libs/sdl2-ttf-2.0.14::gentoo
+# required by @selected
+# required by @world (argument)
+>=media-libs/libsdl2-2.0.7 abi_x86_32
+# required by sys-apps/systemd-233-r6::gentoo
+# required by net-wireless/bluez-5.47-r1::gentoo[systemd]
+# required by net-misc/networkmanager-1.8.4::gentoo[bluetooth]
+# required by gnome-extra/nm-applet-1.8.6::gentoo
+# required by net-misc/networkmanager-openvpn-1.8.0-r1::gentoo[gtk]
+# required by @selected
+# required by @world (argument)
+>=sys-apps/util-linux-2.30.2 abi_x86_32
+# required by media-libs/freetype-2.8::gentoo[bzip2]
+# required by media-libs/sdl2-ttf-2.0.14::gentoo
+# required by @selected
+# required by @world (argument)
+>=app-arch/bzip2-1.0.6-r8 abi_x86_32
+# required by x11-libs/pango-1.40.6::gentoo
+# required by media-gfx/fontforge-20170731-r2::gentoo[cairo]
+# required by media-fonts/arphicfonts-0.2.20080216.1-r2::gentoo
+# required by app-text/ghostscript-gpl-9.21::gentoo[l10n_zh-CN,-l10n_zh-TW]
+# required by app-doc/doxygen-1.8.13-r1::gentoo
+# required by @selected
+# required by @world (argument)
+>=media-libs/harfbuzz-1.7.2 abi_x86_32
+
+virtual/pkgconfig abi_x86_32
+sys-devel/gettext abi_x86_32
+media-libs/alsa-lib abi_x86_32
+sys-libs/binutils abi_x86_32
+x11-libs/libXt abi_x86_32
+media-libs/libogg abi_x86_32
+dev-libs/libffi abi_x86_32
+sys-apps/dbus abi_x86_32
+virtual/jpeg abi_x86_32
+media-libs/glu abi_x86_32
+virtual/glu abi_x86_32
+dev-libs/icu abi_x86_32
+sys-libs/libcap abi_x86_32
+media-libs/libjpeg-turbo abi_x86_32
+sys-apps/attr abi_x86_32
+dev-libs/libxml2 abi_x86_32
+x11-libs/libSM abi_x86_32
+dev-util/pkgconfig abi_x86_32
+virtual/libintl abi_x86_32
+media-libs/libvorbis abi_x86_32
+x11-libs/libICE abi_x86_32
+media-libs/flac abi_x86_32
+media-libs/libsndfile abi_x86_32
+media-libs/libvorbis abi_x86_32
+media-sound/pulseaudio abi_x86_32
+net-libs/libasyncns abi_x86_32
+media-plugins/alsa-plugins abi_x86_32
+x11-libs/libXft abi_x86_32
+sys-apps/tcp-wrappers abi_x86_32
+media-libs/freetype abi_x86_32
+x11-libs/pixman abi_x86_32
+media-libs/fontconfig abi_x86_32
+media-libs/tiff abi_x86_32
+dev-libs/lzo abi_x86_32
+net-print/cups abi_x86_32
+x11-libs/libXrender abi_x86_32
+x11-libs/cairo abi_x86_32
+
+
+media-libs/libtxc_dxtn abi_x86_32
+x11-misc/primus abi_x86_32
+media-libs/glew abi_x86_32
+sys-apps/util-linux abi_x86_32
+x11-libs/libXt abi_x86_32
+x11-libs/libXi abi_x86_32
+x11-libs/libXmu abi_x86_32
+x11-libs/libICE abi_x86_32
+media-libs/glu abi_x86_32
+virtual/glu abi_x86_32
+x11-libs/libSM abi_x86_32
+media-libs/libsdl2 abi_x86_32
+x11-libs/libXrandr abi_x86_32
+x11-libs/libXScrnSaver abi_x86_32
+x11-proto/xineramaproto abi_x86_32
+x11-libs/libXrender abi_x86_32
+x11-proto/renderproto abi_x86_32
+x11-proto/scrnsaverproto abi_x86_32
+x11-libs/libXcursor abi_x86_32
+sys-apps/dbus abi_x86_32
+x11-proto/randrproto abi_x86_32
+x11-libs/libXinerama abi_x86_32
+media-libs/alsa-lib abi_x86_32
+# mount and blade loves multilib
+net-misc/curl abi_x86_32
+dev-util/pkgconfig abi_x86_32
+dev-libs/openssl abi_x86_32
+virtual/pkgconfig abi_x86_32
+net-nds/openldap abi_x86_32
+media-libs/libpng abi_x86_32
+dev-libs/jansson abi_x86_32
+media-libs/libsdl2 abi_x86_32
+media-libs/sdl2-mixer abi_x86_32
+media-libs/sdl2-ttf abi_x86_32
+media-libs/speex abi_x86_32
+net-misc/curl abi_x86_32
+media-libs/fontconfig abi_x86_32
+x11-libs/libXdmcp abi_x86_32
+x11-libs/libdrm abi_x86_32
+media-libs/mesa abi_x86_32
+sys-libs/libcap abi_x86_32
+x11-libs/libX11 abi_x86_32
+dev-libs/libpcre abi_x86_32
+app-arch/lz4 abi_x86_32
+dev-libs/lzo abi_x86_32
+x11-libs/pango abi_x86_32
+sys-libs/binutils-libs abi_x86_32
+media-libs/harfbuzz abi_x86_32
+x11-libs/pixman abi_x86_32
+media-gfx/graphite2 abi_x86_32
+x11-libs/libXft abi_x86_32
+x11-libs/cairo abi_x86_32
+sys-apps/tcp-wrappers abi_x86_32
+dev-qt/qtxmlpatterns abi_x86_32
+x11-proto/videoproto abi_x86_32
+virtual/mysql abi_x86_32
+dev-qt/qtwebkit abi_x86_32
+media-plugins/alsa-plugins abi_x86_32
+media-libs/gstreamer abi_x86_32
+dev-db/mariadb abi_x86_32
+dev-db/sqlite abi_x86_32
+dev-qt/qtscript abi_x86_32
+dev-libs/sni-qt abi_x86_32
+media-libs/libogg abi_x86_32
+dev-qt/qtdbus abi_x86_32
+dev-qt/qt3support abi_x86_32
+sys-libs/readline abi_x86_32
+dev-qt/qtsql abi_x86_32
+virtual/libmysqlclient abi_x86_32
+dev-lang/orc abi_x86_32
+dev-libs/libdbusmenu-qt abi_x86_32
+media-libs/gst-plugins-base abi_x86_32
+net-libs/libasyncns abi_x86_32
+dev-qt/qtcore abi_x86_32
+media-sound/pulseaudio abi_x86_32
+dev-libs/json-c abi_x86_32
+media-libs/libmng abi_x86_32
+x11-libs/libXv abi_x86_32
+media-libs/libvorbis abi_x86_32
+media-libs/libsndfile abi_x86_32
+dev-qt/qtgui abi_x86_32
+x11-libs/libXtst abi_x86_32
+media-libs/flac abi_x86_32
+x11-proto/recordproto abi_x86_32
+sys-apps/attr abi_x86_32
+dev-libs/libffi abi_x86_32
+dev-libs/nettle abi_x86_32
+>=dev-libs/wayland-1.7.0 abi_x86_32
+# wine wines about multilib
+dev-libs/icu abi_x86_32
+virtual/libintl abi_x86_32
+x11-libs/libXcomposite abi_x86_32
+media-libs/freetype abi_x86_32
+media-libs/lcms abi_x86_32
+virtual/jpeg abi_x86_32
+app-arch/bzip2 abi_x86_32
+dev-libs/libgcrypt abi_x86_32
+x11-proto/compositeproto abi_x86_32
+sys-devel/gettext abi_x86_32
+dev-libs/libxml2 abi_x86_32
+media-sound/mpg123 abi_x86_32
+media-libs/tiff abi_x86_32
+media-libs/fontconfig.0 abi_x86_32
+net-print/cups abi_x86_32
+media-libs/libjpeg-turbo abi_x86_32
+dev-libs/libxslt abi_x86_32
+net-libs/gnutls abi_x86_32
+dev-libs/gmp abi_x86_32
+dev-libs/libgpg-error abi_x86_32

@@ -1,0 +1,26 @@
+# required by openshot (argument)
+>=media-video/ffmpeg-2.8.5 theora
+# required by media-video/openshot-1.4.3::gentoo
+# required by openshot (argument)
+>=media-libs/mlt-0.9.0 melt python ffmpeg frei0r
+
+media-video/openshot python_single_target_python3_4
+
+# required by media-libs/libopenshot-0.1.2::gentoo[-libav]
+# required by media-video/openshot-2.1.0::gentoo
+# required by @selected
+# required by @world (argument)
+>=media-video/ffmpeg-2.8.6 vpx
+# required by dev-python/PyQt5-5.5.1::gentoo[webkit]
+# required by media-video/openshot-2.1.0::gentoo
+# required by @selected
+# required by @world (argument)
+>=dev-qt/qtwebkit-5.6.2 printsupport
+# required by media-video/openshot-2.1.0::gentoo
+# required by @selected
+# required by @world (argument)
+>=dev-python/PyQt5-5.5.1 webkit
+# required by media-video/openshot-2.1.0::gentoo
+# required by @selected
+# required by @world (argument)
+>=media-libs/libopenshot-0.1.2 python_single_target_python3_4

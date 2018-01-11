@@ -1,0 +1,5 @@
+=app-vim/airline-0.6 ~amd64
+=app-misc/ranger-1.6.1 ~amd64
+# move app-vim/rust-mode app-vim/rust-vim
+app-vim/rust-vim ~amd64
+=app-vim/vimtex-20160324 ~amd64

@@ -1,0 +1,22 @@
+#groovy did not compile so I tried unstable
+=dev-util/netbeans-7.4 ~amd64
+
+#then netbeans needed some more usntable things
+=dev-java/netbeans-profiler-7.4 ~amd64
+=dev-java/netbeans-java-7.4 ~amd64
+=dev-java/netbeans-php-7.4 ~amd64
+=dev-java/netbeans-websvccommon-7.4 ~amd64
+=dev-java/netbeans-enterprise-7.4 ~amd64
+=dev-java/netbeans-dlight-7.4 ~amd64
+=dev-java/netbeans-extide-7.4 ~amd64
+=dev-java/netbeans-nb-7.4 ~amd64
+=dev-java/netbeans-webcommon-7.4 ~amd64
+=dev-java/netbeans-ide-7.4 ~amd64
+=virtual/jdk-1.7.0 ~amd64
+=dev-java/jsch-0.1.49 ~amd64
+=dev-java/netbeans-apisupport-7.4 ~amd64
+=dev-java/netbeans-cnd-7.4 ~amd64
+=dev-java/netbeans-platform-7.4 ~amd64
+=dev-java/netbeans-mobility-7.4 ~amd64
+=dev-java/netbeans-harness-7.4 ~amd64
+=dev-java/netbeans-groovy-7.4 ~amd64

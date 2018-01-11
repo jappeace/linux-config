@@ -1,0 +1,12 @@
+# to export invoices into latex
+app-office/gnucash python
+
+# required by dev-python/ipython-3.2.1-r1::gentoo[python_targets_python3_4]
+# required by ipython (argument)
+>=dev-lang/python-3.4.5 sqlite
+
+# required by app-office/gnucash-2.6.13::gentoo
+# required by gnucash (argument)
+>=x11-libs/goffice-0.8.17-r2:0.8 gnome 
+
+

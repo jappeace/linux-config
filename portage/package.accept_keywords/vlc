@@ -1,0 +1,5 @@
+=media-video/vlc-2.2.2 ~amd64
+# required by media-video/vlc-2.2.2::gentoo[svg]
+# required by @selected
+# required by @world (argument)
+=x11-libs/cairo-1.14.6 ~amd64

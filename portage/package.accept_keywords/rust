@@ -1,0 +1,17 @@
+# required by dev-lang/rust (argument)
+#dev-lang/rust **
+dev-lang/rust ~amd64
+virtual/rust ~amd64
+
+# required by dev-lang/rust-1.12.1::gentoo
+# required by @selected
+# required by @world (argument)
+=dev-util/cargo-0.13.0-r1 ~amd64
+# required by sys-devel/llvm-3.8.1-r2::gentoo[clang]
+# required by dev-lang/rust-1.12.1::gentoo[system-llvm]
+# required by dev-util/cargo-0.13.0-r1::gentoo
+# required by @selected
+# required by @world (argument)
+=sys-devel/clang-3.8.1-r100 ~amd64
+# required by sys-devel/clang-3.8.1-r100::gentoo
+=sys-devel/llvm-3.8.1-r2 ~amd64

@@ -1,0 +1,2 @@
+# required by qdirstat (argument)
+=sys-apps/qdirstat-1.0 ~amd64

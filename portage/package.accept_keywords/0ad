@@ -1,0 +1,10 @@
+# required by games-strategy/0ad-0.0.20_alpha::gentoo
+# required by 0ad (argument)
+games-strategy/0ad-data ~amd64
+# required by 0ad (argument)
+games-strategy/0ad ~amd64
+
+# required by games-strategy/0ad-0.0.22_alpha::gentoo[lobby]
+# required by @selected
+# required by @world (argument)
+=net-libs/gloox-1.0.20 ~amd64

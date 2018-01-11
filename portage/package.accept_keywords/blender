@@ -1,0 +1,4 @@
+# required by @preserved-rebuild (argument)
+media-gfx/blender ~amd64
+media-libs/openimageio ~amd64
+

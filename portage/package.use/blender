@@ -1,0 +1,52 @@
+# required by media-gfx/blender-2.70a-r3
+# required by blender (argument)
+dev-cpp/glog gflags
+
+#required by a tutorial
+>=media-gfx/blender-0 cycles openimageio
+
+# required by dev-python/requests-2.12.3::gentoo
+# required by media-gfx/blender-2.78a::gentoo
+# required by blender (argument)
+>=dev-python/pyopenssl-16.2.0 python_targets_python3_5
+# required by dev-python/requests-2.12.3::gentoo
+# required by media-gfx/blender-2.78a::gentoo
+# required by blender (argument)
+>=dev-python/py-1.4.31 python_targets_python3_5
+# required by dev-python/requests-2.12.3::gentoo
+# required by media-gfx/blender-2.78a::gentoo
+# required by blender (argument)
+>=dev-python/chardet-2.3.0 python_targets_python3_5
+# required by media-gfx/blender-2.78a::gentoo
+# required by blender (argument)
+>=dev-python/requests-2.12.3 python_targets_python3_5
+# required by dev-python/urllib3-1.19::gentoo
+# required by dev-python/requests-2.12.3::gentoo
+# required by media-gfx/blender-2.78a::gentoo
+# required by blender (argument)
+>=dev-python/setuptools-28.8.0 python_targets_python3_5
+# required by dev-python/requests-2.12.3::gentoo
+# required by media-gfx/blender-2.78a::gentoo
+# required by blender (argument)
+>=dev-python/ndg-httpsclient-0.4.2 python_targets_python3_5
+# required by dev-python/requests-2.12.3::gentoo
+# required by media-gfx/blender-2.78a::gentoo
+# required by blender (argument)
+>=dev-python/urllib3-1.19 python_targets_python3_5
+# required by media-gfx/blender-2.78a::gentoo
+# required by blender (argument)
+>=dev-python/numpy-1.11.2-r1 python_targets_python3_5
+# required by dev-python/requests-2.12.3::gentoo
+# required by media-gfx/blender-2.78a::gentoo
+# required by blender (argument)
+>=dev-python/cryptography-1.6 python_targets_python3_5
+# required by dev-python/setuptools-28.8.0::gentoo
+# required by dev-python/urllib3-1.19::gentoo
+# required by dev-python/requests-2.12.3::gentoo
+# required by media-gfx/blender-2.78a::gentoo
+# required by blender (argument)
+>=dev-python/certifi-2016.9.26 python_targets_python3_5
+# required by dev-python/requests-2.12.3::gentoo
+# required by media-gfx/blender-2.78a::gentoo
+# required by blender (argument)
+>=dev-python/idna-2.1 python_targets_python3_5

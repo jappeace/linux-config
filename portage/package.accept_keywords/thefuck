@@ -1,0 +1,5 @@
+# seems permanently unstable
+app-shells/thefuck ~amd64
+# required by app-shells/thefuck-3.14::gentoo[python_targets_python2_7]
+# required by thefuck (argument)
+=dev-python/pathlib2-2.1.0 ~amd64

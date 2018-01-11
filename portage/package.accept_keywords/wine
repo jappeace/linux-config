@@ -1,0 +1,7 @@
+app-emulation/winetricks ~amd64
+
+# required by wine-d3d9 (argument)
+app-emulation/wine-d3d9 ~amd64
+# required by app-emulation/wine-d3d9-2.19::gentoo[mono]
+# required by wine-d3d9 (argument)
+=app-emulation/wine-mono-4.7.1 ~amd64

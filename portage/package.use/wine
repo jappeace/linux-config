@@ -1,0 +1,19 @@
+>=dev-libs/elfutils-0.158 static-libs
+
+>=dev-libs/libxslt-1.1.30-r2 abi_x86_32
+# required by app-emulation/wine-d3d9-2.19::gentoo[ldap]
+# required by wine-d3d9 (argument)
+>=net-nds/openldap-2.4.44 abi_x86_32
+# required by app-emulation/wine-d3d9-2.19::gentoo[lcms]
+# required by wine-d3d9 (argument)
+>=media-libs/lcms-2.9 abi_x86_32
+# required by app-emulation/wine-d3d9-2.19::gentoo
+# required by wine-d3d9 (argument)
+>=media-libs/mesa-17.1.10 d3d9
+# required by app-emulation/wine-d3d9-2.19::gentoo[mp3]
+# required by wine-d3d9 (argument)
+>=media-sound/mpg123-1.25.6 abi_x86_32
+# required by app-emulation/wine-d3d9-2.19::gentoo[gecko]
+# required by wine-d3d9 (argument)
+>=app-emulation/wine-gecko-2.47-r1 abi_x86_32
+virtual/wine d3d9

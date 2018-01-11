@@ -1,0 +1,2 @@
+#Flash has no sound so I tried having plugins
+media-plugins/alsa-plugins pulseaudio
