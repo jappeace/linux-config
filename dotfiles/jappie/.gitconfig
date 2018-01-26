@@ -1,0 +1,24 @@
+[push]
+	default = simple
+[user]
+	email = jappieklooster@hotmail.com
+	name = Jappie Klooster
+	signingkey = 326504E64551A7FBD430E278FDA7B87746B63326
+[color]
+	ui = true
+[alias]
+	lol = log --oneline --graph --decorate
+	st = status
+	co = commit
+	co = commit
+	cm = commit
+[merge]
+	tool = ediff
+[mergetool "ediff"]
+	cmd = emacsclient -c --eval \"(git-mergetool-emacsclient-ediff \\\"$LOCAL\\\" \\\"$REMOTE\\\" \\\"$BASE\\\" \\\"$MERGED\\\")\"
+	trustExitCode = true
+	keepBackup = false
+[core]
+	autocrlf = false
+[commit]
+	#gpgsign = true
