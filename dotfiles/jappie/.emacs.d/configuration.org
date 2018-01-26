@@ -124,10 +124,15 @@ Source [[https://www.emacswiki.org/emacs/FlySpell][here.]]
   js-indent-level 2)
 #+END_SRC
 
- width
+*** width
 #+BEGIN_SRC emacs-lisp
 (define-globalized-minor-mode global-fci-mode fci-mode (lambda () (fci-mode 1)))
 (global-fci-mode 1)
+#+END_SRC
+
+*** Stupid trailing comma warning
+#+BEGIN_SRC emacs-lisp
+(setq-default js2-strict-trailing-comma-warning nil)
 #+END_SRC
 
 * Org mode
@@ -366,6 +371,8 @@ Just use company everywhere:
                                  flycheck-checker-error-threshold 400
                                  flycheck-pylintrc "~/.pylintrc")))
 #+END_SRC
+
+** JS
 
 * Git mergetool
 Setup ediff (works in combo with gitconfig)
