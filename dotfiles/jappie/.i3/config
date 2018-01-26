@@ -166,9 +166,9 @@ bindsym $mod+Shift+r restart
 bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'Should I close this session sir?' -b 'Yes..' 'i3-msg exit'"
 
 # screenshot
-bindsym --release $mod+c exec screenshot scr
+bindsym --release $mod+c exec gnome-screenshot -c
 
-bindsym --release $mod+Shift+x exec screenshot win
+bindsym --release $mod+Shift+x exec gnome-screenshot -c -a
 # resize window (you can also use the mouse for that)
 mode "resize" {
 		# These bindings trigger as soon as you enter the resize mode
@@ -215,8 +215,8 @@ client.background \#000000
 # class					border	backgr. text	indicator
 
 #bind brightness ctl
-bindsym $mod+z exec brightness-
-bindsym $mod+x exec brightness+
+bindsym XF86MonBrightnessDown exec brightness-
+bindsym XF86MonBrightnessUp exec brightness+
 bindsym $mod+Shift+s exec sudo sleep-memory
 bindsym $mod+Shift+z exec --no-startup-id /home/jappie/bin/monitor
 bindsym $mod+Shift+a exec --no-startup-id /home/jappie/bin/monitor-2
@@ -255,4 +255,4 @@ client.focused_inactive #333333 #5f676a #ffffff #484e50
 client.unfocused #222222 #222222 #888888 #292d2e
 client.urgent #2f343a #900000 #ffffff #900000
 
-exec --no-startup-id while true; do feh --bg-scale `files=(Pictures/wallpapers/*); printf "%s\n" "${files[RANDOM % ${#files[@]}]}"`; sleep 600; done
+exec --no-startup-id while true; do feh --bg-scale `files=(Afbeeldingen/wallpapers/*); printf "%s\n" "${files[RANDOM % ${#files[@]}]}"`; sleep 600; done
