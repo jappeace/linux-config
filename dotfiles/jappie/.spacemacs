@@ -77,7 +77,6 @@ values."
      latex
      html
      django
-     javascript
      react
      haskell
      sql

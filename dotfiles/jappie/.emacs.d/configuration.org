@@ -135,6 +135,10 @@ Source [[https://www.emacswiki.org/emacs/FlySpell][here.]]
 (setq-default js2-strict-trailing-comma-warning nil)
 #+END_SRC
 
+*** Just use react mode for javascript, it'll connect to webpack
+#+BEGIN_SRC emacs-lisp
+(add-to-list 'auto-mode-alist '("\\.js\\'" . react-mode))
+#+END_SRC
 * Org mode
 ** Shiny org
 Having + instead of ...
