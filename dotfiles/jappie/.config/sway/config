@@ -9,8 +9,8 @@
 #
 # Please see http://i3wm.org/docs/userguide.html for a complete reference!
 
-# set $mod Ctrl 
-set $mod Alt
+set $mod Mod1
+
 # Font for window titles. Will also be used by the bar unless a different font
 # is used in the bar {} block below. ISO 10646 = Unicode
 font -misc-fixed-medium-r-normal--13-120-75-75-C-70-iso10646-1
@@ -21,16 +21,29 @@ font -misc-fixed-medium-r-normal--13-120-75-75-C-70-iso10646-1
 # font pango:DejaVu Sans Mono 10
 
 # Use Mouse+$mod to drag floating windows to their wanted position
-
+bindsym --release $mod+Ctrl+e exec --no-startup-id "xdotool keyup ctrl keyup alt type --delay 5 jappieklooster@hotmail.com"
+bindsym --release $mod+Ctrl+o exec --no-startup-id "xdotool keyup ctrl keyup alt type --delay 5 jappie@openlearning.com"
+bindsym --release $mod+Ctrl+p exec --no-startup-id "xdotool keyup ctrl keyup alt type --delay 5 0031522\ 471280"
+bindsym --release $mod+Ctrl+m exec --no-startup-id "xdotool keyup ctrl keyup alt type --delay 5 00316\ 40166188"
+bindsym --release $mod+Ctrl+i exec --no-startup-id "xdotool keyup ctrl keyup alt type --delay 5 00628\ 7763810853"
+bindsym --release $mod+Ctrl+a exec --no-startup-id "xdotool keyup ctrl keyup alt type --delay 5 0061\ 452476854"
+bindsym --release $mod+Ctrl+s exec --no-startup-id "xdotool keyup ctrl keyup alt type --delay 5 Kerkdijk\ 2"
+bindsym --release $mod+Ctrl+c exec --no-startup-id "xdotool keyup ctrl keyup alt type --delay 5 The\ Netherlands"
+bindsym --release $mod+Ctrl+d exec --no-startup-id "xdotool keyup ctrl keyup alt type --delay 5 Drenthe"
+bindsym --release $mod+Ctrl+l exec --no-startup-id "xdotool keyup ctrl keyup alt type --delay 5 Ansen"
+bindsym --release $mod+Ctrl+z exec --no-startup-id "xdotool keyup ctrl keyup alt type --delay 5 7964KB"
+bindsym --release $mod+Ctrl+n exec --no-startup-id "xdotool keyup ctrl keyup alt type --delay 5 Jappie\ Klooster"
+bindsym --release $mod+Ctrl+1 exec --no-startup-id "xdotool keyup ctrl keyup alt type --delay 5 Jappie"
+bindsym --release $mod+Ctrl+2 exec --no-startup-id "xdotool keyup ctrl keyup alt type --delay 5 Klooster"
 
 # start a terminal
-bindsym $mod+Return exec konsole
+bindsym $mod+Return exec gnome-terminal
 
 # kill focused window
 bindsym $mod+Shift+q kill
 
 # start dmenu (a program launcher)
-bindsym $mod+d exec dmenu_run
+bindsym $mod+d exec synapse
 # There also is the (new) i3-dmenu-desktop which only displays applications
 # shipping a .desktop file. It is a wrapper around dmenu, so you need that
 # installed.
@@ -152,10 +165,10 @@ bindsym $mod+Shift+r restart
 # exit i3 (logs you out of your X session)
 bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'Should I close this session sir?' -b 'Yes..' 'i3-msg exit'"
 
-# screnshot
-bindsym --release $mod+c exec screenshot scr
+# screenshot
+bindsym --release $mod+c exec gnome-screenshot -c
 
-bindsym --release $mod+Shift+x exec screenshot win
+bindsym --release $mod+Shift+x exec gnome-screenshot -c -a
 # resize window (you can also use the mouse for that)
 mode "resize" {
 		# These bindings trigger as soon as you enter the resize mode
@@ -173,35 +186,40 @@ mode "resize" {
 		bindsym Return mode "default"
 		bindsym Escape mode "default"
 }
-
-bindsym $mod+o mode "resize"
+bindsym --release $mod+i exec emacsclient -c
 
 # Start i3bar to display a workspace bar (plus the system information i3status
 # finds out, if available)
-bar {
-	status_command i3status
-	colors {
-		background #073642
-		statusline #eee8d5
-		focused_workspace #cb4b16 #cb4b16 #eee8d5
-		active_workspace #cb4b16 #cb4b16 #eee8d5
-		inactive_workspace #b58900 #b58900 #eee8d5
-	}
-}
+# bar {
+# status_command i3status
+# colors {
+#   separator #666666
+#   background #000000
+#   statusline #ffffff
+#   focused_workspace #551a8b #551a8b #ffffff
+#   active_workspace #333333 #5f676a #ffffff
+#   inactive_workspace #000000 #000000 #888888
+#   urgent_workspace #2f343a #900000 #ffffff
+# }
+#}
+exec --no-startup-id xfce4-panel --disable-wm-check
+
 assign [class="Steam"] $w1
-assign [class="Transmission-qt"] $w1
-assign [class="Chromium"] $w9
+assign [class="transmission" instance="transmission-qt" title="Transmission"] $w1
+assign [class="Deluge"] $w1
+assign [class="Chromium"] $w8
+assign [class="ksysguard"] $w10
+assign [class="keepassxc"] $wf8
 
 client.background \#000000
 # class					border	backgr. text	indicator
-client.focused			#4c7899 #285577 #ffffff #2e9ef4
-client.focused_inactive #333333 #5f676a #ffffff #484e50
-client.unfocused		#333333 #222222 #888888 #292d2e
-client.urgent			#2f343a #900000 #ffffff #900000
 
 #bind brightness ctl
-bindsym $mod+z exec brightness-
-bindsym $mod+x exec brightness+
+bindsym XF86MonBrightnessDown exec brightness-
+bindsym XF86MonBrightnessUp exec brightness+
+bindsym $mod+Shift+s exec sudo sleep-memory
+bindsym $mod+Shift+z exec --no-startup-id /home/jappie/bin/monitor
+bindsym $mod+Shift+a exec --no-startup-id /home/jappie/bin/monitor-2
 
 #bindsym $mod+Shift+i exec sudo reboot
 
@@ -211,13 +229,30 @@ bindsym $mod+n exec xcalib -i -a
 #bind browser to b, use new window otherwise it'l complain
 bindsym $mod+b exec firefox -new-window
 
+#block hosts if I'm slacking to much
+bindsym $mod+Shift+b exec sudo hostblock -b
+
 #invert colors
 #not necisary with kde
 #exec xcalib -i -a
 #startup some applications
 #exec i3-msg 'workspace $w1;exec dropbox; exec dbus-launch nm-applet &'
-exec i3-msg 'exec dbus-launch nm-applet &'
-exec i3-msg 'exec fcitx' #type chinese
-exec i3-msg 'workspace '$wf1'; exec thunderbird; workspace '$w9'; exec firefox; workspace '$w10'; exec konsole -x htop; workspace '$w10'; exec ksysguard; workspace '$w1';exec transmission-qt'
+exec dbus-launch nm-applet &
+exec fcitx
+
+# exec i3-msg 'workspace $wf1; exec thunderbird' #... disabled cuase its addicting
+exec i3-msg 'workspace $w9; exec firefox'
+exec i3-msg 'workspace $w10;exec ksysguard'
+# exec i3-msg 'workspace $w1; exec deluge'
+exec i3-msg 'workspace $wf8; exec keepassxc'
+# exec i3-msg 'workspace $w2;exec konsole'
+# exec i3-msg 'workspace $w3;exec dolphin'
 #exec i3-msg 'workspace $w1;exec steam'
-exec sudo brightness 1500
+exec sudo brightness 500
+
+client.focused #3b1261 #3b1261 #ffffff #662b9c
+client.focused_inactive #333333 #5f676a #ffffff #484e50
+client.unfocused #222222 #222222 #888888 #292d2e
+client.urgent #2f343a #900000 #ffffff #900000
+
+exec --no-startup-id while true; do feh --bg-scale `files=(Afbeeldingen/wallpapers/*); printf "%s\n" "${files[RANDOM % ${#files[@]}]}"`; sleep 600; done
