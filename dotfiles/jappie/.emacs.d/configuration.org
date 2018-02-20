@@ -356,8 +356,12 @@ I gues this fixed it.
    Disable because it's on save
 #+BEGIN_SRC emacs-lisp
   (add-hook 'js2-mode-hook 'prettier-js-mode)
-  (add-hook 'web-mode-hook 'prettier-js-mode)
   (add-hook 'react-mode-hook 'prettier-js-mode)
+#+END_SRC
+
+Disable it for web mode because it breaks prettier
+#+BEGIN_SRC emacs-lisp
+  ;(add-hook 'web-mode-hook 'prettier-js-mode)
 #+END_SRC
 * Layers
 ** Auto complete
