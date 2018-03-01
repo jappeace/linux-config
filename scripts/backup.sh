@@ -1,35 +1,63 @@
-#! /bin/bash
+#!/bin/bash
+PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+date=$(date +%Y-%m-%d)
 
-if [ "$(id -u)" != "0" ]; then
-   echo "This script must be run as root" 1>&2
-   exit 1
-fi
+# the path to the partition mount point that we are backing up
+source_partition=/
 
-MOUNTEDFOLDER=/mnt/bigstore
-BACKUPFOLDER=$MOUNTEDFOLDER/backup
-if mount | grep $MOUNTEDFOLDER > /dev/null; then
+# where backup snapshots will be stored on the local partition
+# this is needed for incremental backups
+source_snapshot_dir=/var/local/snapshots
+
+# where backups will be stored on the backup drive
+target_snapshot_dir=/mnt/bigstore
+
+if mount | grep $target_snapshot_dir > /dev/null; then
     echo "drive mounted"
 else
     echo "drive not mounted, please mount a drive at $MOUNTEDFOLDER"
 
 	exit 126
 fi
-OLDLABEL=.old
 
-echo "deleting old old backup"
-rm -rf "$BACKUPFOLDER$OLDLABEL"
-echo "copying old backup to be perserved"
-mv "$BACKUPFOLDER" "$BACKUPFOLDER$OLDLABEL"
-mkdir -p BACKUPFOLDER
+if [ ! -d $source_snapshot_dir ]; then
+    echo 'Creating initial snapshot...'
+    mkdir --parents $source_snapshot_dir $target_snapshot_dir
 
-echo "mounting boot"
-mount /dev/sda2 /boot
+    # create a read-only snapshot on the local disk
+    btrfs subvolume snapshot -r $source_partition $source_snapshot_dir/$date
 
-echo "doing the backup"
-rsync -aAXv --exclude={"/dev/*","/proc/*","/sys/*","/tmp/*","/run/*","/mnt/*","/media/*","/lost+found"} / $BACKUPFOLDER
+    # clone the snapshot as a new subvolume on the backup drive
+    # you could also pipe this through ssh to back up to a remote machine
+    btrfs send $source_snapshot_dir/$date | pv | \
+        btrfs receive $target_snapshot_dir
+elif [ ! -d $source_snapshot_dir/$date ]; then
+    echo 'Creating root volume snapshot...'
 
-echo "unmounting boot"
-umount /boot
+    # create a read-only snapshot on the local disk
+    btrfs subvolume snapshot -r $source_partition $source_snapshot_dir/$date
+
+    # get the most recent snapshot
+    previous=$(ls --directory $source_snapshot_dir/* | tail -n 1)
+
+    # send (and store) only the changes since the last snapshot
+    btrfs send -p $previous $source_snapshot_dir/$date | pv | \
+        btrfs receive $target_snapshot_dir
+fi
+
+echo 'Cleaning up...'
+
+# keep the 3 most recent snapshots on the source partition
+ls --directory $source_snapshot_dir/* | \
+    head --lines=-3 | \
+    xargs --no-run-if-empty --verbose \
+    btrfs subvolume delete --commit-after
+
+# keep the 28 most recent snapshots on the backup partition
+ls --directory $target_snapshot_dir/* | \
+    head --lines=-28 | \
+    xargs --no-run-if-empty --verbose \
+    btrfs subvolume delete --commit-after
 
 echo "trying to unmount $MOUNTEDFOLDER"
-umount $MOUNTEDFOLDER
+umount $target_snapshot_dir
