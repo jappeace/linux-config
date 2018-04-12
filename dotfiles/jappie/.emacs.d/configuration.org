@@ -189,7 +189,7 @@ Load koma script exporter and letter make stuff
      \[DEFAULT-PACKAGES]
      \[PACKAGES]
      \[EXTRA]"))
-
+     (setq org-koma-letter-use-foldmarks nil)
      (setq org-koma-letter-default-class "dutch-letter")))
 #+END_SRC
 
