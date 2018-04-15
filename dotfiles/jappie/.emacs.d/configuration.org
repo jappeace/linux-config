@@ -51,6 +51,11 @@ To execute a haskell file similarly to rust and python:
 )
 #+END_SRC
 
+**** Use stack
+#+BEGIN_SRC emacs-lisp
+(setq haskell-process-type 'stack-ghci)
+(setq haskell-process-path-ghci "stack")
+#+END_SRC
 *** ESS (R) execute
 ESS, execute a file like in Rust, Haskell python ...
 #+BEGIN_SRC emacs-lisp
