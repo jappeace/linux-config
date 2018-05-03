@@ -64,4 +64,6 @@ export WINEDLLOVERRIDES='winemenubuilder.exe=d'
 # random cowsay in ansible
 export ANSIBLE_COW_SELECTION=random
 
+#nix
 source /home/jappie/.nix-profile/etc/profile.d/nix.sh
+

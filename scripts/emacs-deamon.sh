@@ -1,4 +1,5 @@
 #! /bin/bash
+set -x
 echo "starting"
 source /home/jappie/.config/shell-globals.sh
 
