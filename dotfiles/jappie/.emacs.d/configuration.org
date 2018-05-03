@@ -388,6 +388,7 @@ Just use company everywhere:
 
 ** JS
 
+** Haskell
 * Git mergetool
 Setup ediff (works in combo with gitconfig)
 

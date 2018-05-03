@@ -1,5 +1,5 @@
 #!/bin/bash
-EXTERNAL_OUTPUT="HDMI-1"
+EXTERNAL_OUTPUT="DP-1"
 INTERNAL_OUTPUT="eDP-1"
 
 # if we don't have a file, start at zero

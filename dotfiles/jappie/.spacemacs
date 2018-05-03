@@ -79,7 +79,10 @@ values."
      html
      django
      react
-     haskell
+     (haskell :variables
+              haskell-completion-backend 'intero
+              ; haskell-enable-hindent-style "johan-tibell"
+      )
      sql
      elm
      ocaml
