@@ -358,7 +358,7 @@ I gues this fixed it.
 #+END_SRC
 
 ** prettier JS
-   Disable because it's on save
+Enable prettier everything, on save is pretty nice
 #+BEGIN_SRC emacs-lisp
   (add-hook 'js2-mode-hook 'prettier-js-mode)
   (add-hook 'react-mode-hook 'prettier-js-mode)
