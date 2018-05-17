@@ -368,6 +368,10 @@ Disable it for web mode because it breaks prettier
 #+BEGIN_SRC emacs-lisp
   ;(add-hook 'web-mode-hook 'prettier-js-mode)
 #+END_SRC
+** Accept UTF-8 as utf-8
+#+BEGIN_SRC emacs-lisp
+(define-coding-system-alias 'UTF-8 'utf-8)
+#+END_SRC
 * Layers
 ** Auto complete
 Just use company everywhere:
