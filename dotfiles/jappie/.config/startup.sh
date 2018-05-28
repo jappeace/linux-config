@@ -45,3 +45,5 @@ man() { # this is suposzed to colirize man.. doesn't work though
         LESS_TERMCAP_us="$(printf "\e[1;32m")" \
         man "${@}"
 }
+
+alias sl='tree -I "node_modules|android|ios"'
