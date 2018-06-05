@@ -36,7 +36,7 @@
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
-     wget vim networkmanagerapplet nix-repl git firefox emacs keepassxc
+     wget vim networkmanagerapplet nix-repl git firefox emacs keepassxc syncthing tree
   ];
 
 
@@ -46,6 +46,8 @@
   # programs.mtr.enable = true;
   programs.gnupg.agent = { enable = true; enableSSHSupport = true; };
   programs.vim.defaultEditor = true;
+
+  services.emacs.enable = true; # deamon mode
 
   # List services that you want to enable:
 
