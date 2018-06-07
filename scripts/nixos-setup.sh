@@ -1,7 +1,8 @@
-#! bash
+#! /run/current-system/sw/bin/bash
 echo "Basic nixos setup assuming this repository is used"
 echo "Hardlink to the configuration.nix in this repo, "
 echo "create symlink to dotfiles"
+echo "Clones spacemacs and oh-my-zsh into their respective folders"
 read -p "Press enter to continue"
 set -xe
 
@@ -31,3 +32,10 @@ mkdir -p $HOME/.config
 ln -sf $CONFIG/shell-globals.sh $HOME/.config/
 ln -sf $CONFIG/startup.sh $HOME/.config/
 ln -sf $CONFIG/zsh-hacks.sh $HOME/.config/
+ln -sf $USER/.emacs.d/configuration.org $HOME/.config/
+
+# TODO these clone commands should be done by the configuration.nix file instead
+# we probably should find a better shell than oh-my-zsh (xonsh?)
+git clone https://github.com/robbyrussell/oh-my-zsh.git $HOME/.oh-my-zsh || echo "didn't clone oh my zsh, already there"
+# we probably actually should go native emacs at some point.
+git clone https://github.com/syl20bnr/spacemacs $HOME/.emacs.d || echo "didn't clone spacemacs, already there"

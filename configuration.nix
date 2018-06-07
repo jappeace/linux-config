@@ -49,7 +49,6 @@
 		 syncthing # keepassfile in here
 		 tree # sl
 		 gnome3.gnome-terminal # resizes collumns, good for i3
-		 fasd # z
 		 xfce4-panel xfce4-battery-plugin xfce4-clipman-plugin
 		 xfce4-datetime-plugin xfce4-dockbarx-plugin xfce4-embed-plugin
 		 xfce4-eyes-plugin xfce4-fsguard-plugin xfce4-pulseaudio-plugin
@@ -58,6 +57,7 @@
 		 xlibs.xmodmap # rebind capslock to escape
 		 xdotool # i3 auto type
 		 blackbird lxappearance # theme
+		 fasd cowsay fortune thefuck # zsh stuff
 	  ];
 	  shellAliases = { vim = "nvim"; };
   };
@@ -134,7 +134,7 @@
     home = "/home/jappie";
     isNormalUser = true;
     uid = 1000;
-    # shell = pkgs.zsh;
+    shell = pkgs.zsh;
   };
 
   # This value determines the NixOS release with which your system is to be
