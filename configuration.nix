@@ -21,8 +21,8 @@
   ];
 
   networking.hostName = "private-jappie-nixos"; # Define your hostname.
-  networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
-  # networking.networkmanager.enable = true;
+  # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
+  networking.networkmanager.enable = true;
 
   # Select internationalisation properties.
   i18n = {
@@ -36,9 +36,37 @@
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
-  environment.systemPackages = with pkgs.xfce // pkgs; [
-     wget vim networkmanagerapplet nix-repl git firefox emacs keepassxc syncthing tree gnome3.gnome-terminal fasd xfce4-panel xfce4-power-manager
-  ];
+  environment = {
+	  systemPackages = with pkgs.xfce // pkgs; [
+		 curl
+		 neovim # because emacs never breaks
+		 networkmanagerapplet
+		 nix-repl
+		 git
+		 firefox
+		 emacs
+		 keepassxc # to open my passwords
+		 syncthing # keepassfile in here
+		 tree # sl
+		 gnome3.gnome-terminal # resizes collumns, good for i3
+		 fasd # z
+		 xfce4-panel
+		 xfce4-battery-plugin
+		 xfce4-clipman-plugin
+		 xfce4-datetime-plugin
+		 xfce4-dockbarx-plugin
+		 xfce4-embed-plugin
+		 xfce4-eyes-plugin
+		 xfce4-fsguard-plugin
+		 xfce4-pulseaudio-plugin
+		 xfce4-namebar-plugin
+		 xfce4-whiskermenu-plugin
+		 rofi # dmenu replacement (fancy launcher)
+		 xlibs.xmodmap # rebind capslock to escape
+		 xdotool # i3 auto type
+	  ];
+	  shellAliases = { vim = "nvim"; };
+  };
 
   services.gnome3.gnome-terminal-server.enable = true;
 
@@ -67,8 +95,8 @@
   # services.printing.enable = true;
 
   # Enable sound.
-  # sound.enable = true;
-  # hardware.pulseaudio.enable = true;
+  sound.enable = true;
+  hardware.pulseaudio.enable = true;
 
   # Enable the X11 windowing system.
   # services.xserver.enable = true;
@@ -84,10 +112,16 @@
       tapping = true;
       disableWhileTyping = true;
     };
+	desktopManager.xfce.enable = true;
     windowManager.i3.enable = true;
     windowManager.default = "i3";
     enable = true;
     layout = "us";
+  };
+
+  services.redshift = {
+  	enable = true;
+	provider = "geoclue2";
   };
 
   # Enable touchpad support.
