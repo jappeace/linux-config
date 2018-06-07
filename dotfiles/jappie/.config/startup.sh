@@ -32,7 +32,8 @@ fortune | cowsay -W 35 ${cow_mode[$rng]} -f $cowfile
 # work
 export WORKON_HOME=$HOME/.virtualenvs
 export PROJECT_HOME=$HOME/Devel
-source /usr/bin/virtualenvwrapper.sh
+# we'll use nix or shit
+# source /usr/bin/virtualenvwrapper.sh
 
 man() { # this is suposzed to colirize man.. doesn't work though
     env \
