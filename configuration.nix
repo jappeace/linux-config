@@ -21,7 +21,8 @@
   ];
 
   networking.hostName = "private-jappie-nixos"; # Define your hostname.
-  networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
+  # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
+  networking.networkmanager.enable = true;
 
   # Select internationalisation properties.
   i18n = {
@@ -35,9 +36,11 @@
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
-  environment.systemPackages = with pkgs; [
-     wget vim networkmanagerapplet nix-repl git firefox emacs keepassxc syncthing tree
+  environment.systemPackages = with pkgs.xfce // pkgs; [
+     wget vim networkmanagerapplet nix-repl git firefox emacs keepassxc syncthing tree gnome3.gnome-terminal fasd xfce4-panel xfce4-power-manager
   ];
+
+  services.gnome3.gnome-terminal-server.enable = true;
 
 
   # Some programs need SUID wrappers, can be configured further or are
