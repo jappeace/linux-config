@@ -50,20 +50,14 @@
 		 tree # sl
 		 gnome3.gnome-terminal # resizes collumns, good for i3
 		 fasd # z
-		 xfce4-panel
-		 xfce4-battery-plugin
-		 xfce4-clipman-plugin
-		 xfce4-datetime-plugin
-		 xfce4-dockbarx-plugin
-		 xfce4-embed-plugin
-		 xfce4-eyes-plugin
-		 xfce4-fsguard-plugin
-		 xfce4-pulseaudio-plugin
-		 xfce4-namebar-plugin
-		 xfce4-whiskermenu-plugin
+		 xfce4-panel xfce4-battery-plugin xfce4-clipman-plugin
+		 xfce4-datetime-plugin xfce4-dockbarx-plugin xfce4-embed-plugin
+		 xfce4-eyes-plugin xfce4-fsguard-plugin xfce4-pulseaudio-plugin
+		 xfce4-namebar-plugin xfce4-whiskermenu-plugin # xfce plugins
 		 rofi # dmenu replacement (fancy launcher)
 		 xlibs.xmodmap # rebind capslock to escape
 		 xdotool # i3 auto type
+		 blackbird lxappearance # theme
 	  ];
 	  shellAliases = { vim = "nvim"; };
   };
@@ -112,7 +106,8 @@
       tapping = true;
       disableWhileTyping = true;
     };
-	desktopManager.xfce.enable = true;
+    desktopManager.xfce.enable = true; # for the xfce-panel in i3
+    desktopManager.gnome3.enable = true; # to get the themes working with gnome-tweak tool
     windowManager.i3.enable = true;
     windowManager.default = "i3";
     enable = true;
@@ -139,6 +134,7 @@
     home = "/home/jappie";
     isNormalUser = true;
     uid = 1000;
+    # shell = pkgs.zsh;
   };
 
   # This value determines the NixOS release with which your system is to be
