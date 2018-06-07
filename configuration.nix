@@ -10,6 +10,7 @@
       ./hardware-configuration.nix
     ];
 
+  nixpkgs.config.allowUnfree = true; # I'm horrible, nvidia sucks, TODO kill nvidia
   # Use the systemd-boot EFI boot loader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
@@ -92,12 +93,14 @@
   sound.enable = true;
   hardware.pulseaudio.enable = true;
 
+  hardware.bumblebee.enable = true;
+
   # Enable the X11 windowing system.
   # services.xserver.enable = true;
   # services.xserver.layout = "us";
   # services.xserver.xkbOptions = "eurosign:e";
   services.xserver = {
-    autorun = true;
+    autorun = false;
     displayManager.slim = {
       defaultUser = "jappie";
     };
@@ -107,7 +110,7 @@
       disableWhileTyping = true;
     };
     desktopManager.xfce.enable = true; # for the xfce-panel in i3
-    desktopManager.gnome3.enable = true; # to get the themes working with gnome-tweak tool
+    # desktopManager.gnome3.enable = true; # to get the themes working with gnome-tweak tool
     windowManager.i3.enable = true;
     windowManager.default = "i3";
     enable = true;
