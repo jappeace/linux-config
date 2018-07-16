@@ -314,12 +314,6 @@ Switch entry to DONE when all subentries are done, to TODO otherwise.
 (add-hook 'org-after-todo-statistics-hook 'org-summary-todo)
 #+END_SRC
 
-** Fix funny chars in revealjs
-https://www.reddit.com/r/emacs/comments/2b5x5g/funny_characters_appended_at_new_line_to_source/
-#+BEGIN_SRC emacs-lisp
-(when (require 'fill-column-indicator nil 'noerror)
-    (fci-mode -1))
-#+END_SRC
 * Emacs behavior
 Don't lock dammit! Its a bad hack to prevent race conditions anyway,
 besides the kernel should figure this out. and this way I don't
