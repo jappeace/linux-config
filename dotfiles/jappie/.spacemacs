@@ -81,8 +81,9 @@ values."
      django
      react
      (haskell :variables
-              haskell-completion-backend 'intero
-              haskell-enable-hindent-style "johan-tibell")
+              ;haskell-completion-backend 'intero
+              haskell-enable-hindent-style "johan-tibell"
+              )
      sql
      elm
      ocaml
