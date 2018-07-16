@@ -84,21 +84,32 @@ Pull quickly
   "gf" 'magit-pull
 )
 #+END_SRC
-** Change between english/dutch
-I often have to cycle between these two, define f8 to do that for me.
-Source [[https://www.emacswiki.org/emacs/FlySpell][here.]]
-#+BEGIN_SRC emacs-lisp
-  (defun fd-switch-dictionary()
-    (interactive)
-    (let* ((dic ispell-current-dictionary)
-        (change (if (string= dic "dutch") "english" "dutch")))
-      (ispell-change-dictionary change)
-      (message "Dictionary switched from %s to %s" dic change)
-      ))
+** Spell
+*** Change between english/dutch
+ I often have to cycle between these two, define f8 to do that for me.
+ Source [[https://www.emacswiki.org/emacs/FlySpell][here.]]
+ #+BEGIN_SRC emacs-lisp
+   (defun fd-switch-dictionary()
+     (interactive)
+     (let* ((dic ispell-current-dictionary)
+         (change (if (string= dic "dutch") "english" "dutch")))
+       (ispell-change-dictionary change)
+       (message "Dictionary switched from %s to %s" dic change)
+       ))
 
-  (global-set-key (kbd "<f8>")   'fd-switch-dictionary)
-  (setq ispell-dictionary "en_US")
-#+END_SRC
+   (global-set-key (kbd "<f8>")   'fd-switch-dictionary)
+   (setq ispell-dictionary "en_US")
+ #+END_SRC
+
+*** Fix dict not found
+appearantly I need to tell emacs to use this now
+ #+BEGIN_SRC emacs-lisp
+   (setq ispell-program-name "aspell")
+ #+END_SRC
+ Seemed like a good idea while I'm at it:
+ #+BEGIN_SRC emacs-lisp
+   (setq ispell-extra-args '("--sug-mode=ultra"))
+ #+END_SRC
 * Shiny
 ** Lambda to \lambda
   #+BEGIN_SRC emacs-lisp
@@ -303,6 +314,12 @@ Switch entry to DONE when all subentries are done, to TODO otherwise.
 (add-hook 'org-after-todo-statistics-hook 'org-summary-todo)
 #+END_SRC
 
+** Fix funny chars in revealjs
+https://www.reddit.com/r/emacs/comments/2b5x5g/funny_characters_appended_at_new_line_to_source/
+#+BEGIN_SRC emacs-lisp
+(when (require 'fill-column-indicator nil 'noerror)
+    (fci-mode -1))
+#+END_SRC
 * Emacs behavior
 Don't lock dammit! Its a bad hack to prevent race conditions anyway,
 besides the kernel should figure this out. and this way I don't
