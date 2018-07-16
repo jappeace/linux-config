@@ -1,4 +1,5 @@
 # set -o vi
+alias cp="cp --reflink=auto"
 
 # fuck helps with wrongly typed commands
 eval "$(thefuck --alias)"
