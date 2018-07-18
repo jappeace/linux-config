@@ -255,8 +255,12 @@ To use chinese we need to use xelatex instead of pdflatex
   The jar is installed trough portage.
   #+BEGIN_SRC emacs-lisp
     (setq org-plantuml-jar-path
-          (expand-file-name "/usr/share/plantuml/lib/plantuml.jar"))
+          (expand-file-name "/usr/share/java/plantuml.jar"))
   #+END_SRC
+
+  #+RESULTS:
+  : /usr/bin/plantuml
+
 examples on usage can be found [[https://raw.githubusercontent.com/dfeich/org-babel-examples/master/plantuml/plantuml-babel.org][here.]]
 
 ** table captions below table
