@@ -68,7 +68,7 @@ values."
             spell-checking-enable-by-default nil ;(disable for large buffers)
             )
      (syntax-checking :variables
-                      ;syntax-checking-enable-by-default nil
+                      syntax-checking-enable-by-default nil
                       )
      (rust :variables
            rust-format-on-save t
@@ -81,7 +81,7 @@ values."
      django
      react
      (haskell :variables
-              haskell-completion-backend 'intero
+              ;haskell-completion-backend 'intero
               haskell-enable-hindent-style "johan-tibell")
      sql
      elm
