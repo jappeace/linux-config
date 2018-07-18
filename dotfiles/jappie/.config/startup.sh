@@ -53,5 +53,4 @@ man() { # this is suposzed to colirize man.. doesn't work though
 }
 
 command  -v tree >/dev/null 2>&1 && alias sl='tree -I "node_modules|android|ios"'
-alias cp=cp --reflink=auto
-alias sl='tree -I "node_modules|android|ios"'
+alias cp='cp --reflink=auto'
