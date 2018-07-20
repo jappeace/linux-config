@@ -518,6 +518,10 @@ Disable it for web mode because it breaks prettier
 (add-hook 'prog-mode-hook
           #'add-fira-code-symbol-keywords)
 #+END_SRC
+** Kill whitespace
+ #+BEGIN_SRC emacs-lisp
+ (add-hook 'before-save-hook 'delete-trailing-whitespace)
+ #+END_SRC
 * Layers
 ** Auto complete
 Just use company everywhere:
@@ -586,3 +590,4 @@ Setup ediff (works in combo with gitconfig)
 
 (add-hook 'ediff-after-quit-hooks 'git-mergetool-emacsclient-ediff-after-quit-hook 'append)
 #+END_SRC
+
