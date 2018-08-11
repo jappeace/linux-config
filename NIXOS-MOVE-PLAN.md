@@ -25,3 +25,6 @@ fals://github.com/gilligan/nixos-config/blob/master/configuration.nix#L114
 
 ### emacs
 https://github.com/NixOS/nixpkgs/blob/c836833c0125d31f5ec11e5121ba73f89ec4b9fa/pkgs/top-level/emacs-packages.nix
+
+### Full disk encryption blog post
+http://qfpl.io/posts/installing-nixos/
