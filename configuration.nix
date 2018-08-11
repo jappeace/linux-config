@@ -93,8 +93,8 @@
   hardware.pulseaudio.enable = true;
 
   nixpkgs.config.allowUnfree = true; # I'm horrible, nvidia sucks, TODO kill nvidia
-  hardware.bumblebee.enable = true;
-  hardware.bumblebee.connectDisplay = true;
+  # hardware.bumblebee.enable = true;
+  # hardware.bumblebee.connectDisplay = true;
 
 
   # Enable the X11 windowing system.
@@ -111,7 +111,7 @@
       tapping = true;
       disableWhileTyping = true;
     };
-    videoDrivers = [ "intel" "vesa" ];
+    videoDrivers = [ "intel" "nvidia" ];
     desktopManager.xfce.enable = true; # for the xfce-panel in i3
     # desktopManager.gnome3.enable = true; # to get the themes working with gnome-tweak tool
     windowManager.i3.enable = true;
