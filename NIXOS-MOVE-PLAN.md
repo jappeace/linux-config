@@ -22,3 +22,6 @@ script: https://gist.github.com/samdroid-apps/3723d30953af5e1d68d4ad5327e624c0
 
 ### xmodmap
 fals://github.com/gilligan/nixos-config/blob/master/configuration.nix#L114
+
+### emacs
+https://github.com/NixOS/nixpkgs/blob/c836833c0125d31f5ec11e5121ba73f89ec4b9fa/pkgs/top-level/emacs-packages.nix
