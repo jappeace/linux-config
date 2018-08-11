@@ -102,7 +102,7 @@
   # services.xserver.layout = "us";
   # services.xserver.xkbOptions = "eurosign:e";
   services.xserver = {
-    autorun = false;
+    autorun = true; # disable on troubles
     displayManager.slim = {
       defaultUser = "jappie";
     };
