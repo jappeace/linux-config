@@ -14,6 +14,11 @@ but we can keep on adding custimizations over time.
 
 ## Resources
 
+### btrfs
+
 some thread where it maybe does work: https://github.com/NixOS/nixpkgs/issues/15786
 script: https://gist.github.com/samdroid-apps/3723d30953af5e1d68d4ad5327e624c0
 
+
+### xmodmap
+fals://github.com/gilligan/nixos-config/blob/master/configuration.nix#L114
