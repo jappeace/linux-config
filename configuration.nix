@@ -3,8 +3,16 @@
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
 { config, pkgs, ... }:
-
-{
+let intero-neovim = pkgs.vimUtils.buildVimPlugin {
+    name = "intero-neovim";
+    src = pkgs.fetchFromGitHub {
+      owner = "parsonsmatt";
+      repo = "intero-neovim";
+      rev = "51999e8abfb096960ba0bc002c49be1ef678e8a9";
+      sha256 = "1igc8swgbbkvyykz0ijhjkzcx3d83yl22hwmzn3jn8dsk6s4an8l";
+    };
+  };
+in {
   imports =
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
@@ -58,10 +66,6 @@
 		 pavucontrol
 	  ];
 	  shellAliases = { vim = "nvim"; };
-	  etc."Xmodmap".text = ''
-		  remove Lock = Caps_Lock
-		  keysym Caps_Lock = Escape
-	  '';
   };
 
 
@@ -94,6 +98,43 @@
 		enablePepperPDF = true;
 	  };
 	  pulseaudio = true;
+	  packageOverrides = pkgs: {
+       neovim = pkgs.neovim.override {
+          configure = {
+          customRC = ''
+          set syntax=on
+          set autoindent
+          set autowrite
+          set smartcase
+          set showmode
+          set nowrap
+          set number
+          set nocompatible
+          set tw=80
+          set smarttab
+          set smartindent
+          set incsearch
+          set mouse=a
+          set history=10000
+          set completeopt=menuone,menu,longest
+          set wildignore+=*\\tmp\\*,*.swp,*.swo,*.git
+          set wildmode=longest,list,full
+          set wildmenu
+          set t_Co=512
+          set cmdheight=1
+          set expandtab
+          autocmd FileType haskell setlocal sw=4 sts=4 et
+          '';
+          packages.neovim2 = with pkgs.vimPlugins; {
+
+          start = [ tabular syntastic vim-nix intero-neovim neomake ctrlp
+          neoformat gitgutter];
+          opt = [ ];
+      }; 
+      };
+      };
+
+	  };
   };
   # hardware.bumblebee.enable = true;
   # hardware.bumblebee.connectDisplay = true;
