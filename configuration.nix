@@ -13,12 +13,6 @@
   # Use the systemd-boot EFI boot loader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
-  boot.initrd.luks.devices = [{
-	name = "root";
-	device = "/dev/sda2";
-	preLVM = true;
-  }
-  ];
 
   networking.hostName = "private-jappie-nixos"; # Define your hostname.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
@@ -43,7 +37,6 @@
 		 networkmanagerapplet
 		 nix-repl
 		 git
-		 firefox
 		 emacs
 		 keepassxc # to open my passwords
 		 syncthing # keepassfile in here
@@ -51,13 +44,18 @@
 		 gnome3.gnome-terminal # resizes collumns, good for i3
 		 xfce4-panel xfce4-battery-plugin xfce4-clipman-plugin
 		 xfce4-datetime-plugin xfce4-dockbarx-plugin xfce4-embed-plugin
-		 xfce4-eyes-plugin xfce4-fsguard-plugin xfce4-pulseaudio-plugin
+		 xfce4-eyes-plugin xfce4-fsguard-plugin
 		 xfce4-namebar-plugin xfce4-whiskermenu-plugin # xfce plugins
 		 rofi # dmenu replacement (fancy launcher)
 		 xlibs.xmodmap # rebind capslock to escape
 		 xdotool # i3 auto type
 		 blackbird lxappearance # theme
 		 fasd cowsay fortune thefuck # zsh stuff
+		 lsof
+		 vlc
+		 firefoxWrapper
+		 chromium
+		 pavucontrol
 	  ];
 	  shellAliases = { vim = "nvim"; };
   };
@@ -88,14 +86,35 @@
   # Enable CUPS to print documents.
   # services.printing.enable = true;
 
+
   # Enable sound.
   sound.enable = true;
-  hardware.pulseaudio.enable = true;
 
-  nixpkgs.config.allowUnfree = true; # I'm horrible, nvidia sucks, TODO kill nvidia
+  nixpkgs.config = {
+  	allowUnfree = true; # I'm horrible, nvidia sucks, TODO kill nvidia
+	  firefox = {
+		enableGoogleTalkPlugin = true;
+	  };
+	  chromium = {
+		enablePepperPDF = true;
+	  };
+	  pulseaudio = true;
+  };
   # hardware.bumblebee.enable = true;
   # hardware.bumblebee.connectDisplay = true;
+  hardware.pulseaudio = { 
+   enable = true;
+   support32Bit = true; 
+   systemWide = true;
+  };
 
+
+ #boot.tmpOnTmpfs = true;
+ #systemd.mounts = [{
+ #  where = "/tmp";
+ #  what = "tmpfs";
+ #  options = "1777,strictatime,nosuid,nodev,size=8G";
+ #}];
 
   # Enable the X11 windowing system.
   # services.xserver.enable = true;
