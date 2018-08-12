@@ -13,12 +13,6 @@
   # Use the systemd-boot EFI boot loader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
-  boot.initrd.luks.devices = [{
-	name = "root";
-	device = "/dev/sda2";
-	# preLVM = true;
-  }
-  ];
 
   networking.hostName = "private-jappie-nixos"; # Define your hostname.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
@@ -51,7 +45,7 @@
 		 gnome3.gnome-terminal # resizes collumns, good for i3
 		 xfce4-panel xfce4-battery-plugin xfce4-clipman-plugin
 		 xfce4-datetime-plugin xfce4-dockbarx-plugin xfce4-embed-plugin
-		 xfce4-eyes-plugin xfce4-fsguard-plugin xfce4-pulseaudio-plugin
+		 xfce4-eyes-plugin xfce4-fsguard-plugin
 		 xfce4-namebar-plugin xfce4-whiskermenu-plugin # xfce plugins
 		 rofi # dmenu replacement (fancy launcher)
 		 xlibs.xmodmap # rebind capslock to escape
@@ -59,8 +53,7 @@
 		 blackbird lxappearance # theme
 		 fasd cowsay fortune thefuck # zsh stuff
 		 chromium
-		 pavucontrol
-		 pamixer
+		 lsof
 	  ];
 	  shellAliases = { vim = "nvim"; };
   };
@@ -93,10 +86,6 @@
 
   # Enable sound.
   sound.enable = true;
-  hardware.pulseaudio = {
-	  enable = true;
-	  package = pkgs.pulseaudioFull;
-  };
 
   nixpkgs.config.allowUnfree = true; # I'm horrible, nvidia sucks, TODO kill nvidia
   # hardware.bumblebee.enable = true;
