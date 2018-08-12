@@ -159,8 +159,13 @@ in {
 		# services.xserver.xkbOptions = "eurosign:e";
 		xserver = {
 			autorun = true; # disable on troubles
-			displayManager.slim = {
-			  defaultUser = "jappie";
+			displayManager = {
+				slim = {
+				  defaultUser = "jappie";
+				};
+				sessionCommands = ''
+					${pkgs.xlibs.xmodmap}/bin/xmodmap ~/.Xmodmap
+				'';
 			};
 			libinput = {
 			  enable = true;
