@@ -58,9 +58,11 @@
 		 pavucontrol
 	  ];
 	  shellAliases = { vim = "nvim"; };
+	  etc."Xmodmap".text = ''
+		  remove Lock = Caps_Lock
+		  keysym Caps_Lock = Escape
+	  '';
   };
-
-  services.gnome3.gnome-terminal-server.enable = true;
 
 
   # Some programs need SUID wrappers, can be configured further or are
@@ -69,13 +71,6 @@
   # programs.mtr.enable = true;
   programs.gnupg.agent = { enable = true; enableSSHSupport = true; };
   programs.vim.defaultEditor = true;
-
-  services.emacs.enable = true; # deamon mode
-
-  # List services that you want to enable:
-
-  # Enable the OpenSSH daemon.
-  # services.openssh.enable = true;
 
   # Open ports in the firewall.
   # networking.firewall.allowedTCPPorts = [ ... ];
@@ -108,48 +103,44 @@
    systemWide = true;
   };
 
+  # List services that you want to enable:
 
- #boot.tmpOnTmpfs = true;
- #systemd.mounts = [{
- #  where = "/tmp";
- #  what = "tmpfs";
- #  options = "1777,strictatime,nosuid,nodev,size=8G";
- #}];
+  # Enable the OpenSSH daemon.
+  # services.openssh.enable = true;
+  services = {
+		gnome3.gnome-terminal-server.enable = true;
+		emacs.enable = true; # deamon mode
+		syncthing.enable = true;
 
-  # Enable the X11 windowing system.
-  # services.xserver.enable = true;
-  # services.xserver.layout = "us";
-  # services.xserver.xkbOptions = "eurosign:e";
-  services.xserver = {
-    autorun = true; # disable on troubles
-    displayManager.slim = {
-      defaultUser = "jappie";
-    };
-    libinput = {
-      enable = true;
-      tapping = true;
-      disableWhileTyping = true;
-    };
-    videoDrivers = [ "intel" "nvidia" ];
-    desktopManager.xfce.enable = true; # for the xfce-panel in i3
-    # desktopManager.gnome3.enable = true; # to get the themes working with gnome-tweak tool
-    windowManager.i3.enable = true;
-    windowManager.default = "i3";
-    enable = true;
-    layout = "us";
+		# Enable the X11 windowing system.
+		# services.xserver.enable = true;
+		# services.xserver.layout = "us";
+		# services.xserver.xkbOptions = "eurosign:e";
+		xserver = {
+			autorun = true; # disable on troubles
+			displayManager.slim = {
+			  defaultUser = "jappie";
+			};
+			libinput = {
+			  enable = true;
+			  tapping = true;
+			  disableWhileTyping = true;
+			};
+			videoDrivers = [ "intel" "nvidia" ];
+			desktopManager.xfce.enable = true; # for the xfce-panel in i3
+			# desktopManager.gnome3.enable = true; # to get the themes working with gnome-tweak tool
+			windowManager.i3.enable = true;
+			windowManager.default = "i3";
+			enable = true;
+			layout = "us";
+		};
+
+		redshift = {
+			enable = true;
+			provider = "geoclue2";
+		};
   };
 
-  services.redshift = {
-  	enable = true;
-	provider = "geoclue2";
-  };
-
-  # Enable touchpad support.
-  # services.xserver.libinput.enable = true;
-
-  # Enable the KDE Desktop Environment.
-  # services.xserver.displayManager.sddm.enable = true;
-  # services.xserver.desktopManager.plasma5.enable = true;
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.extraUsers.jappie = {
