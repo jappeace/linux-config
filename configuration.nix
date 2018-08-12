@@ -16,7 +16,7 @@
   boot.initrd.luks.devices = [{
 	name = "root";
 	device = "/dev/sda2";
-	preLVM = true;
+	# preLVM = true;
   }
   ];
 
@@ -58,6 +58,9 @@
 		 xdotool # i3 auto type
 		 blackbird lxappearance # theme
 		 fasd cowsay fortune thefuck # zsh stuff
+		 chromium
+		 pavucontrol
+		 pamixer
 	  ];
 	  shellAliases = { vim = "nvim"; };
   };
@@ -90,7 +93,10 @@
 
   # Enable sound.
   sound.enable = true;
-  hardware.pulseaudio.enable = true;
+  hardware.pulseaudio = {
+	  enable = true;
+	  package = pkgs.pulseaudioFull;
+  };
 
   nixpkgs.config.allowUnfree = true; # I'm horrible, nvidia sucks, TODO kill nvidia
   # hardware.bumblebee.enable = true;

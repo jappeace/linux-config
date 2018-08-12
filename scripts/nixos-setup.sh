@@ -11,7 +11,7 @@ ln -fs $XDG_DATA_HOME/fonts $HOME/.fonts
 
 DIR=$HOME/projects/linux-config
 
-# sudo ln -f $DIR/configuration.nix /etc/nixos/configuration.nix
+sudo ln -f $DIR/configuration.nix /etc/nixos/configuration.nix
 
 DOTFILES=$DIR/dotfiles
 
