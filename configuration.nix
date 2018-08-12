@@ -37,7 +37,6 @@
 		 networkmanagerapplet
 		 nix-repl
 		 git
-		 firefox
 		 emacs
 		 keepassxc # to open my passwords
 		 syncthing # keepassfile in here
@@ -52,8 +51,11 @@
 		 xdotool # i3 auto type
 		 blackbird lxappearance # theme
 		 fasd cowsay fortune thefuck # zsh stuff
-		 chromium
 		 lsof
+		 vlc
+		 firefoxWrapper
+		 chromium
+		 pavucontrol
 	  ];
 	  shellAliases = { vim = "nvim"; };
   };
@@ -84,13 +86,35 @@
   # Enable CUPS to print documents.
   # services.printing.enable = true;
 
+
   # Enable sound.
   sound.enable = true;
 
-  nixpkgs.config.allowUnfree = true; # I'm horrible, nvidia sucks, TODO kill nvidia
+  nixpkgs.config = {
+  	allowUnfree = true; # I'm horrible, nvidia sucks, TODO kill nvidia
+	  firefox = {
+		enableGoogleTalkPlugin = true;
+	  };
+	  chromium = {
+		enablePepperPDF = true;
+	  };
+	  pulseaudio = true;
+  };
   # hardware.bumblebee.enable = true;
   # hardware.bumblebee.connectDisplay = true;
+  hardware.pulseaudio = { 
+   enable = true;
+   support32Bit = true; 
+   systemWide = true;
+  };
 
+
+ #boot.tmpOnTmpfs = true;
+ #systemd.mounts = [{
+ #  where = "/tmp";
+ #  what = "tmpfs";
+ #  options = "1777,strictatime,nosuid,nodev,size=8G";
+ #}];
 
   # Enable the X11 windowing system.
   # services.xserver.enable = true;
