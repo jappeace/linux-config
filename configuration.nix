@@ -64,6 +64,7 @@ in {
 		 firefoxWrapper
 		 chromium
 		 pavucontrol
+     thunderbird
 	  ];
 	  shellAliases = { vim = "nvim"; };
   };
@@ -75,6 +76,7 @@ in {
   # programs.mtr.enable = true;
   programs.gnupg.agent = { enable = true; enableSSHSupport = true; };
   programs.vim.defaultEditor = true;
+  programs.qt5ct.enable = true; # try fixing qt5 themes
 
   # Open ports in the firewall.
   # networking.firewall.allowedTCPPorts = [ ... ];
@@ -157,7 +159,6 @@ in {
           group = "users";
           dataDir = "/home/jappie/public";
     };
-          
 
 		# Enable the X11 windowing system.
 		# services.xserver.enable = true;
