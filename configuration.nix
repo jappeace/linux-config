@@ -65,6 +65,8 @@ in {
 		 chromium
 		 pavucontrol
      thunderbird
+     stack
+     ghc
 	  ];
 	  shellAliases = { vim = "nvim"; };
   };
