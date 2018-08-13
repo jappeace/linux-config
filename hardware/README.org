@@ -1,0 +1,6 @@
+#+TITLE: Hardware configs
+
+Generated hardware config for various machines on nixos.
+They are seperated from the main config, we use
+hardlinks to keep them up to date with the git repo.
+If a machine doesn't use a config there will be no hardlink.
