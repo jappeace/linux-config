@@ -151,7 +151,13 @@ in {
   services = {
 		gnome3.gnome-terminal-server.enable = true;
 		emacs.enable = true; # deamon mode
-		syncthing.enable = true;
+		syncthing = {
+          enable = true;
+          user = "jappie";
+          group = "users";
+          dataDir = "/home/jappie/public";
+    };
+          
 
 		# Enable the X11 windowing system.
 		# services.xserver.enable = true;
