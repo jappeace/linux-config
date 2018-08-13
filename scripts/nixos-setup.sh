@@ -32,7 +32,7 @@ mkdir -p $HOME/.config
 ln -sf $CONFIG/shell-globals.sh $HOME/.config/
 ln -sf $CONFIG/startup.sh $HOME/.config/
 ln -sf $CONFIG/zsh-hacks.sh $HOME/.config/
-ln -sf $USER/.emacs.d/configuration.org $HOME/.config/
+ln -sf $USER/.emacs.d/configuration.org $HOME/.config/emacsconfig.org
 
 # TODO these clone commands should be done by the configuration.nix file instead
 # we probably should find a better shell than oh-my-zsh (xonsh?)
