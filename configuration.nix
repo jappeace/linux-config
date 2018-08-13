@@ -42,7 +42,7 @@ in {
 	  systemPackages = with pkgs.xfce // pkgs; [
 		 curl
 		 neovim # because emacs never breaks
-     gnome3.gnome-screenshot # put screenshots in clipy and magically work with i3
+         gnome3.gnome-screenshot # put screenshots in clipy and magically work with i3
 		 networkmanagerapplet # make wifi clickable
 		 nix-repl
 		 git
@@ -65,11 +65,11 @@ in {
 		 firefoxWrapper
 		 chromium
 		 pavucontrol
-     thunderbird # some day I'll use emacs for this
-     stack
-     ghc
-     ksysguard # monitor my system.. with graphs! (so I don't need to learn real skills)
-     gnumake # handy for adhoc configs, https://github.com/NixOS/nixpkgs/issues/17293
+         thunderbird # some day I'll use emacs for this
+         stack
+         ghc
+         ksysguard # monitor my system.. with graphs! (so I don't need to learn real skills)
+         gnumake # handy for adhoc configs, https://github.com/NixOS/nixpkgs/issues/17293
 	  ];
 	  shellAliases = {
       vim = "nvim";
