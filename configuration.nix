@@ -69,6 +69,7 @@ in {
      stack
      ghc
      ksysguard # monitor my system.. with graphs! (so I don't need to learn real skills)
+     gnumake # handy for adhoc configs, https://github.com/NixOS/nixpkgs/issues/17293
 	  ];
 	  shellAliases = {
       vim = "nvim";
@@ -83,7 +84,16 @@ in {
   # programs.mtr.enable = true;
   programs.gnupg.agent = { enable = true; enableSSHSupport = true; };
   programs.vim.defaultEditor = true;
-  programs.qt5ct.enable = true; # try fixing qt5 themes
+  programs.qt5ct.enable = true; # fix qt5 themes
+
+  fonts = {
+        fonts = with pkgs; [
+              fira-code
+              fira-code-symbols
+              ubuntu_font_family
+              corefonts
+        ];
+  };
 
   # Open ports in the firewall.
   # networking.firewall.allowedTCPPorts = [ ... ];
@@ -137,7 +147,7 @@ in {
           packages.neovim2 = with pkgs.vimPlugins; {
 
           start = [ tabular syntastic vim-nix intero-neovim neomake ctrlp
-          neoformat gitgutter];
+          neoformat gitgutter "github:tomasr/molokai"];
           opt = [ ];
       }; 
       };
