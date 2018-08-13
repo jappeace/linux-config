@@ -1,4 +1,0 @@
->=dev-java/swing-layout-1.0.4 source
-
-#needed java for svn
->=dev-vcs/subversion-1.7.13 java

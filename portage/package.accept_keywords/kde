@@ -1,6 +1,0 @@
-=net-libs/libnm-qt-0.9.8.1 ~amd64
-=kde-misc/plasma-nm-0.9.3.2 ~amd64
-
-=sys-libs/readline-6.3_p8-r2 ~amd64
-=sys-devel/automake-1.14.1 ~amd64
-=kde-misc/kdeconnect-0.8 ~amd64

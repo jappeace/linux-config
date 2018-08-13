@@ -1,2 +1,0 @@
-#to install wireshark a use flag had to be disabled
-net-analyzer/wireshark -qt4

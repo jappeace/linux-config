@@ -1,6 +1,0 @@
->=x11-libs/libdrm-2.4.52 libkms
-
-# xephyr, run x in x. needed for playing rtc
-# kdrive needed for xehyr
-x11-base/xorg-server xephyr kdrive
-

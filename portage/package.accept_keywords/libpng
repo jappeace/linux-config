@@ -1,6 +1,0 @@
-# required by app-text/ghostscript-gpl-9.15-r1::gentoo
-# required by app-text/dvisvgm-1.8.1::gentoo
-# required by app-text/texlive-2014::gentoo[extra]
-# required by @selected
-# required by @world (argument)
-=media-libs/libpng-1.6.18 ~amd64

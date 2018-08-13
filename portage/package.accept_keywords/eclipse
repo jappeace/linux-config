@@ -1,5 +1,0 @@
-#only available eclipse:
-=dev-util/eclipse-sdk-bin-4.2.1-r1 ~amd64
-
-#android sdk
->=dev-util/android-sdk-update-manager-0 ~amd64

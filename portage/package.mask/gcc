@@ -1,3 +1,0 @@
-=sys-devel/gcc-4.6.3
-
-=sys-libs/glibc-2.20-r2 #I need to switch compiler which I don't want to do

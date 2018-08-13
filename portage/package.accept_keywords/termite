@@ -1,7 +1,0 @@
-
-# required by x11-terms/termite-12::eroen
-# required by x11-terms/termite (argument)
-=x11-libs/vte-0.46.1 ~amd64
-# required by x11-terms/termite (argument)
-=x11-terms/termite-12 ~amd64
-

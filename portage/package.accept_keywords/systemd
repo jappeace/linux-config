@@ -1,4 +1,0 @@
-#stable version was bitchey
-=sys-apps/systemd-219_p112 ~amd64
-#to update system d i needed
-=dev-libs/protobuf-2.5.0 ~amd64

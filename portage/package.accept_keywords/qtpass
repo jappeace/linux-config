@@ -1,5 +1,0 @@
-# required by app-admin/qtpass-1.1.0::gentoo
-# required by qtpass (argument)
-=app-admin/pass-1.6.5 ~amd64
-# required by qtpass (argument)
-=app-admin/qtpass-1.1.0 ~amd64

@@ -1,2 +1,0 @@
->=media-libs/mesa-10.3.7-r1 wayland gles2
->=x11-base/xorg-server-1.16.4 wayland
