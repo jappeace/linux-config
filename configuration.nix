@@ -42,7 +42,8 @@ in {
 	  systemPackages = with pkgs.xfce // pkgs; [
 		 curl
 		 neovim # because emacs never breaks
-		 networkmanagerapplet
+     gnome3.gnome-screenshot # put screenshots in clipy and magically work with i3
+		 networkmanagerapplet # make wifi clickable
 		 nix-repl
 		 git
 		 emacs
@@ -64,11 +65,15 @@ in {
 		 firefoxWrapper
 		 chromium
 		 pavucontrol
-     thunderbird
+     thunderbird # some day I'll use emacs for this
      stack
      ghc
+     ksysguard # monitor my system.. with graphs! (so I don't need to learn real skills)
 	  ];
-	  shellAliases = { vim = "nvim"; };
+	  shellAliases = {
+      vim = "nvim";
+      cp = "cp --reflink=auto"; # btrfs shine
+    };
   };
 
 
@@ -153,6 +158,9 @@ in {
   # Enable the OpenSSH daemon.
   # services.openssh.enable = true;
   services = {
+
+    postgresql.enable = true; # postgres for local dev
+
 		gnome3.gnome-terminal-server.enable = true;
 		emacs.enable = true; # deamon mode
 		syncthing = {
