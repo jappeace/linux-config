@@ -1,10 +1,16 @@
-set -xe
 #!/bin/bash
+
+set -xe
+if [ -z "$1" ]; then
+	echo "first arg to specify subvolume path, find the right one with \"btrfs subvolume list /\""
+	exit 1
+fi
+
 PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 date=$(date +%Y-%m-%d)
 
 # the path to the partition mount point that we are backing up
-source_partition=/home/
+source_partition="$1"
 
 # where backup snapshots will be stored on the local partition
 # this is needed for incremental backups
