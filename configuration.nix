@@ -40,7 +40,6 @@ in {
   # $ nix search wget
   environment = {
 	  systemPackages = with pkgs.xfce // pkgs; [
-         python36Packages.pelican # untill we ever want to spend time porting to hakyl
 		 curl
 		 neovim # because emacs never breaks
          gnome3.gnome-screenshot # put screenshots in clipy and magically work with i3
@@ -66,6 +65,7 @@ in {
 		 firefoxWrapper
 		 chromium
 		 pavucontrol
+		gparted # partitiioning for dummies, like me
          thunderbird # some day I'll use emacs for this
          stack
          ghc
