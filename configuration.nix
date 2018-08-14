@@ -17,12 +17,12 @@ in {
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
     ];
-  
+
   # Use the systemd-boot EFI boot loader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
-  networking.hostName = "private-jappie-nixos"; # Define your hostname.
+  networking.hostName = "worklaptop-jappie-nixos"; # Define your hostname.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
   networking.networkmanager.enable = true;
 
@@ -149,7 +149,7 @@ in {
           start = [ tabular syntastic vim-nix intero-neovim neomake ctrlp
           neoformat gitgutter "github:tomasr/molokai"];
           opt = [ ];
-      }; 
+      };
       };
       };
 
@@ -157,9 +157,9 @@ in {
   };
   # hardware.bumblebee.enable = true;
   # hardware.bumblebee.connectDisplay = true;
-  hardware.pulseaudio = { 
+  hardware.pulseaudio = {
    enable = true;
-   support32Bit = true; 
+   support32Bit = true;
    systemWide = true;
   };
 
