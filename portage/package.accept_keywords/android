@@ -1,9 +1,0 @@
-=app-mobilephone/heimdall-1.4.1 ~amd64
-
-# required by jmtpfs (argument)
-sys-fs/jmtpfs ~amd64
-
-# required by gmtp (argument)
-media-sound/gmtp ~amd64
-
-=media-libs/libmtp-1.1.13 ~amd64

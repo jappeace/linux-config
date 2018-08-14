@@ -1,9 +1,0 @@
-# Giving a punch to keyboard
-# required by x11-misc/tickeys-0.2.5::betagarden
-# required by tickeys (argument)
-=dev-python/notify2-0.3-r2 ~amd64
-# required by tickeys (argument)
-=x11-misc/tickeys-0.2.5 ~amd64
-# required by x11-misc/tickeys-0.2.5::betagarden
-# required by tickeys (argument)
-=dev-python/python-evdev-0.6.1 ~amd64

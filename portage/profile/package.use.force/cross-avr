@@ -1,4 +1,0 @@
-cross-avr/binutils -multilib
-cross-avr/gcc -multilib
-cross-avr/avr-libc -multilib
-cross-avr/gdb -multilib

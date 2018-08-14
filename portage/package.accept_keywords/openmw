@@ -1,9 +1,0 @@
-games-engines/openmw ~amd64
-# required by games-engines/openmw-0.39.0::gentoo
-# required by openmw (argument)
-=dev-games/openscenegraph-3.5.1-r2 ~amd64
-
-# required by games-engines/openmw-0.42.0::gentoo
-# required by @selected
-# required by @world (argument)
-=sci-physics/bullet-2.86 ~amd64

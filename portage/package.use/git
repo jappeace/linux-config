@@ -1,6 +1,0 @@
-# I wanted to copy an svn project trough git, without installing an svn client:
-# >=dev-vcs/git-1.8.1.5 subversion
-
-#Then portage complained that I needed:
-# >=dev-vcs/subversion-1.7.9 -dso perl
-# >=dev-libs/libgit2-0.21.5 threads

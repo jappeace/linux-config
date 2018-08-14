@@ -2,13 +2,12 @@
 alias cp="cp --reflink=auto"
 
 # fuck helps with wrongly typed commands
-eval "$(thefuck --alias)"
+command -v thefuck >/dev/null 2>&1 && eval "$(thefuck --alias)"
 
 # fasd, jump around files etc quickly: https://github.com/clvv/fasd
-eval "$(fasd --init auto)"
+command -v fasd >/dev/null 2>&1 && eval "$(fasd --init auto)"
 
 # show a nice intro
-
 cow_mode[1]="-b"
 cow_mode[2]="-d"
 cow_mode[3]="" # default
@@ -23,17 +22,24 @@ rng=$(( $RANDOM % 9 + 1))
 
 IFS=' '
 # remove telebears because it can be awkard
-cowfiles=(`cowsay -l | sed 1d | paste -sd " " | sed s/telebears\ // `)
-num_files=${#cowfiles[*]}
-cowfile=${cowfiles[$((((RANDOM % ((num_files - 1)))) + 1))]}
+command -v cowsay >/dev/null 2>&1
+if [ $? -eq 0 ]; then
+	command  -v fortune >/dev/null 2>&1
+	if [ $? -eq 0 ]; then
+	cowfiles=(`cowsay -l | sed 1d | paste -sd " " | sed s/telebears\ // `)
+	num_files=${#cowfiles[*]}
+	cowfile=${cowfiles[$((((RANDOM % ((num_files - 1)))) + 1))]}
 
-fortune | cowsay -W 35 ${cow_mode[$rng]} -f $cowfile
+	fortune | cowsay -W 35 ${cow_mode[$rng]} -f $cowfile
+	fi
+fi
 
 
 # work
 export WORKON_HOME=$HOME/.virtualenvs
 export PROJECT_HOME=$HOME/Devel
-source /usr/bin/virtualenvwrapper.sh
+# we'll use nix or shit
+# source /usr/bin/virtualenvwrapper.sh
 
 man() { # this is suposzed to colirize man.. doesn't work though
     env \
@@ -47,4 +53,5 @@ man() { # this is suposzed to colirize man.. doesn't work though
         man "${@}"
 }
 
-alias sl='tree -I "node_modules|android|ios"'
+command  -v tree >/dev/null 2>&1 && alias sl='tree -I "node_modules|android|ios"'
+alias cp='cp --reflink=auto'

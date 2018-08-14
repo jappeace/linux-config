@@ -1,8 +1,0 @@
-media-video/vlc dvd ffmpeg mpeg mad wxwindows aac dts a52 ogg flac theora oggvorbis matroska freetype bidi xv svga gnutls stream vlm httpd cdda vcd cdio live lua libass -qt5 qt4 fluidsynth opus
-# required by media-libs/mesa-10.3.7-r1
-# required by x11-libs/cairo-1.12.18-r1[opengl]
-# required by gnome-base/librsvg-2.40.8
-# required by media-video/vlc-2.1.5-r1[svg]
-# required by @selected
-# required by @world (argument)
-=x11-proto/glproto-1.4.17 abi_x86_32

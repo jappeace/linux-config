@@ -1,5 +1,0 @@
-# I wanted to deint a submodule with less wrk
-=dev-vcs/git-1.8.3.2 ~amd64
-
-#then python started complaining
-=dev-python/pygtksourceview-2.10.1-r1 ~amd64

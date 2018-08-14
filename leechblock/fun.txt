@@ -1,0 +1,6 @@
+*.facebook.com
+*.reddit.com
+facebook.com
+linkedin.com
+reddit.com
+youtube.com

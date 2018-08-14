@@ -87,3 +87,5 @@ export SDKMAN_DIR="/home/jappie/.sdkman"
 
 # OPAM configuration
 . /home/jappie/.opam/opam-init/init.zsh > /dev/null 2> /dev/null || true
+# source /home/jappie/.nix-profile/etc/profile.d/nix.sh
+

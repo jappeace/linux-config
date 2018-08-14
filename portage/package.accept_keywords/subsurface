@@ -1,7 +1,0 @@
-
-# required by app-misc/subsurface-4.2::gentoo
-# required by subsurface (argument)
-=dev-libs/libdivecomputer-0.4.2 ~amd64
-# required by subsurface (argument)
-=app-misc/subsurface-4.2 ~amd64
-

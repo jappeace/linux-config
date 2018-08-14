@@ -1,8 +1,0 @@
-sys-apps/attr multilib.conf
-dev-libs/libffi multilib.conf
-
-# required by net-libs/gnutls-3.3.24::gentoo
-# required by net-analyzer/wireshark-2.0.5::gentoo[ssl]
-# required by @selected
-# required by @world (argument)
-dev-libs/nettle multilib.conf

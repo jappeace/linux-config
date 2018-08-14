@@ -1,18 +1,20 @@
+set -xe
 #!/bin/bash
 PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 date=$(date +%Y-%m-%d)
 
 # the path to the partition mount point that we are backing up
-source_partition=/
+source_partition=/home/
 
 # where backup snapshots will be stored on the local partition
 # this is needed for incremental backups
 source_snapshot_dir=/var/local/snapshots
 
+MOUNTEDFOLDER=/mnt/bigstore
 # where backups will be stored on the backup drive
-target_snapshot_dir=/mnt/bigstore
+target_snapshot_dir=$MOUNTEDFOLDER
 
-if mount | grep $target_snapshot_dir > /dev/null; then
+if mount | grep $MOUNTEDFOLDER > /dev/null; then
     echo "drive mounted"
 else
     echo "drive not mounted, please mount a drive at $MOUNTEDFOLDER"
@@ -21,6 +23,7 @@ else
 fi
 
 if [ ! -d $source_snapshot_dir ]; then
+	echo "If local snapshots exist don't"
     echo 'Creating initial snapshot...'
     mkdir --parents $source_snapshot_dir $target_snapshot_dir
 
@@ -32,15 +35,16 @@ if [ ! -d $source_snapshot_dir ]; then
     btrfs send $source_snapshot_dir/$date | pv | \
         btrfs receive $target_snapshot_dir
 elif [ ! -d $source_snapshot_dir/$date ]; then
+	echo "if we haven't made a snapshot yet today"
     echo 'Creating root volume snapshot...'
 
-    # create a read-only snapshot on the local disk
+    echo 'a create a read-only snapshot on the local disk'
     btrfs subvolume snapshot -r $source_partition $source_snapshot_dir/$date
 
-    # get the most recent snapshot
+    echo 'get the most recent snapshot'
     previous=$(ls --directory $source_snapshot_dir/* | tail -n 1)
 
-    # send (and store) only the changes since the last snapshot
+    echo 'send (and store) only the changes since the last snapshot'
     btrfs send -p $previous $source_snapshot_dir/$date | pv | \
         btrfs receive $target_snapshot_dir
 fi
