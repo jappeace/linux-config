@@ -1,4 +1,5 @@
-#!/bin/bash
+#!/run/current-system/sw/bin/bash
+
 EXTERNAL_OUTPUT="DP1"
 INTERNAL_OUTPUT="eDP1"
 
