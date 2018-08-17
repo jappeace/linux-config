@@ -1,6 +1,7 @@
 # Nixos move plan
 
 1. Backup partition
+2. Backup firefox extensions such as umatrix. (I lost these)
 2. Format in btrfs with luks
 3. Get ssh keys
 4. clone this repo
@@ -9,7 +10,7 @@
 7. setup email
 
 I think it's a bad idea to put everything in nix from the beginning
-(I acrued to much over the years), 
+(I acrued to much over the years),
 but we can keep on adding custimizations over time.
 
 ## uniform style
