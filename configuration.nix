@@ -71,6 +71,7 @@ in {
          ghc
          ksysguard # monitor my system.. with graphs! (so I don't need to learn real skills)
          gnumake # handy for adhoc configs, https://github.com/NixOS/nixpkgs/issues/17293
+  	fbreader # read books
 	  ];
 	  shellAliases = {
       vim = "nvim";
