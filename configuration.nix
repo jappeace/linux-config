@@ -74,6 +74,7 @@ in {
 		 pavucontrol
 		gparted # partitiioning for dummies, like me
          thunderbird # some day I'll use emacs for this
+	openvpn # piratebay access
          stack
          ghc
          ksysguard # monitor my system.. with graphs! (so I don't need to learn real skills)
