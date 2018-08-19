@@ -12,6 +12,7 @@ let intero-neovim = pkgs.vimUtils.buildVimPlugin {
       sha256 = "1igc8swgbbkvyykz0ijhjkzcx3d83yl22hwmzn3jn8dsk6s4an8l";
     };
   };
+  aspell_with_dict = pkgs.aspellWithDicts(ps: [ps.nl ps.en]);
 in {
   imports =
     [ # Include the results of the hardware scan.
@@ -28,9 +29,11 @@ in {
 
   # Select internationalisation properties.
   i18n = {
-    consoleFont = "Lat2-Terminus16";
+    # consoleFont = "Lat2-Terminus16";
+    consoleFont = "fira-code";
     consoleKeyMap = "us";
     defaultLocale = "nl_NL.UTF-8";
+    supportedLocales = ["en_US.UTF-8/UTF-8" "nl_NL.UTF-8/UTF-8"];
   };
 
   # Set your time zone.
@@ -40,6 +43,11 @@ in {
   # $ nix search wget
   environment = {
 	  systemPackages = with pkgs.xfce // pkgs; [
+      aspell_with_dict
+      gnome3.nautilus # lazy file browsing
+      openjdk # we need to be able to run java stuff (plantuml)
+      plantuml # for thesis uml amongst other things, it's pretty nice
+      inkscape # gotta make that artwork for site etc
 		 curl
 		 neovim # because emacs never breaks
          gnome3.gnome-screenshot # put screenshots in clipy and magically work with i3
@@ -60,7 +68,6 @@ in {
 		 xdotool # i3 auto type
 		 blackbird lxappearance # theme
 		 fasd cowsay fortune thefuck # zsh stuff
-		 lsof
 		 vlc
 		 firefoxWrapper
 		 chromium
