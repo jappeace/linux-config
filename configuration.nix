@@ -1,5 +1,5 @@
 # Edit this configuration file to define what should be installed on
-# your system.  Help is available in the configuration.nix(5) man page
+ your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
 { config, pkgs, ... }:
@@ -40,6 +40,10 @@ in {
   # $ nix search wget
   environment = {
 	  systemPackages = with pkgs.xfce // pkgs; [
+	  gpg # for private keys
+	  git-crypt # pgp based encryption for git repos (the dream is real)
+	  wiregaurd # easier vpn
+	  	gimp # edit my screenshots
 		 curl
 		 neovim # because emacs never breaks
      gnome3.gnome-screenshot # put screenshots in clipy and magically work with i3
@@ -88,9 +92,10 @@ in {
 
   fonts = {
         fonts = with pkgs; [
+              inconsolata
+              ubuntu_font_family
               fira-code
               fira-code-symbols
-              ubuntu_font_family
               corefonts
         ];
   };
