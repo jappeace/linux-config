@@ -1,5 +1,5 @@
 # Edit this configuration file to define what should be installed on
- your system.  Help is available in the configuration.nix(5) man page
+# your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
 { config, pkgs, ... }:
@@ -48,9 +48,10 @@ in {
       openjdk # we need to be able to run java stuff (plantuml)
       plantuml # for thesis uml amongst other things, it's pretty nice
       inkscape # gotta make that artwork for site etc
-	  gpg # for private keys
+	  gnupg # for private keys
 	  git-crypt # pgp based encryption for git repos (the dream is real)
-	  wiregaurd # easier vpn
+      jq
+	  # wiregaurd # easier vpn
 	  	gimp # edit my screenshots
 		 curl
 		 neovim # because emacs never breaks
