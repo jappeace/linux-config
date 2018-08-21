@@ -85,6 +85,9 @@ in {
       vim = "nvim";
       cp = "cp --reflink=auto"; # btrfs shine
     };
+    variables = {
+      LESS="-F -X -R";
+    };
   };
 
 
