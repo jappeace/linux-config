@@ -50,7 +50,7 @@ in {
       inkscape # gotta make that artwork for site etc
 	  gnupg # for private keys
 	  git-crypt # pgp based encryption for git repos (the dream is real)
-      jq
+      jq # deal with json on commandline
 	  # wiregaurd # easier vpn
 	  	gimp # edit my screenshots
 		 curl
