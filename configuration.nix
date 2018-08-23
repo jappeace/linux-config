@@ -1,5 +1,5 @@
 # Edit this configuration file to define what should be installed on
- your system.  Help is available in the configuration.nix(5) man page
+# your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
 { config, pkgs, ... }:
@@ -40,9 +40,11 @@ in {
   # $ nix search wget
   environment = {
 	  systemPackages = with pkgs.xfce // pkgs; [
-	  gpg # for private keys
+	  libreoffice
+	  haskellPackages.stylish-haskell
+	  jq
+	  gnupg # for private keys
 	  git-crypt # pgp based encryption for git repos (the dream is real)
-	  wiregaurd # easier vpn
 	  	gimp # edit my screenshots
 		 curl
 		 neovim # because emacs never breaks
@@ -74,6 +76,7 @@ in {
      ghc
      ksysguard # monitor my system.. with graphs! (so I don't need to learn real skills)
      gnumake # handy for adhoc configs, https://github.com/NixOS/nixpkgs/issues/17293
+     qpdfview
 	  ];
 	  shellAliases = {
       vim = "nvim";
