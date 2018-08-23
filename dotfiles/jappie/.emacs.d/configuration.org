@@ -12,7 +12,7 @@
 * Remap keys
 i3 already uses alt, remap it to windows key
 #+BEGIN_SRC emacs-lisp
-  (setq x-super-keysym 'meta) 
+  (setq x-super-keysym 'meta)
 #+END_SRC
 Fucking K is insert enter alright?! I'm so freaking
 used to this, and I *NEVER* want to search for the current
@@ -260,9 +260,9 @@ To use chinese we need to use xelatex instead of pdflatex
     (setq org-ref-default-bibliography '("~/Papers/references.bib"))
     (setq org-latex-to-pdf-process (list "latexmk %f && pdflatex %f"))
   #+END_SRC
-  
+
 ** Plant uml
-  see [[http://spacemacs.org/layers/+lang/plantuml/README.html][this]] and [[https://eschulte.github.io/babel-dev/DONE-integrate-plantuml-support.html][that.]] 
+  see [[http://spacemacs.org/layers/+lang/plantuml/README.html][this]] and [[https://eschulte.github.io/babel-dev/DONE-integrate-plantuml-support.html][that.]]
   The jar is installed trough portage.
   #+BEGIN_SRC emacs-lisp
     (setq org-plantuml-jar-path
@@ -327,9 +327,9 @@ have to update every gitignore ever.
 #+END_SRC
 
 ** workaround invalid search error
-Found solution [[https://github.com/philippe-grenet/exordium#bugs][here]] 
+Found solution [[https://github.com/philippe-grenet/exordium#bugs][here]]
 #+BEGIN_SRC emacs-lisp
-  (setq exordium-git-gutter-non-fringe t) 
+  (setq exordium-git-gutter-non-fringe t)
 #+END_SRC
 ** Invert pdf's
 most likely there is an already built-in solution, but i did not find
@@ -391,7 +391,7 @@ Disable it for web mode because it breaks prettier
 #+BEGIN_SRC emacs-lisp
 ;;; Fira code
 ;; This works when using emacs --daemon + emacsclient
-(add-hook 'after-make-frame-functions (lambda (frame) (set-fontset-font t '(#Xe100 . #Xe16f) "Fira Code Symbol")))
+; (add-hook 'after-make-frame-functions (lambda (frame) (set-fontset-font t '(#Xe100 . #Xe16f) "Fira Code Symbol")))
 ;; This works when using emacs without server/client
 ;(set-fontset-font t '(#Xe100 . #Xe16f) "Fira Code Symbol")
 ;; I haven't found one statement that makes both of the above situations work, so I use both for now
@@ -519,8 +519,8 @@ Disable it for web mode because it breaks prettier
 (defun add-fira-code-symbol-keywords ()
   (font-lock-add-keywords nil fira-code-font-lock-keywords-alist))
 
-(add-hook 'prog-mode-hook
-          #'add-fira-code-symbol-keywords)
+; (add-hook 'prog-mode-hook
+;          #'add-fira-code-symbol-keywords)
 #+END_SRC
 ** Kill whitespace
  #+BEGIN_SRC emacs-lisp
@@ -594,4 +594,3 @@ Setup ediff (works in combo with gitconfig)
 
 (add-hook 'ediff-after-quit-hooks 'git-mergetool-emacsclient-ediff-after-quit-hook 'append)
 #+END_SRC
-
