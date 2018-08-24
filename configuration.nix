@@ -40,6 +40,9 @@ in {
   # $ nix search wget
   environment = {
 	  systemPackages = with pkgs.xfce // pkgs; [
+      gcc # stack wanted this
+      pciutils # want to know things about mah devices
+	  gparted # I like clicking when destroying data, makes me feel safe
       ntfs3g # mount ntfs drives write-able
 	  libreoffice
 	  haskellPackages.stylish-haskell
