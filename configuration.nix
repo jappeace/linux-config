@@ -40,9 +40,11 @@ in {
   # $ nix search wget
   environment = {
 	  systemPackages = with pkgs.xfce // pkgs; [
+      ntfs3g # mount ntfs drives write-able
 	  libreoffice
 	  haskellPackages.stylish-haskell
 	  jq
+	  stack2nix
 	  gnupg # for private keys
 	  git-crypt # pgp based encryption for git repos (the dream is real)
 	  	gimp # edit my screenshots
