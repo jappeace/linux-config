@@ -6,13 +6,22 @@ let
 
   # https://sam217pa.github.io/2016/09/02/how-to-build-your-own-spacemacs/
   myEmacsConfig = pkgs.writeText "default.el" ''
-
 ;; initialize package
 
 (require 'package)
 (package-initialize 'noactivate)
 (eval-when-compile
   (require 'use-package))
+
+;; vanity 
+
+;;; I'm not a mouse peasant (disable menu/toolbars)
+(tool-bar-mode -1)
+(menu-bar-mode -1)
+
+;;; theme
+(use-package dracula-theme)
+
 ;; load packages
 
 ;;; keybindings
@@ -68,6 +77,7 @@ let
 
 ;;; project navigation
 (use-package counsel
+  :after (ag)
   :commands (
     counsel-git-grep
     counsel-find-file
@@ -108,6 +118,22 @@ let
   :if (executable-find "git")
   :bind (("C-x g" . magit-status)
          ("C-x G" . magit-dispatch-popup)))
+
+
+;;; I can't spell
+(use-package flycheck
+  :defer 2
+  :config (global-flycheck-mode))
+
+;;; I can't program
+(use-package company
+  :diminish company-mode
+  :commands (company-mode global-company-mode)
+  :defer 1
+  :config
+  (global-company-mode))
+
+
     '';
 
 in
@@ -125,6 +151,9 @@ in
     which-key
     ranger
     evil
+    company
+    flycheck
+    dracula-theme
   ]) ++ (with epkgs.melpaPackages; [
     general
   ]) ++ (with epkgs.elpaPackages; [

@@ -43,7 +43,8 @@ in {
   # $ nix search wget
   environment = {
 	  systemPackages = with pkgs.xfce // pkgs; [
-      aspell_with_dict
+      silver-searcher # when configuring my emacs they told me to use this: https://github.com/ggreer/the_silver_searcher#installation
+      aspell_with_dict # I can't spell
       gnome3.nautilus # lazy file browsing
       openjdk # we need to be able to run java stuff (plantuml)
       plantuml # for thesis uml amongst other things, it's pretty nice
