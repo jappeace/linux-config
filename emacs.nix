@@ -89,7 +89,12 @@ let
   :commands (ranger))
 
 ;;; show what keys are possible
-(use-package which-key)
+(use-package which-key
+  :config
+  (progn
+    (setq which-key-idle-delay 0.01)
+  )
+)
 
 ;;; jump around
 (use-package avy
