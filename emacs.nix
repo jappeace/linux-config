@@ -17,9 +17,10 @@ let
 
 ;;; keybindings
 (use-package general
-  :after (evil)
+  :after (evil which-key)
   :config
   (progn
+  (which-key-mode)
   (general-define-key "C-'" 'avy-goto-word-1)
   (general-define-key
       :keymaps 'normal
@@ -86,6 +87,9 @@ let
 
 (use-package ranger
   :commands (ranger))
+
+;;; show what keys are possible
+(use-package which-key)
 
 ;;; jump around
 (use-package avy
