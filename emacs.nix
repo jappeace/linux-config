@@ -30,6 +30,7 @@ let
 ;; use windows logo as meta, alt is used by i3
 (setq x-super-keysym 'meta) 
 
+
 ;; initialize package
 
 (require 'package)
@@ -38,13 +39,21 @@ let
   (require 'use-package))
 
 ;; vanity 
+(use-package linum-relative
+  :config
+  (linum-relative-global-mode)
+)
 
 ;;; I'm not a mouse peasant (disable menu/toolbars)
 (tool-bar-mode -1)
 (menu-bar-mode -1)
 
 ;;; theme
-(use-package dracula-theme)
+(use-package molokai-theme
+   :load-path "themes"
+   :config
+  (load-theme 'molokai t)
+)
 
 ;; load packages
 
@@ -53,13 +62,16 @@ let
   :after (evil which-key)
   :config
   (progn
+  ;;; highlight current line
+  (global-hl-line-mode +1)
   (which-key-mode)
   (powerline-default-theme)
+
   (general-define-key "C-'" 'avy-goto-word-1)
   (general-define-key
       :keymaps 'normal
         ;; simple command
-        "/"   'counsel-git-grep)
+        )
   (general-define-key
     ;; replace default keybindings
     "C-s" 'swiper             ; search for string in current buffer
@@ -78,6 +90,7 @@ let
       "f"   '(:ignore t :which-key "files")
       "ff"  'counsel-find-file
       "fr"	'counsel-recentf
+      "fg"  'counsel-git-grep
       "p"   '(:ignore t :which-key "project")
       "pf"  '(counsel-git :which-key "find file in git dir")
 
@@ -170,8 +183,18 @@ let
 (use-package nix-mode)
 
 ;;; JS
-(use-package rjsx-mode)
+(use-package rjsx-mode
+   ; maybe this should work:
+   ; :mode ("\\.js\\" . rjsx-mode)
+)
+; but no this instead:
 (add-to-list 'auto-mode-alist '("\\.js\\'" . rjsx-mode))
+
+;;; python
+(use-package python
+  :mode ("\\.py\\'" . python-mode)
+  :interpreter ("python" . python-mode))
+
 ;;; Haskell
 (use-package haskell-mode)
 (use-package dante
@@ -189,10 +212,10 @@ in
       mkdir -p $out/share/emacs/site-lisp
       cp ${myEmacsConfig} $out/share/emacs/site-lisp/default.el
       '')
-    avy
+    avy # jump to word
     magit          # Integrate git <C-x g>
-    use-package
-    ivy
+    use-package # lazy package loading
+    ivy 
     counsel
     swiper
     which-key
@@ -200,14 +223,16 @@ in
     evil
     company
     flycheck
-    dracula-theme
     powerline
     haskell-mode
     dante
     nix-mode
     rjsx-mode
+    linum-relative
+    # dracula-theme
   ]) ++ (with epkgs.melpaPackages; [
     general
+    molokai-theme
   ]) ++ (with epkgs.elpaPackages; [
     # ehh
   ]) ++ [
