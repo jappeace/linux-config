@@ -6,6 +6,30 @@ let
 
   # https://sam217pa.github.io/2016/09/02/how-to-build-your-own-spacemacs/
   myEmacsConfig = pkgs.writeText "default.el" ''
+;; globals
+(setq delete-old-versions -1 )		; delete excess backup versions silently
+(setq version-control t )		; use version control
+(setq vc-make-backup-files nil )		; don't make backup files, I don't care
+(setq vc-follow-symlinks t )				       ; don't ask for confirmation when opening symlinked file
+(setq auto-save-file-name-transforms '((".*" "~/.emacs.d/auto-save-list/" t)) ) ;transform backups file name
+(setq inhibit-startup-screen t )	; inhibit useless and old-school startup screen
+(setq ring-bell-function 'ignore )	; silent bell when you make a mistake
+(setq coding-system-for-read 'utf-8 )	; use utf-8 by default
+(setq coding-system-for-write 'utf-8 )
+(setq sentence-end-double-space nil)	; sentence SHOULD end with only a point.
+(setq default-fill-column 140)		; toggle wrapping text at the 80th character
+(setq initial-scratch-message "Good day sir") ; 
+
+;; me me me
+(setq user-full-name "Jappie J. T. Klooster"
+      user-mail-address "jappieklooster@hotmail.com"
+      calendar-latitude 52.782
+      calendar-longitude 6.331
+      calendar-location-name "Kerkdijk 2, Ansen")
+
+;; use windows logo as meta, alt is used by i3
+(setq x-super-keysym 'meta) 
+
 ;; initialize package
 
 (require 'package)
@@ -30,6 +54,7 @@ let
   :config
   (progn
   (which-key-mode)
+  (powerline-default-theme)
   (general-define-key "C-'" 'avy-goto-word-1)
   (general-define-key
       :keymaps 'normal
@@ -96,7 +121,12 @@ let
   :commands (ivy-switch-buffer))
 
 (use-package ranger
-  :commands (ranger))
+  :commands (ranger)
+  :config
+  (setq
+    ranger-cleanup-eagerly t
+    ranger-parent-depth 0)
+  )
 
 ;;; show what keys are possible
 (use-package which-key
@@ -133,6 +163,23 @@ let
   :config
   (global-company-mode))
 
+;;; more info
+(use-package powerline)
+
+;;; nix syntax highlighting
+(use-package nix-mode)
+
+;;; JS
+(use-package rjsx-mode)
+(add-to-list 'auto-mode-alist '("\\.js\\'" . rjsx-mode))
+;;; Haskell
+(use-package haskell-mode)
+(use-package dante
+  :after haskell-mode
+  :commands 'dante-mode
+  :init
+  (add-hook 'haskell-mode-hook 'dante-mode)
+  (add-hook 'haskell-mode-hook 'flycheck-mode))
 
     '';
 
@@ -154,6 +201,11 @@ in
     company
     flycheck
     dracula-theme
+    powerline
+    haskell-mode
+    dante
+    nix-mode
+    rjsx-mode
   ]) ++ (with epkgs.melpaPackages; [
     general
   ]) ++ (with epkgs.elpaPackages; [
