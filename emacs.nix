@@ -30,6 +30,8 @@ let
 ;; use windows logo as meta, alt is used by i3
 (setq x-super-keysym 'meta) 
 
+;; Annoying random freezes
+(setq x-select-enable-clipboard-manager nil)
 
 ;; initialize package
 
@@ -47,8 +49,9 @@ let
 )
 
 ;;; I'm not a mouse peasant (disable menu/toolbars)
-(tool-bar-mode -1)
-(menu-bar-mode -1)
+(tool-bar-mode -1) ;; disables tool buttons (little icons)
+(menu-bar-mode -1) ;; disables file edit help etc
+(scroll-bar-mode -1) ;; disables scrol bar
 
 ;;; theme
 (use-package molokai-theme
@@ -69,9 +72,11 @@ let
   (powerline-default-theme)
 
   (general-define-key "C-'" 'avy-goto-word-1)
+  (general-define-key "C-x b" 'ivy-switch-buffer)
   (general-define-key
       :keymaps 'normal
         ;; simple command
+        "K" 'newline
         )
   (general-define-key
     ;; replace default keybindings
@@ -88,12 +93,13 @@ let
       "SPC" '(avy-goto-word-or-subword-1  :which-key "go to char")
       "b"	'ivy-switch-buffer  ; change buffer, chose using ivy
       ;; bind to double key press
-      "f"   '(:ignore t :which-key "files")
-      "ff"  'counsel-find-file
-      "fr"	'counsel-recentf
-      "fg"  'counsel-git-grep
-      "p"   '(:ignore t :which-key "project")
-      "pf"  '(counsel-git :which-key "find file in git dir")
+      "f"  'counsel-find-file
+      "r"	 'counsel-recentf
+      "q"   'kill-emacs
+      "g"   '(:ignore t :which-key "git")
+      "gg"  'counsel-git-grep
+      "gf"  '(counsel-git :which-key "find file in git dir")
+      "gs"  'magit-status
 
       ;; Applications
       "a" '(:ignore t :which-key "Applications")

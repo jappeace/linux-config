@@ -60,7 +60,6 @@ in {
 		 networkmanagerapplet # make wifi clickable
 		 nix-repl
 		 git
-		 emacs
 		 keepassxc # to open my passwords
 		 syncthing # keepassfile in here
 		 tree # sl
@@ -192,7 +191,10 @@ in {
     postgresql.enable = true; # postgres for local dev
 
 		gnome3.gnome-terminal-server.enable = true;
-		emacs.enable = true; # deamon mode
+		emacs = {
+			enable = true; # deamon mode
+			package = (import /linux-config/emacs.nix { inherit pkgs; });
+		};
 		syncthing = {
           enable = true;
           user = "jappie";
