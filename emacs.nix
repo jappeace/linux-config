@@ -39,7 +39,9 @@ let
   (require 'use-package))
 
 ;; vanity 
-(use-package linum-relative
+(global-hl-line-mode +1) ;; highlight current line
+
+(use-package linum-relative ;; TODO switch to C backend once on emacs 26: https://github.com/coldnew/linum-relative#linum-relative-on
   :config
   (linum-relative-global-mode)
 )
@@ -63,7 +65,6 @@ let
   :config
   (progn
   ;;; highlight current line
-  (global-hl-line-mode +1)
   (which-key-mode)
   (powerline-default-theme)
 
