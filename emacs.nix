@@ -164,7 +164,6 @@ let
 (use-package avy
   :commands (avy-goto-word-1 avy-goto-word-or-subword-1))
 
-
 ;;; git
 (use-package magit
   :defer
@@ -172,7 +171,6 @@ let
   :if (executable-find "git")
   :bind (("C-x g" . magit-status)
          ("C-x G" . magit-dispatch-popup)))
-
 
 ;;; I can't spell
 (use-package flycheck
@@ -246,6 +244,15 @@ in
     evil-collection
     general
     molokai-theme
+    # we bind emacs lsp to whatever lsp's we want
+    # for example haskell: https://github.com/haskell/haskell-ide-engine#using-hie-with-emacs
+    # rust https://github.com/rust-lang-nursery/rls
+    # etc
+    # emacs-lsp # https://github.com/emacs-lsp/lsp-mode
+    # lsp-ui # https://github.com/emacs-lsp/lsp-ui
+    # use hooks to bind haskell to lsp haskell
+    # lsp-haskell # https://github.com/emacs-lsp/lsp-haskell
+    # lsp-rust https://github.com/emacs-lsp/lsp-rust
   ]) ++ (with epkgs.elpaPackages; [
     # ehh
   ]) ++ [
