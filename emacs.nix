@@ -61,10 +61,27 @@ let
 )
 
 ;; load packages
+(use-package evil
+  :init
+  (setq evil-want-integration nil)
+  :config
+  (evil-mode 1))
+
+;; is this usefull? idk? They say more integration
+;; tried fixing magit with this
+(use-package evil-collection
+  :commands (evil-mode) ; crappy after hack
+  :config
+  (evil-collection-init))
+
+(use-package evil-magit
+  :after magit
+  :defer
+)
 
 ;;; keybindings
 (use-package general
-  :after (evil which-key)
+  :after (evil evil-collection which-key)
   :config
   (progn
   ;;; highlight current line
@@ -106,19 +123,6 @@ let
       "ar" 'ranger)
   )
 ) 
-;;; I actually don't know how to emacs IRL, just use vim bindings instead
-(use-package evil
-  :ensure t ;; install the evil package if not installed
-  :init ;; tweak evil's configuration before loading it
-  (setq evil-search-module 'evil-search)
-  (setq evil-ex-complete-emacs-commands nil)
-  (setq evil-vsplit-window-right t)
-  (setq evil-split-window-below t)
-  (setq evil-shift-round nil)
-  (setq evil-want-C-u-scroll t)
-  :config ;; tweak evil after loading it
-  (evil-mode)
-  )
 
 ;;; project navigation
 (use-package counsel
@@ -236,8 +240,10 @@ in
     nix-mode
     rjsx-mode
     linum-relative
+    evil-magit
     # dracula-theme
   ]) ++ (with epkgs.melpaPackages; [
+    evil-collection
     general
     molokai-theme
   ]) ++ (with epkgs.elpaPackages; [
