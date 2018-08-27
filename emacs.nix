@@ -7,8 +7,11 @@ let
   # https://sam217pa.github.io/2016/09/02/how-to-build-your-own-spacemacs/
   myEmacsConfig = pkgs.writeText "default.el" ''
 ;; globals
+(set-default 'truncate-lines t)
 (setq delete-old-versions -1 )		; delete excess backup versions silently
 (setq version-control t )		; use version control
+(setq make-backup-files nil) ; stop creating backup~ files
+(setq auto-save-default nil) ; stop creating #autosave# files
 (setq vc-make-backup-files nil )		; don't make backup files, I don't care
 (setq vc-follow-symlinks t )				       ; don't ask for confirmation when opening symlinked file
 (setq auto-save-file-name-transforms '((".*" "~/.emacs.d/auto-save-list/" t)) ) ;transform backups file name
