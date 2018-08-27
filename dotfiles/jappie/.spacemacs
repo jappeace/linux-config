@@ -96,6 +96,7 @@ values."
                       version-control-diff-tool 'git-gutter+
                       )
      plantuml
+     nixos
      )
    ;; List of additional packages that will be installed without being
    ;; wrapped in a layer. If you need some configuration for these

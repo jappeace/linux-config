@@ -12,6 +12,7 @@ let intero-neovim = pkgs.vimUtils.buildVimPlugin {
       sha256 = "1igc8swgbbkvyykz0ijhjkzcx3d83yl22hwmzn3jn8dsk6s4an8l";
     };
   };
+  aspell_with_dict = pkgs.aspellWithDicts(ps: [ps.nl ps.en]);
 in {
   imports =
     [ # Include the results of the hardware scan.
@@ -28,9 +29,11 @@ in {
 
   # Select internationalisation properties.
   i18n = {
-    consoleFont = "Lat2-Terminus16";
+    # consoleFont = "Lat2-Terminus16";
+    consoleFont = "fira-code";
     consoleKeyMap = "us";
     defaultLocale = "nl_NL.UTF-8";
+    supportedLocales = ["en_US.UTF-8/UTF-8" "nl_NL.UTF-8/UTF-8"];
   };
 
   # Set your time zone.
@@ -46,18 +49,23 @@ in {
       ntfs3g # mount ntfs drives write-able
 	  libreoffice
 	  haskellPackages.stylish-haskell
-	  jq
-	  stack2nix
+      silver-searcher # when configuring my emacs they told me to use this: https://github.com/ggreer/the_silver_searcher#installation
+      aspell_with_dict # I can't spell
+      gnome3.nautilus # lazy file browsing
+      openjdk # we need to be able to run java stuff (plantuml)
+      plantuml # for thesis uml amongst other things, it's pretty nice
+      inkscape # gotta make that artwork for site etc
 	  gnupg # for private keys
 	  git-crypt # pgp based encryption for git repos (the dream is real)
+      jq # deal with json on commandline
+	  # wiregaurd # easier vpn
 	  	gimp # edit my screenshots
 		 curl
 		 neovim # because emacs never breaks
-     gnome3.gnome-screenshot # put screenshots in clipy and magically work with i3
+         gnome3.gnome-screenshot # put screenshots in clipy and magically work with i3
 		 networkmanagerapplet # make wifi clickable
 		 nix-repl
 		 git
-		 emacs
 		 keepassxc # to open my passwords
 		 syncthing # keepassfile in here
 		 tree # sl
@@ -71,21 +79,26 @@ in {
 		 xdotool # i3 auto type
 		 blackbird lxappearance # theme
 		 fasd cowsay fortune thefuck # zsh stuff
-		 lsof
 		 vlc
 		 firefoxWrapper
 		 chromium
 		 pavucontrol
-     thunderbird # some day I'll use emacs for this
-     stack
-     ghc
-     ksysguard # monitor my system.. with graphs! (so I don't need to learn real skills)
-     gnumake # handy for adhoc configs, https://github.com/NixOS/nixpkgs/issues/17293
-     qpdfview
+         qpdfview
+		gparted # partitiioning for dummies, like me
+         thunderbird # some day I'll use emacs for this
+	openvpn # piratebay access
+         stack
+         ghc
+         ksysguard # monitor my system.. with graphs! (so I don't need to learn real skills)
+         gnumake # handy for adhoc configs, https://github.com/NixOS/nixpkgs/issues/17293
+  	fbreader # read books
 	  ];
 	  shellAliases = {
       vim = "nvim";
       cp = "cp --reflink=auto"; # btrfs shine
+    };
+    variables = {
+      LESS="-F -X -R";
     };
   };
 
@@ -185,7 +198,10 @@ in {
     postgresql.enable = true; # postgres for local dev
 
 		gnome3.gnome-terminal-server.enable = true;
-		emacs.enable = true; # deamon mode
+		emacs = {
+			enable = true; # deamon mode
+			package = (import /linux-config/emacs.nix { inherit pkgs; });
+		};
 		syncthing = {
           enable = true;
           user = "jappie";

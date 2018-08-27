@@ -14,10 +14,11 @@
     <option name="Width" value="465"/>
   </group>
   <group name="OpenFileDialog">
-    <option name="File" value="/home/jappie/ADFADS"/>
+    <option name="Directory" value="/home/jappie/phone/books"/>
+    <option name="File" value="/home/jappie/phone/books/12-Rules-for-Life-An-Antidote-to-Chaos.epub"/>
     <option name="Height" value="427"/>
     <option name="Width" value="644"/>
-    <option name="X" value="636"/>
+    <option name="X" value="640"/>
     <option name="Y" value="287"/>
   </group>
   <group name="Options">
@@ -30,6 +31,10 @@
   <group name="Style">
     <option name="Base:fontSize" value="28"/>
     <option name="Preformatted text:fontFamily" value="Courier"/>
+  </group>
+  <group name="SystemOptionsDialog">
+    <option name="SelectedTab" value="Config"/>
+    <option name="Width" value="415"/>
   </group>
   <group name="ToggleButtonGroup">
     <option name="booksOrder" value="byAuthor"/>

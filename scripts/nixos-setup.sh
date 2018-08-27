@@ -1,4 +1,5 @@
 #! /run/current-system/sw/bin/bash
+# should I use this instead: https://github.com/rycee/home-manager ??
 echo "Basic nixos setup assuming this repository is used"
 echo "Hardlink to the configuration.nix in this repo, "
 echo "create symlink to dotfiles"
