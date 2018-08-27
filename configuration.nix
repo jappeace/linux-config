@@ -23,9 +23,41 @@ in {
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
-  networking.hostName = "worklaptop-jappie-nixos"; # Define your hostname.
+  networking = {
+    hostName = "worklaptop-jappie-nixos"; # Define your hostname.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
-  networking.networkmanager.enable = true;
+    networkmanager.enable = true;
+    wireguard.interfaces.devvpnwiregaurd = {
+      # Determines the IP address and subnet of the client's end of the tunnel interface.
+      ips = [ "10.103.0.4/24" ];
+
+      # Path to the private key file.
+      #
+      # Note: The private key can also be included inline via the privateKey option,
+      # but this makes the private key world-readable; thus, using privateKeyFile is
+      # recommended.
+      privateKeyFile = "/home/jappie/wireguard-keys/private";
+
+      peers = [
+        # For a client configuration, one peer entry for the server will suffice.
+        {
+          # Public key of the server (not a file path).
+          publicKey = "fqIICqiaZJmugzxs0JImByGmb9r8KpW75TJOpsGMODc=";
+
+          # List of IPs assigned to this peer within the tunnel subnet. Used to configure routing.
+          # For a server peer this should be the whole subnet.
+          allowedIPs = [ "10.103.0.0/24" ];
+
+          # Set this to the server IP and port.
+          endpoint = "13.238.122.8:8083";
+
+          # Send keepalives every 25 seconds. Important to keep NAT tables alive.
+          persistentKeepalive = 25;
+        }
+      ];
+    };
+
+    };
 
   # Select internationalisation properties.
   i18n = {
@@ -58,7 +90,8 @@ in {
 	  gnupg # for private keys
 	  git-crypt # pgp based encryption for git repos (the dream is real)
       jq # deal with json on commandline
-	  # wiregaurd # easier vpn
+	   wireguard # easier vpn
+     sqlite # hack nixops
 	  	gimp # edit my screenshots
 		 curl
 		 neovim # because emacs never breaks
@@ -97,6 +130,7 @@ in {
 	  shellAliases = {
       vim = "nvim";
       cp = "cp --reflink=auto"; # btrfs shine
+      ssh = "ssh -C"; # why is this not default?
     };
     variables = {
       LESS="-F -X -R";
