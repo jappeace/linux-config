@@ -117,7 +117,7 @@ let
       "gg"  'counsel-git-grep
       "gf"  '(counsel-git :which-key "find file in git dir")
       "gs"  'magit-status
-
+      "gp"  'magit-push-to-remote
       ;; Applications
       "a" '(:ignore t :which-key "Applications")
       "ar" 'ranger)
@@ -168,7 +168,7 @@ let
 ;;; git
 (use-package magit
   :defer
-  :commands (magit-status magit-dispatch-popup)
+  :commands (magit-status magit-dispatch-popup magit-push-to-remote)
   :if (executable-find "git")
   :bind (("C-x g" . magit-status)
          ("C-x G" . magit-dispatch-popup)))
