@@ -46,7 +46,7 @@ in {
 
           # List of IPs assigned to this peer within the tunnel subnet. Used to configure routing.
           # For a server peer this should be the whole subnet.
-          allowedIPs = [ "10.103.0.0/24" ];
+          allowedIPs = [ "10.103.0.0/24" "10.5.0.0/16" ];
 
           # Set this to the server IP and port.
           endpoint = "13.238.122.8:8083";
