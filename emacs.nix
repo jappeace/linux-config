@@ -154,6 +154,7 @@ let
 
 ;;; show what keys are possible
 (use-package which-key
+  :commands (which-key-mode)
   :config
   (progn
     (setq which-key-idle-delay 0.01)
