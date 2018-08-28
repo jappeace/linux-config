@@ -16,7 +16,7 @@ let intero-neovim = pkgs.vimUtils.buildVimPlugin {
 in {
   imports =
     [ # Include the results of the hardware scan.
-      ./hardware-configuration.nix
+      ./hardware/tuxedo.nix
     ];
   
   # Use the systemd-boot EFI boot loader.
@@ -193,7 +193,7 @@ in {
 		gnome3.gnome-terminal-server.enable = true;
 		emacs = {
 			enable = true; # deamon mode
-			package = (import /linux-config/emacs.nix { inherit pkgs; });
+			package = (import ./emacs.nix { inherit pkgs; });
 		};
 		syncthing = {
           enable = true;
