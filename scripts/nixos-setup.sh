@@ -12,7 +12,7 @@ ln -fs $XDG_DATA_HOME/fonts $HOME/.fonts
 
 DIR=$HOME/projects/linux-config
 
-sudo ln -f $DIR/configuration.nix /etc/nixos/configuration.nix
+sudo ln -fs $DIR/configuration.nix /etc/nixos/configuration.nix
 
 DOTFILES=$DIR/dotfiles
 
@@ -38,5 +38,3 @@ ln -sf $USER/.emacs.d/configuration.org $HOME/.config/emacsconfig.org
 # TODO these clone commands should be done by the configuration.nix file instead
 # we probably should find a better shell than oh-my-zsh (xonsh?)
 git clone https://github.com/robbyrussell/oh-my-zsh.git $HOME/.oh-my-zsh || echo "didn't clone oh my zsh, already there"
-# we probably actually should go native emacs at some point.
-git clone https://github.com/syl20bnr/spacemacs $HOME/.emacs.d || echo "didn't clone spacemacs, already there"
