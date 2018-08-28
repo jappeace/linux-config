@@ -16,7 +16,7 @@ let intero-neovim = pkgs.vimUtils.buildVimPlugin {
 in {
   imports =
     [ # Include the results of the hardware scan.
-      ./hardware/tuxedo.nix
+      ./hardware/hp-work.nix
     ];
 
   # Use the systemd-boot EFI boot loader.
