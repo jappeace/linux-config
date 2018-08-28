@@ -1,6 +1,7 @@
 { pkgs ? import <nixpkgs> {} }:
 
 let
+
   myEmacs = pkgs.emacs.override {} ;
   emacsWithPackages = (pkgs.emacsPackagesNgGen myEmacs).emacsWithPackages;
 
@@ -63,16 +64,15 @@ let
 ;; load packages
 (use-package evil
   :init
-  ; (setq evil-want-integration nil) ; required for evil collection
+  ; (setq evil-want-integration nil) ; required for evil collection; but I patched it so no
   :config
   (evil-mode 1))
 
 ; some day I'll get this to behave, probably by patching both this and evil
-; (use-package evil-collection
-;   :after evil
-;    :config
-;    (evil-collection-init))
-
+(use-package evil-collection
+  :after evil
+  :config
+   (evil-collection-init))
 
   ;; todo delete in favor of evil collection?
 (use-package evil-magit
@@ -259,7 +259,33 @@ let
     '';
 
 in
-  emacsWithPackages (epkgs: (with epkgs.melpaStablePackages; [
+  emacsWithPackages (epkgs:
+  (
+  let
+    evilJap = epkgs.evil.override (args: {
+        melpaBuild = drv: args.melpaBuild (drv // {
+          src = pkgs.fetchFromGitHub {
+                owner = "jappeace";
+                repo = "evil";
+                rev = "a8a2cfeb00267b47d8e11628f8f25f8ac26feea4";
+                sha256 = "0gll4l1kcpgapz0pg2ry4x3f1a8l4i4kdn7zrpx2i9pwl4mgna4y";
+            };
+        });
+    });
+    coll = epkgs.melpaPackages.evil-collection.override (args: {
+        melpaBuild = drv: args.melpaBuild (drv // {
+            version = "23";
+          packageRequires = [ pkgs.emacs evilJap ];
+          src = pkgs.fetchFromGitHub {
+                owner = "jappeace";
+                repo = "evil-collection";
+                rev = "a8a2cfeb00267b47d8e11628f8f25f8ac26feea4";
+                sha256 = "0gll4l1kcpgapz0pg2ry4x3f1a8l4i4kdn7zrpx2i9pwl4mgna4y";
+            };
+        });
+    });
+  in
+  (with epkgs.melpaStablePackages; [
 (pkgs.runCommand "default.el" {} ''
       mkdir -p $out/share/emacs/site-lisp
       cp ${myEmacsConfig} $out/share/emacs/site-lisp/default.el
@@ -271,7 +297,6 @@ in
     swiper
     which-key
     ranger
-    evil
     company
     flycheck
     powerline
@@ -282,11 +307,12 @@ in
     linum-relative
     evil-magit
     use-package # lazy package loading
+    evilJap
     # dracula-theme
   ]) ++ (with epkgs.melpaPackages; [
-    # evil-collection
     general
     molokai-theme
+    # evil-collection
     # we bind emacs lsp to whatever lsp's we want
     # for example haskell: https://github.com/haskell/haskell-ide-engine#using-hie-with-emacs
     # rust https://github.com/rust-lang-nursery/rls
@@ -300,4 +326,5 @@ in
     # ehh
   ]) ++ [
     # from nix
-  ])
+    coll 
+  ]))
