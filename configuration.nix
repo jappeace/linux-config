@@ -75,6 +75,8 @@ in {
   # $ nix search wget
   environment = {
 	  systemPackages = with pkgs.xfce // pkgs; [
+      androidenv.platformTools
+      android-studio
       virtualbox
       silver-searcher # when configuring my emacs they told me to use this: https://github.com/ggreer/the_silver_searcher#installation
       aspell_with_dict # I can't spell
@@ -113,7 +115,11 @@ in {
 		 pavucontrol
 		gparted # partitiioning for dummies, like me
          thunderbird # some day I'll use emacs for this
+         deluge # bittorrent
+  # the spell to make openvpn work:   nmcli connection modify jappie vpn.data "key = /home/jappie/openvpn/website/jappie.key, ca = /home/jappie/openvpn/website/ca.crt, dev = tun, cert = /home/jappie/openvpn/website/jappie.crt, ns-cert-type = server, cert-pass-flags = 0, comp-lzo = adaptive, remote = jappieklooster.nl:1194, connection-type = tls" 
+  # from https://github.com/NixOS/nixpkgs/issues/30235
 	openvpn # piratebay access
+
          stack
          ghc
          ksysguard # monitor my system.. with graphs! (so I don't need to learn real skills)
@@ -135,9 +141,12 @@ in {
   # started in user sessions.
   # programs.bash.enableCompletion = true;
   # programs.mtr.enable = true;
-  programs.gnupg.agent = { enable = true; enableSSHSupport = true; };
-  programs.vim.defaultEditor = true;
-  programs.qt5ct.enable = true; # fix qt5 themes
+  programs = {
+    gnupg.agent = { enable = true; enableSSHSupport = true; };
+    vim.defaultEditor = true;
+    qt5ct.enable = true; # fix qt5 themes
+    adb.enable = true;
+  };
 
   fonts = {
         fonts = with pkgs; [
@@ -276,7 +285,7 @@ in {
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.extraUsers.jappie = {
     createHome = true;
-    extraGroups = ["wheel" "video" "audio" "disk" "networkmanager"];
+    extraGroups = ["wheel" "video" "audio" "disk" "networkmanager" "adbusers"];
     group = "users";
     home = "/home/jappie";
     isNormalUser = true;
