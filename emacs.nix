@@ -1,6 +1,7 @@
 { pkgs ? import <nixpkgs> {} }:
 
 let
+
   myEmacs = pkgs.emacs.override {} ;
   emacsWithPackages = (pkgs.emacsPackagesNgGen myEmacs).emacsWithPackages;
 
@@ -36,25 +37,22 @@ let
 ;; Annoying random freezes
 (setq x-select-enable-clipboard-manager nil)
 
-;; initialize package
-
-(require 'package)
-(package-initialize 'noactivate)
-(eval-when-compile
-  (require 'use-package))
-
-;; vanity 
-(global-hl-line-mode +1) ;; highlight current line
-
-(use-package linum-relative ;; TODO switch to C backend once on emacs 26: https://github.com/coldnew/linum-relative#linum-relative-on
-  :config
-  (linum-relative-global-mode)
-)
-
 ;;; I'm not a mouse peasant (disable menu/toolbars)
 (tool-bar-mode -1) ;; disables tool buttons (little icons)
 (menu-bar-mode -1) ;; disables file edit help etc
 (scroll-bar-mode -1) ;; disables scrol bar
+
+(global-hl-line-mode +1) ;; highlight current line
+
+;; initialize package
+(eval-when-compile
+  (require 'use-package))
+
+;; vanity 
+(use-package linum-relative ;; TODO switch to C backend once on emacs 26: https://github.com/coldnew/linum-relative#linum-relative-on
+  :config
+  (linum-relative-global-mode)
+)
 
 ;;; theme
 (use-package molokai-theme
@@ -66,20 +64,21 @@ let
 ;; load packages
 (use-package evil
   :init
-  (setq evil-want-integration nil)
+  (setq evil-want-integration nil) ; required for evil collection; but I patched it so no
   :config
   (evil-mode 1))
 
-;; is this usefull? idk? They say more integration
-;; tried fixing magit with this
+; some day I'll get this to behave, probably by patching both this and evil
 (use-package evil-collection
-  :commands (evil-mode) ; crappy after hack
+  :after evil
+  :custom
+  (evil-collection-mode-list `(ediff)) ; we'll add what we need
   :config
-  (evil-collection-init))
+   (evil-collection-init))
 
+  ;; todo delete in favor of evil collection?
 (use-package evil-magit
-  :after magit
-  :defer
+  :after (magit evil-collection)
 )
 
 ;;; keybindings
@@ -87,10 +86,6 @@ let
   :after (evil evil-collection which-key)
   :config
   (progn
-  ;;; highlight current line
-  (which-key-mode)
-  (powerline-default-theme)
-
   (general-define-key "C-'" 'avy-goto-word-1)
   (general-define-key "C-x b" 'ivy-switch-buffer)
   (general-define-key
@@ -159,9 +154,8 @@ let
 (use-package which-key
   :commands (which-key-mode)
   :config
-  (progn
-    (setq which-key-idle-delay 0.01)
-  )
+  (setq which-key-idle-delay 0.01)
+  (which-key-mode)
 )
 
 ;;; jump around
@@ -172,9 +166,7 @@ let
 (use-package magit
   :defer
   :commands (magit-status magit-dispatch-popup magit-push-to-remote)
-  :if (executable-find "git")
-  :bind (("C-x g" . magit-status)
-         ("C-x G" . magit-dispatch-popup)))
+  )
 
 ;;; I can't spell
 (use-package flycheck
@@ -190,10 +182,15 @@ let
   (global-company-mode))
 
 ;;; more info
-(use-package powerline)
+(use-package powerline
+  :config
+  (powerline-default-theme)
+)
 
 ;;; nix syntax highlighting
-(use-package nix-mode)
+(use-package nix-mode
+    :after company
+)
 
 ;;; JS
 (use-package rjsx-mode
@@ -217,23 +214,90 @@ let
   (add-hook 'haskell-mode-hook 'dante-mode)
   (add-hook 'haskell-mode-hook 'flycheck-mode))
 
+;;; use emacs as mergetool
+(defvar ediff-after-quit-hooks nil
+  "* Hooks to run after ediff or emerge is quit.")
+
+(defadvice ediff-quit (after edit-after-quit-hooks activate)
+  (run-hooks 'ediff-after-quit-hooks))
+
+(setq git-mergetool-emacsclient-ediff-active nil)
+
+
+(setq ediff-window-setup-function 'ediff-setup-windows-plain)
+(setq ediff-split-window-function 'split-window-horizontally)
+
+(defun local-ediff-before-setup-hook ()
+  (setq local-ediff-saved-frame-configuration (current-frame-configuration))
+  (setq local-ediff-saved-window-configuration (current-window-configuration))
+  ;; (local-ediff-frame-maximize)
+  (if git-mergetool-emacsclient-ediff-active
+      (raise-frame)))
+
+(defun local-ediff-quit-hook ()
+  (set-frame-configuration local-ediff-saved-frame-configuration)
+  (set-window-configuration local-ediff-saved-window-configuration))
+
+(defun local-ediff-suspend-hook ()
+  (set-frame-configuration local-ediff-saved-frame-configuration)
+  (set-window-configuration local-ediff-saved-window-configuration))
+
+(add-hook 'ediff-before-setup-hook 'local-ediff-before-setup-hook)
+(add-hook 'ediff-quit-hook 'local-ediff-quit-hook 'append)
+(add-hook 'ediff-suspend-hook 'local-ediff-suspend-hook 'append)
+
+;; Useful for ediff merge from emacsclient.
+(defun git-mergetool-emacsclient-ediff (local remote base merged)
+  (setq git-mergetool-emacsclient-ediff-active t)
+  (if (file-readable-p base)
+      (ediff-merge-files-with-ancestor local remote base nil merged)
+    (ediff-merge-files local remote nil merged))
+  (recursive-edit))
+
+(defun git-mergetool-emacsclient-ediff-after-quit-hook ()
+  (exit-recursive-edit))
+
+(add-hook 'ediff-after-quit-hooks 'git-mergetool-emacsclient-ediff-after-quit-hook 'append)
     '';
 
 in
-  emacsWithPackages (epkgs: (with epkgs.melpaStablePackages; [
+  emacsWithPackages (epkgs:
+  (
+  let
+    evilJap = epkgs.evil.override (args: {
+        melpaBuild = drv: args.melpaBuild (drv // {
+          src = pkgs.fetchFromGitHub {
+                owner = "jappeace";
+                repo = "evil";
+                rev = "a8a2cfeb00267b47d8e11628f8f25f8ac26feea4";
+                sha256 = "0gll4l1kcpgapz0pg2ry4x3f1a8l4i4kdn7zrpx2i9pwl4mgna4y";
+            };
+        });
+    });
+    coll = epkgs.melpaPackages.evil-collection.override (args: {
+        melpaBuild = drv: args.melpaBuild (drv // {
+          packageRequires = [ pkgs.emacs evilJap ];
+          src = pkgs.fetchFromGitHub {
+                owner = "jappeace";
+                repo = "evil-collection";
+                rev = "ec39384bb2265466218995574b958db457363953";
+                sha256 = "13l4ijxf9k45jih9nwf2ax1wfd2m5an7sswgypmw3m2jysh9710l";
+            };
+        });
+    });
+  in
+  (with epkgs.melpaStablePackages; [
 (pkgs.runCommand "default.el" {} ''
       mkdir -p $out/share/emacs/site-lisp
       cp ${myEmacsConfig} $out/share/emacs/site-lisp/default.el
       '')
     avy # jump to word
     magit          # Integrate git <C-x g>
-    use-package # lazy package loading
     ivy 
     counsel
     swiper
     which-key
     ranger
-    evil
     company
     flycheck
     powerline
@@ -243,11 +307,13 @@ in
     rjsx-mode
     linum-relative
     evil-magit
+    evilJap
     # dracula-theme
   ]) ++ (with epkgs.melpaPackages; [
-    evil-collection
     general
     molokai-theme
+    use-package # lazy package loading TODO downgrade to stable (custom wan't there)
+    # evil-collection
     # we bind emacs lsp to whatever lsp's we want
     # for example haskell: https://github.com/haskell/haskell-ide-engine#using-hie-with-emacs
     # rust https://github.com/rust-lang-nursery/rls
@@ -261,4 +327,5 @@ in
     # ehh
   ]) ++ [
     # from nix
-  ])
+    coll 
+  ]))

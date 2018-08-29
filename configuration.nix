@@ -81,6 +81,7 @@ in {
       ntfs3g # mount ntfs drives write-able
 	  libreoffice
 	  haskellPackages.stylish-haskell
+      virtualbox
       silver-searcher # when configuring my emacs they told me to use this: https://github.com/ggreer/the_silver_searcher#installation
       aspell_with_dict # I can't spell
       gnome3.nautilus # lazy file browsing
