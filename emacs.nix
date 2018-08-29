@@ -69,12 +69,12 @@ let
   (evil-mode 1))
 
 ; some day I'll get this to behave, probably by patching both this and evil
-(use-package evil-collection
-  :after evil
-  :custom
-  (evil-collection-mode-list `(ediff)) ; we'll add what we need
-  :config
-   (evil-collection-init))
+; (use-package evil-collection
+;  :after evil
+;  :custom
+;  (evil-collection-mode-list `(ediff)) ; we'll add what we need
+;  :config
+;   (evil-collection-init))
 
   ;; todo delete in favor of evil collection?
 (use-package evil-magit
@@ -83,7 +83,6 @@ let
 
 ;;; keybindings
 (use-package general
-  :after (evil evil-collection which-key)
   :config
   (progn
   (general-define-key "C-'" 'avy-goto-word-1)
@@ -120,7 +119,7 @@ let
       "a" '(:ignore t :which-key "Applications")
       "ar" 'ranger)
   )
-) 
+)
 
 ;;; project navigation
 (use-package counsel
@@ -152,7 +151,6 @@ let
 
 ;;; show what keys are possible
 (use-package which-key
-  :commands (which-key-mode)
   :config
   (setq which-key-idle-delay 0.01)
   (which-key-mode)
