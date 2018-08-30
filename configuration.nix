@@ -13,6 +13,12 @@ let intero-neovim = pkgs.vimUtils.buildVimPlugin {
     };
   };
   aspell_with_dict = pkgs.aspellWithDicts(ps: [ps.nl ps.en]);
+  hie = (import (pkgs.fetchFromGitHub {
+                   owner="domenkozar";
+                   repo="hie-nix";
+                   rev="e3113da";
+                   sha256="05rkzjvzywsg66iafm84xgjlkf27yfbagrdcb8sc9fd59hrzyiqk";
+                 }) {}).hie82;
 in {
   imports =
     [ # Include the results of the hardware scan.
@@ -75,6 +81,7 @@ in {
   # $ nix search wget
   environment = {
 	  systemPackages = with pkgs.xfce // pkgs; [
+      hie 
       bc # random calcualtions
       androidenv.platformTools
       android-studio
