@@ -54,10 +54,10 @@ let
 )
 
 ;;; theme
-(use-package molokai-theme
+(use-package monokai-theme
    :load-path "themes"
    :config
-  (load-theme 'molokai t)
+  (load-theme 'monokai t)
 )
 
 ;; load packages
@@ -324,7 +324,7 @@ in
     # dracula-theme
   ]) ++ (with epkgs.melpaPackages; [
     general
-    molokai-theme
+    monokai-theme
     use-package # lazy package loading TODO downgrade to stable (custom wan't there)
     # evil-collection
     # we bind emacs lsp to whatever lsp's we want
