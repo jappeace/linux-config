@@ -75,8 +75,7 @@ in {
   # $ nix search wget
   environment = {
 	  systemPackages = with pkgs.xfce // pkgs; [
-      gcc # for stack
-      bc
+      bc # random calcualtions
       androidenv.platformTools
       android-studio
       virtualbox
