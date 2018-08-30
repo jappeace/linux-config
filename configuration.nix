@@ -75,6 +75,8 @@ in {
   # $ nix search wget
   environment = {
 	  systemPackages = with pkgs.xfce // pkgs; [
+      gcc # for stack
+      bc
       androidenv.platformTools
       android-studio
       virtualbox
@@ -130,6 +132,7 @@ in {
       vim = "nvim";
       cp = "cp --reflink=auto"; # btrfs shine
       ssh = "ssh -C"; # why is this not default?
+      bc = "bc -l"; # fix scale
     };
     variables = {
       LESS="-F -X -R";
@@ -301,5 +304,5 @@ in {
     nixos.version = "18.03.132507.5f2da7f837e";
     stateVersion = "18.03"; # Did you read the comment?
   };
-
+  virtualisation.virtualbox.host.enable = true;
 }
