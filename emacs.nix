@@ -190,6 +190,11 @@ let
     :after company
 )
 
+(use-package yaml-mode
+  :mode "\\.yaml\\'")
+(use-package markdown-mode
+  :mode "\\.md\\'")
+
 ;;; JS
 (use-package rjsx-mode
    ; maybe this should work:
@@ -302,6 +307,8 @@ in
     haskell-mode
     dante
     nix-mode
+    yaml-mode
+    markdown-mode
     rjsx-mode
     linum-relative
     evil-magit
