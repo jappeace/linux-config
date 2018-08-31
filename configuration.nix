@@ -13,6 +13,12 @@ let intero-neovim = pkgs.vimUtils.buildVimPlugin {
     };
   };
   aspell_with_dict = pkgs.aspellWithDicts(ps: [ps.nl ps.en]);
+  hie = (import (pkgs.fetchFromGitHub {
+                   owner="domenkozar";
+                   repo="hie-nix";
+                   rev="e3113da";
+                   sha256="05rkzjvzywsg66iafm84xgjlkf27yfbagrdcb8sc9fd59hrzyiqk";
+                 }) {}).hie82;
 in {
   imports =
     [ # Include the results of the hardware scan.
@@ -81,6 +87,8 @@ in {
       ntfs3g # mount ntfs drives write-able
 	  libreoffice
 	  haskellPackages.stylish-haskell
+      hie 
+      bc # random calcualtions
       virtualbox
       silver-searcher # when configuring my emacs they told me to use this: https://github.com/ggreer/the_silver_searcher#installation
       aspell_with_dict # I can't spell
@@ -121,6 +129,7 @@ in {
 		gparted # partitiioning for dummies, like me
          thunderbird # some day I'll use emacs for this
 	openvpn # piratebay access
+
          stack
          ghc
          ksysguard # monitor my system.. with graphs! (so I don't need to learn real skills)
@@ -132,6 +141,7 @@ in {
       vim = "nvim";
       cp = "cp --reflink=auto"; # btrfs shine
       ssh = "ssh -C"; # why is this not default?
+      bc = "bc -l"; # fix scale
     };
     variables = {
       LESS="-F -X -R";
@@ -143,9 +153,11 @@ in {
   # started in user sessions.
   # programs.bash.enableCompletion = true;
   # programs.mtr.enable = true;
-  programs.gnupg.agent = { enable = true; enableSSHSupport = true; };
-  programs.vim.defaultEditor = true;
-  programs.qt5ct.enable = true; # fix qt5 themes
+  programs = {
+    gnupg.agent = { enable = true; enableSSHSupport = true; };
+    vim.defaultEditor = true;
+    qt5ct.enable = true; # fix qt5 themes
+  };
 
   fonts = {
         fonts = with pkgs; [
@@ -284,7 +296,7 @@ in {
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.extraUsers.jappie = {
     createHome = true;
-    extraGroups = ["wheel" "video" "audio" "disk" "networkmanager"];
+    extraGroups = ["wheel" "video" "audio" "disk" "networkmanager" "adbusers"];
     group = "users";
     home = "/home/jappie";
     isNormalUser = true;

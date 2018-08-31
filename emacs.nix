@@ -1,7 +1,6 @@
 { pkgs ? import <nixpkgs> {} }:
 
 let
-
   myEmacs = pkgs.emacs.override {} ;
   emacsWithPackages = (pkgs.emacsPackagesNgGen myEmacs).emacsWithPackages;
 
@@ -55,10 +54,10 @@ let
 )
 
 ;;; theme
-(use-package molokai-theme
+(use-package monokai-theme
    :load-path "themes"
    :config
-  (load-theme 'molokai t)
+  (load-theme 'monokai t)
 )
 
 ;; load packages
@@ -107,6 +106,7 @@ let
       "SPC" '(avy-goto-word-or-subword-1  :which-key "go to char")
       "b"	'ivy-switch-buffer  ; change buffer, chose using ivy
       ;; bind to double key press
+      "j"  'xref-find-definitions ; lsp find definition
       "f"  'counsel-find-file
       "r"	 'counsel-recentf
       "q"   'kill-emacs
@@ -190,6 +190,11 @@ let
     :after company
 )
 
+(use-package yaml-mode
+  :mode "\\.yaml\\'")
+(use-package markdown-mode
+  :mode "\\.md\\'")
+
 ;;; JS
 (use-package rjsx-mode
    ; maybe this should work:
@@ -211,6 +216,15 @@ let
   :init
   (add-hook 'haskell-mode-hook 'dante-mode)
   (add-hook 'haskell-mode-hook 'flycheck-mode))
+(use-package lsp-ui)
+(use-package lsp-haskell
+    :after lsp-ui
+    :config
+    (add-hook 'lsp-mode-hook 'lsp-ui-mode)
+    (add-hook 'haskell-mode-hook #'lsp-haskell-enable)
+    (add-hook 'haskell-mode-hook 'flycheck-mode)
+)
+
 
 ;;; use emacs as mergetool
 (defvar ediff-after-quit-hooks nil
@@ -300,8 +314,9 @@ in
     flycheck
     powerline
     haskell-mode
-    dante
     nix-mode
+    yaml-mode
+    markdown-mode
     rjsx-mode
     linum-relative
     evil-magit
@@ -309,17 +324,16 @@ in
     # dracula-theme
   ]) ++ (with epkgs.melpaPackages; [
     general
-    molokai-theme
+    monokai-theme
     use-package # lazy package loading TODO downgrade to stable (custom wan't there)
     # evil-collection
     # we bind emacs lsp to whatever lsp's we want
     # for example haskell: https://github.com/haskell/haskell-ide-engine#using-hie-with-emacs
     # rust https://github.com/rust-lang-nursery/rls
     # etc
-    # emacs-lsp # https://github.com/emacs-lsp/lsp-mode
-    # lsp-ui # https://github.com/emacs-lsp/lsp-ui
+    lsp-ui # https://github.com/emacs-lsp/lsp-ui
     # use hooks to bind haskell to lsp haskell
-    # lsp-haskell # https://github.com/emacs-lsp/lsp-haskell
+    lsp-haskell # https://github.com/emacs-lsp/lsp-haskell
     # lsp-rust https://github.com/emacs-lsp/lsp-rust
   ]) ++ (with epkgs.elpaPackages; [
     # ehh
