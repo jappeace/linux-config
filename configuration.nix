@@ -300,5 +300,6 @@ in {
     nixos.version = "18.03.132507.5f2da7f837e";
     stateVersion = "18.03"; # Did you read the comment?
   };
+  virtualisation.virtualbox.host.enable = true;
 
 }
