@@ -81,58 +81,59 @@ in {
   # $ nix search wget
   environment = {
 	  systemPackages = with pkgs.xfce // pkgs; [
-      hie 
-      bc # random calcualtions
-      androidenv.platformTools
-      android-studio
-      virtualbox
-      silver-searcher # when configuring my emacs they told me to use this: https://github.com/ggreer/the_silver_searcher#installation
-      aspell_with_dict # I can't spell
-      gnome3.nautilus # lazy file browsing
-      openjdk # we need to be able to run java stuff (plantuml)
-      plantuml # for thesis uml amongst other things, it's pretty nice
-      inkscape # gotta make that artwork for site etc
-	  gnupg # for private keys
-	  git-crypt # pgp based encryption for git repos (the dream is real)
-      jq # deal with json on commandline
-	   wireguard # easier vpn
-     sqlite # hack nixops
-	  	gimp # edit my screenshots
-		 curl
-		 neovim # because emacs never breaks
-         gnome3.gnome-screenshot # put screenshots in clipy and magically work with i3
-		 networkmanagerapplet # make wifi clickable
-		 nix-repl
-		 git
-		 keepassxc # to open my passwords
-		 syncthing # keepassfile in here
-		 tree # sl
-		 gnome3.gnome-terminal # resizes collumns, good for i3
-		 xfce4-panel xfce4-battery-plugin xfce4-clipman-plugin
-		 xfce4-datetime-plugin xfce4-dockbarx-plugin xfce4-embed-plugin
-		 xfce4-eyes-plugin xfce4-fsguard-plugin
-		 xfce4-namebar-plugin xfce4-whiskermenu-plugin # xfce plugins
-		 rofi # dmenu replacement (fancy launcher)
-		 xlibs.xmodmap # rebind capslock to escape
-		 xdotool # i3 auto type
-		 blackbird lxappearance # theme
-		 fasd cowsay fortune thefuck # zsh stuff
-		 vlc
-		 firefoxWrapper
-		 chromium
-		 pavucontrol
-		gparted # partitiioning for dummies, like me
-         thunderbird # some day I'll use emacs for this
-         deluge # bittorrent
-  # the spell to make openvpn work:   nmcli connection modify jappie vpn.data "key = /home/jappie/openvpn/website/jappie.key, ca = /home/jappie/openvpn/website/ca.crt, dev = tun, cert = /home/jappie/openvpn/website/jappie.crt, ns-cert-type = server, cert-pass-flags = 0, comp-lzo = adaptive, remote = jappieklooster.nl:1194, connection-type = tls" 
-  # from https://github.com/NixOS/nixpkgs/issues/30235
-	openvpn # piratebay access
 
-         stack
-         ghc
-         ksysguard # monitor my system.. with graphs! (so I don't need to learn real skills)
-         gnumake # handy for adhoc configs, https://github.com/NixOS/nixpkgs/issues/17293
-  	fbreader # read books
+        hie 
+        bc # random calcualtions
+        androidenv.platformTools
+        android-studio
+        virtualbox
+        silver-searcher # when configuring my emacs they told me to use this: https://github.com/ggreer/the_silver_searcher#installation
+        aspell_with_dict # I can't spell
+        gnome3.nautilus # lazy file browsing
+        openjdk # we need to be able to run java stuff (plantuml)
+        plantuml # for thesis uml amongst other things, it's pretty nice
+        inkscape # gotta make that artwork for site etc
+        gnupg # for private keys
+        git-crypt # pgp based encryption for git repos (the dream is real)
+        jq # deal with json on commandline
+        wireguard # easier vpn
+        sqlite # hack nixops
+        gimp # edit my screenshots
+        curl
+        neovim # because emacs never breaks
+        gnome3.gnome-screenshot # put screenshots in clipy and magically work with i3
+        networkmanagerapplet # make wifi clickable
+        nix-repl
+        git
+        keepassxc # to open my passwords
+        syncthing # keepassfile in here
+        tree # sl
+        gnome3.gnome-terminal # resizes collumns, good for i3
+        xfce4-panel xfce4-battery-plugin xfce4-clipman-plugin
+        xfce4-datetime-plugin xfce4-dockbarx-plugin xfce4-embed-plugin
+        xfce4-eyes-plugin xfce4-fsguard-plugin
+        xfce4-namebar-plugin xfce4-whiskermenu-plugin # xfce plugins
+        rofi # dmenu replacement (fancy launcher)
+        xlibs.xmodmap # rebind capslock to escape
+        xdotool # i3 auto type
+        blackbird lxappearance # theme
+        fasd cowsay fortune thefuck # zsh stuff
+        vlc
+        firefoxWrapper
+        chromium
+        pavucontrol
+        gparted # partitiioning for dummies, like me
+        thunderbird # some day I'll use emacs for this
+        deluge # bittorrent
+        # the spell to make openvpn work:   nmcli connection modify jappie vpn.data "key = /home/jappie/openvpn/website/jappie.key, ca = /home/jappie/openvpn/website/ca.crt, dev = tun, cert = /home/jappie/openvpn/website/jappie.crt, ns-cert-type = server, cert-pass-flags = 0, comp-lzo = adaptive, remote = jappieklooster.nl:1194, connection-type = tls" 
+        # from https://github.com/NixOS/nixpkgs/issues/30235
+        openvpn # piratebay access
+        stack
+        ghc
+        ksysguard # monitor my system.. with graphs! (so I don't need to learn real skills)
+        gnumake # handy for adhoc configs, https://github.com/NixOS/nixpkgs/issues/17293
+        fbreader # read books
+
 	  ];
 	  shellAliases = {
       vim = "nvim";
