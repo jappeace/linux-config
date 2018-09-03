@@ -138,6 +138,7 @@ in {
         binutils.bintools # cargo wants ar
         rustracer
         qpdfview
+        mcomix
 
 	  ];
 	  shellAliases = {
