@@ -79,20 +79,10 @@ let
 (use-package evil-magit
   :after (magit evil-collection)
 )
-(defun find-defintion-for-mode ()
-"Find definition for some mode or default to xref"
-(if (eq (symbol-value major-mode) (symbol-value rust-mode))
-    (progn 
-        (print "racer")
-        (racer-find-definition))
-    (progn 
-        (print "xref")
-        (xref-find-definitions))
-)
+
 ;;; keybindings
 (use-package general
   :config
-  (progn
   (general-define-key "C-'" 'avy-goto-word-1)
   (general-define-key "C-x b" 'ivy-switch-buffer)
   (general-define-key
@@ -115,7 +105,7 @@ let
       "SPC" '(avy-goto-word-or-subword-1  :which-key "go to char")
       "b"	'ivy-switch-buffer  ; change buffer, chose using ivy
       ;; bind to double key press
-      "j"  'find-defintion-for-mode ; lsp find definition
+      "j"  'xref-find-definitions ; lsp find definition
       "f"  'counsel-find-file
       "r"	 'counsel-recentf
       "q"   'kill-emacs
@@ -127,7 +117,6 @@ let
       ;; Applications
       "a" '(:ignore t :which-key "Applications")
       "ar" 'ranger)
-  
 )
 
 ;;; project navigation
