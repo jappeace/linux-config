@@ -81,7 +81,6 @@ in {
   # $ nix search wget
   environment = {
 	  systemPackages = with pkgs.xfce // pkgs; [
-
         hie 
         bc # random calcualtions
         androidenv.platformTools
@@ -134,6 +133,11 @@ in {
         gnumake # handy for adhoc configs, https://github.com/NixOS/nixpkgs/issues/17293
         fbreader # read books
         libreoffice
+        rustup
+        gcc # rust wants cc?
+        binutils.bintools # cargo wants ar
+        rustracer
+        qpdfview
 
 	  ];
 	  shellAliases = {
