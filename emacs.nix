@@ -47,7 +47,7 @@ let
 (eval-when-compile
   (require 'use-package))
 
-;; vanity 
+;; vanity
 (use-package linum-relative ;; TODO switch to C backend once on emacs 26: https://github.com/coldnew/linum-relative#linum-relative-on
   :config
   (linum-relative-global-mode)
@@ -79,7 +79,16 @@ let
 (use-package evil-magit
   :after (magit evil-collection)
 )
-
+(defun find-defintion-for-mode ()
+"Find definition for some mode or default to xref"
+(if (eq (symbol-value major-mode) (symbol-value rust-mode))
+    (progn 
+        (print "racer")
+        (racer-find-definition))
+    (progn 
+        (print "xref")
+        (xref-find-definitions))
+)
 ;;; keybindings
 (use-package general
   :config
@@ -106,7 +115,7 @@ let
       "SPC" '(avy-goto-word-or-subword-1  :which-key "go to char")
       "b"	'ivy-switch-buffer  ; change buffer, chose using ivy
       ;; bind to double key press
-      "j"  'xref-find-definitions ; lsp find definition
+      "j"  'find-defintion-for-mode ; lsp find definition
       "f"  'counsel-find-file
       "r"	 'counsel-recentf
       "q"   'kill-emacs
@@ -118,7 +127,7 @@ let
       ;; Applications
       "a" '(:ignore t :which-key "Applications")
       "ar" 'ranger)
-  )
+  
 )
 
 ;;; project navigation
@@ -210,12 +219,7 @@ let
 
 ;;; Haskell
 (use-package haskell-mode)
-(use-package dante
-  :after haskell-mode
-  :commands 'dante-mode
-  :init
-  (add-hook 'haskell-mode-hook 'dante-mode)
-  (add-hook 'haskell-mode-hook 'flycheck-mode))
+
 (use-package lsp-ui)
 (use-package lsp-haskell
     :after lsp-ui
@@ -225,7 +229,34 @@ let
     (add-hook 'haskell-mode-hook 'flycheck-mode)
 )
 
-
+(use-package rust-mode
+    :config
+    ;; install toolchain (rustup toolchain install stable)
+    ;; install https://crates.io/crates/rustfmt-nightly
+    (setq rust-format-on-save t)
+)
+(use-package racer
+    :hook (racer-mode . rust-mode)
+    :config
+    (add-hook 'racer-mode-hook #'eldoc-mode)
+    (add-hook 'racer-mode-hook #'company-mode)
+)
+(use-package flycheck-rust
+    :after rust-mode
+    :config
+    (add-hook 'flycheck-mode-hook #'flycheck-rust-setup)
+)
+; doesn't work yet
+;   (use-package lsp-rust
+;       :after lsp-ui
+;       ;; install https://github.com/rust-lang-nursery/rls
+;       :init
+;       (setq lsp-rust-rls-command '("rustup" "run" "stable" "rls"))
+;       :config
+;       (add-hook 'lsp-mode-hook 'lsp-ui-mode)
+;       (add-hook 'rust-mode-hook #'lsp-rust-enable)
+;       (add-hook 'rust-mode-hook 'flycheck-mode)
+;   )
 ;;; use emacs as mergetool
 (defvar ediff-after-quit-hooks nil
   "* Hooks to run after ediff or emerge is quit.")
@@ -299,33 +330,38 @@ in
     });
   in
   (with epkgs.melpaStablePackages; [
+
 (pkgs.runCommand "default.el" {} ''
       mkdir -p $out/share/emacs/site-lisp
       cp ${myEmacsConfig} $out/share/emacs/site-lisp/default.el
       '')
     avy # jump to word
-    magit          # Integrate git <C-x g>
-    ivy 
-    counsel
-    swiper
-    which-key
-    ranger
-    company
-    flycheck
-    powerline
+    magit
+    ivy # I think the M-x thing
+    counsel # seach?
+    swiper # other search?
+    which-key # space menu
+    ranger # nav file system
+    company # completion
+    flycheck # squegely lines??
+    powerline # beter status bar (col count, cur line)
     haskell-mode
     nix-mode
     yaml-mode
     markdown-mode
-    rjsx-mode
-    linum-relative
+    rjsx-mode # better js
+    linum-relative # line numbers are useless, just tell me how much I need to go up
+    rust-mode
     evil-magit
-    evilJap
+    evilJap # hacked evil so that it disables evil integration for evil collection
     # dracula-theme
   ]) ++ (with epkgs.melpaPackages; [
-    general
+    general # keybindings
     monokai-theme
     use-package # lazy package loading TODO downgrade to stable (custom wan't there)
+    racer
+    flycheck-rust
+    # lsp-rust
     # evil-collection
     # we bind emacs lsp to whatever lsp's we want
     # for example haskell: https://github.com/haskell/haskell-ide-engine#using-hie-with-emacs
@@ -334,6 +370,7 @@ in
     lsp-ui # https://github.com/emacs-lsp/lsp-ui
     # use hooks to bind haskell to lsp haskell
     lsp-haskell # https://github.com/emacs-lsp/lsp-haskell
+
     # lsp-rust https://github.com/emacs-lsp/lsp-rust
   ]) ++ (with epkgs.elpaPackages; [
     # ehh
