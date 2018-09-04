@@ -136,8 +136,18 @@ let
     swiper
     ))
 
+(use-package flx
+
+)
 (use-package ivy
-  :commands (ivy-switch-buffer))
+  :after flx
+  :commands (ivy-switch-buffer)
+  :config
+    (setq ivy-re-builders-alist
+        '((ivy-switch-buffer . ivy--regex-plus)
+          (t . ivy--regex-fuzzy)))
+    (setq ivy-initial-inputs-alist nil)
+)
 
 (use-package ranger
   :commands (ranger)
@@ -343,6 +353,7 @@ in
     rust-mode
     evil-magit
     evilJap # hacked evil so that it disables evil integration for evil collection
+    flx # fuzzy matching
     # dracula-theme
   ]) ++ (with epkgs.melpaPackages; [
     general # keybindings
