@@ -1,8 +1,7 @@
 { pkgs ? import <nixpkgs> {} }:
 
 let
-  myEmacs = pkgs.emacs.override {} ;
-  emacsWithPackages = (pkgs.emacsPackagesNgGen myEmacs).emacsWithPackages;
+  myEmacs = pkgs.emacs.override {} ; emacsWithPackages = (pkgs.emacsPackagesNgGen myEmacs).emacsWithPackages;
 
   # https://sam217pa.github.io/2016/09/02/how-to-build-your-own-spacemacs/
   myEmacsConfig = pkgs.writeText "default.el" ''
@@ -115,6 +114,7 @@ let
       "gf"  '(counsel-git :which-key "find file in git dir")
       "gs"  'magit-status
       "gp"  'magit-push-to-remote
+      "gb"  'magit-blame
       ;; Applications
       "a" '(:ignore t :which-key "Applications")
       "ar" 'ranger)
