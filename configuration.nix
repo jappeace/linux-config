@@ -33,37 +33,39 @@ in {
     hostName = "worklaptop-jappie-nixos"; # Define your hostname.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
     networkmanager.enable = true;
-    wireguard.interfaces.devvpnwiregaurd = {
-      # Determines the IP address and subnet of the client's end of the tunnel interface.
-      ips = [ "10.103.0.4/24" ];
+    wireguard.interfaces = {
+      build-vpn = {
+        # Determines the IP address and subnet of the client's end of the tunnel interface.
+        ips = [ "10.100.0.6/32" ];
 
-      # Path to the private key file.
-      #
-      # Note: The private key can also be included inline via the privateKey option,
-      # but this makes the private key world-readable; thus, using privateKeyFile is
-      # recommended.
-      privateKeyFile = "/home/jappie/wireguard-keys/private";
+        # Path to the private key file.
+        #
+        # Note: The private key can also be included inline via the privateKey option,
+        # but this makes the private key world-readable; thus, using privateKeyFile is
+        # recommended.
+        privateKeyFile = "/home/jappie/wireguard-keys/private";
 
-      peers = [
-        # For a client configuration, one peer entry for the server will suffice.
-        {
-          # Public key of the server (not a file path).
-          publicKey = "fqIICqiaZJmugzxs0JImByGmb9r8KpW75TJOpsGMODc=";
+        peers = [
+            # For a client configuration, one peer entry for the server will suffice.
+            {
+            # Public key of the server (not a file path).
+            publicKey = "DgFLw//BuU60Y+NMmnQ9D3kS1qDCqt4CB+Ep8yunZHs=";
 
-          # List of IPs assigned to this peer within the tunnel subnet. Used to configure routing.
-          # For a server peer this should be the whole subnet.
-          allowedIPs = [ "10.103.0.0/24" "10.5.0.0/16" ];
+            # List of IPs assigned to this peer within the tunnel subnet. Used to configure routing.
+            # For a server peer this should be the whole subnet.
+            allowedIPs = [ "10.100.0.0/24" "10.1.0.0/16" "10.2.0.0/16" ];
 
-          # Set this to the server IP and port.
-          endpoint = "13.238.122.8:8083";
+            # Set this to the server IP and port.
+            endpoint = "build-vpn.daiseelabs.com:8083";
 
-          # Send keepalives every 25 seconds. Important to keep NAT tables alive.
-          persistentKeepalive = 25;
-        }
-      ];
+            # Send keepalives every 25 seconds. Important to keep NAT tables alive.
+            persistentKeepalive = 25;
+            }
+        ];
+      };
+
     };
-
-    };
+  };
 
   # Select internationalisation properties.
   i18n = {
@@ -107,7 +109,7 @@ in {
          gnome3.gnome-screenshot # put screenshots in clipy and magically work with i3
 		 networkmanagerapplet # make wifi clickable
 		 nix-repl
-		 git
+    (git.override { guiSupport = true; })
 		 keepassxc # to open my passwords
 		 syncthing # keepassfile in here
 		 tree # sl
