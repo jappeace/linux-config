@@ -131,6 +131,7 @@ in {
 		gparted # partitiioning for dummies, like me
          thunderbird # some day I'll use emacs for this
 	openvpn # piratebay access
+  feh # image viewer
 
          stack
          ghc
