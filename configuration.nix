@@ -139,6 +139,7 @@ in {
         rustracer
         qpdfview
         mcomix
+        tcpdump
 
 	  ];
 	  shellAliases = {
@@ -301,7 +302,7 @@ in {
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.extraUsers.jappie = {
     createHome = true;
-    extraGroups = ["wheel" "video" "audio" "disk" "networkmanager" "adbusers"];
+    extraGroups = ["wheel" "video" "audio" "disk" "networkmanager" "adbusers" "docker"];
     group = "users";
     home = "/home/jappie";
     isNormalUser = true;
@@ -309,13 +310,19 @@ in {
     shell = pkgs.zsh;
   };
 
+  system = {
+    # to update:
+    # nix-channel --update
+    # nix-channel --list
+    # click nixos link, and in title copy over the hash
+    nixos.version = "18.03.133192.45f52f765cd";
+
   # This value determines the NixOS release with which your system is to be
   # compatible, in order to avoid breaking some software such as database
   # servers. You should change this only after NixOS release notes say you
   # should.
-  system = {
-    nixos.version = "18.03.132507.5f2da7f837e";
     stateVersion = "18.03"; # Did you read the comment?
   };
   virtualisation.virtualbox.host.enable = true;
+  virtualisation.docker.enable = true; # eh work on app?
 }
