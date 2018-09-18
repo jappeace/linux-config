@@ -75,7 +75,7 @@ in {
   };
 
   # Set your time zone.
-  time.timeZone = "Australia/Sydney";
+  time.timeZone = "Europe/Amsterdam";
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
@@ -140,6 +140,8 @@ in {
         qpdfview
         mcomix
         tcpdump
+        haskellPackages.stylish-haskell
+        ntfs3g
 
 	  ];
 	  shellAliases = {
