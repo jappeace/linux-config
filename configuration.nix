@@ -127,8 +127,6 @@ in {
         # the spell to make openvpn work:   nmcli connection modify jappie vpn.data "key = /home/jappie/openvpn/website/jappie.key, ca = /home/jappie/openvpn/website/ca.crt, dev = tun, cert = /home/jappie/openvpn/website/jappie.crt, ns-cert-type = server, cert-pass-flags = 0, comp-lzo = adaptive, remote = jappieklooster.nl:1194, connection-type = tls" 
         # from https://github.com/NixOS/nixpkgs/issues/30235
         openvpn # piratebay access
-        stack
-        ghc
         ksysguard # monitor my system.. with graphs! (so I don't need to learn real skills)
         gnumake # handy for adhoc configs, https://github.com/NixOS/nixpkgs/issues/17293
         fbreader # read books
