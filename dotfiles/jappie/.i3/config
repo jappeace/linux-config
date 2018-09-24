@@ -24,7 +24,7 @@ font -misc-fixed-medium-r-normal--13-120-75-75-C-70-iso10646-1
 bindsym --release $mod+Ctrl+e exec --no-startup-id "xdotool keyup ctrl keyup alt type --delay 5 jappieklooster@hotmail.com"
 bindsym --release $mod+Ctrl+o exec --no-startup-id "xdotool keyup ctrl keyup alt type --delay 5 jappie.klooster@daisee.com"
 bindsym --release $mod+Ctrl+p exec --no-startup-id "xdotool keyup ctrl keyup alt type --delay 5 0031522\ 471280"
-bindsym --release $mod+Ctrl+m exec --no-startup-id "xdotool keyup ctrl keyup alt type --delay 5 0031\ 644237437"
+bindsym --release $mod+Ctrl+m exec --no-startup-id "xdotool keyup ctrl keyup alt type --delay 5 0644237437"
 bindsym --release $mod+Ctrl+s exec --no-startup-id "xdotool keyup ctrl keyup alt type --delay 5 Kerkdijk\ 2"
 bindsym --release $mod+Ctrl+c exec --no-startup-id "xdotool keyup ctrl keyup alt type --delay 5 The\ Netherlands"
 bindsym --release $mod+Ctrl+d exec --no-startup-id "xdotool keyup ctrl keyup alt type --delay 5 Drenthe"
