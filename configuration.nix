@@ -248,6 +248,14 @@ in {
   # Enable the OpenSSH daemon.
   # services.openssh.enable = true;
   services = {
+    printing = {
+      enable = true;
+      drivers = [ pkgs.hplip ];
+      };
+    avahi = {
+        enable = true;
+        nssmdns = true;
+    };
 
     postgresql.enable = true; # postgres for local dev
 
