@@ -116,6 +116,7 @@ let
       "gp"  'magit-push-to-remote
       ;; Applications
       "a" '(:ignore t :which-key "Applications")
+      "d" 'insert-date
       "ar" 'ranger)
 )
 
@@ -300,6 +301,17 @@ let
   (exit-recursive-edit))
 
 (add-hook 'ediff-after-quit-hooks 'git-mergetool-emacsclient-ediff-after-quit-hook 'append)
+
+(defun insert-date (prefix)
+"Insert the current date. With prefix-argument, use ISO format. With
+two prefix arguments, write out the day and month name."
+(interactive "P")
+(let ((format (cond
+                ((not prefix) "%d.%m.%Y")
+                ((equal prefix '(4)) "%Y-%m-%d")
+                ((equal prefix '(16)) "%A, %d. %B %Y")))
+        (system-time-locale "de_DE"))
+    (insert (format-time-string format))))
     '';
 
 in
