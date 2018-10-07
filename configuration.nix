@@ -143,7 +143,6 @@ in {
         tcpdump
         haskellPackages.stylish-haskell
         ntfs3g
-        stack
 	  ];
 	  shellAliases = {
       vim = "nvim";
