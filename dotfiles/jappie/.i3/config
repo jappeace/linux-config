@@ -215,8 +215,8 @@ client.background \#000000
 # class					border	backgr. text	indicator
 
 #bind brightness ctl
-bindsym XF86MonBrightnessDown exec brightness-
-bindsym XF86MonBrightnessUp exec brightness+
+bindsym XF86MonBrightnessDown exec light -A 1
+bindsym XF86MonBrightnessUp exec light -U 1
 bindsym $mod+Shift+s exec sudo sleep-memory
 bindsym $mod+Shift+z exec --no-startup-id /home/jappie/bin/monitor
 bindsym $mod+Shift+a exec --no-startup-id /home/jappie/bin/monitor-2

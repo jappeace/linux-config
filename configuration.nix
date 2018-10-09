@@ -165,6 +165,7 @@ in {
     vim.defaultEditor = true;
     qt5ct.enable = true; # fix qt5 themes
     adb.enable = true;
+    light.enable = true;
   };
 
   fonts = {
