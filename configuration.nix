@@ -336,4 +336,5 @@ in {
   };
   virtualisation.virtualbox.host.enable = true;
   virtualisation.docker.enable = true; # eh work on app?
+  powerManagement = { enable = true; cpuFreqGovernor = "ondemand"; };
 }
