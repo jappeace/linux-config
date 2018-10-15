@@ -101,12 +101,13 @@ let
     :non-normal-prefix "C-SPC"
 
       ;; simple command
-      "/"   'counsel-ag
+      "/"   'counsel-projectile-ag
       "SPC" '(avy-goto-word-or-subword-1  :which-key "go to char")
       "b"	'ivy-switch-buffer  ; change buffer, chose using ivy
       ;; bind to double key press
       "j"  'xref-find-definitions ; lsp find definition
-      "f"  'counsel-find-file
+      "f"  'counsel-projectile-find-file
+      "p"  'counsel-projectile
       "r"	 'counsel-recentf
       "q"   'kill-emacs
       "g"   '(:ignore t :which-key "git")
@@ -114,6 +115,7 @@ let
       "gf"  '(counsel-git :which-key "find file in git dir")
       "gs"  'magit-status
       "gp"  'magit-push-to-remote
+      "gb"  'magit-blame
       ;; Applications
       "a" '(:ignore t :which-key "Applications")
       "d" 'insert-date
@@ -121,16 +123,10 @@ let
 )
 
 ;;; project navigation
-(use-package counsel
-  :after (ag)
-  :commands (
-    counsel-git-grep
-    counsel-find-file
-    counsel-recentf
-    counsel-ag
-    counsel-M-x
-    counsel-git-grep
-    ))
+(use-package counsel)
+(use-package 
+    :after counsel
+    counsel-projectile)
 
 (use-package swiper
   :commands (
@@ -218,7 +214,11 @@ let
   :interpreter ("python" . python-mode))
 
 ;;; Haskell
-(use-package haskell-mode)
+(use-package haskell-mode
+  :config
+  (custom-set-variables
+    '(haskell-stylish-on-save t))
+)
 
 (use-package lsp-ui)
 (use-package lsp-haskell
@@ -366,6 +366,7 @@ in
     evil-magit
     evilJap # hacked evil so that it disables evil integration for evil collection
     flx # fuzzy matching
+    counsel-projectile
     # dracula-theme
   ]) ++ (with epkgs.melpaPackages; [
     general # keybindings
