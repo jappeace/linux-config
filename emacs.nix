@@ -123,9 +123,7 @@ let
 )
 
 ;;; project navigation
-(use-package counsel)
 (use-package 
-    :after counsel
     counsel-projectile)
 
 (use-package swiper
