@@ -67,6 +67,10 @@ let
   :config
   (evil-mode 1))
 
+(use-package evil-escape
+  :commands (evil-escape) ;; load it after press
+  :after evil)
+
 ; some day I'll get this to behave, probably by patching both this and evil
 (use-package evil-collection
  :after evil
@@ -83,6 +87,7 @@ let
 ;;; keybindings
 (use-package general
   :config
+  (general-define-key "<escape>" 'evil-escape) ;; escape anything
   (general-define-key "C-'" 'avy-goto-word-1)
   (general-define-key "C-x b" 'ivy-switch-buffer)
   (general-define-key
@@ -364,6 +369,7 @@ in
     evilJap # hacked evil so that it disables evil integration for evil collection
     flx # fuzzy matching
     counsel-projectile
+    evil-escape
     # dracula-theme
   ]) ++ (with epkgs.melpaPackages; [
     general # keybindings
