@@ -131,9 +131,8 @@ let
     swiper
     ))
 
-(use-package flx
+(use-package flx)
 
-)
 (use-package ivy
   :after flx
   :commands (ivy-switch-buffer)
