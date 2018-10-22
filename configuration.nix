@@ -12,6 +12,13 @@ let intero-neovim = pkgs.vimUtils.buildVimPlugin {
       sha256 = "1igc8swgbbkvyykz0ijhjkzcx3d83yl22hwmzn3jn8dsk6s4an8l";
     };
   };
+  haskellIdeEngine = (import (pkgs.fetchFromGitHub {
+                   owner="domenkozar";
+                   repo="hie-nix";
+                   rev="96af698f0cfefdb4c3375fc199374856b88978dc";
+                   sha256="1ar0h12ysh9wnkgnvhz891lvis6x9s8w3shaakfdkamxvji868qa";
+                 }) {}).hie84;
+  aspell_with_dict = pkgs.aspellWithDicts(ps: [ps.nl ps.en]);
 in {
   imports =
     [ # Include the results of the hardware scan.
@@ -131,6 +138,13 @@ in {
         mcomix
         tcpdump
         ntfs3g
+
+        # emacs
+        haskellIdeEngine
+        pkgs.silver-searcher # when configuring my emacs they told me to use this: https://github.com/ggreer/the_silver_searcher#installation
+        aspell_with_dict # I can't spell
+        pkgs.rustracer
+        pkgs.haskellPackages.stylish-haskell
 	  ];
 	  shellAliases = {
       vim = "nvim";
