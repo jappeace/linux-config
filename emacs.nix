@@ -224,6 +224,7 @@ let
 
 (use-package lsp-ui)
 (use-package lsp-haskell
+    :disabled ; need to figure out how to use this with nix-shell
     :after lsp-ui
     :config
     (add-hook 'lsp-mode-hook 'lsp-ui-mode)
