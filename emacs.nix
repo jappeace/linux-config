@@ -1,7 +1,13 @@
 { pkgs ? import <nixpkgs> {} }:
 
 let
-  myEmacs = pkgs.emacs.override {} ;
+  haskellIdeEngine = (import (pkgs.fetchFromGitHub {
+                   owner="domenkozar";
+                   repo="hie-nix";
+                   rev="96af698f0cfefdb4c3375fc199374856b88978dc";
+                   sha256="1ar0h12ysh9wnkgnvhz891lvis6x9s8w3shaakfdkamxvji868qa";
+                 }) {}).hie84;
+  myEmacs = pkgs.emacs.override{};
   emacsWithPackages = (pkgs.emacsPackagesNgGen myEmacs).emacsWithPackages;
 
   # https://sam217pa.github.io/2016/09/02/how-to-build-your-own-spacemacs/
@@ -315,8 +321,7 @@ two prefix arguments, write out the day and month name."
         (system-time-locale "de_DE"))
     (insert (format-time-string format))))
     '';
-
-in
+packagedEmacs = 
   emacsWithPackages (epkgs:
   (
   let
@@ -393,4 +398,22 @@ in
   ]) ++ [
     # from nix
     coll 
-  ]))
+  ]));
+  aspell_with_dict = pkgs.aspellWithDicts(ps: [ps.nl ps.en]);
+in
+pkgs.stdenv.mkDerivation {
+  name = "fancymacs";
+  unpackPhase = "true"; # don't need no source hack from: https://nixos.org/nixos/nix-pills/basic-dependencies-and-hooks.html
+  installPhase = ''
+      echo "installing"
+      mkdir -p "$out"
+  '';
+  propagatedBuildInputs = [ # to use this emacs, we need other pkgs in PATH
+        packagedEmacs 
+        haskellIdeEngine
+        pkgs.silver-searcher # when configuring my emacs they told me to use this: https://github.com/ggreer/the_silver_searcher#installation
+        aspell_with_dict # I can't spell
+        pkgs.rustracer
+        pkgs.haskellPackages.stylish-haskell
+  ];
+}
