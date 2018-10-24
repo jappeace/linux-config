@@ -138,6 +138,7 @@ in {
         mcomix
         tcpdump
         ntfs3g
+        qdirstat
 
         # emacs
         haskellIdeEngine
@@ -145,6 +146,8 @@ in {
         aspell_with_dict # I can't spell
         pkgs.rustracer
         pkgs.haskellPackages.stylish-haskell
+
+        sloccount
 	  ];
 	  shellAliases = {
       vim = "nvim";
