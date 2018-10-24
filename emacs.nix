@@ -111,7 +111,12 @@ let
       "b"	'ivy-switch-buffer  ; change buffer, chose using ivy
       ;; bind to double key press
       "j"  'xref-find-definitions ; lsp find definition
-      "f"  'counsel-projectile-find-file
+      "f"   '(:ignore t :which-key "find")
+      "ff"  'counsel-projectile-find-file
+      "fr"  'projectile-replace
+      "fg"  'counsel-git-grep
+      "fa"  'counsel-projectile-ag
+      "s"  'save-some-buffers
       "p"  'counsel-projectile
       "r"	 'counsel-recentf
       "q"   'kill-emacs
@@ -370,6 +375,7 @@ packagedEmacs =
     flx # fuzzy matching
     counsel-projectile
     evil-escape
+    elm-mode
     # dracula-theme
   ]) ++ (with epkgs.melpaPackages; [
     general # keybindings
