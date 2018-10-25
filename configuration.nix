@@ -46,7 +46,7 @@ in {
   # Select internationalisation properties.
   i18n = {
     # consoleFont = "Lat2-Terminus16";
-    consoleFont = "fira-code";
+    consoleFont = "firacode-14";
     consoleKeyMap = "us";
     defaultLocale = "nl_NL.UTF-8";
     supportedLocales = ["en_US.UTF-8/UTF-8" "nl_NL.UTF-8/UTF-8"];
@@ -319,7 +319,6 @@ in {
   # should.
     stateVersion = "18.03"; # Did you read the comment?
   };
-  virtualisation.virtualbox.host.enable = true;
   virtualisation.docker.enable = true; # eh work on app?
   powerManagement = { enable = true; cpuFreqGovernor = "ondemand"; };
   

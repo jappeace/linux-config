@@ -1,14 +1,4 @@
 https-strict: behind-the-scene false
-matrix-off: about-scheme true
-matrix-off: angel.co true
-matrix-off: behind-the-scene true
-matrix-off: chrome-extension-scheme true
-matrix-off: chrome-scheme true
-matrix-off: lever.co true
-matrix-off: localhost true
-matrix-off: moz-extension-scheme true
-matrix-off: opera-scheme true
-matrix-off: wyciwyg-scheme true
 noscript-spoof: * true
 referrer-spoof: * true
 referrer-spoof: behind-the-scene false
@@ -46,6 +36,7 @@ referrer-spoof: behind-the-scene false
 0.0.0.0 jquery.com * allow
 80.82.77.83 jquery.com * allow
 80.82.77.83 userapi.com * allow
+abnamro.nl sc.omtrdc.net * allow
 adobe.com adobe.io * allow
 adobe.com adobelogin.com * allow
 adobe.com typekit.net * allow
@@ -55,6 +46,7 @@ amazon.com amazonaws.com * allow
 amazon.com awsstatic.com * allow
 amazon.com media-amazon.com * allow
 amazon.com s3.us-east-2.amazonaws.com * allow
+analytics.google.com * * allow
 angel.co typekit.net * allow
 askubuntu.com sstatic.net * allow
 atlassian.com api.segment.io xhr allow
@@ -82,6 +74,7 @@ atlassian.net ticket-routing.appspot.com frame allow
 binck.nl solutions.vwdservices.com frame allow
 binck.nl vwdservices.com * allow
 bitbucket.org d301sr5gafysq2.cloudfront.net * allow
+bol.com s-bol.com * allow
 booking.com bstatic.com * allow
 btcmarkets.net google.com * allow
 btcmarkets.net google.com frame allow
@@ -100,12 +93,19 @@ coingecko.com highcharts.com * allow
 coinspot.com.au google.com * allow
 coinspot.com.au gstatic.com * allow
 coinspot.com.au www.google.com frame allow
+crunchyroll.com accounts.google.com frame allow
+crunchyroll.com facebook.net * allow
+crunchyroll.com google.com * allow
+crunchyroll.com vrv.co * allow
 daisee.com datatables.net * allow
 daisee.com workable.com * allow
+degiro.nl degiro.eu * allow
+degiro.nl vwdservices.com * allow
 discordapp.com discord.gg * allow
 discordapp.com google.com * allow
 discordapp.com www.google.com frame allow
 docker.com discourse.org * allow
+docusign.com akamaihd.net * allow
 domain.com.au cloudflare.com * allow
 domain.com.au domainstatic.com.au * allow
 domain.com.au echoiceaffiliates.com.au * allow
@@ -137,12 +137,18 @@ freenode.net google.com * allow
 funda.nl fstatic.nl * allow
 funda.nl funda.info * allow
 funda.nl funda.io * allow
+github.com raw.githubusercontent.com * allow
+github.com render.githubusercontent.com * allow
+github.com render.githubusercontent.com frame allow
 gitlab.com gitlab-static.net * allow
 glassdoor.com.au cloudflare.com * allow
 glassdoor.com.au glassdoor.com * allow
 google.com accounts.youtube.com frame allow
+google.com ads.google.com script allow
+google.com analytics.google.com * inherit
 google.com content.googleapis.com * allow
 google.com content.googleapis.com frame allow
+google.com csi.gstatic.com image allow
 google.com firebaseio.com * allow
 google.com googleusercontent.com * allow
 google.com gstatic.com * allow
@@ -191,6 +197,8 @@ mozilla.org mdn.github.io * allow
 mozilla.org mdn.github.io frame allow
 mozilla.org mozilla.net * allow
 myworkdayjobs.com myworkday.com * allow
+n26.com ctfassets.net * allow
+n26.com polyfill.io * allow
 namecheap.com answerdash.com * allow
 namecheap.com facebook.net * allow
 namecheap.com google.com * allow
@@ -270,6 +278,10 @@ stackoverflow.com sstatic.net * allow
 thesaurus.com sfdict.com * allow
 theverge.com documentcloud.org * allow
 theverge.com vox-cdn.com * allow
+transferwise.com google.com * allow
+transferwise.com www.google.com frame allow
+tweakers.net consensu.org * allow
+tweakers.net tweakimg.net * allow
 twitch.tv ext-twitch.tv * allow
 twitch.tv google.com * allow
 twitch.tv google.com frame allow

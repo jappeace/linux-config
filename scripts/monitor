@@ -1,4 +1,4 @@
-#! run/current-system/sw/bin/bash
+#! /bin/sh
 EXTERNAL_OUTPUT="HDMI2"
 INTERNAL_OUTPUT="eDP1"
 
@@ -13,7 +13,7 @@ fi
 
 if [ $monitor_mode = "all" ]; then
         monitor_mode="EXTERNAL"
-        xrandr --output $INTERNAL_OUTPUT --off --output $EXTERNAL_OUTPUT --auto
+        xrandr --output $INTERNAL_OUTPUT --off --output $EXTERNAL_OUTPUT --mode 3840x2160
 elif [ $monitor_mode = "EXTERNAL" ]; then
         monitor_mode="INTERNAL"
         xrandr --output $INTERNAL_OUTPUT --auto --output $EXTERNAL_OUTPUT --off
