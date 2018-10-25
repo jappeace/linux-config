@@ -10,7 +10,7 @@ set -xe
 echo "unconfuse future me about fonts https://nixos.wiki/wiki/Fonts"
 ln -fs $XDG_DATA_HOME/fonts $HOME/.fonts
 
-DIR=$HOME/projects/linux-config
+DIR=/linux-config
 
 sudo ln -fs $DIR/configuration.nix /etc/nixos/configuration.nix
 

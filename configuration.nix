@@ -22,50 +22,25 @@ let intero-neovim = pkgs.vimUtils.buildVimPlugin {
 in {
   imports =
     [ # Include the results of the hardware scan.
-      ./hardware/tuxedo.nix
+      ./hardware/bto.nix
     ];
   
   # Use the systemd-boot EFI boot loader.
   boot = {
        loader.systemd-boot.enable = true;
        loader.efi.canTouchEfiVariables = true;
-       kernelPackages = pkgs.linuxPackages_4_9; # fix supsend maybe?
+       tmpOnTmpfs = true;
   };
+  systemd.mounts = [{
+	where = "/tmp";
+	what = "tmpfs";
+	options = "mode=1777,strictatime,nosuid,nodev,size=50%";
+  }];
 
   networking = {
-    hostName = "private-jappie-nixos"; # Define your hostname.
+    hostName = "portable-jappie-nixos"; # Define your hostname.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
     networkmanager.enable = true;
-    wireguard.interfaces.devvpnwiregaurd = {
-      # Determines the IP address and subnet of the client's end of the tunnel interface.
-      ips = [ "10.103.0.4/24" ];
-
-      # Path to the private key file.
-      #
-      # Note: The private key can also be included inline via the privateKey option,
-      # but this makes the private key world-readable; thus, using privateKeyFile is
-      # recommended.
-      privateKeyFile = "/home/jappie/wireguard-keys/private";
-
-      peers = [
-        # For a client configuration, one peer entry for the server will suffice.
-        {
-          # Public key of the server (not a file path).
-          publicKey = "fqIICqiaZJmugzxs0JImByGmb9r8KpW75TJOpsGMODc=";
-
-          # List of IPs assigned to this peer within the tunnel subnet. Used to configure routing.
-          # For a server peer this should be the whole subnet.
-          allowedIPs = [ "10.103.0.0/24" ];
-
-          # Set this to the server IP and port.
-          endpoint = "13.238.122.8:8083";
-
-          # Send keepalives every 25 seconds. Important to keep NAT tables alive.
-          persistentKeepalive = 25;
-        }
-      ];
-    };
-
     };
 
   # Select internationalisation properties.
@@ -84,6 +59,7 @@ in {
   # $ nix search wget
   environment = {
 	  systemPackages = with pkgs.xfce // pkgs; [
+	  	firmwareLinuxNonfree
         bc # random calcualtions
         androidenv.platformTools
         android-studio
@@ -148,6 +124,7 @@ in {
         pkgs.haskellPackages.stylish-haskell
 
         sloccount
+		lshw # list hardware
 	  ];
 	  shellAliases = {
       vim = "nvim";
@@ -245,10 +222,13 @@ in {
   };
   # hardware.bumblebee.enable = true;
   # hardware.bumblebee.connectDisplay = true;
-  hardware.pulseaudio = { 
-   enable = true;
-   support32Bit = true; 
-   systemWide = true;
+  hardware = {
+	enableRedistributableFirmware = true;
+	pulseaudio = {
+	   enable = true;
+	   support32Bit = true;
+	   systemWide = true;
+   	};
   };
 
   # List services that you want to enable:
@@ -342,4 +322,5 @@ in {
   virtualisation.virtualbox.host.enable = true;
   virtualisation.docker.enable = true; # eh work on app?
   powerManagement = { enable = true; cpuFreqGovernor = "ondemand"; };
+  
 }
