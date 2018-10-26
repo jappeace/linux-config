@@ -146,8 +146,11 @@ in {
         aspell_with_dict # I can't spell
         pkgs.rustracer
         pkgs.haskellPackages.stylish-haskell
+        pkgs.haskellPackages.brittany
 
         sloccount
+
+        pkgs.xorg.xev # monitor x events
 	  ];
 	  shellAliases = {
       vim = "nvim";
