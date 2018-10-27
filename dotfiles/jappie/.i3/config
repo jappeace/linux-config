@@ -23,6 +23,7 @@ font pango:Ubuntu Sans 12
 # Use Mouse+$mod to drag floating windows to their wanted position
 bindsym --release $mod+Ctrl+e exec --no-startup-id "xdotool keyup ctrl keyup alt type --delay 5 jappieklooster@hotmail.com"
 bindsym --release $mod+Ctrl+o exec --no-startup-id "xdotool keyup ctrl keyup alt type --delay 5 hipenguinprogrammer@gmail.com"
+bindsym --release $mod+Ctrl+k exec --no-startup-id "xdotool keyup ctrl keyup alt type --delay 5 72671629"
 bindsym --release $mod+Ctrl+p exec --no-startup-id "xdotool keyup ctrl keyup alt type --delay 5 0031522\ 471280"
 bindsym --release $mod+Ctrl+m exec --no-startup-id "xdotool keyup ctrl keyup alt type --delay 5 0644237437"
 bindsym --release $mod+Ctrl+s exec --no-startup-id "xdotool keyup ctrl keyup alt type --delay 5 Kerkdijk\ 2"
