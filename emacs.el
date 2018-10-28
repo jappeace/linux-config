@@ -269,6 +269,12 @@
     swiper
     ))
 
+; loooks pretty good butt.. another time 
+; https://github.com/lassik/emacs-format-all-the-code
+; (use-package format-all ;; 
+;  :hook haskell-mode
+;  )
+
 (use-package flx)
 
 (use-package ivy
