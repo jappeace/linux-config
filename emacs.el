@@ -462,5 +462,5 @@ two prefix arguments, write out the day and month name."
   :hook (prog-mode . turn-on-fci-mode)
   :config
   ; (setq fci-rule-color "white")
-  (setq fci-rule-width 4)
+  (setq fci-rule-width 2)
 )
