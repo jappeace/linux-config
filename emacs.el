@@ -12,7 +12,7 @@
 (setq coding-system-for-read 'utf-8 )	; use utf-8 by default
 (setq coding-system-for-write 'utf-8 )
 (setq sentence-end-double-space nil)	; sentence SHOULD end with only a point.
-(setq default-fill-column 140)		; toggle wrapping text at the 80th character
+(setq default-fill-column 90)		; toggle wrapping text at the 80th character
 (setq initial-scratch-message "Good day sir") ; 
 
 
@@ -454,3 +454,13 @@ two prefix arguments, write out the day and month name."
                 ((equal prefix '(16)) "%A, %d. %B %Y")))
         (system-time-locale "de_DE"))
     (insert (format-time-string format))))
+
+
+;; rule 80 chars, if issues: https://github.com/company-mode/company-mode/issues/180#issuecomment-55047120
+;; https://emacs.stackexchange.com/questions/147/how-can-i-get-a-ruler-at-column-80
+(use-package fill-column-indicator
+  :hook (prog-mode . turn-on-fci-mode)
+  :config
+  ; (setq fci-rule-color "white")
+  (setq fci-rule-width 4)
+)
