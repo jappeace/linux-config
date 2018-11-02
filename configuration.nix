@@ -344,4 +344,11 @@ in {
   };
   virtualisation.docker.enable = true; # eh work on app?
   powerManagement = { enable = true; cpuFreqGovernor = "ondemand"; };
+
+  nix = {
+    trustedBinaryCaches = [https://cache.nixos.org https://hydra.iohk.io];
+    binaryCachePublicKeys = [
+      "hydra.iohk.io:f/Ea+s+dFdN+3Y/G+FDgSq+a5NEWhJGzdjvKNGv0/EQ="
+    ];
+  };
 }
