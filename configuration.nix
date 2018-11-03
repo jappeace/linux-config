@@ -115,6 +115,7 @@ in {
         tcpdump
         ntfs3g
         qdirstat
+        youtube-dl
 
         # emacs
         haskellIdeEngine
