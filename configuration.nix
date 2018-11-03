@@ -123,9 +123,11 @@ in {
         aspell_with_dict # I can't spell
         pkgs.rustracer
         pkgs.haskellPackages.stylish-haskell
+        pkgs.haskellPackages.brittany
 
         sloccount
 		lshw # list hardware
+        pkgs.xorg.xev # monitor x events
 	  ];
 	  shellAliases = {
       vim = "nvim";
@@ -322,5 +324,16 @@ in {
   };
   virtualisation.docker.enable = true; # eh work on app?
   powerManagement = { enable = true; cpuFreqGovernor = "ondemand"; };
-  
+
+  nix = {
+    binaryCaches = [
+      "https://cache.nixos.org"
+      "https://hydra.iohk.io" # cardano
+      "https://nixcache.reflex-frp.org" # reflex
+    ];
+    binaryCachePublicKeys = [
+      "hydra.iohk.io:f/Ea+s+dFdN+3Y/G+FDgSq+a5NEWhJGzdjvKNGv0/EQ=" # cardano
+      "ryantrinkle.com-1:JJiAKaRv9mWgpVAz8dwewnZe0AzzEAzPkagE9SP5NWI=" # reflex
+    ];
+  };
 }

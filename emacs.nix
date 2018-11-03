@@ -61,6 +61,7 @@ packagedEmacs =
     counsel-projectile
     evil-escape
     elm-mode
+    fill-column-indicator # 80 char
     # dracula-theme
   ]) ++ (with epkgs.melpaPackages; [
     general # keybindings

@@ -1,2 +1,3 @@
 remove Lock = Caps_Lock
 keysym Caps_Lock = Escape
+keycode 94 = Shift_L
