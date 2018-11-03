@@ -311,10 +311,10 @@ in {
 
   system = {
     # to update:
-    # nix-channel --update
-    # nix-channel --list
+    # sudo nix-channel --update
+    # sudo nix-channel --list
     # click nixos link, and in title copy over the hash
-    nixos.version = "18.03.133192.45f52f765cd";
+    nixos.version = "18.03.133360.0e614d02923";
 
   # This value determines the NixOS release with which your system is to be
   # compatible, in order to avoid breaking some software such as database
