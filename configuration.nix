@@ -53,7 +53,9 @@ in {
   };
 
   # Set your time zone.
-  time.timeZone = "Europe/Amsterdam";
+  # time.timeZone = "Europe/Amsterdam";
+  # aruba
+  time.timeZone = "Canada/Atlantic";
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
