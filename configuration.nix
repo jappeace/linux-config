@@ -61,6 +61,7 @@ in {
   # $ nix search wget
   environment = {
 	  systemPackages = with pkgs.xfce // pkgs; [
+      nixops
 	  	firmwareLinuxNonfree
         bc # random calcualtions
         androidenv.platformTools
@@ -250,7 +251,20 @@ in {
         nssmdns = true;
     };
 
-    postgresql.enable = true; # postgres for local dev
+    postgresql = {
+      enable = true; # postgres for local dev
+      authentication = pkgs.lib.mkOverride 10 ''
+        local all all trust
+        host all all ::1/128 trust
+      '';
+      extraConfig = ''
+        log_connections = yes
+        log_statement = 'all'
+        logging_collector = yes
+        log_disconnections = yes
+        log_destination = 'syslog'
+      '';
+    };
 
 		gnome3.gnome-terminal-server.enable = true;
 		emacs = {
