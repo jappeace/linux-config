@@ -41,6 +41,7 @@ in {
     hostName = "portable-jappie-nixos"; # Define your hostname.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
     networkmanager.enable = true;
+    extraHosts = "172.17.0.2 raster";
     };
 
   # Select internationalisation properties.
