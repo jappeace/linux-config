@@ -82,7 +82,6 @@ in {
         neovim # because emacs never breaks
         gnome3.gnome-screenshot # put screenshots in clipy and magically work with i3
         networkmanagerapplet # make wifi clickable
-        nix-repl
         git
         keepassxc # to open my passwords
         syncthing # keepassfile in here
@@ -343,13 +342,16 @@ in {
     # sudo nix-channel --update
     # sudo nix-channel --list
     # click nixos link, and in title copy over the hash
-    nixos.version = "18.03.133360.0e614d02923";
+    nixos.version = "18.09.1228.a4c4cbb613c";
 
   # This value determines the NixOS release with which your system is to be
   # compatible, in order to avoid breaking some software such as database
   # servers. You should change this only after NixOS release notes say you
   # should.
-    stateVersion = "18.03"; # Did you read the comment?
+    # to upgrade, add a channel:
+    # $ sudo nix-channel --add https://nixos.org/channels/nixos-18.09 nixos
+    # $ sudo nixos-rebuild switch --upgrade
+    stateVersion = "18.09"; # Did you read the comment?
   };
   virtualisation.docker.enable = true; # eh work on app?
   powerManagement = { enable = true; cpuFreqGovernor = "ondemand"; };
