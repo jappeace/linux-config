@@ -312,6 +312,7 @@ in {
 			};
 			videoDrivers = [ "intel" ];
 			desktopManager.xfce.enable = true; # for the xfce-panel in i3
+			desktopManager.xfce.noDesktop = true;
 			desktopManager.xfce.enableXfwm = false ; # try disabling xfce popping over i3
 			# desktopManager.gnome3.enable = true; # to get the themes working with gnome-tweak tool
 			windowManager.i3.enable = true;
