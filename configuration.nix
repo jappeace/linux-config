@@ -257,14 +257,26 @@ in {
       authentication = pkgs.lib.mkOverride 10 ''
         local all all trust
         host all all ::1/128 trust
+        host all all 0.0.0.0/0 md5
+        host all all ::/0       md5
       '';
       extraConfig = ''
+        # log all the things
+        # journalctl -fu postgresql.service
         log_connections = yes
         log_statement = 'all'
         logging_collector = yes
         log_disconnections = yes
         log_destination = 'syslog'
+
+        # accept connection from anywhere
+        listen_addresses = '*'
       '';
+        initialScript = pkgs.writeText "backend-initScript" ''
+        CREATE USER tom WITH PASSWORD 'myPassword';
+        CREATE DATABASE jerry;
+        GRANT ALL PRIVILEGES ON DATABASE jerry to tom;
+        '';
     };
 
 		gnome3.gnome-terminal-server.enable = true;
