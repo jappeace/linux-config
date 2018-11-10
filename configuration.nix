@@ -119,6 +119,7 @@ in {
         ntfs3g
         qdirstat
         youtube-dl
+        google-cloud-sdk
 
         # emacs
         haskellIdeEngine
