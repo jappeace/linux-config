@@ -292,7 +292,12 @@
   :config
   (setq
     ranger-cleanup-eagerly t
-    ranger-parent-depth 0)
+    ranger-parent-depth 0
+    ranger-max-preview-size 1
+    ranger-dont-show-binary t
+    ranger-preview-delay 0.040
+    ranger-excluded-extensions '("tar.gz" "mkv" "iso" "mp4")
+    )
   )
 
 ;;; show what keys are possible
