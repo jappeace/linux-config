@@ -132,6 +132,7 @@ in {
         sloccount
 		lshw # list hardware
         pkgs.xorg.xev # monitor x events
+        toxiproxy # chaos http proxy, to introduce latency mostly
 	  ];
 	  shellAliases = {
       vim = "nvim";
