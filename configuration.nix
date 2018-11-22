@@ -131,6 +131,7 @@ in {
         pkgs.haskellPackages.stylish-haskell
         pkgs.haskellPackages.brittany
         pkgs.haskellPackages.hindent
+        shfmt
 
         sloccount
 		lshw # list hardware
