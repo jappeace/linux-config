@@ -274,7 +274,7 @@
 ; https://github.com/lassik/emacs-format-all-the-code
 (use-package format-all ;; 
   ; -- the haskell mode hook jumps to the top of screen on save
-  ; :hook (haskell-mode . format-all-mode)
+  ; :hook (haskell-mode . format-all-mode) ; TODO fixed in https://github.com/lassik/emacs-format-all-the-code/issues/23
   :commands (
     format-all-mode
     format-all-buffer
