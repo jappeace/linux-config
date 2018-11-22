@@ -239,8 +239,9 @@
       "b"	'ivy-switch-buffer  ; change buffer, chose using ivy
       ;; bind to double key press
       "j"  'xref-find-definitions ; lsp find definition
-      "f"   '(:ignore t :which-key "find")
-      "ff"  'counsel-projectile-find-file
+      "f"   '(:ignore t :which-key "find/format")
+      "ff"  'format-all-buffer
+      "fi"  'counsel-projectile-find-file
       "fr"  'projectile-replace
       "fg"  'counsel-git-grep
       "fa"  'counsel-projectile-ag
