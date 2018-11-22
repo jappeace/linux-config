@@ -130,6 +130,7 @@ in {
         pkgs.rustracer
         pkgs.haskellPackages.stylish-haskell
         pkgs.haskellPackages.brittany
+        pkgs.haskellPackages.hindent
 
         sloccount
 		lshw # list hardware

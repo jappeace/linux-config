@@ -271,9 +271,14 @@
 
 ; loooks pretty good butt.. another time 
 ; https://github.com/lassik/emacs-format-all-the-code
-; (use-package format-all ;; 
-;  :hook haskell-mode
-;  )
+(use-package format-all ;; 
+  ; -- the haskell mode hook jumps to the top of screen on save
+  ; :hook (haskell-mode . format-all-mode)
+  :commands (
+    format-all-mode
+    format-all-buffer
+    )
+)
 
 (use-package flx)
 
