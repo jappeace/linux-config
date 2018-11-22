@@ -65,6 +65,7 @@ in {
     sshuttle
       nixops
 	  	firmwareLinuxNonfree
+      p7zip
         bc # random calcualtions
         androidenv.platformTools
         android-studio
