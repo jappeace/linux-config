@@ -122,6 +122,7 @@ in {
         qdirstat
         youtube-dl
         google-cloud-sdk
+        htop
 
         # emacs
         haskellIdeEngine
