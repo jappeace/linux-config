@@ -331,6 +331,9 @@ in {
 			enable = true;
 			provider = "geoclue2";
 		};
+
+    # https://github.com/rfjakob/earlyoom
+    earlyoom.enable = true; # kills big processes better then kernel
   };
 
 
