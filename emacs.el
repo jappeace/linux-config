@@ -17,7 +17,7 @@
 
 
 ;; font
-(push '(font . "firacode-16") default-frame-alist)
+(push '(font . "firacode-12") default-frame-alist)
 ;;; Fira code
 ;; This works when using emacs --daemon + emacsclient
 (add-hook 'after-make-frame-functions (lambda (frame) (set-fontset-font t '(#Xe100 . #Xe16f) "Fira Code Symbol")))
@@ -239,8 +239,9 @@
       "b"	'ivy-switch-buffer  ; change buffer, chose using ivy
       ;; bind to double key press
       "j"  'xref-find-definitions ; lsp find definition
-      "f"   '(:ignore t :which-key "find")
-      "ff"  'counsel-projectile-find-file
+      "f"   '(:ignore t :which-key "find/format")
+      "ff"  'format-all-buffer
+      "fi"  'counsel-projectile-find-file
       "fr"  'projectile-replace
       "fg"  'counsel-git-grep
       "fa"  'counsel-projectile-ag
@@ -271,9 +272,14 @@
 
 ; loooks pretty good butt.. another time 
 ; https://github.com/lassik/emacs-format-all-the-code
-; (use-package format-all ;; 
-;  :hook haskell-mode
-;  )
+(use-package format-all ;; 
+  ; -- the haskell mode hook jumps to the top of screen on save
+  ; :hook (haskell-mode . format-all-mode) ; TODO fixed in https://github.com/lassik/emacs-format-all-the-code/issues/23
+  :commands (
+    format-all-mode
+    format-all-buffer
+    )
+)
 
 (use-package flx)
 
@@ -292,7 +298,12 @@
   :config
   (setq
     ranger-cleanup-eagerly t
-    ranger-parent-depth 0)
+    ranger-parent-depth 0
+    ranger-max-preview-size 1
+    ranger-dont-show-binary t
+    ranger-preview-delay 0.040
+    ranger-excluded-extensions '("tar.gz" "mkv" "iso" "mp4")
+    )
   )
 
 ;;; show what keys are possible

@@ -55,7 +55,6 @@ packagedEmacs =
     rjsx-mode # better js
     linum-relative # line numbers are useless, just tell me how much I need to go up
     rust-mode
-    evil-magit
     evilJap # hacked evil so that it disables evil integration for evil collection
     flx # fuzzy matching
     counsel-projectile
@@ -69,6 +68,8 @@ packagedEmacs =
     use-package # lazy package loading TODO downgrade to stable (custom wan't there)
     racer
     flycheck-rust
+    evil-magit
+    format-all
     # lsp-rust
     # evil-collection
     # we bind emacs lsp to whatever lsp's we want

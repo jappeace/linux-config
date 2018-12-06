@@ -36,36 +36,7 @@ in {
     hostName = "private-jappie-nixos"; # Define your hostname.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
     networkmanager.enable = true;
-    wireguard.interfaces.devvpnwiregaurd = {
-      # Determines the IP address and subnet of the client's end of the tunnel interface.
-      ips = [ "10.103.0.4/24" ];
-
-      # Path to the private key file.
-      #
-      # Note: The private key can also be included inline via the privateKey option,
-      # but this makes the private key world-readable; thus, using privateKeyFile is
-      # recommended.
-      privateKeyFile = "/home/jappie/wireguard-keys/private";
-
-      peers = [
-        # For a client configuration, one peer entry for the server will suffice.
-        {
-          # Public key of the server (not a file path).
-          publicKey = "fqIICqiaZJmugzxs0JImByGmb9r8KpW75TJOpsGMODc=";
-
-          # List of IPs assigned to this peer within the tunnel subnet. Used to configure routing.
-          # For a server peer this should be the whole subnet.
-          allowedIPs = [ "10.103.0.0/24" ];
-
-          # Set this to the server IP and port.
-          endpoint = "13.238.122.8:8083";
-
-          # Send keepalives every 25 seconds. Important to keep NAT tables alive.
-          persistentKeepalive = 25;
-        }
-      ];
-    };
-
+    extraHosts = "172.17.0.2 raster";
     };
 
   # Select internationalisation properties.
@@ -84,6 +55,10 @@ in {
   # $ nix search wget
   environment = {
 	  systemPackages = with pkgs.xfce // pkgs; [
+    sshuttle
+      nixops
+	  	firmwareLinuxNonfree
+      p7zip
         bc # random calcualtions
         androidenv.platformTools
         android-studio
@@ -102,7 +77,6 @@ in {
         neovim # because emacs never breaks
         gnome3.gnome-screenshot # put screenshots in clipy and magically work with i3
         networkmanagerapplet # make wifi clickable
-        nix-repl
         git
         keepassxc # to open my passwords
         syncthing # keepassfile in here
@@ -139,6 +113,9 @@ in {
         tcpdump
         ntfs3g
         qdirstat
+        youtube-dl
+        google-cloud-sdk
+        htop
 
         # emacs
         haskellIdeEngine
@@ -147,10 +124,14 @@ in {
         pkgs.rustracer
         pkgs.haskellPackages.stylish-haskell
         pkgs.haskellPackages.brittany
+        pkgs.haskellPackages.hindent
+        shfmt
 
         sloccount
-
+        cloc
+		lshw # list hardware
         pkgs.xorg.xev # monitor x events
+        toxiproxy # chaos http proxy, to introduce latency mostly
 	  ];
 	  shellAliases = {
       vim = "nvim";
@@ -268,7 +249,32 @@ in {
         nssmdns = true;
     };
 
-    postgresql.enable = true; # postgres for local dev
+    postgresql = {
+      enable = true; # postgres for local dev
+      authentication = pkgs.lib.mkOverride 10 ''
+        local all all trust
+        host all all ::1/128 trust
+        host all all 0.0.0.0/0 md5
+        host all all ::/0       md5
+      '';
+      extraConfig = ''
+        # log all the things
+        # journalctl -fu postgresql.service
+        log_connections = yes
+        log_statement = 'all'
+        logging_collector = yes
+        log_disconnections = yes
+        log_destination = 'syslog'
+
+        # accept connection from anywhere
+        listen_addresses = '*'
+      '';
+        initialScript = pkgs.writeText "backend-initScript" ''
+        CREATE USER tom WITH PASSWORD 'myPassword';
+        CREATE DATABASE jerry;
+        GRANT ALL PRIVILEGES ON DATABASE jerry to tom;
+        '';
+    };
 
 		gnome3.gnome-terminal-server.enable = true;
 		emacs = {
@@ -303,6 +309,7 @@ in {
 			};
 			videoDrivers = [ "intel" "nvidia" ];
 			desktopManager.xfce.enable = true; # for the xfce-panel in i3
+			desktopManager.xfce.noDesktop = true;
 			desktopManager.xfce.enableXfwm = false ; # try disabling xfce popping over i3
 			# desktopManager.gnome3.enable = true; # to get the themes working with gnome-tweak tool
 			windowManager.i3.enable = true;
@@ -315,6 +322,9 @@ in {
 			enable = true;
 			provider = "geoclue2";
 		};
+
+    # https://github.com/rfjakob/earlyoom
+    earlyoom.enable = true; # kills big processes better then kernel
   };
 
 
@@ -334,13 +344,16 @@ in {
     # sudo nix-channel --update
     # sudo nix-channel --list
     # click nixos link, and in title copy over the hash
-    nixos.version = "18.03.133360.0e614d02923";
+    nixos.version = "18.09.1397.21517c60d94";
 
   # This value determines the NixOS release with which your system is to be
   # compatible, in order to avoid breaking some software such as database
   # servers. You should change this only after NixOS release notes say you
   # should.
-    stateVersion = "18.03"; # Did you read the comment?
+    # to upgrade, add a channel:
+    # $ sudo nix-channel --add https://nixos.org/channels/nixos-18.09 nixos
+    # $ sudo nixos-rebuild switch --upgrade
+    stateVersion = "18.09"; # Did you read the comment?
   };
   virtualisation.docker.enable = true; # eh work on app?
   powerManagement = { enable = true; cpuFreqGovernor = "ondemand"; };

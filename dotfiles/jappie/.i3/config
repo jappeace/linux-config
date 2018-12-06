@@ -13,7 +13,7 @@ set $mod Mod1
 
 # Font for window titles. Will also be used by the bar unless a different font
 # is used in the bar {} block below. ISO 10646 = Unicode
-font pango:Ubuntu Sans 12
+font pango:Ubuntu Sans 8
 # The font above is very space-efficient, that is, it looks good, sharp and
 # clear in small sizes. However, if you need a lot of unicode glyphs or
 # right-to-left text rendering, you should instead use pango for rendering and
@@ -243,7 +243,7 @@ exec fcitx
 
 # exec i3-msg 'workspace $wf1; exec thunderbird' #... disabled cuase its addicting
 exec i3-msg 'workspace $w9; exec firefox'
-exec i3-msg 'workspace $w10;exec ksysguard'
+exec i3-msg 'workspace $w10;exec ksysguard; exec gnome-terminal -- htop'
 # exec i3-msg 'workspace $w1; exec deluge'
 exec i3-msg 'workspace $wf8; exec keepassxc'
 # exec i3-msg 'workspace $w2;exec konsole'
