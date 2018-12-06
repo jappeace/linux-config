@@ -103,7 +103,7 @@ in {
         openvpn # piratebay access
         ksysguard # monitor my system.. with graphs! (so I don't need to learn real skills)
         gnumake # handy for adhoc configs, https://github.com/NixOS/nixpkgs/issues/17293
-        fbreader # read books
+        # fbreader # read books # TODO broken?
         libreoffice
         rustup
         gcc # rust wants cc?
@@ -344,7 +344,7 @@ in {
     # sudo nix-channel --update
     # sudo nix-channel --list
     # click nixos link, and in title copy over the hash
-    nixos.version = "18.09.1397.21517c60d94";
+    nixos.version = "18.09.1534.d45a0d7a4f5";
 
   # This value determines the NixOS release with which your system is to be
   # compatible, in order to avoid breaking some software such as database
