@@ -55,8 +55,8 @@ in {
 
   # Set your time zone.
   # time.timeZone = "Europe/Amsterdam";
-  # aruba
-  time.timeZone = "Canada/Atlantic";
+  # aruba = Canada/Atlantic
+  time.timeZone = "Europe/Amsterdam";
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
@@ -237,12 +237,13 @@ in {
   # hardware.bumblebee.enable = true;
   # hardware.bumblebee.connectDisplay = true;
   hardware = {
-	enableRedistributableFirmware = true;
-	pulseaudio = {
+    enableRedistributableFirmware = true;
+    pulseaudio = {
 	   enable = true;
 	   support32Bit = true;
 	   systemWide = true;
    	};
+    opengl.driSupport32Bit = true;
   };
 
   # List services that you want to enable:
