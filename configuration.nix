@@ -128,6 +128,7 @@ in {
         pkgs.haskellPackages.brittany
         pkgs.haskellPackages.hindent
         shfmt
+        sqlite
 
         sloccount
         cloc
