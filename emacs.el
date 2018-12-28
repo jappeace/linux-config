@@ -258,6 +258,7 @@
       ;; Applications
       "a" '(:ignore t :which-key "Applications")
       "d" 'insert-date
+      ";" 'comment-line
       "ar" 'ranger)
 )
 
