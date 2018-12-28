@@ -116,6 +116,7 @@ in {
         youtube-dl
         google-cloud-sdk
         htop
+        ngrok-2
 
         # emacs
         haskellIdeEngine
