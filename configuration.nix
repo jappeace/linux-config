@@ -58,6 +58,7 @@ in {
     sshuttle
       nixops
 	  	firmwareLinuxNonfree
+      fbreader
       p7zip
         bc # random calcualtions
         androidenv.platformTools
