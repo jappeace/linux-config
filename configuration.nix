@@ -59,6 +59,7 @@ in {
       nixops
 	  	firmwareLinuxNonfree
       fbreader
+      gource
       p7zip
         bc # random calcualtions
         androidenv.platformTools
