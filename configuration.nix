@@ -72,7 +72,7 @@ in {
         git-crypt # pgp based encryption for git repos (the dream is real)
         jq # deal with json on commandline
         wireguard # easier vpn
-        sqlite # hack nixops
+        sqlite-interactive # hack nixops
         gimp # edit my screenshots
         curl
         neovim # because emacs never breaks
