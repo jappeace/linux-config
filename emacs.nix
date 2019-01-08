@@ -63,6 +63,8 @@ packagedEmacs =
     fill-column-indicator # 80 char
     # dracula-theme
   ]) ++ (with epkgs.melpaPackages; [
+    ox-reveal
+    htmlize
     general # keybindings
     monokai-theme
     use-package # lazy package loading TODO downgrade to stable (custom wan't there)
