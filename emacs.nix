@@ -81,6 +81,7 @@ packagedEmacs =
     lsp-ui # https://github.com/emacs-lsp/lsp-ui
     # use hooks to bind haskell to lsp haskell
     lsp-haskell # https://github.com/emacs-lsp/lsp-haskell
+    evil-org
 
     # lsp-rust https://github.com/emacs-lsp/lsp-rust
   ]) ++ (with epkgs.elpaPackages; [
