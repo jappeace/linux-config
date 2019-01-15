@@ -46,6 +46,7 @@ amazon.com amazonaws.com * allow
 amazon.com awsstatic.com * allow
 amazon.com media-amazon.com * allow
 amazon.com s3.us-east-2.amazonaws.com * allow
+amazon.de ssl-images-amazon.com * allow
 analytics.google.com * * allow
 angel.co typekit.net * allow
 askubuntu.com sstatic.net * allow
@@ -78,6 +79,7 @@ bol.com s-bol.com * allow
 booking.com bstatic.com * allow
 btcmarkets.net google.com * allow
 btcmarkets.net google.com frame allow
+bulma.io jsfiddle.net * allow
 c25ba700.ngrok.io openlearning.com * allow
 c25ba700.ngrok.io pyde.openlearning.com * allow
 c25ba700.ngrok.io pyde.openlearning.com xhr allow
@@ -126,6 +128,7 @@ fd.nl fd.nl script allow
 fd.nl fd.nl xhr block
 fd.nl static.fd.nl script block
 file-scheme api.myetherapi.com xhr allow
+file-scheme jsdelivr.net * allow
 file-scheme localhost * allow
 file-scheme localhost frame allow
 file-scheme pyde.openlearning.com xhr allow
@@ -137,6 +140,7 @@ freenode.net google.com * allow
 funda.nl fstatic.nl * allow
 funda.nl funda.info * allow
 funda.nl funda.io * allow
+github.com githubassets.com * allow
 github.com raw.githubusercontent.com * allow
 github.com render.githubusercontent.com * allow
 github.com render.githubusercontent.com frame allow
@@ -149,10 +153,12 @@ google.com analytics.google.com * inherit
 google.com content.googleapis.com * allow
 google.com content.googleapis.com frame allow
 google.com csi.gstatic.com image allow
+google.com csp.withgoogle.com * allow
 google.com firebaseio.com * allow
 google.com googleusercontent.com * allow
 google.com gstatic.com * allow
 google.com mail-attachment.googleusercontent.com frame allow
+google.com www.gstatic.com frame allow
 google.com youtube.com * allow
 google.com.au google.com * allow
 google.com.au gstatic.com * allow
@@ -170,6 +176,9 @@ ig.com d3sbxpiag177w8.cloudfront.net * allow
 ig.com marketdatasystems.com * allow
 ig.com walkme.com * allow
 indeed.com d3fw5vlhllyvee.cloudfront.net * allow
+jsdelivr.com algolia.net * allow
+jsdelivr.com algolianet.com * allow
+jsdelivr.com jsdelivr.net * allow
 linkedin.com google.com.au * allow
 linkedin.com licdn.com * allow
 litebit.eu google.com * allow
@@ -193,9 +202,14 @@ mealpal.com stripe.com * allow
 microsoftonline.com microsoftonline-p.com * allow
 minergate.com facebook.net * allow
 minergate.com fonts.gstatic.com * allow
+mollie.com ravenjs.com * allow
+mollie.com zopim.com * allow
+mozilla.org interactive-examples.mdn.mozilla.net frame allow
 mozilla.org mdn.github.io * allow
 mozilla.org mdn.github.io frame allow
+mozilla.org mdn.mozillademos.org frame allow
 mozilla.org mozilla.net * allow
+mozilla.org mozillademos.org * allow
 myworkdayjobs.com myworkday.com * allow
 n26.com ctfassets.net * allow
 n26.com polyfill.io * allow
@@ -249,9 +263,12 @@ raster.click bootstrapcdn.com * allow
 raster.click jquery.com * allow
 reactnavigation.org expo.io * allow
 reactnavigation.org jsdelivr.net * allow
+reddit.com redd.it * allow
+reddit.com redditmedia.com * allow
 reddit.com redditstatic.com * allow
 reddit.com stats.redditmedia.com xhr allow
 reddit.com www.redditmedia.com frame allow
+restapitutorial.com bootstrapcdn.com * allow
 seek.com.au seekcdn.com * allow
 sentry.io e90d271df3e973c7.global.ssl.fastly.net * allow
 sentry.io getsentry.net * allow
@@ -273,8 +290,17 @@ slack-redir.net slack-edge.com * allow
 slack-redir.net slack.com * allow
 slack.com slack-edge.com * allow
 slack.com slack-msgs.com * allow
+speedtest.net * xhr allow
+speedtest.net 178.214.0.36 * allow
+speedtest.net 185.54.244.185 * allow
+speedtest.net 185.54.244.187 * allow
+speedtest.net aaxads.com * allow
+speedtest.net cdnst.net * allow
+speedtest.net evidon.com * allow
 stackexchange.com sstatic.net * allow
 stackoverflow.com sstatic.net * allow
+tathougies.github.io bootstrapcdn.com * allow
+tathougies.github.io jquery.com * allow
 thesaurus.com sfdict.com * allow
 theverge.com documentcloud.org * allow
 theverge.com vox-cdn.com * allow
@@ -315,3 +341,4 @@ winehq.org jquery.com * allow
 youtube.com googlevideo.com * allow
 youtube.com gstatic.com * inherit
 youtube.com ytimg.com * allow
+zalando.nl ztat.net * allow
