@@ -36,7 +36,16 @@ in {
     hostName = "private-jappie-nixos"; # Define your hostname.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
     networkmanager.enable = true;
-    extraHosts = "172.17.0.2 raster";
+    extraHosts = ''
+        0.0.0.0 degiro.nl
+        0.0.0.0 www.degiro.nl
+        0.0.0.0 reddit.com
+        0.0.0.0 www.reddit.com
+        0.0.0.0 facebook.com
+        0.0.0.0 www.facebook.com
+        0.0.0.0 youtube.com
+        0.0.0.0 www.youtube.com
+        '';
     };
 
   # Select internationalisation properties.
