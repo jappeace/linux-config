@@ -39,6 +39,7 @@ in {
     extraHosts = ''
         0.0.0.0 degiro.nl
         0.0.0.0 www.degiro.nl
+        0.0.0.0 trader.degiro.nl
         0.0.0.0 reddit.com
         0.0.0.0 www.reddit.com
         0.0.0.0 facebook.com
