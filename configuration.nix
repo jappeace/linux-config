@@ -72,6 +72,7 @@ in {
   # $ nix search wget
   environment = {
 	  systemPackages = with pkgs.xfce // pkgs; [
+    kazam
     sshuttle
       nixops
 	  	firmwareLinuxNonfree
