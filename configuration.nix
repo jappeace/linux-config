@@ -65,6 +65,7 @@ in {
   # $ nix search wget
   environment = {
 	  systemPackages = with pkgs.xfce // pkgs; [
+    gtk-recordmydesktop
     sshuttle
       nixops
 	  	firmwareLinuxNonfree
