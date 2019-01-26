@@ -134,6 +134,9 @@ in {
         youtube-dl
         google-cloud-sdk
         htop
+        simplescreenrecorder
+        blender
+        audacity
 
         # emacs
         haskellIdeEngine
@@ -334,7 +337,8 @@ in {
 			desktopManager.xfce.enable = true; # for the xfce-panel in i3
 			desktopManager.xfce.noDesktop = true;
 			desktopManager.xfce.enableXfwm = false ; # try disabling xfce popping over i3
-			# desktopManager.gnome3.enable = true; # to get the themes working with gnome-tweak tool
+			desktopManager.mate.enable = true; # alternative desktop in case programs are bugged and I'm lazy to debug
+
 			windowManager.i3.enable = true;
 			windowManager.default = "i3";
 			enable = true;
