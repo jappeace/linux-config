@@ -476,6 +476,14 @@ two prefix arguments, write out the day and month name."
   ; (setq fci-rule-color "white")
   (setq fci-rule-width 2)
 )
+(use-package org
+  :config
+  (org-babel-do-load-languages 'org-babel-load-languages '(
+    (haskell . t)
+    (plantuml . t)
+    ))
+
+)
 
 ;; https://emacs.stackexchange.com/questions/44361/org-mode-export-gets-weird-symbols-at-the-end-of-each-line-while-exporting-to-ht
 (use-package htmlize
