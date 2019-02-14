@@ -46,6 +46,7 @@ in {
         0.0.0.0 www.facebook.com
         0.0.0.0 youtube.com
         0.0.0.0 www.youtube.com
+        0.0.0.0 news.ycombinator.com
         '';
     };
 
@@ -130,6 +131,8 @@ in {
         google-cloud-sdk
         htop
         ngrok-2
+        feh
+        pkgs.nodePackages.prettier
 
         # emacs
         haskellIdeEngine
@@ -141,6 +144,7 @@ in {
         pkgs.haskellPackages.hindent
         shfmt
         sqlite
+        html-tidy
 
         sloccount
         cloc
