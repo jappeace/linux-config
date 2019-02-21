@@ -51,6 +51,7 @@ in {
         0.0.0.0 www.facebook.com
         0.0.0.0 youtube.com
         0.0.0.0 www.youtube.com
+        0.0.0.0 news.ycombinator.com
         '';
     };
 
