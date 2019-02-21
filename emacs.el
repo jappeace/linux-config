@@ -242,7 +242,7 @@
       "f"   '(:ignore t :which-key "find/format")
       "ff"  'format-all-buffer
       "fi"  'counsel-projectile-find-file
-      "fr"  'projectile-replace
+      "fr"  'projectile-replace-regexp
       "fg"  'counsel-git-grep
       "fa"  'counsel-projectile-ag
       "s"  'save-some-buffers
