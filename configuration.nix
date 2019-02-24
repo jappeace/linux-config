@@ -364,7 +364,7 @@ in {
     # sudo nix-channel --update
     # sudo nix-channel --list
     # click nixos link, and in title copy over the hash
-    nixos.version = "18.09.1819.76aafbf4bf4";
+    nixos.version = "18.09.2253.753f58d9a42";
 
   # This value determines the NixOS release with which your system is to be
   # compatible, in order to avoid breaking some software such as database
