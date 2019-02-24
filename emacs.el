@@ -263,7 +263,16 @@
 )
 
 ;;; project navigation
-(use-package counsel-projectile)
+(use-package counsel-projectile
+  :commands (
+    counsel-projectile-find-file
+    counsel-projectile-rg
+    counsel-projectile
+    counsel-projectile-ag
+    )
+  :config
+  (counsel-projectile-mode)
+  )
 
 (use-package projectile
   :config
