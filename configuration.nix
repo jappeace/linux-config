@@ -44,9 +44,9 @@ in {
         0.0.0.0 www.reddit.com
         0.0.0.0 facebook.com
         0.0.0.0 www.facebook.com
+        0.0.0.0 news.ycombinator.com
         0.0.0.0 youtube.com
         0.0.0.0 www.youtube.com
-        0.0.0.0 news.ycombinator.com
         '';
     };
 
@@ -137,6 +137,7 @@ in {
         # emacs
         haskellIdeEngine
         pkgs.silver-searcher # when configuring my emacs they told me to use this: https://github.com/ggreer/the_silver_searcher#installation
+        pkgs.ripgrep # better silver searcher?
         aspell_with_dict # I can't spell
         pkgs.rustracer
         pkgs.haskellPackages.stylish-haskell
