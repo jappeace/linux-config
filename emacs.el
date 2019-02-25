@@ -245,6 +245,7 @@
       "fr"  'projectile-replace-regexp
       "fg"  'counsel-git-grep
       "fa"  'counsel-projectile-ag
+      "f/"  'counsel-projectile-rg ; dumb habit
       "s"  'save-some-buffers
       "p"  'counsel-projectile
       "r"	 'counsel-recentf
