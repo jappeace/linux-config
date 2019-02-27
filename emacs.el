@@ -234,7 +234,7 @@
     :non-normal-prefix "C-SPC"
 
       ;; simple command
-      "/"   'counsel-projectile-ag
+      "/"   'counsel-projectile-rg
       "SPC" '(avy-goto-word-or-subword-1  :which-key "go to char")
       "b"	'ivy-switch-buffer  ; change buffer, chose using ivy
       ;; bind to double key press
@@ -242,9 +242,10 @@
       "f"   '(:ignore t :which-key "find/format")
       "ff"  'format-all-buffer
       "fi"  'counsel-projectile-find-file
-      "fr"  'projectile-replace
+      "fr"  'projectile-replace-regexp
       "fg"  'counsel-git-grep
       "fa"  'counsel-projectile-ag
+      "f/"  'counsel-projectile-rg ; dumb habit
       "s"  'save-some-buffers
       "p"  'counsel-projectile
       "r"	 'counsel-recentf
@@ -263,9 +264,42 @@
 )
 
 ;;; project navigation
-(use-package 
-    counsel-projectile)
+(use-package counsel-projectile
+  :commands (
+    counsel-projectile-find-file
+    counsel-projectile-rg
+    counsel-projectile
+    counsel-projectile-ag
+    )
+  :config
+  (counsel-projectile-mode)
+  )
 
+(use-package projectile
+  :config
+  (setq projectile-enable-caching t)
+  ;; https://emacs.stackexchange.com/questions/16497/how-to-exclude-files-from-projectile
+  ;;; Default rg arguments
+  ;; https://github.com/BurntSushi/ripgrep
+  (when (executable-find "rg")
+    (progn
+      (defconst modi/rg-arguments
+        `("--line-number"                     ; line numbers
+          "--smart-case"
+          "--follow"                          ; follow symlinks
+          "--mmap")                           ; apply memory map optimization when possible
+        "Default rg arguments used in the functions in `projectile' package.")
+
+      (defun modi/advice-projectile-use-rg ()
+        "Always use `rg' for getting a list of all files in the project."
+        (mapconcat 'identity
+                   (append '("\\rg") ; used unaliased version of `rg': \rg
+                           modi/rg-arguments
+                           '("--null" ; output null separated results,
+                             "--files")) ; get file names matching the regex '' (all files)
+                   " "))
+      (advice-add 'projectile-get-ext-command :override #'modi/advice-projectile-use-rg)))
+  )
 (use-package swiper
   :commands (
     swiper

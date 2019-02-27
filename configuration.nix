@@ -49,9 +49,9 @@ in {
         0.0.0.0 www.reddit.com
         0.0.0.0 facebook.com
         0.0.0.0 www.facebook.com
+        0.0.0.0 news.ycombinator.com
         0.0.0.0 youtube.com
         0.0.0.0 www.youtube.com
-        0.0.0.0 news.ycombinator.com
         '';
     };
 
@@ -147,6 +147,7 @@ in {
         pkgs.nodePackages.prettier
         haskellIdeEngine
         pkgs.silver-searcher # when configuring my emacs they told me to use this: https://github.com/ggreer/the_silver_searcher#installation
+        pkgs.ripgrep # better silver searcher?
         aspell_with_dict # I can't spell
         pkgs.rustracer
         pkgs.haskellPackages.stylish-haskell
@@ -378,7 +379,7 @@ in {
     # sudo nix-channel --update
     # sudo nix-channel --list
     # click nixos link, and in title copy over the hash
-    nixos.version = "18.09.1819.76aafbf4bf4";
+    nixos.version = "18.09.2253.753f58d9a42";
 
   # This value determines the NixOS release with which your system is to be
   # compatible, in order to avoid breaking some software such as database
