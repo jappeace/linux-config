@@ -258,6 +258,7 @@
       ;; Applications
       "a" '(:ignore t :which-key "Applications")
       "d" 'insert-date
+      ";" 'comment-line
       "ar" 'ranger)
 )
 
@@ -312,6 +313,7 @@
   (setq which-key-idle-delay 0.01)
   (which-key-mode)
 )
+(use-package evil-org)
 
 ;;; jump around
 (use-package avy

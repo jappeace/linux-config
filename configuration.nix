@@ -77,6 +77,8 @@ in {
     sshuttle
       nixops
 	  	firmwareLinuxNonfree
+      fbreader
+      gource
       p7zip
         bc # random calcualtions
         androidenv.platformTools
@@ -90,7 +92,7 @@ in {
         git-crypt # pgp based encryption for git repos (the dream is real)
         jq # deal with json on commandline
         wireguard # easier vpn
-        sqlite # hack nixops
+        sqlite-interactive # hack nixops
         gimp # edit my screenshots
         curl
         neovim # because emacs never breaks
@@ -138,8 +140,11 @@ in {
         simplescreenrecorder
         blender
         audacity
+        ngrok-2
+        feh
 
         # emacs
+        pkgs.nodePackages.prettier
         haskellIdeEngine
         pkgs.silver-searcher # when configuring my emacs they told me to use this: https://github.com/ggreer/the_silver_searcher#installation
         aspell_with_dict # I can't spell
@@ -149,6 +154,7 @@ in {
         pkgs.haskellPackages.hindent
         shfmt
         sqlite
+        html-tidy
 
         sloccount
         cloc
