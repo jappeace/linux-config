@@ -22,12 +22,37 @@ packagedEmacs =
     });
     coll = epkgs.melpaPackages.evil-collection.override (args: {
         melpaBuild = drv: args.melpaBuild (drv // {
-          packageRequires = [ pkgs.emacs evilJap ];
+          packageRequires = [ args.emacs evilJap ];
           src = pkgs.fetchFromGitHub {
                 owner = "jappeace";
                 repo = "evil-collection";
                 rev = "ec39384bb2265466218995574b958db457363953";
                 sha256 = "13l4ijxf9k45jih9nwf2ax1wfd2m5an7sswgypmw3m2jysh9710l";
+            };
+        });
+    });
+    # upgrade lsp haskell to work
+    lspHaskell = epkgs.melpaPackages.lsp-haskell.override (args: {
+        melpaBuild = drv: args.melpaBuild (drv // {
+          packageRequires = [ lspMode args.haskell-mode ];
+          src = pkgs.fetchFromGitHub {
+                owner = "emacs-lsp";
+                repo = "lsp-haskell";
+                rev = "df7ac24332917bcd8463988767d82f17da46b77c";
+                sha256 = "09yw5bpy4d9hls1a3sv904islm5b26wbwlzgj6rlfdnl5h5dzmjs";
+            };
+        });
+    });
+    lspMode = epkgs.melpaPackages.lsp-mode.override (args: {
+        melpaBuild = drv: args.melpaBuild (drv // {
+
+        # locally I'm ahead so need to specify more deps, on upgrade delete the line below
+        packageRequires = [ epkgs.melpaPackages.dash epkgs.melpaPackages.dash-functional args.emacs epkgs.melpaPackages.f epkgs.melpaPackages.ht epkgs.elpaPackages.spinner ];
+          src = pkgs.fetchFromGitHub {
+                owner = "emacs-lsp";
+                repo = "lsp-mode";
+                rev = "2e9b5814576086d2b03ffe9b46c20efc2e23f87a";
+                sha256 = "0yr6vgflb1viqkjnxlf89r0g9wy7kwzrfxcpak9750rqri9fb14x";
             };
         });
     });
@@ -78,9 +103,8 @@ packagedEmacs =
     # for example haskell: https://github.com/haskell/haskell-ide-engine#using-hie-with-emacs
     # rust https://github.com/rust-lang-nursery/rls
     # etc
-    lsp-ui # https://github.com/emacs-lsp/lsp-ui
     # use hooks to bind haskell to lsp haskell
-    lsp-haskell # https://github.com/emacs-lsp/lsp-haskell
+    lspHaskell # https://github.com/emacs-lsp/lsp-haskell
     evil-org
 
     # lsp-rust https://github.com/emacs-lsp/lsp-rust
