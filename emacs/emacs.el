@@ -414,6 +414,13 @@
     :disabled ; need to figure out how to use this with nix-shell
     :after lsp-ui
     :config
+    (setq lsp-haskell-process-wrapper-function
+	(lambda (argv)
+	(append
+	(append (list "nix-shell" "-A" "shell.ghc" "--run" )
+		(list (mapconcat 'identity argv " ")))
+	(list (concat (lsp-haskell--get-root) "/shell.nix"))
+	)))
     (add-hook 'lsp-mode-hook 'lsp-ui-mode)
     (add-hook 'haskell-mode-hook #'lsp-haskell-enable)
     (add-hook 'haskell-mode-hook 'flycheck-mode)

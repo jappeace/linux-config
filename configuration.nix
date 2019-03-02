@@ -12,17 +12,11 @@ let intero-neovim = pkgs.vimUtils.buildVimPlugin {
       sha256 = "1igc8swgbbkvyykz0ijhjkzcx3d83yl22hwmzn3jn8dsk6s4an8l";
     };
   };
-  haskellIdeEngine = (import (pkgs.fetchFromGitHub {
-                   owner="domenkozar";
-                   repo="hie-nix";
-                   rev="96af698f0cfefdb4c3375fc199374856b88978dc";
-                   sha256="1ar0h12ysh9wnkgnvhz891lvis6x9s8w3shaakfdkamxvji868qa";
-                 }) {}).hie84;
-  aspell_with_dict = pkgs.aspellWithDicts(ps: [ps.nl ps.en]);
 in {
   imports =
     [ # Include the results of the hardware scan.
       ./hardware/tuxedo.nix
+      ./emacs
     ];
   
   # Use the systemd-boot EFI boot loader.
@@ -36,6 +30,9 @@ in {
     hostName = "private-jappie-nixos"; # Define your hostname.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
     networkmanager.enable = true;
+    # these are sites I've developed a 'mental hook' for, eg
+    # randomly checking them, even several times in a row.
+    # Blocking them permenantly for a week or so gets rid of that behavior
     extraHosts = ''
         0.0.0.0 degiro.nl
         0.0.0.0 www.degiro.nl
@@ -120,9 +117,6 @@ in {
         gnumake # handy for adhoc configs, https://github.com/NixOS/nixpkgs/issues/17293
         # fbreader # read books # TODO broken?
         libreoffice
-        rustup
-        gcc # rust wants cc?
-        binutils.bintools # cargo wants ar
         qpdfview
         mcomix
         tcpdump
@@ -133,24 +127,10 @@ in {
         htop
         ngrok-2
         feh
-        pkgs.nodePackages.prettier
-
-        # emacs
-        haskellIdeEngine
-        pkgs.silver-searcher # when configuring my emacs they told me to use this: https://github.com/ggreer/the_silver_searcher#installation
-        pkgs.ripgrep # better silver searcher?
-        aspell_with_dict # I can't spell
-        pkgs.rustracer
-        pkgs.haskellPackages.stylish-haskell
-        pkgs.haskellPackages.brittany
-        pkgs.haskellPackages.hindent
-        shfmt
-        sqlite
-        html-tidy
 
         sloccount
         cloc
-		lshw # list hardware
+        lshw # list hardware
         pkgs.xorg.xev # monitor x events
         toxiproxy # chaos http proxy, to introduce latency mostly
 	  ];
@@ -298,10 +278,6 @@ in {
     };
 
 		gnome3.gnome-terminal-server.enable = true;
-		emacs = {
-			enable = true; # deamon mode
-			package = (import ./emacs.nix { inherit pkgs; });
-		};
 		syncthing = {
           enable = true;
           user = "jappie";
