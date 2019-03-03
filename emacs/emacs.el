@@ -279,6 +279,7 @@
 (use-package projectile
   :config
   (setq projectile-enable-caching t)
+  (projectile-mode) ;; I always want this?
   ;; https://emacs.stackexchange.com/questions/16497/how-to-exclude-files-from-projectile
   ;;; Default rg arguments
   ;; https://github.com/BurntSushi/ripgrep
