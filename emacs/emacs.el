@@ -239,6 +239,7 @@
       "b"	'ivy-switch-buffer  ; change buffer, chose using ivy
       ;; bind to double key press
       "j"  'xref-find-definitions ; lsp find definition
+      "l"  'counsel-list-processes
       "f"   '(:ignore t :which-key "find/format")
       "ff"  'format-all-buffer
       "fi"  'counsel-projectile-find-file
@@ -409,13 +410,19 @@
 )
 
 (use-package ox-reveal)
-(use-package lsp-ui)
+(use-package lsp-mode :commands lsp)
 (use-package lsp-haskell
-    :disabled ; need to figure out how to use this with nix-shell
-    :after lsp-ui
+    :disabled ; doesn't use newstyle build yet.. https://github.com/haskell/haskell-ide-engine/issues/558
     :config
-    (add-hook 'lsp-mode-hook 'lsp-ui-mode)
-    (add-hook 'haskell-mode-hook #'lsp-haskell-enable)
+    ; https://github.com/emacs-lsp/lsp-haskell/blob/master/lsp-haskell.el#L57
+    (setq lsp-haskell-process-wrapper-function
+	(lambda (argv)
+	(append
+	(append (list "nix-shell" "--run" )
+		(list (mapconcat 'identity argv " ")))
+	(list (concat (projectile-project-root) "shell.nix"))
+	)))
+    (add-hook 'haskell-mode-hook #'lsp)
     (add-hook 'haskell-mode-hook 'flycheck-mode)
 )
 
