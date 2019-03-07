@@ -1,10 +1,8 @@
 ;; globals
 (set-default 'truncate-lines t)
-(setq delete-old-versions -1 )		; delete excess backup versions silently
+(setq-default indent-tabs-mode nil) ;; disable tabs
+(setq tab-width 2)
 (setq version-control t )		; use version control
-(setq make-backup-files nil) ; stop creating backup~ files
-(setq auto-save-default nil) ; stop creating #autosave# files
-(setq vc-make-backup-files nil )		; don't make backup files, I don't care
 (setq vc-follow-symlinks t )				       ; don't ask for confirmation when opening symlinked file
 (setq auto-save-file-name-transforms '((".*" "~/.emacs.d/auto-save-list/" t)) ) ;transform backups file name
 (setq inhibit-startup-screen t )	; inhibit useless and old-school startup screen
@@ -13,8 +11,32 @@
 (setq coding-system-for-write 'utf-8 )
 (setq sentence-end-double-space nil)	; sentence SHOULD end with only a point.
 (setq default-fill-column 90)		; toggle wrapping text at the 80th character
-(setq initial-scratch-message "Good day sir") ; 
+(setq initial-scratch-message "Good day sir, your wish is my command.") ; Emacs shows its subservience. Machines are tools.
 
+
+;; backup https://stackoverflow.com/questions/151945/how-do-i-control-how-emacs-makes-backup-files
+(setq vc-make-backup-files t)
+(setq kept-new-versions 10  ;; Number of newest versions to keep.
+      kept-old-versions 0   ;; Number of oldest versions to keep.
+      delete-old-versions t ;; Don't ask to delete excess backup versions.
+      backup-by-copying t)  ;; Copy all files, don't rename them.
+;; Default and per-save backups go here:
+(setq backup-directory-alist '(("" . "~/.emacs.d/backup/per-save")))
+
+(defun force-backup-of-buffer ()
+  ;; Make a special "per session" backup at the first save of each
+  ;; emacs session.
+  (when (not buffer-backed-up)
+    ;; Override the default parameters for per-session backups.
+    (let ((backup-directory-alist '(("" . "~/.emacs.d/backup/per-session")))
+          (kept-new-versions 3))
+      (backup-buffer)))
+  ;; Make a "per save" backup on each save.  The first save results in
+  ;; both a per-session and a per-save backup, to keep the numbering
+  ;; of per-save backups consistent.
+  (let ((buffer-backed-up nil))
+    (backup-buffer)))
+(add-hook 'before-save-hook  'force-backup-of-buffer)
 
 ;; font
 (push '(font . "firacode-12") default-frame-alist)
@@ -193,7 +215,8 @@
   :init
   (setq evil-want-integration nil) ; required for evil collection; but I patched it so no
   :config
-  (evil-mode 1))
+  (evil-mode 1)
+  )
 
 (use-package evil-escape
   :commands (evil-escape) ;; load it after press
@@ -235,6 +258,7 @@
 
       ;; simple command
       "/"   'counsel-projectile-rg
+      "k"   ('projectile-kill-buffers :which-key "kill project buffers") ;; sometimes projectile gets confused about temp files, this fixes that
       "SPC" '(avy-goto-word-or-subword-1  :which-key "go to char")
       "b"	'ivy-switch-buffer  ; change buffer, chose using ivy
       ;; bind to double key press
@@ -403,11 +427,32 @@
   :mode ("\\.py\\'" . python-mode)
   :interpreter ("python" . python-mode))
 
+(add-hook 'haskell-mode-hook
+  (function (lambda ()
+          (setq evil-shift-width 2))))
+
 ;;; Haskell
 (use-package haskell-mode
+  :after evil
   :config
   (custom-set-variables
     '(haskell-stylish-on-save t))
+  (defun haskell-evil-open-above ()
+    (interactive)
+    (evil-digit-argument-or-evil-beginning-of-line)
+    (haskell-indentation-newline-and-indent)
+    (evil-previous-line)
+    (haskell-indentation-indent-line)
+    (evil-append-line nil))
+
+  (defun haskell-evil-open-below ()
+    (interactive)
+    (evil-append-line nil)
+    (haskell-indentation-newline-and-indent))
+
+  (evil-define-key 'normal haskell-mode-map
+      "o" 'haskell-evil-open-below
+      "O" 'haskell-evil-open-above)
 )
 
 (use-package ox-reveal)
