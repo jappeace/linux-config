@@ -258,7 +258,7 @@
 
       ;; simple command
       "/"   'counsel-projectile-rg
-      "k"   ('projectile-kill-buffers :which-key "kill project buffers") ;; sometimes projectile gets confused about temp files, this fixes that
+      "k"   '(projectile-kill-buffers :which-key "kill project buffers") ;; sometimes projectile gets confused about temp files, this fixes that
       "SPC" '(avy-goto-word-or-subword-1  :which-key "go to char")
       "b"	'ivy-switch-buffer  ; change buffer, chose using ivy
       ;; bind to double key press
@@ -269,8 +269,12 @@
       "fi"  'counsel-projectile-find-file
       "fr"  'projectile-replace-regexp
       "fg"  'counsel-git-grep
+      "fh"  'haskell-hoogle-lookup-from-local
       "fa"  'counsel-projectile-ag
       "f/"  'counsel-projectile-rg ; dumb habit
+      "h"   '(:ignore t :which-key "hoogle/inspection")
+      "hl"  'haskell-hoogle-lookup-from-local
+      "hq"  'haskell-hoogle
       "s"  'save-some-buffers
       "p"  'counsel-projectile
       "r"	 'counsel-recentf
@@ -436,7 +440,9 @@
   :after evil
   :config
   (custom-set-variables
-    '(haskell-stylish-on-save t))
+   '(haskell-stylish-on-save t)
+   '(haskell-hoogle-command (concat (projectile-project-root) "scripts/hoogle.sh"))
+   )
   (defun haskell-evil-open-above ()
     (interactive)
     (evil-digit-argument-or-evil-beginning-of-line)
@@ -450,6 +456,16 @@
     (evil-append-line nil)
     (haskell-indentation-newline-and-indent))
 
+(defun haskell-hoogle-start-server ()
+  "Start hoogle local server."
+  (interactive)
+    (unless (haskell-hoogle-server-live-p)
+    (set 'haskell-hoogle-server-process
+            (start-process
+            haskell-hoogle-server-process-name
+            (get-buffer-create haskell-hoogle-server-buffer-name)
+            haskell-hoogle-command "server" "-p" (number-to-string haskell-hoogle-port-number))))
+    )
   (evil-define-key 'normal haskell-mode-map
       "o" 'haskell-evil-open-below
       "O" 'haskell-evil-open-above)

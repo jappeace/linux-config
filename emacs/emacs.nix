@@ -73,7 +73,6 @@ packagedEmacs =
     company # completion
     flycheck # squegely lines??
     powerline # beter status bar (col count, cur line)
-    haskell-mode
     nix-mode
     yaml-mode
     markdown-mode
@@ -86,6 +85,7 @@ packagedEmacs =
     evil-escape
     elm-mode
     fill-column-indicator # 80 char
+    haskell-mode
     # dracula-theme
   ]) ++ (with epkgs.melpaPackages; [
     ox-reveal

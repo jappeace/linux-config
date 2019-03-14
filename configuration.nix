@@ -74,7 +74,6 @@ in {
         bc # random calcualtions
         androidenv.platformTools
         android-studio
-        virtualbox
         gnome3.nautilus # lazy file browsing
         openjdk # we need to be able to run java stuff (plantuml)
         plantuml # for thesis uml amongst other things, it's pretty nice
@@ -328,7 +327,7 @@ in {
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.extraUsers.jappie = {
     createHome = true;
-    extraGroups = ["wheel" "video" "audio" "disk" "networkmanager" "adbusers" "docker"];
+    extraGroups = ["wheel" "video" "audio" "disk" "networkmanager" "adbusers" "docker" "vboxusers"];
     group = "users";
     home = "/home/jappie";
     isNormalUser = true;
@@ -352,7 +351,8 @@ in {
     # $ sudo nixos-rebuild switch --upgrade
     stateVersion = "18.09"; # Did you read the comment?
   };
-  virtualisation.docker.enable = true; # eh work on app?
+  virtualisation.docker.enable = true;
+  virtualisation.virtualbox.host.enable = true; 
   powerManagement = { enable = true; cpuFreqGovernor = "ondemand"; };
 
   nix = {
