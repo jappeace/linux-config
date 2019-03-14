@@ -12,6 +12,31 @@ let intero-neovim = pkgs.vimUtils.buildVimPlugin {
       sha256 = "1igc8swgbbkvyykz0ijhjkzcx3d83yl22hwmzn3jn8dsk6s4an8l";
     };
   };
+
+  wineOver = pkgs.wine.override {
+    wineRelease = "staging";
+    pngSupport = true;
+    jpegSupport = true;
+    gettextSupport = true;
+    fontconfigSupport = true;
+    alsaSupport = true;
+    gtkSupport = true;
+    openglSupport = true;
+    tlsSupport = true;
+    gstreamerSupport = true;
+    cupsSupport = true;
+    colorManagementSupport = true;
+    dbusSupport = true;
+    mpg123Support = true;
+    openalSupport = true;
+    cairoSupport = true;
+    netapiSupport = true;
+    cursesSupport = true;
+    pulseaudioSupport = true;
+    udevSupport = true;
+    vulkanSupport = true;
+        };
+
 in {
   imports =
     [ # Include the results of the hardware scan.
@@ -137,6 +162,13 @@ in {
         audacity
         ngrok-2
         feh
+
+        # wine crap
+        wineOver
+        (winetricks.override{
+            wine=wineOver;
+        })
+        pkgs.samba
 
         sloccount
         cloc
