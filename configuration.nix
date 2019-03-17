@@ -67,14 +67,12 @@ in {
         0.0.0.0 degiro.nl
         0.0.0.0 www.degiro.nl
         0.0.0.0 trader.degiro.nl
-        0.0.0.0 reddit.com
-        0.0.0.0 www.reddit.com
         0.0.0.0 facebook.com
         0.0.0.0 www.facebook.com
         0.0.0.0 news.ycombinator.com
+        0.0.0.0 analytics.google.com
         0.0.0.0 youtube.com
         0.0.0.0 www.youtube.com
-        0.0.0.0 analytics.google.com
         '';
     };
 
