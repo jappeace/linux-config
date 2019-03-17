@@ -126,6 +126,7 @@ in {
         htop
         ngrok-2
         feh
+        dnsutils
 
         sloccount
         cloc
