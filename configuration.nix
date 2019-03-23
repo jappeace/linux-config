@@ -398,6 +398,7 @@ in {
     stateVersion = "18.09"; # Did you read the comment?
   };
   virtualisation.docker.enable = true; # eh work on app?
+   virtualisation.virtualbox.host.enable = true;
   powerManagement = { enable = true; cpuFreqGovernor = "ondemand"; };
 
   nix = {
