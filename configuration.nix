@@ -380,6 +380,7 @@ in {
     uid = 1000;
     shell = pkgs.zsh;
   };
+  users.extraGroups.vboxusers.members = [ "jappie" ];
 
   system = {
     # to update:
