@@ -106,6 +106,7 @@ packagedEmacs =
     # use hooks to bind haskell to lsp haskell
     lspHaskell # https://github.com/emacs-lsp/lsp-haskell
     evil-org
+    php-mode
 
     # lsp-rust https://github.com/emacs-lsp/lsp-rust
   ]) ++ (with epkgs.elpaPackages; [

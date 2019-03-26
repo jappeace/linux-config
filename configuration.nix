@@ -160,8 +160,6 @@ in {
         audacity
         ngrok-2
         feh
-        logmein-hamachi
-        php
 
         # wine crap
         wineOver
@@ -286,38 +284,6 @@ in {
   # Enable the OpenSSH daemon.
   # services.openssh.enable = true;
   services = {
-    phpfpm.poolConfigs."localhost" = ''
-        listen = /var/run/localhost-phpfpm.sock
-        user = nginx
-        group = nginx
-        pm = dynamic
-        pm.max_children = 32
-        pm.max_requests = 500
-        pm.start_servers = 2
-        pm.min_spare_servers = 2
-        pm.max_spare_servers = 5
-        listen.owner = nginx
-        listen.group = nginx
-        php_admin_value[error_log] = 'stderr'
-        php_admin_flag[log_errors] = on
-        env[PATH] = ${pkgs.lib.makeBinPath [ pkgs.php ]}
-        catch_workers_output = yes
-    '';
-    mysql = {
-    enable = true;
-    package = pkgs.mysql;
-    };
-    nginx = {
-    enable = true;
-        virtualHosts."localhost".locations."/" = {
-      root = "/var/www/localhost";
-      extraConfig = ''
-         fastcgi_split_path_info ^(.+\.php)(/.+)$;
-         fastcgi_pass unix:/var/run/localhost-phpfpm.sock;
-         include ${pkgs.nginx}/conf/fastcgi_params;
-         include ${pkgs.nginx}/conf/fastcgi.conf;
-       '';
-    }; };
 
     printing = {
       enable = true;

@@ -528,6 +528,9 @@ two prefix arguments, write out the day and month name."
 
 )
 
+(use-package php-mode
+  )
+
 ;; https://emacs.stackexchange.com/questions/44361/org-mode-export-gets-weird-symbols-at-the-end-of-each-line-while-exporting-to-ht
 (use-package htmlize
  :defer t
