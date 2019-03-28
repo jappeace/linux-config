@@ -160,6 +160,7 @@ in {
         audacity
         ngrok-2
         feh
+        docker_compose
 
         # wine crap
         wineOver
