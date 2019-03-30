@@ -19,6 +19,6 @@
 	trustExitCode = true
 	keepBackup = false
 [core]
-	autocrlf = false
+	autocrlf = input
 [commit]
 	#gpgsign = true
