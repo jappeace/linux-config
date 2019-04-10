@@ -68,6 +68,8 @@ in {
         0.0.0.0 www.degiro.nl
         0.0.0.0 trader.degiro.nl
         0.0.0.0 facebook.com
+        0.0.0.0 youtube.com
+        0.0.0.0 www.youtube.com
         0.0.0.0 www.facebook.com
         0.0.0.0 news.ycombinator.com
         0.0.0.0 analytics.google.com
@@ -94,6 +96,8 @@ in {
   # $ nix search wget
   environment = {
 	  systemPackages = with pkgs.xfce // pkgs; [
+    git-secrets
+    dbeaver
     kazam
     sshuttle
       nixops
