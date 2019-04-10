@@ -29,12 +29,12 @@
 	patterns = (\"|')?(AWS|aws|Aws)?_?(ACCOUNT|account|Account)_?(ID|id|Id)?(\"|')?\\s*(:|=>|=)\\s*(\"|')?[0-9]{4}\\-?[0-9]{4}\\-?[0-9]{4}(\"|')?
 	patterns = [1-9][0-9]+-[0-9a-zA-Z]{40}
 	patterns = EAACEdEose0cBA[0-9A-Za-z]+
-	patterns = AIza[0-9A-Za-z-_]{35}
+	patterns = AIza[0-9A-Za-z\\-_]{35}
 	patterns = sk_live_[0-9a-z]{32}
 	patterns = sk_live_[0-9a-zA-Z]{24}
-	patterns = q0csp-[0-9A-Za-z-_]{43}
-	patterns = q0atp-[0-9A-Za-z-_]{22}
-	patterns = sq0csp-[0-9A-Za-z-_]{43}
+	patterns = q0csp-[0-9A-Za-z\\-_]{43}
+	patterns = q0atp-[0-9A-Za-z\\-_]{22}
+	patterns = sq0csp-[0-9A-Za-z\\-_]{43}
 	patterns = access_token\\$production\\$[0-9a-z]{16}\\$[0-9a-f]{32}
 	patterns = SK[0-9a-fA-F]{32}
 	patterns = key-[0-9a-zA-Z]{32}
