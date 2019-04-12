@@ -14,7 +14,7 @@
 (setq sentence-end-double-space nil)	; sentence SHOULD end with only a point.
 (setq default-fill-column 90)		; toggle wrapping text at the 80th character
 (setq initial-scratch-message "Good day sir") ; 
-
+(setq org-startup-with-inline-images t)
 
 ;; font
 (push '(font . "firacode-12") default-frame-alist)
@@ -530,7 +530,6 @@ two prefix arguments, write out the day and month name."
 
 (use-package php-mode
   )
-
 ;; https://emacs.stackexchange.com/questions/44361/org-mode-export-gets-weird-symbols-at-the-end-of-each-line-while-exporting-to-ht
 (use-package htmlize
  :defer t

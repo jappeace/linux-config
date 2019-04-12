@@ -47,13 +47,14 @@ in {
   # Use the systemd-boot EFI boot loader.
   boot = {
        loader.systemd-boot.enable = true;
+       kernelModules = [ "kvm-intel" ];
        loader.efi.canTouchEfiVariables = true;
        tmpOnTmpfs = true;
   };
   systemd.mounts = [{
 	where = "/tmp";
 	what = "tmpfs";
-	options = "mode=1777,strictatime,nosuid,nodev,size=50%";
+	options = "mode=1777,strictatime,nosuid,nodev,size=75%";
   }];
 
   networking = {
@@ -67,10 +68,8 @@ in {
         0.0.0.0 degiro.nl
         0.0.0.0 www.degiro.nl
         0.0.0.0 trader.degiro.nl
-        0.0.0.0 facebook.com
         0.0.0.0 youtube.com
         0.0.0.0 www.youtube.com
-        0.0.0.0 www.facebook.com
         0.0.0.0 news.ycombinator.com
         0.0.0.0 analytics.google.com
         0.0.0.0 reddit.com
@@ -96,7 +95,8 @@ in {
   # $ nix search wget
   environment = {
 	  systemPackages = with pkgs.xfce // pkgs; [
-    git-secrets
+    qemu
+    git-secrets # this appears to be broken
     dbeaver
     kazam
     sshuttle
@@ -111,7 +111,6 @@ in {
         virtualbox
         gnome3.nautilus # lazy file browsing
         openjdk # we need to be able to run java stuff (plantuml)
-        plantuml # for thesis uml amongst other things, it's pretty nice
         inkscape # gotta make that artwork for site etc
         gnupg # for private keys
         git-crypt # pgp based encryption for git repos (the dream is real)
@@ -402,8 +401,11 @@ in {
     # $ sudo nixos-rebuild switch --upgrade
     stateVersion = "18.09"; # Did you read the comment?
   };
-  virtualisation.docker.enable = true; # eh work on app?
-   virtualisation.virtualbox.host.enable = true;
+  virtualisation = {
+    docker.enable = true; 
+    virtualbox.host.enable = true;
+    libvirtd.enable = true; 
+  };
   powerManagement = { enable = true; cpuFreqGovernor = "ondemand"; };
 
   nix = {

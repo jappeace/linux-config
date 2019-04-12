@@ -27,6 +27,8 @@ in {
         shfmt
         html-tidy
         pkgs.nodePackages.prettier
+
+        pkgs.graphviz # plantuml
 	  ];
   };
 

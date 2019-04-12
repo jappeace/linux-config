@@ -6,6 +6,7 @@ let
 
   # https://sam217pa.github.io/2016/09/02/how-to-build-your-own-spacemacs/
   myEmacsConfig = pkgs.writeText "default.el" (builtins.readFile ./emacs.el);
+  plantUml = pkgs.writeText "plantuml.el" "(setq org-plantuml-jar-path \"${pkgs.plantuml}/lib/plantuml.jar\")";
 packagedEmacs = 
   emacsWithPackages (epkgs:
   (
@@ -62,6 +63,7 @@ packagedEmacs =
 (pkgs.runCommand "default.el" {} ''
       mkdir -p $out/share/emacs/site-lisp
       cp ${myEmacsConfig} $out/share/emacs/site-lisp/default.el
+      cp ${plantUml} $out/share/emacs/site-lisp/plantuml.el
       '')
     avy # jump to word
     magit
