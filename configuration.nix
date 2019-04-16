@@ -95,6 +95,7 @@ in {
   # $ nix search wget
   environment = {
 	  systemPackages = with pkgs.xfce // pkgs; [
+    steam
     qemu
     git-secrets # this appears to be broken
     dbeaver
