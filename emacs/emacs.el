@@ -627,3 +627,5 @@ two prefix arguments, write out the day and month name."
 
       (add-hook 'htmlize-before-hook #'modi/htmlize-before-hook-flyspell-disable)
 (add-hook 'htmlize-after-hook #'modi/htmlize-after-hook-flyspell-enable-maybe))))
+
+(use-package php-mode)
