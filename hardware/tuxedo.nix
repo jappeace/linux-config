@@ -21,7 +21,7 @@
   boot.initrd.luks.devices."nixenc".device = "/dev/disk/by-uuid/72edba75-aa49-49ea-8371-21a848decdd5";
 
   fileSystems."/boot" =
-    { device = "/dev/disk/by-uuid/2BB0-C236";
+    { device = "/dev/nvme0n1p1";
       fsType = "vfat";
     };
 

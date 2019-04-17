@@ -64,11 +64,14 @@ in {
   # $ nix search wget
   environment = {
 	  systemPackages = with pkgs.xfce // pkgs; [
+    dbeaver
+
+    docker_compose
     gtk-recordmydesktop
     sshuttle
       nixops
 	  	firmwareLinuxNonfree
-      fbreader
+      # fbreader # broken
       gource
       p7zip
         bc # random calcualtions
@@ -241,6 +244,7 @@ in {
   # Enable the OpenSSH daemon.
   # services.openssh.enable = true;
   services = {
+    logmein-hamachi.enable = true;
     printing = {
       enable = true;
       drivers = [ pkgs.hplip ];
