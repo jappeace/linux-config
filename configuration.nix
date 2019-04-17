@@ -352,8 +352,11 @@ in {
     # $ sudo nixos-rebuild switch --upgrade
     stateVersion = "18.09"; # Did you read the comment?
   };
-  virtualisation.docker.enable = true;
-  virtualisation.virtualbox.host.enable = true; 
+  virtualisation = {
+    docker.enable = true; 
+    virtualbox.host.enable = true;
+    libvirtd.enable = true; 
+  };
   powerManagement = { enable = true; cpuFreqGovernor = "ondemand"; };
 
   nix = {
