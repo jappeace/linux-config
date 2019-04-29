@@ -95,6 +95,7 @@ in {
   # $ nix search wget
   environment = {
 	  systemPackages = with pkgs.xfce // pkgs; [
+    obs-studio
     fd # better find, 50% shorter command!
     steam
     qemu
@@ -411,6 +412,7 @@ in {
   powerManagement = { enable = true; cpuFreqGovernor = "ondemand"; };
 
   nix = {
+    autoOptimiseStore = true;
     binaryCaches = [
       "https://cache.nixos.org"
       "https://hydra.iohk.io" # cardano
