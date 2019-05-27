@@ -15,6 +15,7 @@ let intero-neovim = pkgs.vimUtils.buildVimPlugin {
 
   wineOver = pkgs.wine.override {
     wineRelease = "staging";
+    # wineBuild = "wine64";
     pngSupport = true;
     jpegSupport = true;
     gettextSupport = true;
@@ -67,13 +68,15 @@ in {
     extraHosts = ''
         0.0.0.0 degiro.nl
         0.0.0.0 www.degiro.nl
+        0.0.0.0 linkedin.com
+        0.0.0.0 www.linkedin.com
         0.0.0.0 trader.degiro.nl
-        0.0.0.0 youtube.com
-        0.0.0.0 www.youtube.com
         0.0.0.0 news.ycombinator.com
         0.0.0.0 analytics.google.com
         0.0.0.0 reddit.com
         0.0.0.0 www.reddit.com
+        0.0.0.0 youtube.com
+        0.0.0.0 www.youtube.com
         '';
     };
 
@@ -95,9 +98,11 @@ in {
   # $ nix search wget
   environment = {
 	  systemPackages = with pkgs.xfce // pkgs; [
+
+    scribus
+    wget
     obs-studio
     fd # better find, 50% shorter command!
-    steam
     qemu
     git-secrets # this appears to be broken
     dbeaver
@@ -393,7 +398,7 @@ in {
     # sudo nix-channel --update
     # sudo nix-channel --list
     # click nixos link, and in title copy over the hash
-    nixos.version = "18.09.2253.753f58d9a42";
+    nixos.version = "18.09.2561.7413c884f05";
 
   # This value determines the NixOS release with which your system is to be
   # compatible, in order to avoid breaking some software such as database
