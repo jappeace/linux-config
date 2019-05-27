@@ -42,6 +42,8 @@ in {
         0.0.0.0 www.facebook.com
         0.0.0.0 linkedin.com
         0.0.0.0 www.linkedin.com
+        0.0.0.0 youtube.com
+        0.0.0.0 www.youtube.com
         0.0.0.0 reddit.com
         0.0.0.0 www.reddit.com
         '';
@@ -76,7 +78,7 @@ in {
         bc # random calcualtions
         androidenv.platformTools
         android-studio
-        gnome3.nautilus # lazy file browsing
+        thunar
         openjdk # we need to be able to run java stuff (plantuml)
         plantuml # for thesis uml amongst other things, it's pretty nice
         inkscape # gotta make that artwork for site etc
@@ -91,6 +93,7 @@ in {
         gnome3.gnome-screenshot # put screenshots in clipy and magically work with i3
         networkmanagerapplet # make wifi clickable
         git
+        imagemagick
         keepassxc # to open my passwords
         syncthing # keepassfile in here
         tree # sl
