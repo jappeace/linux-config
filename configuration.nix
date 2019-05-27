@@ -12,6 +12,30 @@ let intero-neovim = pkgs.vimUtils.buildVimPlugin {
       sha256 = "1igc8swgbbkvyykz0ijhjkzcx3d83yl22hwmzn3jn8dsk6s4an8l";
     };
   };
+  wineOver = pkgs.wine.override {
+    wineRelease = "staging";
+    # wineBuild = "wine64";
+    pngSupport = true;
+    jpegSupport = true;
+    gettextSupport = true;
+    fontconfigSupport = true;
+    alsaSupport = true;
+    gtkSupport = true;
+    openglSupport = true;
+    tlsSupport = true;
+    gstreamerSupport = true;
+    cupsSupport = true;
+    colorManagementSupport = true;
+    dbusSupport = true;
+    mpg123Support = true;
+    openalSupport = true;
+    cairoSupport = true;
+    netapiSupport = true;
+    cursesSupport = true;
+    pulseaudioSupport = true;
+    udevSupport = true;
+    vulkanSupport = true;
+};
 in {
   imports =
     [ # Include the results of the hardware scan.
@@ -67,7 +91,14 @@ in {
 	  systemPackages = with pkgs.xfce // pkgs; [
     dbeaver
 
+    fd # better find, 50% shorter command!
     docker_compose
+        # wine crap
+    wineOver
+    (winetricks.override{
+        wine=wineOver;
+    })
+
     gtk-recordmydesktop
     sshuttle
       nixops
@@ -347,7 +378,7 @@ in {
     # sudo nix-channel --update
     # sudo nix-channel --list
     # click nixos link, and in title copy over the hash
-    nixos.version = "18.09.2253.753f58d9a42";
+    nixos.version = "18.09.2561.7413c884f05";
 
   # This value determines the NixOS release with which your system is to be
   # compatible, in order to avoid breaking some software such as database
@@ -366,6 +397,7 @@ in {
   powerManagement = { enable = true; cpuFreqGovernor = "ondemand"; };
 
   nix = {
+    autoOptimiseStore = true;
     binaryCaches = [
       "https://cache.nixos.org"
       "https://hydra.iohk.io" # cardano
