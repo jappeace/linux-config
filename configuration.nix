@@ -14,7 +14,7 @@ let intero-neovim = pkgs.vimUtils.buildVimPlugin {
   };
   wineOver = pkgs.wine.override {
     wineRelease = "staging";
-    # wineBuild = "wine64";
+    wineBuild = "wine64";
     pngSupport = true;
     jpegSupport = true;
     gettextSupport = true;
@@ -58,18 +58,14 @@ in {
     # randomly checking them, even several times in a row.
     # Blocking them permenantly for a week or so gets rid of that behavior
     extraHosts = ''
-        0.0.0.0 degiro.nl
-        0.0.0.0 trader.degiro.nl
         0.0.0.0 news.ycombinator.com
-        0.0.0.0 analyticis.google.com
-        0.0.0.0 facebook.com
-        0.0.0.0 www.facebook.com
+        0.0.0.0 analytics.google.com
         0.0.0.0 linkedin.com
         0.0.0.0 www.linkedin.com
         0.0.0.0 youtube.com
         0.0.0.0 www.youtube.com
-        0.0.0.0 reddit.com
-        0.0.0.0 www.reddit.com
+        0.0.0.0 facebook.com
+        0.0.0.0 www.facebook.com
         '';
     };
 
@@ -99,6 +95,8 @@ in {
         wine=wineOver;
     })
 
+    ((import (builtins.fetchTarball https://github.com/hercules-ci/arion/tarball/master) {}).arion) # magical docker-compose
+    unrar
     gtk-recordmydesktop
     sshuttle
       nixops
@@ -378,7 +376,7 @@ in {
     # sudo nix-channel --update
     # sudo nix-channel --list
     # click nixos link, and in title copy over the hash
-    nixos.version = "18.09.2561.7413c884f05";
+    nixos.version = "18.09.2574.a7e559a5504";
 
   # This value determines the NixOS release with which your system is to be
   # compatible, in order to avoid breaking some software such as database
