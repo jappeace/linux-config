@@ -12,31 +12,12 @@ let intero-neovim = pkgs.vimUtils.buildVimPlugin {
       sha256 = "1igc8swgbbkvyykz0ijhjkzcx3d83yl22hwmzn3jn8dsk6s4an8l";
     };
   };
-
-  wineOver = pkgs.wine.override {
-    wineRelease = "staging";
-    # wineBuild = "wine64";
-    pngSupport = true;
-    jpegSupport = true;
-    gettextSupport = true;
-    fontconfigSupport = true;
-    alsaSupport = true;
-    gtkSupport = true;
-    openglSupport = true;
-    tlsSupport = true;
-    gstreamerSupport = true;
-    cupsSupport = true;
-    colorManagementSupport = true;
-    dbusSupport = true;
-    mpg123Support = true;
-    openalSupport = true;
-    cairoSupport = true;
-    netapiSupport = true;
-    cursesSupport = true;
-    pulseaudioSupport = true;
-    udevSupport = true;
-    vulkanSupport = true;
-        };
+pkgsUnstable = import
+    (fetchTarball https://github.com/NixOS/nixpkgs/archive/master.tar.gz
+      #fetchTarball https://github.com/NixOS/nixpkgs-channels/archive/nixos-unstable.tar.gz
+     ) {
+     config.allowUnfree = true;
+     };
 
 in {
   imports =
@@ -66,17 +47,11 @@ in {
     # randomly checking them, even several times in a row.
     # Blocking them permenantly for a week or so gets rid of that behavior
     extraHosts = ''
-        0.0.0.0 degiro.nl
-        0.0.0.0 www.degiro.nl
-        0.0.0.0 linkedin.com
-        0.0.0.0 www.linkedin.com
         0.0.0.0 trader.degiro.nl
         0.0.0.0 news.ycombinator.com
         0.0.0.0 analytics.google.com
         0.0.0.0 reddit.com
         0.0.0.0 www.reddit.com
-        0.0.0.0 youtube.com
-        0.0.0.0 www.youtube.com
         '';
     };
 
@@ -114,11 +89,12 @@ in {
       fbreader
       gource
       p7zip
+      gdb
         bc # random calcualtions
         androidenv.platformTools
         android-studio
         virtualbox
-        gnome3.nautilus # lazy file browsing
+        thunar
         openjdk # we need to be able to run java stuff (plantuml)
         inkscape # gotta make that artwork for site etc
         gnupg # for private keys
@@ -173,11 +149,12 @@ in {
         ngrok-2
         feh
         docker_compose
+        pkgsUnstable.steam
 
         # wine crap
-        wineOver
+        pkgs.wine
         (winetricks.override{
-            wine=wineOver;
+            wine=pkgs.wine;
         })
         pkgs.samba
 
@@ -399,7 +376,7 @@ in {
     # sudo nix-channel --update
     # sudo nix-channel --list
     # click nixos link, and in title copy over the hash
-    nixos.version = "18.09.2561.7413c884f05";
+    nixos.version = "19.03.173000.1c6bdbc766e";
 
   # This value determines the NixOS release with which your system is to be
   # compatible, in order to avoid breaking some software such as database
@@ -408,7 +385,7 @@ in {
     # to upgrade, add a channel:
     # $ sudo nix-channel --add https://nixos.org/channels/nixos-18.09 nixos
     # $ sudo nixos-rebuild switch --upgrade
-    stateVersion = "18.09"; # Did you read the comment?
+    stateVersion = "19.03"; # Did you read the comment?
   };
   virtualisation = {
     docker.enable = true; 
