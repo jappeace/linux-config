@@ -59,13 +59,17 @@ in {
     # Blocking them permenantly for a week or so gets rid of that behavior
     extraHosts = ''
         0.0.0.0 news.ycombinator.com
-        0.0.0.0 analytics.google.com
-        0.0.0.0 linkedin.com
-        0.0.0.0 www.linkedin.com
         0.0.0.0 youtube.com
         0.0.0.0 www.youtube.com
         0.0.0.0 facebook.com
         0.0.0.0 www.facebook.com
+        0.0.0.0 trader.degiro.com
+        0.0.0.0 www.degiro.com
+        0.0.0.0 reddit.com
+        0.0.0.0 www.reddit.com
+        0.0.0.0 trader.degiro.com
+        0.0.0.0 www.linkedin.com
+        0.0.0.0 linkedin.com
         '';
     };
 
@@ -400,10 +404,12 @@ in {
       "https://cache.nixos.org"
       "https://hydra.iohk.io" # cardano
       "https://nixcache.reflex-frp.org" # reflex
+      "https://static-haskell-nix.cachix.org"
     ];
     binaryCachePublicKeys = [
       # "hydra.iohk.io:f/Ea+s+dFdN+3Y/G+FDgSq+a5NEWhJGzdjvKNGv0/EQ=" # cardano
       "ryantrinkle.com-1:JJiAKaRv9mWgpVAz8dwewnZe0AzzEAzPkagE9SP5NWI=" # reflex
+      "static-haskell-nix.cachix.org-1:Q17HawmAwaM1/BfIxaEDKAxwTOyRVhPG5Ji9K3+FvUU="
     ];
   };
 }
