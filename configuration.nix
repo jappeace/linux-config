@@ -47,7 +47,7 @@ in {
   boot = {
        loader.systemd-boot.enable = true;
        loader.efi.canTouchEfiVariables = true;
-       kernelPackages = pkgs.linuxPackages_4_9; # fix supsend maybe?
+       # kernelPackages = pkgs.linuxPackages_4_9; # fix supsend maybe?
   };
 
   networking = {
@@ -90,6 +90,9 @@ in {
   environment = {
 	  systemPackages = with pkgs.xfce // pkgs; [
     dbeaver
+    obs-studio
+    screenkey
+    slop
 
     fd # better find, 50% shorter command!
     docker_compose
@@ -266,8 +269,8 @@ in {
 
 	  };
   };
-  # hardware.bumblebee.enable = true;
-  # hardware.bumblebee.connectDisplay = true;
+  hardware.bumblebee.enable = true;
+  hardware.bumblebee.connectDisplay = true;
   hardware.pulseaudio = { 
    enable = true;
    support32Bit = true; 
@@ -380,7 +383,7 @@ in {
     # sudo nix-channel --update
     # sudo nix-channel --list
     # click nixos link, and in title copy over the hash
-    nixos.version = "18.09.2574.a7e559a5504";
+    nixos.version = "19.03.173000.1c6bdbc766e";
 
   # This value determines the NixOS release with which your system is to be
   # compatible, in order to avoid breaking some software such as database
@@ -389,7 +392,7 @@ in {
     # to upgrade, add a channel:
     # $ sudo nix-channel --add https://nixos.org/channels/nixos-18.09 nixos
     # $ sudo nixos-rebuild switch --upgrade
-    stateVersion = "18.09"; # Did you read the comment?
+    stateVersion = "19.03"; # Did you read the comment?
   };
   virtualisation = {
     docker.enable = true; 
