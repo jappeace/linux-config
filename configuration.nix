@@ -282,7 +282,8 @@ in {
   # Enable the OpenSSH daemon.
   # services.openssh.enable = true;
   services = {
-    logmein-hamachi.enable = true;
+
+    openssh.enable = true;
     printing = {
       enable = true;
       drivers = [ pkgs.hplip ];
@@ -371,6 +372,7 @@ in {
   users.extraUsers.jappie = {
     createHome = true;
     extraGroups = ["wheel" "video" "audio" "disk" "networkmanager" "adbusers" "docker" "vboxusers"];
+    openssh.authorizedKeys.keys = (import ./encrypted/keys.nix { });
     group = "users";
     home = "/home/jappie";
     isNormalUser = true;
