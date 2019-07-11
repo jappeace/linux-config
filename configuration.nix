@@ -50,8 +50,10 @@ in {
         0.0.0.0 trader.degiro.nl
         0.0.0.0 news.ycombinator.com
         0.0.0.0 analytics.google.com
-        0.0.0.0 reddit.com
-        0.0.0.0 www.reddit.com
+        0.0.0.0 facebook.com
+        0.0.0.0 www.facebook.com
+        0.0.0.0 linkedin.com
+        0.0.0.0 www.linkedin.com
         '';
     };
 
@@ -75,6 +77,8 @@ in {
 	  systemPackages = with pkgs.xfce // pkgs; [
 
     ((import (builtins.fetchTarball https://github.com/hercules-ci/arion/tarball/master) {}).arion) # magical docker-compose
+    screenkey
+    slop
     scribus
     wget
     obs-studio
@@ -149,7 +153,6 @@ in {
         ngrok-2
         feh
         docker_compose
-        pkgsUnstable.steam
 
         # wine crap
         pkgs.wine
@@ -186,6 +189,11 @@ in {
     qt5ct.enable = true; # fix qt5 themes
     adb.enable = true;
     light.enable = true;
+    tmux = {
+         enable = true;
+         clock24 = true;
+        historyLimit = 10000;
+    };
   };
 
   fonts = {
