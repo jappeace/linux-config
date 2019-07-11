@@ -96,6 +96,13 @@ in {
 
     fd # better find, 50% shorter command!
     docker_compose
+        # wine crap
+    wineOver
+    (winetricks.override{
+        wine=wineOver;
+    })
+
+    ((import (builtins.fetchTarball https://github.com/hercules-ci/arion/tarball/master) {}).arion) # magical docker-compose
     unrar
     gtk-recordmydesktop
     sshuttle
@@ -157,7 +164,6 @@ in {
         qdirstat
         youtube-dl
         google-cloud-sdk
-        rrsync
         htop
         ngrok-2
         feh
