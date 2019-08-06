@@ -44,7 +44,13 @@ in {
     # randomly checking them, even several times in a row.
     # Blocking them permenantly for a week or so gets rid of that behavior
     extraHosts = ''
+        0.0.0.0 trader.degiro.nl
         0.0.0.0 news.ycombinator.com
+        0.0.0.0 analytics.google.com
+        0.0.0.0 facebook.com
+        0.0.0.0 www.facebook.com
+        0.0.0.0 linkedin.com
+        0.0.0.0 www.linkedin.com
         '';
     };
 
