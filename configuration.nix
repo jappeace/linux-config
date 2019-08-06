@@ -12,10 +12,7 @@ let intero-neovim = pkgs.vimUtils.buildVimPlugin {
       sha256 = "1igc8swgbbkvyykz0ijhjkzcx3d83yl22hwmzn3jn8dsk6s4an8l";
     };
   };
-pkgsUnstable = import
-    (fetchTarball https://github.com/NixOS/nixpkgs/archive/master.tar.gz
-      #fetchTarball https://github.com/NixOS/nixpkgs-channels/archive/nixos-unstable.tar.gz
-     ) {
+pkgsUnstable = import ./pin-unstable.nix {
      config.allowUnfree = true;
      };
 
@@ -47,13 +44,7 @@ in {
     # randomly checking them, even several times in a row.
     # Blocking them permenantly for a week or so gets rid of that behavior
     extraHosts = ''
-        0.0.0.0 trader.degiro.nl
         0.0.0.0 news.ycombinator.com
-        0.0.0.0 analytics.google.com
-        0.0.0.0 facebook.com
-        0.0.0.0 www.facebook.com
-        0.0.0.0 linkedin.com
-        0.0.0.0 www.linkedin.com
         '';
     };
 
@@ -70,13 +61,17 @@ in {
   # time.timeZone = "Europe/Amsterdam";
   # aruba = Canada/Atlantic
   time.timeZone = "Europe/Amsterdam";
-
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment = {
 	  systemPackages = with pkgs.xfce // pkgs; [
+    minecraft # best game
+    (sox.override {
+        enableLame = true;
+    }) # split OSTs with this spell: https://unix.stackexchange.com/questions/318164/sox-split-audio-on-silence-but-keep-silence
 
-    ((import (builtins.fetchTarball https://github.com/hercules-ci/arion/tarball/master) {}).arion) # magical docker-compose
+    pkgsUnstable.skype
+    pkgsUnstable.steam
     screenkey
     slop
     scribus
@@ -144,8 +139,9 @@ in {
         tcpdump
         ntfs3g
         qdirstat
-        youtube-dl
+        pkgsUnstable.youtube-dl
         google-cloud-sdk
+        kdenlive
         htop
         simplescreenrecorder
         blender
@@ -153,6 +149,16 @@ in {
         ngrok-2
         feh
         docker_compose
+        ghc
+        opencl-info
+        intel-ocl
+        binutils
+        zlib
+        libGL
+        libGLU
+        libGL_driver
+        beignet
+        opencl-info
 
         # wine crap
         pkgs.wine
@@ -184,6 +190,7 @@ in {
   # programs.bash.enableCompletion = true;
   # programs.mtr.enable = true;
   programs = {
+
     gnupg.agent = { enable = true; enableSSHSupport = true; };
     vim.defaultEditor = true;
     qt5ct.enable = true; # fix qt5 themes
@@ -386,7 +393,7 @@ in {
     # sudo nix-channel --update
     # sudo nix-channel --list
     # click nixos link, and in title copy over the hash
-    nixos.version = "19.03.173000.1c6bdbc766e";
+    nixos.version = "19.03.173135.58b68770692";
 
   # This value determines the NixOS release with which your system is to be
   # compatible, in order to avoid breaking some software such as database
