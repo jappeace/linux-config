@@ -3,15 +3,7 @@
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
 { config, pkgs, ... }:
-let intero-neovim = pkgs.vimUtils.buildVimPlugin {
-    name = "intero-neovim";
-    src = pkgs.fetchFromGitHub {
-      owner = "parsonsmatt";
-      repo = "intero-neovim";
-      rev = "51999e8abfb096960ba0bc002c49be1ef678e8a9";
-      sha256 = "1igc8swgbbkvyykz0ijhjkzcx3d83yl22hwmzn3jn8dsk6s4an8l";
-    };
-  };
+let 
   wineOver = pkgs.wine.override {
     wineRelease = "staging";
     wineBuild = "wine64";
@@ -34,7 +26,6 @@ let intero-neovim = pkgs.vimUtils.buildVimPlugin {
     cursesSupport = true;
     pulseaudioSupport = true;
     udevSupport = true;
-    vulkanSupport = true;
 };
 in {
   imports =
@@ -96,13 +87,7 @@ in {
 
     fd # better find, 50% shorter command!
     docker_compose
-        # wine crap
-    wineOver
-    (winetricks.override{
-        wine=wineOver;
-    })
 
-    ((import (builtins.fetchTarball https://github.com/hercules-ci/arion/tarball/master) {}).arion) # magical docker-compose
     unrar
     gtk-recordmydesktop
     sshuttle
@@ -165,7 +150,6 @@ in {
         youtube-dl
         google-cloud-sdk
         htop
-        ngrok-2
         feh
         dnsutils
 
@@ -173,7 +157,6 @@ in {
         cloc
         lshw # list hardware
         pkgs.xorg.xev # monitor x events
-        toxiproxy # chaos http proxy, to introduce latency mostly
 	  ];
 	  shellAliases = {
       vim = "nvim";
@@ -210,7 +193,7 @@ in {
   };
 
   # Open ports in the firewall.
-  # networking.firewall.allowedTCPPorts = [ ... ];
+  networking.firewall.allowedTCPPorts = [ 6868 ];
   # networking.firewall.allowedUDPPorts = [ ... ];
   # Or disable the firewall altogether.
   # networking.firewall.enable = false;
@@ -260,7 +243,7 @@ in {
           '';
           packages.neovim2 = with pkgs.vimPlugins; {
 
-          start = [ tabular syntastic vim-nix intero-neovim neomake ctrlp
+          start = [ tabular syntastic vim-nix neomake ctrlp
           neoformat gitgutter "github:tomasr/molokai"];
           opt = [ ];
       }; 
@@ -269,8 +252,8 @@ in {
 
 	  };
   };
-  hardware.bumblebee.enable = true;
-  hardware.bumblebee.connectDisplay = true;
+  # hardware.bumblebee.enable = true;
+  # hardware.bumblebee.connectDisplay = true;
   hardware.pulseaudio = { 
    enable = true;
    support32Bit = true; 
@@ -282,8 +265,10 @@ in {
   # Enable the OpenSSH daemon.
   # services.openssh.enable = true;
   services = {
-
-    openssh.enable = true;
+    openssh = {
+      enable = true;
+      forwardX11 = true;
+    };
     printing = {
       enable = true;
       drivers = [ pkgs.hplip ];
@@ -409,7 +394,7 @@ in {
       "https://cache.nixos.org"
       "https://hydra.iohk.io" # cardano
       "https://nixcache.reflex-frp.org" # reflex
-      "https://static-haskell-nix.cachix.org"
+      # "https://static-haskell-nix.cachix.org"
     ];
     binaryCachePublicKeys = [
       # "hydra.iohk.io:f/Ea+s+dFdN+3Y/G+FDgSq+a5NEWhJGzdjvKNGv0/EQ=" # cardano
