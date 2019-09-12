@@ -86,9 +86,9 @@ packagedEmacs =
     elm-mode
     fill-column-indicator # 80 char
     haskell-mode
+    # evil-org # broken
     # dracula-theme
   ]) ++ (with epkgs.melpaPackages; [
-    ox-reveal
     htmlize
     general # keybindings
     monokai-theme
@@ -96,7 +96,7 @@ packagedEmacs =
     racer
     flycheck-rust
     evil-magit
-    format-all
+    # format-all
     # lsp-rust
     # evil-collection
     # we bind emacs lsp to whatever lsp's we want
@@ -105,7 +105,6 @@ packagedEmacs =
     # etc
     # use hooks to bind haskell to lsp haskell
     lspHaskell # https://github.com/emacs-lsp/lsp-haskell
-    evil-org
     php-mode
 
 
