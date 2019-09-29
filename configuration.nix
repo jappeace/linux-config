@@ -49,6 +49,8 @@ in {
         0.0.0.0 analytics.google.com
         0.0.0.0 facebook.com
         0.0.0.0 www.facebook.com
+        0.0.0.0 reddit.com
+        0.0.0.0 www.reddit.com
         0.0.0.0 linkedin.com
         0.0.0.0 www.linkedin.com
         '';
@@ -59,7 +61,7 @@ in {
     # consoleFont = "Lat2-Terminus16";
     consoleFont = "firacode-14";
     consoleKeyMap = "us";
-    defaultLocale = "nl_NL.UTF-8";
+    defaultLocale = "en_US.UTF-8/UTF-8";
     supportedLocales = ["en_US.UTF-8/UTF-8" "nl_NL.UTF-8/UTF-8"];
   };
 
@@ -74,8 +76,10 @@ in {
     minecraft # best game
     (sox.override {
         enableLame = true;
+        lame = pkgs.lame;
     }) # split OSTs with this spell: https://unix.stackexchange.com/questions/318164/sox-split-audio-on-silence-but-keep-silence
-
+    krita
+    pkgsUnstable.jetbrains.idea-community
     pkgsUnstable.skype
     pkgsUnstable.steam
     screenkey
@@ -165,6 +169,7 @@ in {
         libGL_driver
         beignet
         opencl-info
+        neofetch
 
         # wine crap
         pkgs.wine
@@ -295,6 +300,7 @@ in {
   # Enable the OpenSSH daemon.
   # services.openssh.enable = true;
   services = {
+    mongodb.enable = true; # required for krizo
 
     openssh.enable = true;
     printing = {
