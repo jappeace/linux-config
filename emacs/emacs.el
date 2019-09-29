@@ -235,6 +235,7 @@
 
       ;; simple command
       "/"   'counsel-projectile-rg
+      "c"   'projectile-invalidate-cache
       "SPC" '(avy-goto-word-or-subword-1  :which-key "go to char")
       "b"	'ivy-switch-buffer  ; change buffer, chose using ivy
       ;; bind to double key press
@@ -249,7 +250,7 @@
       "f/"  'counsel-projectile-rg ; dumb habit
       "s"  'save-some-buffers
       "p"  'counsel-projectile
-      "r"	 'counsel-recentf
+      "r"	 'revert-buffer
       "q"   'kill-emacs
       "g"   '(:ignore t :which-key "git")
       "gg"  'counsel-git-grep
