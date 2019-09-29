@@ -87,6 +87,7 @@ packagedEmacs =
     counsel-projectile
     evil-escape
     elm-mode
+    # doom-modeline
     fill-column-indicator # 80 char
     # dracula-theme
   ]) ++ (with epkgs.melpaPackages; [
@@ -109,6 +110,7 @@ packagedEmacs =
     lspHaskell # https://github.com/emacs-lsp/lsp-haskell
     evil-org
     php-mode
+    scala-mode
 
     # lsp-rust https://github.com/emacs-lsp/lsp-rust
   ]) ++ (with epkgs.elpaPackages; [
