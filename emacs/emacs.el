@@ -374,11 +374,6 @@
   :config
   (global-company-mode))
 
-;;; more info
-(use-package powerline
-  :config
-  (powerline-default-theme)
-)
 
 ;;; nix syntax highlighting
 (use-package nix-mode
@@ -407,7 +402,8 @@
 (use-package haskell-mode
   :config
   (custom-set-variables
-    '(haskell-stylish-on-save t))
+   '(haskell-stylish-on-save t)
+   )
 )
 
 (use-package ox-reveal)
@@ -576,3 +572,31 @@ two prefix arguments, write out the day and month name."
 
       (add-hook 'htmlize-before-hook #'modi/htmlize-before-hook-flyspell-disable)
 (add-hook 'htmlize-after-hook #'modi/htmlize-after-hook-flyspell-enable-maybe))))
+
+; (use-package doom-modeline
+;       :hook (after-init . doom-modeline-mode))
+
+;;; more info
+ (use-package powerline
+   :config
+   (powerline-default-theme)
+ )
+(use-package scala-mode
+  :interpreter
+  ("scala" . scala-mode))
+
+(add-to-list 'load-path "/home/jappie/org")
+(eval-after-load 'ox '(require 'ox-koma-letter))
+(eval-after-load 'ox-latex
+  '(add-to-list 'org-latex-packages-alist '("AUTO" "babel" t) t))
+(eval-after-load 'ox-koma-letter
+  '(progn
+     (add-to-list 'org-latex-classes
+                  '("dutch-letter"
+                    "\\documentclass\{scrlttr2\}
+     \\setkomavar{frombank}{(1234)\\,567\\,890}
+     \[DEFAULT-PACKAGES]
+     \[PACKAGES]
+     \[EXTRA]"))
+     (setq org-koma-letter-use-foldmarks nil)
+     (setq org-koma-letter-default-class "dutch-letter")))
