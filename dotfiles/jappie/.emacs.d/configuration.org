@@ -181,7 +181,7 @@ Make latex previews (of complex formulas ie stuff inside []):
 *** koma
 Load koma script exporter and letter make stuff
 #+BEGIN_SRC emacs-lisp
-(add-to-list 'load-path "/home/jappie/org/ox-koma-letter.el")
+(add-to-list 'load-path "/home/jappie/org")
 (eval-after-load 'ox '(require 'ox-koma-letter))
 (eval-after-load 'ox-latex
   '(add-to-list 'org-latex-packages-alist '("AUTO" "babel" t) t))
