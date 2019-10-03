@@ -12,13 +12,13 @@
 set -xe
 
 BLUR=1
+NOISE_REDUCTION=1.95 # to unstable
 
 # this actually reduces noise but looks legit.
 for i in $2;
     do
     ANGLE=$(awk -v min=-2 -v max=2 'BEGIN{srand(); print int(min+rand()*(max-min+1))}')
-    NOISE_REDUCTION=$(awk -v min=2 -v max=3 'BEGIN{srand(); print int(min+rand()*(max-min+1))}') # noise 0 is bad
-    NOISE_ADDITION=$(awk -v min=0.5 -v max=1.0 'BEGIN{srand(); print min+rand()*(max-min)}') # noise 0 is bad
+    NOISE_ADDITION=$(awk -v min=0.3 -v max=0.8 'BEGIN{srand(); print min+rand()*(max-min)}') # noise 0 is bad
 
     convert $1-$i.jpg -rotate $ANGLE -attenuate $NOISE_ADDITION +noise Gaussian -noise $NOISE_REDUCTION -blur $BLUR $1-print-$i.jpg;
     done;
