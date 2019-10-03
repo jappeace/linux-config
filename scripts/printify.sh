@@ -8,6 +8,11 @@
 # for example:
 #   ./printify.sh uea $(seq 1 14)
 # which will look in the current folder for uea-1.jpg and create uea-print-1.jpg
+# to create a single pdf out of result:
+# 1. right order: `for i in $(seq 1 9); do mv uea-print-$i.jpg uea-print-0$i.jpg; done`
+#    note that this doesn't work in zsh
+# 2. to pdf: convert-print-* uea-print.pdf
+
 
 set -xe
 
