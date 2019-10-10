@@ -170,6 +170,11 @@ in {
         beignet
         opencl-info
         neofetch
+        audacious # plays music a bit better than vlc
+        pkgsUnstable.rustfmt
+        ctags
+        pkgsUnstable.litecli # better sqlite browser
+        pgcli # better postgres cli client
 
         # wine crap
         pkgs.wine
