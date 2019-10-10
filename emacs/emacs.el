@@ -427,7 +427,7 @@
     :config
     ;; install toolchain (rustup toolchain install stable)
     ;; install https://crates.io/crates/rustfmt-nightly
-    (setq rust-format-on-save t)
+    ;; (setq rust-format-on-save t)
 )
 (use-package racer
     :hook (racer-mode . rust-mode)
