@@ -61,7 +61,7 @@ in {
     # consoleFont = "Lat2-Terminus16";
     consoleFont = "firacode-14";
     consoleKeyMap = "us";
-    defaultLocale = "en_US.UTF-8/UTF-8";
+    defaultLocale = "en_US.UTF-8";
     supportedLocales = ["en_US.UTF-8/UTF-8" "nl_NL.UTF-8/UTF-8"];
   };
 
