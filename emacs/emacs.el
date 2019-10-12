@@ -475,7 +475,9 @@
 (use-package ox-reveal)
 (use-package lsp-mode :commands lsp)
 (use-package lsp-haskell
-    :disabled ; doesn't use newstyle build yet.. https://github.com/haskell/haskell-ide-engine/issues/558
+    ;; :disabled ; doesn't use newstyle build yet.. https://github.com/haskell/haskell-ide-engine/issues/558
+              ; we need to wait for it to work in reflex
+    :after lsp-mode
     :config
     ; https://github.com/emacs-lsp/lsp-haskell/blob/master/lsp-haskell.el#L57
     (setq lsp-haskell-process-wrapper-function
@@ -489,6 +491,9 @@
     (add-hook 'haskell-mode-hook 'flycheck-mode)
 )
 
+(use-package yasnippet
+  :after lsp-mode
+  )
 (use-package rust-mode
     :config
     ;; install toolchain (rustup toolchain install stable)
