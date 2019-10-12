@@ -265,6 +265,12 @@ in {
   # Enable the OpenSSH daemon.
   # services.openssh.enable = true;
   services = {
+    compton = {
+      enable = true;
+      fade = true;
+      inactiveOpacity = "0.925";
+      fadeSteps = ["0.04" "0.04"];
+    };
     openssh = {
       enable = true;
       forwardX11 = true;
