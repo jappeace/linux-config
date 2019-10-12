@@ -306,10 +306,12 @@ in {
   # services.openssh.enable = true;
   services = {
     compton = { # allows for fading of windows and transparancy
+      # api: https://github.com/NixOS/nixpkgs/blob/master/nixos/modules/services/x11/compton.nix
       enable = true;
       fade = true;
       inactiveOpacity = "0.925";
-      fadeSteps = ["0.04" "0.04"];
+      # fade steps fadeSteps = ["0.04" "0.04"];
+      fadeDelta = 5; # time between fade steps
       # extraOptions = "no-fading-openclose = true"; # don't fade on workspace shift, annoying: https://github.com/chjj/compton/issues/314
     };
     openssh = {
