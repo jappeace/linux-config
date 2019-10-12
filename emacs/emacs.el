@@ -506,18 +506,18 @@
     :config
     (add-hook 'flycheck-mode-hook #'flycheck-rust-setup)
 )
-; doesn't work yet
-;   (use-package lsp-rust
-;       :after lsp-ui
-;       ;; install https://github.com/rust-lang-nursery/rls
-;       :init
-;       (setq lsp-rust-rls-command '("rustup" "run" "stable" "rls"))
-;       :config
-;       (add-hook 'lsp-mode-hook 'lsp-ui-mode)
-;       (add-hook 'rust-mode-hook #'lsp-rust-enable)
-;       (add-hook 'rust-mode-hook 'flycheck-mode)
-;   )
-;;; use emacs as mergetool
+(use-package lsp-rust
+    :disabled ; doesn't work yet
+    :after lsp-ui
+    ;; install https://github.com/rust-lang-nursery/rls
+    :init
+    (setq lsp-rust-rls-command '("rustup" "run" "stable" "rls"))
+    :config
+    (add-hook 'lsp-mode-hook 'lsp-ui-mode)
+    (add-hook 'rust-mode-hook #'lsp-rust-enable)
+    (add-hook 'rust-mode-hook 'flycheck-mode)
+)
+;; use emacs as mergetool
 (defvar ediff-after-quit-hooks nil
   "* Hooks to run after ediff or emerge is quit.")
 
