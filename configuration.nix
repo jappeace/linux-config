@@ -310,7 +310,7 @@ in {
       fade = true;
       inactiveOpacity = "0.925";
       fadeSteps = ["0.04" "0.04"];
-      extraOptions = "no-fading-openclose = true"; # don't fade on workspace shift, annoying: https://github.com/chjj/compton/issues/314
+      # extraOptions = "no-fading-openclose = true"; # don't fade on workspace shift, annoying: https://github.com/chjj/compton/issues/314
     };
     openssh = {
       enable = true;
