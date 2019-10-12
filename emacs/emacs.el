@@ -282,7 +282,8 @@
       "q"   'kill-emacs
       "g"   '(:ignore t :which-key "git")
       "gg"  'counsel-git-grep
-      "gf"  '(counsel-git :which-key "find file in git dir")
+      ;; "gf"  '(counsel-git :which-key "find file in git dir")
+      "gf"  'magit-pull-from-upstream
       "gs"  'magit-status
       "gp"  'magit-push-to-remote
       "gb"  'magit-blame
