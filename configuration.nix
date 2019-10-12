@@ -265,7 +265,7 @@ in {
   # Enable the OpenSSH daemon.
   # services.openssh.enable = true;
   services = {
-    compton = {
+    compton = { # allows for fading of windows and transparancy
       enable = true;
       fade = true;
       inactiveOpacity = "0.925";
