@@ -95,7 +95,7 @@ in {
     sshuttle
       nixops
 	  	firmwareLinuxNonfree
-      fbreader
+      # fbreader # broken
       gource
       p7zip
       gdb
@@ -117,6 +117,7 @@ in {
         gnome3.gnome-screenshot # put screenshots in clipy and magically work with i3
         networkmanagerapplet # make wifi clickable
         git
+        imagemagick
         keepassxc # to open my passwords
         syncthing # keepassfile in here
         tree # sl
@@ -187,7 +188,6 @@ in {
         cloc
         lshw # list hardware
         pkgs.xorg.xev # monitor x events
-        toxiproxy # chaos http proxy, to introduce latency mostly
 	  ];
 	  shellAliases = {
       vim = "nvim";
@@ -230,7 +230,7 @@ in {
   };
 
   # Open ports in the firewall.
-  # networking.firewall.allowedTCPPorts = [ ... ];
+  networking.firewall.allowedTCPPorts = [ 6868 ];
   # networking.firewall.allowedUDPPorts = [ ... ];
   # Or disable the firewall altogether.
   # networking.firewall.enable = false;
@@ -280,7 +280,7 @@ in {
           '';
           packages.neovim2 = with pkgs.vimPlugins; {
 
-          start = [ tabular syntastic vim-nix intero-neovim neomake ctrlp
+          start = [ tabular syntastic vim-nix neomake ctrlp
           neoformat gitgutter "github:tomasr/molokai"];
           opt = [ ];
       }; 
@@ -305,9 +305,16 @@ in {
   # Enable the OpenSSH daemon.
   # services.openssh.enable = true;
   services = {
-    mongodb.enable = true; # required for krizo
-
-    openssh.enable = true;
+    compton = { # allows for fading of windows and transparancy
+      enable = true;
+      fade = true;
+      inactiveOpacity = "0.925";
+      fadeSteps = ["0.04" "0.04"];
+    };
+    openssh = {
+      enable = true;
+      forwardX11 = true;
+    };
     printing = {
       enable = true;
       drivers = [ pkgs.hplip ];
@@ -434,10 +441,12 @@ in {
       "https://cache.nixos.org"
       "https://hydra.iohk.io" # cardano
       "https://nixcache.reflex-frp.org" # reflex
+      # "https://static-haskell-nix.cachix.org"
     ];
     binaryCachePublicKeys = [
       # "hydra.iohk.io:f/Ea+s+dFdN+3Y/G+FDgSq+a5NEWhJGzdjvKNGv0/EQ=" # cardano
       "ryantrinkle.com-1:JJiAKaRv9mWgpVAz8dwewnZe0AzzEAzPkagE9SP5NWI=" # reflex
+      "static-haskell-nix.cachix.org-1:Q17HawmAwaM1/BfIxaEDKAxwTOyRVhPG5Ji9K3+FvUU="
     ];
   };
 }

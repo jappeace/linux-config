@@ -37,10 +37,10 @@ packagedEmacs =
         melpaBuild = drv: args.melpaBuild (drv // {
           packageRequires = [ lspMode args.haskell-mode ];
           src = pkgs.fetchFromGitHub {
-                owner = "emacs-lsp";
+                owner = "jappeace";
                 repo = "lsp-haskell";
-                rev = "df7ac24332917bcd8463988767d82f17da46b77c";
-                sha256 = "09yw5bpy4d9hls1a3sv904islm5b26wbwlzgj6rlfdnl5h5dzmjs";
+                rev = "af3e5e60e73bb5be9d8c9e187e95d3289d1c943d";
+                sha256 = "0z1xyszdjx2l8b64x1hfa0s2x33h3f97ima26vdbl9jgssd00h7x";
             };
         });
     });
@@ -48,12 +48,12 @@ packagedEmacs =
         melpaBuild = drv: args.melpaBuild (drv // {
 
         # locally I'm ahead so need to specify more deps, on upgrade delete the line below
-        packageRequires = [ epkgs.melpaPackages.dash epkgs.melpaPackages.dash-functional args.emacs epkgs.melpaPackages.f epkgs.melpaPackages.ht epkgs.elpaPackages.spinner ];
+        packageRequires = [ epkgs.markdown-mode epkgs.melpaPackages.dash epkgs.melpaPackages.dash-functional args.emacs epkgs.melpaPackages.f epkgs.melpaPackages.ht epkgs.elpaPackages.spinner ];
           src = pkgs.fetchFromGitHub {
                 owner = "emacs-lsp";
                 repo = "lsp-mode";
-                rev = "2e9b5814576086d2b03ffe9b46c20efc2e23f87a";
-                sha256 = "0yr6vgflb1viqkjnxlf89r0g9wy7kwzrfxcpak9750rqri9fb14x";
+                rev = "ed0e5d22f0b3fdd71c264b4a4b5c0b346197950a";
+                sha256 = "0pl3xnfj5sa2j2yha37qd2sfqz2j1cax5hlxa3f191cb1l5vnfyj";
             };
         });
     });
@@ -75,7 +75,6 @@ packagedEmacs =
     company # completion
     flycheck # squegely lines??
     powerline # beter status bar (col count, cur line)
-    haskell-mode
     nix-mode
     yaml-mode
     markdown-mode
@@ -89,9 +88,11 @@ packagedEmacs =
     elm-mode
     # doom-modeline
     fill-column-indicator # 80 char
+    haskell-mode
+    yasnippet
+    # evil-org # broken
     # dracula-theme
   ]) ++ (with epkgs.melpaPackages; [
-    ox-reveal
     htmlize
     general # keybindings
     monokai-theme
@@ -99,7 +100,7 @@ packagedEmacs =
     racer
     flycheck-rust
     evil-magit
-    format-all
+    # format-all
     # lsp-rust
     # evil-collection
     # we bind emacs lsp to whatever lsp's we want

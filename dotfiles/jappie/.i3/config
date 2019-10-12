@@ -222,11 +222,6 @@ bindsym $mod+Shift+s exec sudo sleep-memory
 bindsym $mod+Shift+z exec --no-startup-id /home/jappie/bin/monitor
 bindsym $mod+Shift+a exec --no-startup-id /home/jappie/bin/monitor-2
 
-#bindsym $mod+Shift+i exec sudo reboot
-
-#bind invert colors
-bindsym $mod+n exec xcalib -i -a
-
 #bind browser to b, use new window otherwise it'l complain
 bindsym $mod+b exec firefox -new-window
 
@@ -250,6 +245,7 @@ exec i3-msg 'workspace $wf8; exec keepassxc'
 # exec i3-msg 'workspace $w3;exec dolphin'
 #exec i3-msg 'workspace $w1;exec steam'
 exec sudo brightness 500
+
 
 client.focused #3b1261 #3b1261 #ffffff #662b9c
 client.focused_inactive #333333 #5f676a #ffffff #484e50
