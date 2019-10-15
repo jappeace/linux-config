@@ -87,7 +87,7 @@ in {
 
     fd # better find, 50% shorter command!
     docker_compose
-
+    pgcli # better postgres cli client
     unrar
     gtk-recordmydesktop
     sshuttle
