@@ -179,6 +179,8 @@ in {
         pkgsUnstable.litecli # better sqlite browser
         pgcli # better postgres cli client
 
+        ncdu # shell based q4dirstat
+
         # wine crap
         pkgs.wine
         (winetricks.override{
