@@ -12,7 +12,7 @@
 (setq sentence-end-double-space nil)	; sentence SHOULD end with only a point.
 (setq default-fill-column 90)		; toggle wrapping text at the 80th character
 (setq initial-scratch-message "Good day sir, your wish is my command.") ; Emacs shows its subservience. Machines are tools.
-
+(setq create-lockfiles nil) ;; this clashes with projectile
 
 ;; backup https://stackoverflow.com/questions/151945/how-do-i-control-how-emacs-makes-backup-files
 (setq vc-make-backup-files t)
