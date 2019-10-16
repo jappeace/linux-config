@@ -256,13 +256,12 @@
     :prefix "SPC"
     :non-normal-prefix "C-SPC"
 
-      ;; simple command
       "/"   'counsel-projectile-rg
       "k"   '(projectile-kill-buffers :which-key "kill project buffers") ;; sometimes projectile gets confused about temp files, this fixes that
       "c"   'projectile-invalidate-cache
       "SPC" '(avy-goto-word-or-subword-1  :which-key "go to char")
       "b"	'ivy-switch-buffer  ; change buffer, chose using ivy
-      ;; bind to double key press
+
       "j"  'xref-find-definitions ; lsp find definition
       "l"  'counsel-list-processes
       "f"   '(:ignore t :which-key "find/format")
@@ -278,6 +277,7 @@
       "hq"  'haskell-hoogle
       "s"  'save-some-buffers
       "p"  'counsel-projectile
+      "o"  'counsel-projectile-switch-project
       "r"	 'revert-buffer
       "q"   'kill-emacs
       "g"   '(:ignore t :which-key "git")
