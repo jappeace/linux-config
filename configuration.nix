@@ -55,6 +55,8 @@ in {
         0.0.0.0 www.youtube.com
         0.0.0.0 reddit.com
         0.0.0.0 www.reddit.com
+        0.0.0.0 twitch.com
+        0.0.0.0 www.twitch.com
         '';
     };
 
