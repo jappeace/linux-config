@@ -18,7 +18,7 @@
   };
 
   networking = {
-    hostName = "private-jappie-nixos"; # Define your hostname.
+    hostName = "work-machine"; # Define your hostname.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
     networkmanager.enable = true;
     # these are sites I've developed a 'mental hook' for, eg
@@ -94,7 +94,6 @@
         git
         imagemagick
         keepassxc # to open my passwords
-        syncthing # keepassfile in here
         tree # sl
         gnome3.gnome-terminal # resizes collumns, good for i3
         xfce4-panel xfce4-battery-plugin xfce4-clipman-plugin
@@ -317,7 +316,7 @@
 			  tapping = true;
 			  disableWhileTyping = true;
 			};
-			videoDrivers = [ "intel" "nvidia" ];
+			videoDrivers = ["amdgpu" ];
 			desktopManager.xfce.enable = true; # for the xfce-panel in i3
 			desktopManager.xfce.noDesktop = true;
 			desktopManager.xfce.enableXfwm = false ; # try disabling xfce popping over i3
@@ -342,7 +341,7 @@
   users.extraUsers.jappie = {
     createHome = true;
     extraGroups = ["wheel" "video" "audio" "disk" "networkmanager" "adbusers" "docker" "vboxusers"];
-    openssh.authorizedKeys.keys = (import ./encrypted/keys.nix { });
+    # openssh.authorizedKeys.keys = (import ./encrypted/keys.nix { });
     group = "users";
     home = "/home/jappie";
     isNormalUser = true;
