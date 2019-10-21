@@ -341,7 +341,7 @@
   users.extraUsers.jappie = {
     createHome = true;
     extraGroups = ["wheel" "video" "audio" "disk" "networkmanager" "adbusers" "docker" "vboxusers"];
-    # openssh.authorizedKeys.keys = (import ./encrypted/keys.nix { });
+    openssh.authorizedKeys.keys = (import ./encrypted/keys.nix { });
     group = "users";
     home = "/home/jappie";
     isNormalUser = true;
