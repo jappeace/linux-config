@@ -61,6 +61,8 @@ in {
         0.0.0.0 trader.degiro.com
         0.0.0.0 www.linkedin.com
         0.0.0.0 linkedin.com
+        0.0.0.0 twitch.com
+        0.0.0.0 www.twitch.com
         '';
     };
 
@@ -87,7 +89,7 @@ in {
 
     fd # better find, 50% shorter command!
     docker_compose
-
+    pgcli # better postgres cli client
     unrar
     gtk-recordmydesktop
     sshuttle

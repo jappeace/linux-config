@@ -12,7 +12,7 @@
 (setq sentence-end-double-space nil)	; sentence SHOULD end with only a point.
 (setq default-fill-column 90)		; toggle wrapping text at the 80th character
 (setq initial-scratch-message "Good day sir, your wish is my command.") ; Emacs shows its subservience. Machines are tools.
-
+(setq create-lockfiles nil) ;; this clashes with projectile
 
 ;; backup https://stackoverflow.com/questions/151945/how-do-i-control-how-emacs-makes-backup-files
 (setq vc-make-backup-files t)
@@ -39,7 +39,7 @@
 (add-hook 'before-save-hook  'force-backup-of-buffer)
 
 ;; font
-(push '(font . "firacode-12") default-frame-alist)
+(push '(font . "firacode-16") default-frame-alist)
 ;;; Fira code
 ;; This works when using emacs --daemon + emacsclient
 (add-hook 'after-make-frame-functions (lambda (frame) (set-fontset-font t '(#Xe100 . #Xe16f) "Fira Code Symbol")))
@@ -256,13 +256,12 @@
     :prefix "SPC"
     :non-normal-prefix "C-SPC"
 
-      ;; simple command
       "/"   'counsel-projectile-rg
       "k"   '(projectile-kill-buffers :which-key "kill project buffers") ;; sometimes projectile gets confused about temp files, this fixes that
       "c"   'projectile-invalidate-cache
       "SPC" '(avy-goto-word-or-subword-1  :which-key "go to char")
       "b"	'ivy-switch-buffer  ; change buffer, chose using ivy
-      ;; bind to double key press
+
       "j"  'xref-find-definitions ; lsp find definition
       "l"  'counsel-list-processes
       "f"   '(:ignore t :which-key "find/format")
@@ -278,6 +277,7 @@
       "hq"  'haskell-hoogle
       "s"  'save-some-buffers
       "p"  'counsel-projectile
+      "o"  'counsel-projectile-switch-project
       "r"	 'revert-buffer
       "q"   'kill-emacs
       "g"   '(:ignore t :which-key "git")
@@ -442,7 +442,8 @@
   :after evil
   :config
   (custom-set-variables
-   '(haskell-stylish-on-save t)
+   '(haskell-stylish-on-save t) ;; disable w/ (setq haskell-stylish-on-save nil)
+                                ;; enable w/ (setq haskell-stylish-on-save t)
    '(haskell-hoogle-command (concat (projectile-project-root) "scripts/hoogle.sh"))
    )
   (defun haskell-evil-open-above ()
