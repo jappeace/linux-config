@@ -58,10 +58,9 @@
   # $ nix search wget
   environment = {
 	  systemPackages = with pkgs.xfce // pkgs; [
-    dbeaver
     obs-studio
-    screenkey
     slop
+    xorg.xhost
 
     fd # better find, 50% shorter command!
     docker_compose
@@ -104,6 +103,8 @@
         xlibs.xmodmap # rebind capslock to escape
         xdotool # i3 auto type
         blackbird lxappearance # theme
+        lxappearance-gtk3
+        glxinfo # glxgears
         fasd cowsay fortune thefuck # zsh stuff
         vlc
         firefoxWrapper
