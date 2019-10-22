@@ -46,6 +46,8 @@ in
         0.0.0.0 www.twitch.com
         0.0.0.0 twitter.com
         0.0.0.0 www.twitter.com
+        0.0.0.0 twitch.tv
+        0.0.0.0 www.twitch.tv
         '';
     };
 
