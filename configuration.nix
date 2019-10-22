@@ -3,6 +3,11 @@
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
 { config, pkgs, ... }:
+let
+pkgsUnstable = import ./pin-unstable.nix {
+     config.allowUnfree = true;
+     };
+in
 {
   imports =
     [ # Include the results of the hardware scan.
@@ -26,8 +31,6 @@
     # Blocking them permenantly for a week or so gets rid of that behavior
     extraHosts = ''
         0.0.0.0 news.ycombinator.com
-        0.0.0.0 youtube.com
-        0.0.0.0 www.youtube.com
         0.0.0.0 facebook.com
         0.0.0.0 www.facebook.com
         0.0.0.0 trader.degiro.com
@@ -61,6 +64,8 @@
     obs-studio
     slop
     xorg.xhost
+    pkgsUnstable.chatterino2
+    unzip
 
     fd # better find, 50% shorter command!
     docker_compose
@@ -284,9 +289,9 @@
         listen_addresses = '*'
       '';
         initialScript = pkgs.writeText "backend-initScript" ''
-        CREATE USER tom WITH PASSWORD 'myPassword';
-        CREATE DATABASE jerry;
-        GRANT ALL PRIVILEGES ON DATABASE jerry to tom;
+        CREATE USER jappie WITH PASSWORD \'\';
+        CREATE DATABASE jappie;
+        ALTER USER jappie WITH SUPERUSER;
         '';
     };
 
