@@ -20,6 +20,7 @@ in {
         shfmt
         html-tidy
         pkgs.nodePackages.prettier
+        pkgs.python37Packages.sqlparse # sqlforamt
 	  ];
   };
 
