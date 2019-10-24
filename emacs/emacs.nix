@@ -97,7 +97,7 @@ packagedEmacs =
     racer
     flycheck-rust
     evil-magit
-    # format-all
+    format-all
     # lsp-rust
     # evil-collection
     # we bind emacs lsp to whatever lsp's we want
