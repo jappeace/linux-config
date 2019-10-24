@@ -195,7 +195,7 @@ in {
   };
 
   # Open ports in the firewall.
-  networking.firewall.allowedTCPPorts = [ 6868 ];
+  networking.firewall.allowedTCPPorts = [ 6868 7777 ];
   # networking.firewall.allowedUDPPorts = [ ... ];
   # Or disable the firewall altogether.
   # networking.firewall.enable = false;
@@ -267,6 +267,19 @@ in {
   # Enable the OpenSSH daemon.
   # services.openssh.enable = true;
   services = {
+   #gitlab = {
+   #  enable = true;
+   #  databasePassword = pkgs.lib.fileContents "/home/gitlabdbpass";
+   #  port = 7777;
+   #  initialRootPassword = pkgs.lib.fileContents "/home/gitlabadminpass";
+   #  initialRootEmail = "jappieklooster@hotmail.com";
+   #  secrets = let ssht = pkgs.lib.fileContents "/home/gitlabsecrets"; in {
+   #    secret = ssht;
+   #    otp = ssht;
+   #    jws = ssht;
+   #    db = ssht;
+   #  };
+   #};
     compton = { # allows for fading of windows and transparancy
       enable = true;
       fade = true;
