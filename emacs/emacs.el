@@ -197,8 +197,9 @@
 (eval-when-compile
   (require 'use-package))
 
-;; vanity
+(global-display-line-numbers-mode)
 (use-package linum-relative ;; TODO switch to C backend once on emacs 26: https://github.com/coldnew/linum-relative#linum-relative-on
+  :disabled
   :config
   (linum-relative-global-mode)
 )
