@@ -71,6 +71,7 @@ in
     xorg.xhost
     pkgsUnstable.chatterino2
     unzip
+    krita
 
     fd # better find, 50% shorter command!
     docker_compose
