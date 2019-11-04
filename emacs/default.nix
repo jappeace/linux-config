@@ -15,7 +15,7 @@ in {
         aspell_with_dict # I can't spell
         pkgs.rustracer
         pkgs.haskellPackages.stylish-haskell
-        pkgs.haskellPackages.brittany
+        # pkgs.haskellPackages.brittany
         pkgs.haskellPackages.hindent
         shfmt
         html-tidy

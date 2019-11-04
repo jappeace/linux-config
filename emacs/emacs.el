@@ -264,6 +264,7 @@
       "b"	'ivy-switch-buffer  ; change buffer, chose using ivy
 
       "j"  'xref-find-definitions ; lsp find definition
+      "x"  'xref-find-references ; find usages
       "l"  'counsel-list-processes
       "f"   '(:ignore t :which-key "find/format")
       "ff"  'format-all-buffer

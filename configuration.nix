@@ -4,11 +4,15 @@
 
 { config, pkgs, ... }:
 let
+chatlay = import ./overlays/chatterino2-overlay;
 pkgsUnstable = import ./pin-unstable.nix {
      config.allowUnfree = true;
+    overlays = [chatlay];
      };
 in
 {
+
+
   imports =
     [ # Include the results of the hardware scan.
       ./hardware/work-machine.nix
@@ -33,8 +37,6 @@ in
         0.0.0.0 news.ycombinator.com
         0.0.0.0 facebook.com
         0.0.0.0 www.facebook.com
-        0.0.0.0 youtube.com
-        0.0.0.0 www.youtube.com
         0.0.0.0 trader.degiro.com
         0.0.0.0 www.degiro.com
         0.0.0.0 reddit.com
@@ -44,8 +46,6 @@ in
         0.0.0.0 linkedin.com
         0.0.0.0 twitter.com
         0.0.0.0 www.twitter.com
-        0.0.0.0 twitch.tv
-        0.0.0.0 www.twitch.tv
         0.0.0.0 analytics.google.com
         '';
     };
@@ -69,9 +69,10 @@ in
     obs-studio
     slop
     xorg.xhost
-    pkgsUnstable.chatterino2
     unzip
     krita
+    chatterino2 # TODO this doesn't work, missing xcb
+    qtbase 
 
     fd # better find, 50% shorter command!
     docker_compose
@@ -85,7 +86,6 @@ in
       gource
       p7zip
         bc # random calcualtions
-        androidenv.platformTools
         android-studio
         thunar
         openjdk # we need to be able to run java stuff (plantuml)
@@ -169,6 +169,8 @@ in
     qt5ct.enable = true; # fix qt5 themes
     adb.enable = true;
     light.enable = true;
+		gnome-terminal.enable = true;
+    
   };
 
   fonts = {
@@ -198,9 +200,6 @@ in
   	allowUnfree = true; # I'm horrible, nvidia sucks, TODO kill nvidia
 	  firefox = {
 		enableGoogleTalkPlugin = true;
-	  };
-	  chromium = {
-		enablePepperPDF = true;
 	  };
 	  pulseaudio = true;
 	  packageOverrides = pkgs: {
@@ -259,7 +258,7 @@ in
       fade = true;
       inactiveOpacity = "0.925";
       fadeSteps = ["0.04" "0.04"];
-      extraOptions = "no-fading-openclose = true"; # don't fade on workspace shift, annoying: https://github.com/chjj/compton/issues/314
+      # extraOptions = "no-fading-openclose = true"; # don't fade on workspace shift, annoying: https://github.com/chjj/compton/issues/314
     };
     openssh = {
       enable = true;
@@ -301,7 +300,6 @@ in
         '';
     };
 
-		gnome3.gnome-terminal-server.enable = true;
 		syncthing = {
           enable = true;
           user = "jappie";
@@ -341,13 +339,13 @@ in
 
 		redshift = {
 			enable = true;
-			provider = "geoclue2";
 		};
 
     # https://github.com/rfjakob/earlyoom
     earlyoom.enable = true; # kills big processes better then kernel
   };
 
+  location.provider = "geoclue2";
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.extraUsers.jappie = {
@@ -366,7 +364,7 @@ in
     # sudo nix-channel --update
     # sudo nix-channel --list
     # click nixos link, and in title copy over the hash
-    nixos.version = "19.03.173000.1c6bdbc766e";
+    nixos.version = "19.09.1019.c5aabb0d603";
 
   # This value determines the NixOS release with which your system is to be
   # compatible, in order to avoid breaking some software such as database
@@ -375,7 +373,7 @@ in
     # to upgrade, add a channel:
     # $ sudo nix-channel --add https://nixos.org/channels/nixos-18.09 nixos
     # $ sudo nixos-rebuild switch --upgrade
-    stateVersion = "19.03"; # Did you read the comment?
+    stateVersion = "19.09"; # Did you read the comment?
   };
   virtualisation = {
     docker.enable = true; 

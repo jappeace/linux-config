@@ -22,7 +22,7 @@ packagedEmacs =
     });
     coll = epkgs.melpaPackages.evil-collection.override (args: {
         melpaBuild = drv: args.melpaBuild (drv // {
-          packageRequires = [ args.emacs evilJap ];
+          packageRequires = [ pkgs.emacs evilJap ];
           src = pkgs.fetchFromGitHub {
                 owner = "jappeace";
                 repo = "evil-collection";
@@ -32,22 +32,22 @@ packagedEmacs =
         });
     });
     # upgrade lsp haskell to work
-    lspHaskell = epkgs.melpaPackages.lsp-haskell.override (args: {
-        melpaBuild = drv: args.melpaBuild (drv // {
-          packageRequires = [ lspMode args.haskell-mode ];
-          src = pkgs.fetchFromGitHub {
-                owner = "jappeace";
-                repo = "lsp-haskell";
-                rev = "af3e5e60e73bb5be9d8c9e187e95d3289d1c943d";
-                sha256 = "0z1xyszdjx2l8b64x1hfa0s2x33h3f97ima26vdbl9jgssd00h7x";
-            };
-        });
-    });
+    # lspHaskell = epkgs.melpaPackages.lsp-haskell.override (args: {
+    #     melpaBuild = drv: args.melpaBuild (drv // {
+    #       packageRequires = [ lspMode args.haskell-mode ];
+    #       src = pkgs.fetchFromGitHub {
+    #             owner = "jappeace";
+    #             repo = "lsp-haskell";
+    #             rev = "af3e5e60e73bb5be9d8c9e187e95d3289d1c943d";
+    #             sha256 = "0z1xyszdjx2l8b64x1hfa0s2x33h3f97ima26vdbl9jgssd00h7x";
+    #         };
+    #     });
+    # });
     lspMode = epkgs.melpaPackages.lsp-mode.override (args: {
         melpaBuild = drv: args.melpaBuild (drv // {
 
         # locally I'm ahead so need to specify more deps, on upgrade delete the line below
-        packageRequires = [ epkgs.markdown-mode epkgs.melpaPackages.dash epkgs.melpaPackages.dash-functional args.emacs epkgs.melpaPackages.f epkgs.melpaPackages.ht epkgs.elpaPackages.spinner ];
+        packageRequires = [ epkgs.markdown-mode epkgs.melpaPackages.dash epkgs.melpaPackages.dash-functional epkgs.melpaPackages.f epkgs.melpaPackages.ht epkgs.elpaPackages.spinner ];
           src = pkgs.fetchFromGitHub {
                 owner = "emacs-lsp";
                 repo = "lsp-mode";
@@ -105,7 +105,7 @@ packagedEmacs =
     # rust https://github.com/rust-lang-nursery/rls
     # etc
     # use hooks to bind haskell to lsp haskell
-    lspHaskell # https://github.com/emacs-lsp/lsp-haskell
+    # lspHaskell # https://github.com/emacs-lsp/lsp-haskell
     php-mode
 
 

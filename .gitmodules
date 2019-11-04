@@ -1,0 +1,3 @@
+[submodule "overlays/chatterino2-overlay"]
+	path = overlays/chatterino2-overlay
+	url = git@github.com:tsoding/chatterino2-overlay.git
