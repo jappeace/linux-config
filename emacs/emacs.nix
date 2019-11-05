@@ -99,6 +99,7 @@ packagedEmacs =
     use-package # lazy package loading TODO downgrade to stable (custom wan't there)
     racer
     flycheck-rust
+    flycheck-haskell
     evil-magit
     # format-all
     # lsp-rust

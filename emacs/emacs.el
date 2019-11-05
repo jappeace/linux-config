@@ -504,6 +504,10 @@
     (add-hook 'racer-mode-hook #'eldoc-mode)
     (add-hook 'racer-mode-hook #'company-mode)
 )
+(use-package flycheck-haskell
+    :config
+    (add-hook 'haskell-mode-hook #'flycheck-haskell-setup)
+)
 (use-package flycheck-rust
     :after rust-mode
     :config
