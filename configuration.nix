@@ -72,8 +72,8 @@ in
     unzip
     krita
     chatterino2 # TODO this doesn't work, missing xcb
-    qtbase 
 
+    # lm-sensors
     fd # better find, 50% shorter command!
     docker_compose
     pgcli # better postgres cli client
@@ -141,6 +141,7 @@ in
         htop
         feh
         dnsutils
+        konsole
 
         sloccount
         cloc
@@ -174,6 +175,7 @@ in
   };
 
   fonts = {
+        enableDefaultFonts = true;
         fonts = with pkgs; [
               inconsolata
               ubuntu_font_family
@@ -181,6 +183,11 @@ in
               fira-code-symbols
               corefonts
         ];
+        fontconfig = {
+            defaultFonts = {
+                monospace = [ "Fira Code" ];
+            };
+        };
   };
 
   # Open ports in the firewall.
@@ -247,12 +254,25 @@ in
    support32Bit = true; 
    systemWide = true;
   };
+    # TODO figure this out, the fans are just running wild but I should be able to software control them
+    # systemd.services.fancontrol = let configFile = pkgs.writeText "fancontrol.conf" ""; in {
+    #   unitConfig.Documentation = "man:fancontrol(8)";
+    #   description = "software fan control";
+    #   wantedBy = [ "multi-user.target" ];
+    #   after = [ "lm_sensors.service" ];
+
+    #   serviceConfig = {
+    #     Type = "simple";
+    #     ExecStart = "${pkgs.lm_sensors}/sbin/fancontrol ${configFile}";
+    #   };
+    # };
 
   # List services that you want to enable:
 
   # Enable the OpenSSH daemon.
   # services.openssh.enable = true;
   services = {
+
     compton = { # allows for fading of windows and transparancy
       enable = true;
       fade = true;
