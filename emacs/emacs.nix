@@ -10,39 +10,6 @@ packagedEmacs =
   emacsWithPackages (epkgs:
   (
   let
-    evilJap = epkgs.evil.override (args: {
-        melpaBuild = drv: args.melpaBuild (drv // {
-          src = pkgs.fetchFromGitHub {
-                owner = "jappeace";
-                repo = "evil";
-                rev = "a8a2cfeb00267b47d8e11628f8f25f8ac26feea4";
-                sha256 = "0gll4l1kcpgapz0pg2ry4x3f1a8l4i4kdn7zrpx2i9pwl4mgna4y";
-            };
-        });
-    });
-    coll = epkgs.melpaPackages.evil-collection.override (args: {
-        melpaBuild = drv: args.melpaBuild (drv // {
-          packageRequires = [ pkgs.emacs evilJap ];
-          src = pkgs.fetchFromGitHub {
-                owner = "jappeace";
-                repo = "evil-collection";
-                rev = "ec39384bb2265466218995574b958db457363953";
-                sha256 = "13l4ijxf9k45jih9nwf2ax1wfd2m5an7sswgypmw3m2jysh9710l";
-            };
-        });
-    });
-    # upgrade lsp haskell to work
-    # lspHaskell = epkgs.melpaPackages.lsp-haskell.override (args: {
-    #     melpaBuild = drv: args.melpaBuild (drv // {
-    #       packageRequires = [ lspMode args.haskell-mode ];
-    #       src = pkgs.fetchFromGitHub {
-    #             owner = "jappeace";
-    #             repo = "lsp-haskell";
-    #             rev = "af3e5e60e73bb5be9d8c9e187e95d3289d1c943d";
-    #             sha256 = "0z1xyszdjx2l8b64x1hfa0s2x33h3f97ima26vdbl9jgssd00h7x";
-    #         };
-    #     });
-    # });
     lspMode = epkgs.melpaPackages.lsp-mode.override (args: {
         melpaBuild = drv: args.melpaBuild (drv // {
 
@@ -64,7 +31,6 @@ packagedEmacs =
       cp ${myEmacsConfig} $out/share/emacs/site-lisp/default.el
       '')
     avy # jump to word
-    magit
     ivy # I think the M-x thing
     counsel # seach?
     swiper # other search?
@@ -79,7 +45,6 @@ packagedEmacs =
     rjsx-mode # better js
     linum-relative # line numbers are useless, just tell me how much I need to go up
     rust-mode
-    evilJap # hacked evil so that it disables evil integration for evil collection
     flx # fuzzy matching
     counsel-projectile
     evil-escape
@@ -87,6 +52,9 @@ packagedEmacs =
     fill-column-indicator # 80 char
     haskell-mode
     yasnippet
+    magit
+    evil
+    evil-magit
     # evil-org # broken
     # dracula-theme
   ]) ++ (with epkgs.melpaPackages; [
@@ -96,7 +64,6 @@ packagedEmacs =
     use-package # lazy package loading TODO downgrade to stable (custom wan't there)
     racer
     flycheck-rust
-    evil-magit
     format-all
     # lsp-rust
     # evil-collection
@@ -112,9 +79,6 @@ packagedEmacs =
     # lsp-rust https://github.com/emacs-lsp/lsp-rust
   ]) ++ (with epkgs.elpaPackages; [
     # ehh
-  ]) ++ [
-    # from nix
-    coll 
-  ]));
+  ])));
 in
     packagedEmacs 
