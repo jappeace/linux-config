@@ -10,7 +10,7 @@
 (setq coding-system-for-read 'utf-8 )	; use utf-8 by default
 (setq coding-system-for-write 'utf-8 )
 (setq sentence-end-double-space nil)	; sentence SHOULD end with only a point.
-(setq default-fill-column 90)		; toggle wrapping text at the 80th character
+(setq default-fill-column 85)		; toggle wrapping text at the 80th character
 (setq initial-scratch-message "Good day sir, your wish is my command.") ; Emacs shows its subservience. Machines are tools.
 (setq create-lockfiles nil) ;; this clashes with projectile
 
