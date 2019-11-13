@@ -312,6 +312,12 @@
   :config
   (setq projectile-enable-caching nil)
   (projectile-mode) ;; I always want this?
+
+  :custom
+  (projectile-git-command
+   "git ls-files -zco --exclude-standard | sed \"s/\\.git-crypt\\/.*.gpg//g\""
+   ;; "rg --line-number --smart-case --follow --mmap --null --files" ; https://emacs.stackexchange.com/questions/16497/how-to-exclude-files-from-projectile
+   )
 )
 (use-package swiper
   :commands (
