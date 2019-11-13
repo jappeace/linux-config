@@ -96,6 +96,7 @@ in
         jq # deal with json on commandline
         wireguard # easier vpn
         sqlite-interactive # hack nixops
+        litecli
         gimp # edit my screenshots
         curl
         neovim # because emacs never breaks
