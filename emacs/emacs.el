@@ -624,3 +624,19 @@ two prefix arguments, write out the day and month name."
 (add-hook 'htmlize-after-hook #'modi/htmlize-after-hook-flyspell-enable-maybe))))
 
 (use-package php-mode)
+
+(use-package dante
+  :ensure t
+  :after haskell-mode
+  :commands 'dante-mode
+  :init
+  (add-hook 'haskell-mode-hook 'flycheck-mode)
+  ;; OR:
+  ;; (add-hook 'haskell-mode-hook 'flymake-mode)
+  (add-hook 'haskell-mode-hook 'dante-mode)
+  (with-eval-after-load 'dante
+    (flycheck-add-next-checker 'haskell-dante
+                               '(warning . haskell-hlint))
+    )
+  )
+
