@@ -1,5 +1,5 @@
 ;; globals
-(set-default 'truncate-lines t)
+;; (set-default 'truncate-lines nil)
 (setq-default indent-tabs-mode nil) ;; disable tabs
 (setq tab-width 2)
 (setq version-control t )		; use version control
