@@ -219,6 +219,9 @@
   (evil-mode 1)
   )
 
+(use-package cider)
+(use-package clojure-mode)
+
 (use-package evil-escape
   :commands (evil-escape) ;; load it after press
   :after evil)
