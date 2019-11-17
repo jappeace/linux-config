@@ -75,6 +75,8 @@ packagedEmacs =
     # use hooks to bind haskell to lsp haskell
     # lspHaskell # https://github.com/emacs-lsp/lsp-haskell
     php-mode
+    clojure-mode
+    cider
 
 
     # lsp-rust https://github.com/emacs-lsp/lsp-rust
