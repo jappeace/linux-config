@@ -39,7 +39,7 @@
 (add-hook 'before-save-hook  'force-backup-of-buffer)
 
 ;; font
-(push '(font . "firacode-16") default-frame-alist)
+(push '(font . "firacode-14") default-frame-alist)
 ;;; Fira code
 ;; This works when using emacs --daemon + emacsclient
 (add-hook 'after-make-frame-functions (lambda (frame) (set-fontset-font t '(#Xe100 . #Xe16f) "Fira Code Symbol")))
