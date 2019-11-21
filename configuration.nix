@@ -8,6 +8,8 @@ chatlay = import ./overlays/chatterino2-overlay;
 pkgsUnstable = import ./pin-unstable.nix {
      config.allowUnfree = true;
     overlays = [chatlay];
+
+    config.allowBroken = true;
      };
 in
 {
@@ -69,7 +71,7 @@ in
   # $ nix search wget
   environment = {
 	  systemPackages = with pkgs.xfce // pkgs; [
-    obs-studio
+    pkgsUnstable.obs-studio
     slop
     xorg.xhost
     unzip
@@ -110,6 +112,7 @@ in
         keepassxc # to open my passwords
         tree # sl
         gnome3.gnome-terminal # resizes collumns, good for i3
+        pkgsUnstable.obs-linuxbrowser # install instructions: https://github.com/NixOS/nixpkgs/blob/master/pkgs/applications/video/obs-studio/linuxbrowser.nix
         xfce4-panel xfce4-battery-plugin xfce4-clipman-plugin
         xfce4-datetime-plugin xfce4-dockbarx-plugin xfce4-embed-plugin
         xfce4-eyes-plugin xfce4-fsguard-plugin
@@ -146,6 +149,9 @@ in
         feh
         dnsutils
         konsole
+        ffmpeg
+        zoom-us
+        espeak
 
         sloccount
         cloc
