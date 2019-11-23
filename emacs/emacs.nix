@@ -56,6 +56,7 @@ packagedEmacs =
     evil
     evil-magit
     dante
+    parinfer
     # evil-org # broken
     # dracula-theme
   ]) ++ (with epkgs.melpaPackages; [
