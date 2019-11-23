@@ -505,6 +505,7 @@
     (add-hook 'racer-mode-hook #'company-mode)
 )
 (use-package flycheck-haskell
+    :disabled
     :config
     (add-hook 'haskell-mode-hook #'flycheck-haskell-setup)
 )
