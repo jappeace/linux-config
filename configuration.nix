@@ -71,6 +71,7 @@ in
   # $ nix search wget
   environment = {
 	  systemPackages = with pkgs.xfce // pkgs; [
+      audacious
     pkgsUnstable.obs-studio
     slop
     xorg.xhost
