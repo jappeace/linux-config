@@ -45,7 +45,7 @@
 ;; This works when using emacs --daemon + emacsclient
 (add-hook 'after-make-frame-functions (lambda (frame) (set-fontset-font t '(#Xe100 . #Xe16f) "Fira Code Symbol")))
 ;; This works when using emacs without server/client
-;(set-fontset-font t '(#Xe100 . #Xe16f) "Fira Code Symbol")
+                                        ;(set-fontset-font t '(#Xe100 . #Xe16f) "Fira Code Symbol")
 ;; I haven't found one statement that makes both of the above situations work, so I use both for now
 
 (defconst fira-code-font-lock-keywords-alist
@@ -163,7 +163,7 @@
             ("[^<]\\(~~\\)"                #Xe168)
             ("\\(~~>\\)"                   #Xe169)
             ("\\(%%\\)"                    #Xe16a)
-           ;; ("\\(x\\)"                   #Xe16b) This ended up being hard to do properly so i'm leaving it out.
+            ;; ("\\(x\\)"                   #Xe16b) This ended up being hard to do properly so i'm leaving it out.
             ("[^:=]\\(:\\)[^:=]"           #Xe16c)
             ("[^\\+<>]\\(\\+\\)[^\\+<>]"   #Xe16d)
             ("[^\\*/<>]\\(\\*\\)[^\\*/<>]" #Xe16f))))
@@ -182,7 +182,7 @@
       calendar-location-name "Kerkdijk 2, Ansen")
 
 ;; use windows logo as meta, alt is used by i3
-(setq x-super-keysym 'meta) 
+(setq x-super-keysym 'meta)
 
 ;; Annoying random freezes
 (setq x-select-enable-clipboard-manager nil)
@@ -203,14 +203,14 @@
   :disabled
   :config
   (linum-relative-global-mode)
-)
+  )
 
 ;;; theme
 (use-package monokai-theme
-   :load-path "themes"
-   :config
+  :load-path "themes"
+  :config
   (load-theme 'monokai t)
-)
+  )
 
 ;; load packages
 (use-package evil
@@ -227,18 +227,18 @@
   :commands (evil-escape) ;; load it after press
   :after evil)
 
-; some day I'll get this to behave, probably by patching both this and evil
+                                        ; some day I'll get this to behave, probably by patching both this and evil
 (use-package evil-collection
- :after evil
- :custom
- (evil-collection-mode-list `(ediff)) ; we'll add what we need
- :config
+  :after evil
+  :custom
+  (evil-collection-mode-list `(ediff)) ; we'll add what we need
+  :config
   (evil-collection-init))
 
-  ;; todo delete in favor of evil collection?
+;; todo delete in favor of evil collection?
 (use-package evil-magit
   :after (magit evil)
-)
+  )
 
 ;;; keybindings
 (use-package general
@@ -247,69 +247,69 @@
   (general-define-key "C-'" 'avy-goto-word-1)
   (general-define-key "C-x b" 'ivy-switch-buffer)
   (general-define-key
-      :keymaps 'normal
-        ;; simple command
-        "K" 'newline
-        )
+   :keymaps 'normal
+   ;; simple command
+   "K" 'newline
+   )
   (general-define-key
-    ;; replace default keybindings
-    "C-s" 'swiper             ; search for string in current buffer
-    "M-x" 'counsel-M-x        ; replace default M-x with ivy backend
-    )
+   ;; replace default keybindings
+   "C-s" 'swiper             ; search for string in current buffer
+   "M-x" 'counsel-M-x        ; replace default M-x with ivy backend
+   )
   (general-define-key
-    :keymaps '(normal visual insert emacs)
-    :prefix "SPC"
-    :non-normal-prefix "C-SPC"
+   :keymaps '(normal visual insert emacs)
+   :prefix "SPC"
+   :non-normal-prefix "C-SPC"
 
-      "/"   'counsel-projectile-rg
-      "k"   '(projectile-kill-buffers :which-key "kill project buffers") ;; sometimes projectile gets confused about temp files, this fixes that
-      "c"   'projectile-invalidate-cache
-      "SPC" '(avy-goto-word-or-subword-1  :which-key "go to char")
-      "b"	'ivy-switch-buffer  ; change buffer, chose using ivy
+   "/"   'counsel-projectile-rg
+   "k"   '(projectile-kill-buffers :which-key "kill project buffers") ;; sometimes projectile gets confused about temp files, this fixes that
+   "c"   'projectile-invalidate-cache
+   "SPC" '(avy-goto-word-or-subword-1  :which-key "go to char")
+   "b"	'ivy-switch-buffer  ; change buffer, chose using ivy
 
-      "j"  'xref-find-definitions ; lsp find definition
-      "x"  'xref-find-references ; find usages
-      "l"  'counsel-list-processes
-      "t"  '(:ignore t :which-key "toggles")
-      "tp"  'parinfer-toggle-mode
-      "f"   '(:ignore t :which-key "find/format")
-      "ff"  'format-all-buffer
-      "fi"  'counsel-projectile-find-file
-      "fr"  'projectile-replace-regexp
-      "fg"  'counsel-git-grep
-      "fh"  'haskell-hoogle-lookup-from-local
-      "fa"  'counsel-projectile-ag
-      "f/"  'counsel-projectile-rg ; dumb habit
-      "h"   '(:ignore t :which-key "hoogle/inspection")
-      "hl"  'haskell-hoogle-lookup-from-local
-      "hq"  'haskell-hoogle
-      "s"  'save-some-buffers
-      "p"  'counsel-projectile
-      "o"  'counsel-projectile-switch-project
-      "r"	 'revert-buffer
-      "q"   'kill-emacs
-      "g"   '(:ignore t :which-key "git")
-      "gg"  'counsel-git-grep
-      ;; "gf"  '(counsel-git :which-key "find file in git dir")
-      "gf"  'magit-pull-from-upstream
-      "gs"  'magit-status
-      "gp"  'magit-push-to-remote
-      "gb"  'magit-blame
-      ;; Applications
-      "a" '(:ignore t :which-key "Applications")
-      "d" 'insert-date
-      ";" 'comment-line
-      "ar" 'ranger)
-)
+   "j"  'xref-find-definitions ; lsp find definition
+   "x"  'xref-find-references ; find usages
+   "l"  'counsel-list-processes
+   "t"  '(:ignore t :which-key "toggles")
+   "tp"  'parinfer-toggle-mode
+   "f"   '(:ignore t :which-key "find/format")
+   "ff"  'format-all-buffer
+   "fi"  'counsel-projectile-find-file
+   "fr"  'projectile-replace-regexp
+   "fg"  'counsel-git-grep
+   "fh"  'haskell-hoogle-lookup-from-local
+   "fa"  'counsel-projectile-ag
+   "f/"  'counsel-projectile-rg ; dumb habit
+   "h"   '(:ignore t :which-key "hoogle/inspection")
+   "hl"  'haskell-hoogle-lookup-from-local
+   "hq"  'haskell-hoogle
+   "s"  'save-some-buffers
+   "p"  'counsel-projectile
+   "o"  'counsel-projectile-switch-project
+   "r"	 'revert-buffer
+   "q"   'kill-emacs
+   "g"   '(:ignore t :which-key "git")
+   "gg"  'counsel-git-grep
+   ;; "gf"  '(counsel-git :which-key "find file in git dir")
+   "gf"  'magit-pull-from-upstream
+   "gs"  'magit-status
+   "gp"  'magit-push-to-remote
+   "gb"  'magit-blame
+   ;; Applications
+   "a" '(:ignore t :which-key "Applications")
+   "d" 'insert-date
+   ";" 'comment-line
+   "ar" 'ranger)
+  )
 
 ;;; project navigation
 (use-package counsel-projectile
   :commands (
-    counsel-projectile-find-file
-    counsel-projectile-rg
-    counsel-projectile
-    counsel-projectile-ag
-    )
+             counsel-projectile-find-file
+             counsel-projectile-rg
+             counsel-projectile
+             counsel-projectile-ag
+             )
   :config
   (counsel-projectile-mode)
   )
@@ -324,22 +324,22 @@
    "git ls-files -zco --exclude-standard | sed \"s/\\.git-crypt\\/.*.gpg//g\""
    ;; "rg --line-number --smart-case --follow --mmap --null --files" ; https://emacs.stackexchange.com/questions/16497/how-to-exclude-files-from-projectile
    )
-)
+  )
 (use-package swiper
   :commands (
-    swiper
-    ))
+             swiper
+             ))
 
-; loooks pretty good butt.. another time 
-; https://github.com/lassik/emacs-format-all-the-code
-(use-package format-all ;; 
-  ; -- the haskell mode hook jumps to the top of screen on save
-  ; :hook (haskell-mode . format-all-mode) ; TODO fixed in https://github.com/lassik/emacs-format-all-the-code/issues/23
+                                        ; loooks pretty good butt.. another time
+                                        ; https://github.com/lassik/emacs-format-all-the-code
+(use-package format-all ;;
+                                        ; -- the haskell mode hook jumps to the top of screen on save
+                                        ; :hook (haskell-mode . format-all-mode) ; TODO fixed in https://github.com/lassik/emacs-format-all-the-code/issues/23
   :commands (
-    format-all-mode
-    format-all-buffer
-    )
-)
+             format-all-mode
+             format-all-buffer
+             )
+  )
 
 (use-package flx)
 
@@ -347,23 +347,23 @@
   :after flx
   :commands (ivy-switch-buffer)
   :config
-    (setq ivy-re-builders-alist
+  (setq ivy-re-builders-alist
         '((ivy-switch-buffer . ivy--regex-plus)
           (t . ivy--regex-fuzzy)))
-    (setq ivy-initial-inputs-alist nil)
-)
+  (setq ivy-initial-inputs-alist nil)
+  )
 
 (use-package ranger
   :commands (ranger)
   :config
   (setq
-    ranger-cleanup-eagerly t
-    ranger-parent-depth 0
-    ranger-max-preview-size 1
-    ranger-dont-show-binary t
-    ranger-preview-delay 0.040
-    ranger-excluded-extensions '("tar.gz" "mkv" "iso" "mp4")
-    )
+   ranger-cleanup-eagerly t
+   ranger-parent-depth 0
+   ranger-max-preview-size 1
+   ranger-dont-show-binary t
+   ranger-preview-delay 0.040
+   ranger-excluded-extensions '("tar.gz" "mkv" "iso" "mp4")
+   )
   )
 
 ;;; show what keys are possible
@@ -371,7 +371,7 @@
   :config
   (setq which-key-idle-delay 0.01)
   (which-key-mode)
-)
+  )
 (use-package evil-org)
 
 ;;; jump around
@@ -401,12 +401,12 @@
 (use-package powerline
   :config
   (powerline-default-theme)
-)
+  )
 
 ;;; nix syntax highlighting
 (use-package nix-mode
-    :after company
-)
+  :after company
+  )
 
 (use-package yaml-mode
   :mode "\\.yaml\\'")
@@ -415,10 +415,10 @@
 
 ;;; JS
 (use-package rjsx-mode
-   ; maybe this should work:
-   ; :mode ("\\.js\\" . rjsx-mode)
-)
-; but no this instead:
+                                        ; maybe this should work:
+                                        ; :mode ("\\.js\\" . rjsx-mode)
+  )
+                                        ; but no this instead:
 (add-to-list 'auto-mode-alist '("\\.js\\'" . rjsx-mode))
 
 ;;; python
@@ -427,8 +427,13 @@
   :interpreter ("python" . python-mode))
 
 (add-hook 'haskell-mode-hook
-  (function (lambda ()
-          (setq evil-shift-width 2))))
+          (function (lambda ()
+                      (setq evil-shift-width 2))))
+
+(use-package nix-sandbox)
+(use-package nix-haskell-mode
+  :after nix-sandbox
+  :hook (haskell-mode . nix-haskell-mode))
 
 ;;; Haskell
 (use-package haskell-mode
@@ -436,7 +441,7 @@
   :config
   (custom-set-variables
    '(haskell-stylish-on-save t) ;; disable w/ (setq haskell-stylish-on-save nil)
-                                ;; enable w/ (setq haskell-stylish-on-save t)
+   ;; enable w/ (setq haskell-stylish-on-save t)
    '(haskell-hoogle-command (concat (projectile-project-root) "scripts/hoogle.sh"))
    )
   (defun haskell-evil-open-above ()
@@ -452,71 +457,96 @@
     (evil-append-line nil)
     (haskell-indentation-newline-and-indent))
 
-(defun haskell-hoogle-start-server ()
-  "Start hoogle local server."
-  (interactive)
+  (defun haskell-hoogle-start-server ()
+    "Start hoogle local server."
+    (interactive)
     (unless (haskell-hoogle-server-live-p)
-    (set 'haskell-hoogle-server-process
-            (start-process
+      (set 'haskell-hoogle-server-process
+           (start-process
             haskell-hoogle-server-process-name
             (get-buffer-create haskell-hoogle-server-buffer-name)
             haskell-hoogle-command "server" "-p" (number-to-string haskell-hoogle-port-number))))
     )
   (evil-define-key 'normal haskell-mode-map
-      "o" 'haskell-evil-open-below
-      "O" 'haskell-evil-open-above)
-)
+    "o" 'haskell-evil-open-below
+    "O" 'haskell-evil-open-above)
+  )
 
 (use-package ox-reveal)
 (use-package lsp-mode :commands lsp)
+(use-package lsp-ui :after lsp)
 (use-package lsp-haskell
-    ;; :disabled ; doesn't use newstyle build yet.. https://github.com/haskell/haskell-ide-engine/issues/558
-              ; we need to wait for it to work in reflex
-    :after lsp-mode
-    :config
-    ; https://github.com/emacs-lsp/lsp-haskell/blob/master/lsp-haskell.el#L57
-    (setq lsp-haskell-process-wrapper-function
-	(lambda (argv)
-	(append
-	(append (list "nix-shell" "--run" )
-		(list (mapconcat 'identity argv " ")))
-	(list (concat (projectile-project-root) "shell.nix"))
-	)))
-    (add-hook 'haskell-mode-hook #'lsp)
-    (add-hook 'haskell-mode-hook 'flycheck-mode)
-)
+  :disabled ;; Need to look at: https://github.com/thalesmg/reflex-skeleton/
+            ;; For custom preludes we need to consider -XNoImplicitprelude
+  :after lsp-mode
+  :config
+  (setq haskell-process-args-cabal-new-repl (list "--ghc-option=-O0"))
+                                        ; https://github.com/emacs-lsp/lsp-haskell/blob/master/lsp-haskell.el#L57
+  ;; (setq lsp-haskell-process-wrapper-function
+  ;;       (lambda (argv)
+  ;;         (append
+  ;;          (append (list "nix-shell" "--run" )
+  ;;                  (list (mapconcat 'identity argv " ")))
+  ;;          (list (concat (projectile-project-root) "shell.nix"))
+  ;;          )))
+  (add-hook 'haskell-mode-hook 'flycheck-mode)
+  (add-hook 'haskell-mode-hook #'lsp)
+  (add-hook 'haskell-mode-hook
+            (lambda ()
+              (let ((default-nix-wrapper (lambda (args)
+                                           (append
+                                            (append (list "nix-shell" "-I" "." "--command")
+                                                    (list (mapconcat 'identity args " ")))
+                                            (list (nix-current-sandbox))))))
+                (setq-local lsp-haskell-process-wrapper-function default-nix-wrapper))))
+  
+  
+  
+
+  (add-hook 'haskell-mode-hook
+            (lambda ()
+              (setq-local haskell-process-wrapper-function
+                          (lambda (args) (apply 'nix-shell-command (nix-current-sandbox) args)))))
+
+  (add-hook 'flycheck-mode-hook
+            (lambda ()
+              (setq-local flycheck-command-wrapper-function
+                          (lambda (command) (apply 'nix-shell-command (nix-current-sandbox) command)))
+              (setq-local flycheck-executable-find
+                          (lambda (cmd) (nix-executable-find (nix-current-sandbox) cmd))))))
+  
 
 (use-package yasnippet
   :after lsp-mode
   )
 (use-package rust-mode
-    :config
-    ;; install toolchain (rustup toolchain install stable)
-    ;; install https://crates.io/crates/rustfmt-nightly
-    (setq rust-format-on-save t)
-)
+  :config
+  ;; install toolchain (rustup toolchain install stable)
+  ;; install https://crates.io/crates/rustfmt-nightly
+  (setq rust-format-on-save t)
+  )
 (use-package racer
-    :hook (racer-mode . rust-mode)
-    :config
-    (add-hook 'racer-mode-hook #'eldoc-mode)
-    (add-hook 'racer-mode-hook #'company-mode)
-)
+  :hook (racer-mode . rust-mode)
+  :config
+  (add-hook 'racer-mode-hook #'eldoc-mode)
+  (add-hook 'racer-mode-hook #'company-mode)
+  )
 (use-package flycheck-rust
-    :after rust-mode
-    :config
-    (add-hook 'flycheck-mode-hook #'flycheck-rust-setup)
-)
+  :after rust-mode
+  :config
+  (add-hook 'flycheck-mode-hook #'flycheck-rust-setup)
+  )
 (use-package lsp-rust
-    :disabled ; doesn't work yet
-    :after lsp-ui
-    ;; install https://github.com/rust-lang-nursery/rls
-    :init
-    (setq lsp-rust-rls-command '("rustup" "run" "stable" "rls"))
-    :config
-    (add-hook 'lsp-mode-hook 'lsp-ui-mode)
-    (add-hook 'rust-mode-hook #'lsp-rust-enable)
-    (add-hook 'rust-mode-hook 'flycheck-mode)
-)
+  :disabled ; doesn't work yet
+  :after lsp-ui
+  ;; install https://github.com/rust-lang-nursery/rls
+  :init
+  (setq lsp-rust-rls-command '("rustup" "run" "stable" "rls"))
+  :config
+  (add-hook 'lsp-mode-hook 'lsp-ui-mode)
+  (add-hook 'rust-mode-hook #'lsp-rust-enable)
+  (add-hook 'rust-mode-hook 'flycheck-mode)
+  )
 ;; use emacs as mergetool
 (defvar ediff-after-quit-hooks nil
   "* Hooks to run after ediff or emerge is quit.")
@@ -563,13 +593,13 @@
 (add-hook 'ediff-after-quit-hooks 'git-mergetool-emacsclient-ediff-after-quit-hook 'append)
 
 (defun insert-date (prefix)
-"Insert the current date. With prefix-argument, use ISO format. With
+  "Insert the current date. With prefix-argument, use ISO format. With
 two prefix arguments, write out the day and month name."
-(interactive "P")
-(let ((format (cond
-                ((not prefix) "%d.%m.%Y")
-                ((equal prefix '(4)) "%Y-%m-%d")
-                ((equal prefix '(16)) "%A, %d. %B %Y")))
+  (interactive "P")
+  (let ((format (cond
+                 ((not prefix) "%d.%m.%Y")
+                 ((equal prefix '(4)) "%Y-%m-%d")
+                 ((equal prefix '(16)) "%A, %d. %B %Y")))
         (system-time-locale "de_DE"))
     (insert (format-time-string format))))
 
@@ -579,13 +609,13 @@ two prefix arguments, write out the day and month name."
 (use-package fill-column-indicator
   :hook (prog-mode . turn-on-fci-mode)
   :config
-  ; (setq fci-rule-color "white")
+                                        ; (setq fci-rule-color "white")
   (setq fci-rule-width 2)
-)
+  )
 
 ;; https://emacs.stackexchange.com/questions/44361/org-mode-export-gets-weird-symbols-at-the-end-of-each-line-while-exporting-to-ht
 (use-package htmlize
- :defer t
+  :defer t
   :config
   (progn
 
@@ -627,11 +657,12 @@ two prefix arguments, write out the day and month name."
           (flyspell-mode 1)))
 
       (add-hook 'htmlize-before-hook #'modi/htmlize-before-hook-flyspell-disable)
-(add-hook 'htmlize-after-hook #'modi/htmlize-after-hook-flyspell-enable-maybe))))
+      (add-hook 'htmlize-after-hook #'modi/htmlize-after-hook-flyspell-enable-maybe))))
 
 (use-package php-mode)
 
 (use-package dante
+  :disabled
   :ensure t
   :after haskell-mode
   :commands 'dante-mode
@@ -650,12 +681,12 @@ two prefix arguments, write out the day and month name."
   (progn
     (setq parinfer-extensions
           '(defaults       ; should be included.
-            pretty-parens  ; different paren styles for different modes.
-            evil           ; If you use Evil.
-            lispy          ; If you use Lispy. With this extension, you should install Lispy and do not enable lispy-mode directly.
-            paredit        ; Introduce some paredit commands.
-            smart-tab      ; C-b & C-f jump positions and smart shift with tab & S-tab.
-            smart-yank))   ; Yank behavior depend on mode.
+             pretty-parens  ; different paren styles for different modes.
+             evil           ; If you use Evil.
+             lispy          ; If you use Lispy. With this extension, you should install Lispy and do not enable lispy-mode directly.
+             paredit        ; Introduce some paredit commands.
+             smart-tab      ; C-b & C-f jump positions and smart shift with tab & S-tab.
+             smart-yank))   ; Yank behavior depend on mode.
     (add-hook 'clojure-mode-hook #'parinfer-mode)
     (add-hook 'emacs-lisp-mode-hook #'parinfer-mode)
     (add-hook 'common-lisp-mode-hook #'parinfer-mode)

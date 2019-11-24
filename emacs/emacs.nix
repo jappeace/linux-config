@@ -9,21 +9,6 @@ let
 packagedEmacs = 
   emacsWithPackages (epkgs:
   (
-  let
-    lspMode = epkgs.melpaPackages.lsp-mode.override (args: {
-        melpaBuild = drv: args.melpaBuild (drv // {
-
-        # locally I'm ahead so need to specify more deps, on upgrade delete the line below
-        packageRequires = [ epkgs.markdown-mode epkgs.melpaPackages.dash epkgs.melpaPackages.dash-functional epkgs.melpaPackages.f epkgs.melpaPackages.ht epkgs.elpaPackages.spinner ];
-          src = pkgs.fetchFromGitHub {
-                owner = "emacs-lsp";
-                repo = "lsp-mode";
-                rev = "ed0e5d22f0b3fdd71c264b4a4b5c0b346197950a";
-                sha256 = "0pl3xnfj5sa2j2yha37qd2sfqz2j1cax5hlxa3f191cb1l5vnfyj";
-            };
-        });
-    });
-  in
   (with epkgs.melpaStablePackages; [
 
 (pkgs.runCommand "default.el" {} ''
@@ -75,10 +60,14 @@ packagedEmacs =
     # etc
     # use hooks to bind haskell to lsp haskell
     # lspHaskell # https://github.com/emacs-lsp/lsp-haskell
+    lsp-mode
+    lsp-haskell
+    lsp-ui
     php-mode
     clojure-mode
     cider
-
+    nix-haskell-mode # https://github.com/matthewbauer/nix-haskell-mode
+    nix-sandbox
 
     # lsp-rust https://github.com/emacs-lsp/lsp-rust
   ]) ++ (with epkgs.elpaPackages; [
