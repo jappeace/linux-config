@@ -21,6 +21,7 @@ in {
     [ # Include the results of the hardware scan.
       ./hardware/bto.nix
       ./emacs
+      ./cachix.nix
     ];
   
   # Use the systemd-boot EFI boot loader.
@@ -57,6 +58,8 @@ in {
         0.0.0.0 www.reddit.com
         0.0.0.0 twitch.com
         0.0.0.0 www.twitch.com
+        0.0.0.0 twitter.com
+        0.0.0.0 www.twitter.com
         '';
     };
 
@@ -180,6 +183,7 @@ in {
         ctags
         pkgsUnstable.litecli # better sqlite browser
         pgcli # better postgres cli client
+        pkgsUnstable.cachix
 
         ncdu # shell based q4dirstat
 
