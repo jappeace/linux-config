@@ -19,6 +19,7 @@ in
     [ # Include the results of the hardware scan.
       ./hardware/work-machine.nix
       ./emacs
+      ./cachix.nix
     ];
   
   # Use the systemd-boot EFI boot loader.
@@ -51,7 +52,8 @@ in
         0.0.0.0 analytics.google.com
         0.0.0.0 youtube.com
         0.0.0.0 www.youtube.com
-        0.0.0.0 youtube.com
+        0.0.0.0 twitter.com
+        0.0.0.0 www.twitter.com
         '';
     };
 
