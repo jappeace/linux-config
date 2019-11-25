@@ -14,6 +14,8 @@
 (setq initial-scratch-message "Good day sir, your wish is my command.") ; Emacs shows its subservience. Machines are tools.
 (setq create-lockfiles nil) ;; this clashes with projectile
 (setq tags-revert-without-query 1)
+(advice-add 'risky-local-variable-p :override #'ignore) ;; allow remembering of risky vars https://emacs.stackexchange.com/questions/10983/remember-permission-to-execute-risky-local-variables
+
 
 ;; backup https://stackoverflow.com/questions/151945/how-do-i-control-how-emacs-makes-backup-files
 (setq vc-make-backup-files t)
@@ -227,13 +229,11 @@
   :commands (evil-escape) ;; load it after press
   :after evil)
 
-                                        ; some day I'll get this to behave, probably by patching both this and evil
 (use-package evil-collection
   :after evil
-  :custom
-  (evil-collection-mode-list `(ediff)) ; we'll add what we need
+  :disabled ; TODO This can add evil bindings to ediff, I'm not merginng much at the moment so don't care
   :config
-  (evil-collection-init))
+  (evil-collection-init 'diff-mode))
 
 ;; todo delete in favor of evil collection?
 (use-package evil-magit
@@ -372,7 +372,6 @@
   (setq which-key-idle-delay 0.01)
   (which-key-mode)
   )
-(use-package evil-org)
 
 ;;; jump around
 (use-package avy
@@ -432,8 +431,12 @@
 
 (use-package nix-sandbox)
 (use-package nix-haskell-mode
-  :after nix-sandbox
-  :hook (haskell-mode . nix-haskell-mode))
+  :disabled ;; throws error saying can't find haskell-process-args-cabal-new-repl
+  :hook (haskell-mode . nix-haskell-mode)
+  :config
+  (setq haskell-process-args-cabal-new-repl (list "--ghc-option=-O0"))
+  )
+
 
 ;;; Haskell
 (use-package haskell-mode
@@ -472,7 +475,12 @@
     "O" 'haskell-evil-open-above)
   )
 
-(use-package ox-reveal)
+(use-package evil-org
+  :disabled
+  )
+(use-package ox-reveal
+  :disabled
+  )
 (use-package lsp-mode :commands lsp)
 (use-package lsp-ui :after lsp)
 (use-package lsp-haskell
@@ -480,7 +488,6 @@
             ;; For custom preludes we need to consider -XNoImplicitprelude
   :after lsp-mode
   :config
-  (setq haskell-process-args-cabal-new-repl (list "--ghc-option=-O0"))
                                         ; https://github.com/emacs-lsp/lsp-haskell/blob/master/lsp-haskell.el#L57
   ;; (setq lsp-haskell-process-wrapper-function
   ;;       (lambda (argv)
@@ -662,8 +669,6 @@ two prefix arguments, write out the day and month name."
 (use-package php-mode)
 
 (use-package dante
-  :disabled
-  :ensure t
   :after haskell-mode
   :commands 'dante-mode
   :init

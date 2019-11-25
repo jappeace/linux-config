@@ -40,11 +40,11 @@ packagedEmacs =
     magit
     evil
     evil-magit
-    dante
     parinfer
     # evil-org # broken
     # dracula-theme
   ]) ++ (with epkgs.melpaPackages; [
+    dante
     htmlize
     general # keybindings
     monokai-theme
@@ -68,6 +68,7 @@ packagedEmacs =
     cider
     nix-haskell-mode # https://github.com/matthewbauer/nix-haskell-mode
     nix-sandbox
+    evil-collection
 
     # lsp-rust https://github.com/emacs-lsp/lsp-rust
   ]) ++ (with epkgs.elpaPackages; [
