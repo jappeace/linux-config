@@ -386,7 +386,9 @@
 ;;; I can't spell
 (use-package flycheck
   :defer 2
-  :config (global-flycheck-mode))
+  :config
+  (setq flycheck-display-errors-function nil)
+  (global-flycheck-mode))
 
 ;;; I can't program
 (use-package company
@@ -697,3 +699,5 @@ two prefix arguments, write out the day and month name."
     (add-hook 'common-lisp-mode-hook #'parinfer-mode)
     (add-hook 'scheme-mode-hook #'parinfer-mode)
     (add-hook 'lisp-mode-hook #'parinfer-mode)))
+
+(use-package pretty-symbols)

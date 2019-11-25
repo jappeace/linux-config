@@ -52,6 +52,7 @@ packagedEmacs =
     racer
     flycheck-rust
     format-all
+    pretty-symbols
     # lsp-rust
     # evil-collection
     # we bind emacs lsp to whatever lsp's we want
