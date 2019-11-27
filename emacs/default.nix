@@ -3,12 +3,6 @@
 
 { config, pkgs, ... }:
 let
-  haskellIdeEngine = (import (pkgs.fetchFromGitHub {
-                   owner="domenkozar";
-                   repo="hie-nix";
-                   rev="6794005f909600679d0b7894d0e7140985920775";
-                   sha256="0pc90ns0xcsa6b630d8kkq5zg8yzszbgd7qmnylkqpa0l58zvnpn";
-                 }) {}).hie84;
   aspell_with_dict = pkgs.aspellWithDicts(ps: [ps.nl ps.en]);
 in {
   # List packages installed in system profile. To search, run:
@@ -16,7 +10,6 @@ in {
   environment = {
 	  systemPackages = with pkgs; [
         # emacs
-        haskellIdeEngine
         pkgs.silver-searcher # when configuring my emacs they told me to use this: https://github.com/ggreer/the_silver_searcher#installation
         pkgs.ripgrep # better silver searcher?
         aspell_with_dict # I can't spell
@@ -24,11 +17,11 @@ in {
         pkgs.haskellPackages.stylish-haskell
         pkgs.haskellPackages.brittany
         pkgs.haskellPackages.hindent
+        pkgs.haskellPackages.hlint
         shfmt
         html-tidy
         pkgs.nodePackages.prettier
-
-        pkgs.graphviz # plantuml
+        pkgs.python37Packages.sqlparse # sqlforamt
 	  ];
   };
 

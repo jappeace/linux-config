@@ -108,7 +108,7 @@ in {
       p7zip
       gdb
         bc # random calcualtions
-        androidenv.platformTools
+        # androidenv.platformTools
         android-studio
         virtualbox
         thunar
@@ -185,6 +185,7 @@ in {
         pkgsUnstable.litecli # better sqlite browser
         pgcli # better postgres cli client
         pkgsUnstable.cachix
+        konsole
 
         ncdu # shell based q4dirstat
 
@@ -237,10 +238,15 @@ in {
               fira-code
               fira-code-symbols
               corefonts
+              noto-fonts-emoji
+              twemoji-color-font
+              # pkgsUnstable.joypixels
+              joypixels 
         ];
         fontconfig = {
             defaultFonts = {
                 monospace = [ "Fira Code" ];
+                emoji = ["Twitter Color Emoji"];
             };
         };
   };
@@ -262,9 +268,6 @@ in {
   	allowUnfree = true; # I'm horrible, nvidia sucks, TODO kill nvidia
 	  firefox = {
 		enableGoogleTalkPlugin = true;
-	  };
-	  chromium = {
-		enablePepperPDF = true;
 	  };
 	  pulseaudio = true;
 	  packageOverrides = pkgs: {
@@ -370,7 +373,6 @@ in {
         '';
     };
 
-		gnome3.gnome-terminal-server.enable = true;
 		syncthing = {
           enable = true;
           user = "jappie";
@@ -411,13 +413,13 @@ in {
 
 		redshift = {
 			enable = true;
-			provider = "geoclue2";
 		};
 
     # https://github.com/rfjakob/earlyoom
     earlyoom.enable = true; # kills big processes better then kernel
   };
 
+  location.provider = "geoclue2";
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.extraUsers.jappie = {
@@ -437,7 +439,7 @@ in {
     # sudo nix-channel --update
     # sudo nix-channel --list
     # click nixos link, and in title copy over the hash
-    nixos.version = "19.03.173135.58b68770692";
+    nixos.version = "19.09.1320.4ad6f1404a8";
 
   # This value determines the NixOS release with which your system is to be
   # compatible, in order to avoid breaking some software such as database
@@ -446,7 +448,7 @@ in {
     # to upgrade, add a channel:
     # $ sudo nix-channel --add https://nixos.org/channels/nixos-18.09 nixos
     # $ sudo nixos-rebuild switch --upgrade
-    stateVersion = "19.03"; # Did you read the comment?
+    stateVersion = "19.09"; # Did you read the comment?
   };
   virtualisation = {
     docker.enable = true; 
