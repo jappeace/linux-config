@@ -387,7 +387,6 @@
 (use-package flycheck
   :defer 2
   :config
-  (setq flycheck-display-errors-function nil)
   (global-flycheck-mode))
 
 ;;; I can't program
