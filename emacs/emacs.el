@@ -444,6 +444,7 @@
   :after evil
   :config
   (custom-set-variables
+   ;; '(haskell-font-lock-symbols t)
    '(haskell-stylish-on-save t) ;; disable w/ (setq haskell-stylish-on-save nil)
    ;; enable w/ (setq haskell-stylish-on-save t)
    '(haskell-hoogle-command (concat (projectile-project-root) "scripts/hoogle.sh"))
