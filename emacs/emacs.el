@@ -680,9 +680,12 @@ two prefix arguments, write out the day and month name."
   (add-hook 'haskell-mode-hook 'dante-mode)
   (with-eval-after-load 'dante
     (flycheck-add-next-checker 'haskell-dante
-                               '(warning . haskell-hlint))
-    )
-  )
+                               '(warning . haskell-hlint)))
+    
+  :config
+  ;; dante's xref doesn't work for mutli-project setups, we just use etags
+  (remove-hook 'xref-backend-functions 'dante--xref-backend))
+  
 (use-package parinfer
   :init
   (progn
