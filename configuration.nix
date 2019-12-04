@@ -2,7 +2,7 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{ config, pkgs, ... }:
+{ config, pkgs, options, ... }:
 let intero-neovim = pkgs.vimUtils.buildVimPlugin {
     name = "intero-neovim";
     src = pkgs.fetchFromGitHub {
@@ -12,8 +12,14 @@ let intero-neovim = pkgs.vimUtils.buildVimPlugin {
       sha256 = "1igc8swgbbkvyykz0ijhjkzcx3d83yl22hwmzn3jn8dsk6s4an8l";
     };
   };
+
 pkgsUnstable = import ./pin-unstable.nix {
      config.allowUnfree = true;
+
+     overlays =
+       let bom = import ./overlays/boomer;
+           in
+       [ bom ];
      };
 
 in {
@@ -186,6 +192,7 @@ in {
         pgcli # better postgres cli client
         pkgsUnstable.cachix
         konsole
+        pkgsUnstable.boomer # zoomer application
 
         ncdu # shell based q4dirstat
 
