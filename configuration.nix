@@ -246,7 +246,7 @@ in {
         fontconfig = {
             defaultFonts = {
                 monospace = [ "Fira Code" ];
-                emoji = ["Twitter Color Emoji"];
+                emoji = ["Joypixels"];
             };
         };
   };
