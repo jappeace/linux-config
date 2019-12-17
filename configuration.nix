@@ -193,6 +193,9 @@ in {
         pkgsUnstable.cachix
         konsole
         pkgsUnstable.boomer # zoomer application
+    chatterino2
+    vscode
+    atom
 
         ncdu # shell based q4dirstat
 
