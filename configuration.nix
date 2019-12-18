@@ -7,9 +7,14 @@ let
 chatlay = import ./overlays/chatterino2-overlay;
 pkgsUnstable = import ./pin-unstable.nix {
      config.allowUnfree = true;
-    overlays = [chatlay];
+     overlays = [chatlay
+                 (import /home/jappie/projects/cut-the-crap/overlay)
+                ];
 
     config.allowBroken = true;
+     };
+
+localPkg = import /home/jappie/projects/nixpkgs {
      };
 in
 {
