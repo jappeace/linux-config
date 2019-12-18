@@ -55,8 +55,6 @@ in
         0.0.0.0 twitter.com
         0.0.0.0 www.twitter.com
         0.0.0.0 analytics.google.com
-        0.0.0.0 youtube.com
-        0.0.0.0 www.youtube.com
         0.0.0.0 twitter.com
         0.0.0.0 www.twitter.com
         '';
@@ -91,6 +89,7 @@ in
       vscode
       atom
       localPkg.cut-the-crap
+      lsof
 
     # lm-sensors
     fd # better find, 50% shorter command!
@@ -216,7 +215,7 @@ in
   };
 
   # Open ports in the firewall.
-  networking.firewall.allowedTCPPorts = [ 6868 ];
+  networking.firewall.allowedTCPPorts = [ 6868 4713 ];
   # networking.firewall.allowedUDPPorts = [ ... ];
   # Or disable the firewall altogether.
   # networking.firewall.enable = false;
@@ -277,7 +276,10 @@ in
   hardware.pulseaudio = { 
    enable = true;
    support32Bit = true; 
-   systemWide = true;
+     tcp = {
+       enable = true;
+       anonymousClients.allowAll = true; # bite me
+     };
   };
     # TODO figure this out, the fans are just running wild but I should be able to software control them
     # systemd.services.fancontrol = let configFile = pkgs.writeText "fancontrol.conf" ""; in {
