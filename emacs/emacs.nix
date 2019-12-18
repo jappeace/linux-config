@@ -70,6 +70,9 @@ packagedEmacs =
     nix-haskell-mode # https://github.com/matthewbauer/nix-haskell-mode
     nix-sandbox
     evil-collection
+    smartparens
+    nyan-mode
+
 
     # lsp-rust https://github.com/emacs-lsp/lsp-rust
   ]) ++ (with epkgs.elpaPackages; [
