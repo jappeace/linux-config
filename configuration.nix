@@ -85,6 +85,12 @@ in
     unzip
     krita
     chatterino2 # TODO this doesn't work, missing xcb
+    blender
+      mesa
+      idris
+      vscode
+      atom
+      localPkg.cut-the-crap
 
     # lm-sensors
     fd # better find, 50% shorter command!
@@ -157,9 +163,10 @@ in
         feh
         dnsutils
         konsole
-        ffmpeg
         zoom-us
         espeak
+      pandoc
+      wine
 
         sloccount
         cloc
@@ -402,7 +409,7 @@ in
     # sudo nix-channel --update
     # sudo nix-channel --list
     # click nixos link, and in title copy over the hash
-    nixos.version = "19.09.1019.c5aabb0d603";
+    nixos.version = "19.09.1625.0dc46b0e1c8";
 
   # This value determines the NixOS release with which your system is to be
   # compatible, in order to avoid breaking some software such as database
