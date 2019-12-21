@@ -90,6 +90,7 @@ in
       atom
       localPkg.cut-the-crap
       lsof
+      hyper
 
     # lm-sensors
     fd # better find, 50% shorter command!
