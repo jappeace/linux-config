@@ -72,6 +72,7 @@ packagedEmacs =
     evil-collection
     smartparens
     nyan-mode
+    idris-mode
 
 
     # lsp-rust https://github.com/emacs-lsp/lsp-rust

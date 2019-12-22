@@ -707,6 +707,7 @@ two prefix arguments, write out the day and month name."
     (add-hook 'lisp-mode-hook #'parinfer-mode)))
 
 (use-package pretty-symbols)
+(use-package idris-mode)
 
 (defun unicode-symbol (name)
   "Translate a symbolic name for a Unicode character -- e.g., LEFT-ARROW
