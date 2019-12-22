@@ -91,6 +91,8 @@ in
       localPkg.cut-the-crap
       lsof
       hyper
+      ffmpeg
+      gromit-mpx # draw on screen
 
     # lm-sensors
     fd # better find, 50% shorter command!
