@@ -41,10 +41,12 @@ packagedEmacs =
     evil
     evil-magit
     parinfer
+
     # evil-org # broken
     # dracula-theme
   ]) ++ (with epkgs.melpaPackages; [
     dante
+    ox-reveal # org reveal
     htmlize
     general # keybindings
     monokai-theme
