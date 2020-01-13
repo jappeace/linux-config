@@ -36,6 +36,9 @@ bindsym --release $mod+Ctrl+1 exec --no-startup-id "xdotool keyup ctrl keyup alt
 bindsym --release $mod+Ctrl+2 exec --no-startup-id "xdotool keyup ctrl keyup alt type --delay 5 Klooster"
 bindsym --release $mod+Ctrl+w exec --no-startup-id "xdotool keyup ctrl keyup alt type --delay 5 https://jappieklooster.nl"
 
+
+bindsym $mod+Shift+a exec boomer
+
 # start a terminal
 bindsym $mod+Return exec konsole
 

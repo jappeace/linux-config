@@ -4,12 +4,12 @@
 
 { config, pkgs, ... }:
 let
-chatlay = import ./overlays/chatterino2-overlay;
 pkgsUnstable = import ./pin-unstable.nix {
      config.allowUnfree = true;
-     overlays = [chatlay
+     overlays = [
                  # (import ./overlays/cut-the-crap)
                  (import /home/jappie/projects/cut-the-crap/overlay)
+                 (import ./overlays/boomer)
                 ];
 
     config.allowBroken = true;
@@ -83,6 +83,7 @@ in
       ffmpeg
       gromit-mpx # draw on screen
       usbutils
+      pkgsUnstable.boomer
 
     # lm-sensors
     fd # better find, 50% shorter command!
