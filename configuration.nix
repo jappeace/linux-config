@@ -8,18 +8,14 @@ chatlay = import ./overlays/chatterino2-overlay;
 pkgsUnstable = import ./pin-unstable.nix {
      config.allowUnfree = true;
      overlays = [chatlay
-                 (import ./overlays/cut-the-crap)
+                 # (import ./overlays/cut-the-crap)
+                 (import /home/jappie/projects/cut-the-crap/overlay)
                 ];
 
     config.allowBroken = true;
      };
-
-localPkg = import /home/jappie/projects/nixpkgs {
-     };
 in
 {
-
-
   imports =
     [ # Include the results of the hardware scan.
       ./hardware/work-machine.nix
@@ -47,14 +43,7 @@ in
         0.0.0.0 www.facebook.com
         0.0.0.0 trader.degiro.com
         0.0.0.0 www.degiro.com
-        0.0.0.0 reddit.com
-        0.0.0.0 www.reddit.com
         0.0.0.0 trader.degiro.com
-        0.0.0.0 linkedin.com
-        0.0.0.0 www.linkedin.com
-        0.0.0.0 twitter.com
-        0.0.0.0 www.twitter.com
-        0.0.0.0 analytics.google.com
         0.0.0.0 twitter.com
         0.0.0.0 www.twitter.com
         '';
@@ -88,11 +77,12 @@ in
       idris
       vscode
       atom
-      localPkg.cut-the-crap
+      pkgsUnstable.cut-the-crap
       lsof
       hyper
       ffmpeg
       gromit-mpx # draw on screen
+      usbutils
 
     # lm-sensors
     fd # better find, 50% shorter command!
@@ -106,6 +96,7 @@ in
       # fbreader # broken
       gource
       p7zip
+      steam
         bc # random calcualtions
         android-studio
         thunar
@@ -284,6 +275,9 @@ in
        anonymousClients.allowAll = true; # bite me
      };
   };
+  hardware.opengl.enable = true;                                                                                                                                                                                   
+  hardware.opengl.driSupport = true;   
+  hardware.opengl.driSupport32Bit = true;
     # TODO figure this out, the fans are just running wild but I should be able to software control them
     # systemd.services.fancontrol = let configFile = pkgs.writeText "fancontrol.conf" ""; in {
     #   unitConfig.Documentation = "man:fancontrol(8)";
@@ -433,6 +427,7 @@ in
   powerManagement = { enable = true; cpuFreqGovernor = "ondemand"; };
 
   nix = {
+    trustedUsers = ["jappie" "root"];
     autoOptimiseStore = true;
     binaryCaches = [
       "https://cache.nixos.org"
