@@ -205,7 +205,6 @@ bindsym --release $mod+i exec emacsclient -ce '(lambda () (interactive) previous
 #}
 exec --no-startup-id xfce4-panel --disable-wm-check
 
-assign [class="Steam"] $w1
 assign [class="transmission" instance="transmission-qt" title="Transmission"] $w1
 assign [class="Deluge"] $w1
 # assign [class="Chromium"] $w8
