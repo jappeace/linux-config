@@ -217,7 +217,8 @@
 ;; load packages
 (use-package evil
   :init
-  (setq evil-want-integration nil) ; required for evil collection; but I patched it so no
+  ;; (setq evil-want-integration nil) ; required for evil collection; but I patched it so no
+  (setq evil-want-keybinding nil)
   :config
   (evil-mode 1)
   )
@@ -231,7 +232,7 @@
 
 (use-package evil-collection
   :after evil
-  :disabled ; TODO This can add evil bindings to ediff, I'm not merginng much at the moment so don't care
+  ;; :disabled ; TODO This can add evil bindings to ediff, I'm not merginng much at the moment so don't care
   :config
   (evil-collection-init 'diff-mode))
 
