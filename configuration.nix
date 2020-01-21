@@ -94,8 +94,8 @@ in {
     }) # split OSTs with this spell: https://unix.stackexchange.com/questions/318164/sox-split-audio-on-silence-but-keep-silence
     krita
     pkgsUnstable.jetbrains.idea-community
-    pkgsUnstable.skype
-    pkgsUnstable.steam
+    # pkgsUnstable.steam
+    steam
     screenkey
     slop
     scribus
@@ -188,7 +188,7 @@ in {
         audacious # plays music a bit better than vlc
         pkgsUnstable.rustfmt
         ctags
-        pkgsUnstable.litecli # better sqlite browser
+        # pkgsUnstable.litecli # better sqlite browser
         pgcli # better postgres cli client
         pkgsUnstable.cachix
         konsole
@@ -196,6 +196,8 @@ in {
     chatterino2
     vscode
     atom
+    unrar
+    # jetbrains.idea-community
 
         ncdu # shell based q4dirstat
 
@@ -334,6 +336,10 @@ in {
   # Enable the OpenSSH daemon.
   # services.openssh.enable = true;
   services = {
+    rabbitmq = {
+      enable = true;
+      plugins = ["management"];
+    };
     compton = { # allows for fading of windows and transparancy
       # api: https://github.com/NixOS/nixpkgs/blob/master/nixos/modules/services/x11/compton.nix
       enable = true;
@@ -464,6 +470,7 @@ in {
     docker.enable = true; 
     virtualbox.host.enable = true;
     libvirtd.enable = true; 
+    anbox.enable = true;
   };
   powerManagement = { enable = true; cpuFreqGovernor = "ondemand"; };
 
