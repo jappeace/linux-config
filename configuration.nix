@@ -130,6 +130,7 @@
         htop
         feh
         dnsutils
+	pciutils
 
         sloccount
         cloc
@@ -316,7 +317,7 @@
 		# services.xserver.layout = "us";
 		# services.xserver.xkbOptions = "eurosign:e";
 		xserver = {
-			autorun = true; # disable on troubles
+			# autorun = true; # disable on troubles
 			displayManager = {
 				slim = {
 				  defaultUser = "jappie";
@@ -330,7 +331,7 @@
 			  tapping = true;
 			  disableWhileTyping = true;
 			};
-			videoDrivers = [ "intel" "nvidia" ];
+			videoDrivers = [ "intel" ];
 			desktopManager.xfce.enable = true; # for the xfce-panel in i3
 			desktopManager.xfce.noDesktop = true;
 			desktopManager.xfce.enableXfwm = false ; # try disabling xfce popping over i3
