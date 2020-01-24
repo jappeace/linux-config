@@ -214,15 +214,15 @@ assign [class="Deluge"] $w1
 assign [class="ksysguard"] $w10
 assign [class="keepassxc"] $wf8
 
-client.background \#000000
+# client.background \#000000
 # class					border	backgr. text	indicator
 
 #bind brightness ctl
 bindsym XF86MonBrightnessDown exec light -A 1
 bindsym XF86MonBrightnessUp exec light -U 1
 bindsym $mod+Shift+s exec sudo sleep-memory
-bindsym $mod+Shift+z exec --no-startup-id /home/jappie/bin/monitor
-bindsym $mod+Shift+a exec --no-startup-id /home/jappie/bin/monitor-2
+# bindsym $mod+Shift+z exec --no-startup-id /home/jappie/bin/monitor
+# bindsym $mod+Shift+a exec --no-startup-id /home/jappie/bin/monitor-2
 
 #bind browser to b, use new window otherwise it'l complain
 bindsym $mod+b exec firefox -new-window
