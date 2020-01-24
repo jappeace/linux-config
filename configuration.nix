@@ -3,34 +3,10 @@
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
 { config, pkgs, ... }:
-let 
-  wineOver = pkgs.wine.override {
-    wineRelease = "staging";
-    wineBuild = "wine64";
-    pngSupport = true;
-    jpegSupport = true;
-    gettextSupport = true;
-    fontconfigSupport = true;
-    alsaSupport = true;
-    gtkSupport = true;
-    openglSupport = true;
-    tlsSupport = true;
-    gstreamerSupport = true;
-    cupsSupport = true;
-    colorManagementSupport = true;
-    dbusSupport = true;
-    mpg123Support = true;
-    openalSupport = true;
-    cairoSupport = true;
-    netapiSupport = true;
-    cursesSupport = true;
-    pulseaudioSupport = true;
-    udevSupport = true;
-};
-in {
+{
   imports =
     [ # Include the results of the hardware scan.
-      ./hardware/tuxedo.nix
+      ./hardware/thinkpad.nix
       ./emacs
     ];
   
