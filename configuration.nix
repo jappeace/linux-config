@@ -7,7 +7,7 @@
   imports =
     [ # Include the results of the hardware scan.
       ./hardware/thinkpad.nix
-      ./emacs
+      # ./emacs
     ];
   
   # Use the systemd-boot EFI boot loader.
@@ -75,9 +75,7 @@
       gource
       p7zip
         bc # random calcualtions
-        androidenv.platformTools
-        android-studio
-        thunar
+       thunar
         openjdk # we need to be able to run java stuff (plantuml)
         plantuml # for thesis uml amongst other things, it's pretty nice
         inkscape # gotta make that artwork for site etc
@@ -96,7 +94,7 @@
         keepassxc # to open my passwords
         syncthing # keepassfile in here
         tree # sl
-        gnome3.gnome-terminal # resizes collumns, good for i3
+	konsole
         xfce4-panel xfce4-battery-plugin xfce4-clipman-plugin
         xfce4-datetime-plugin xfce4-dockbarx-plugin xfce4-embed-plugin
         xfce4-eyes-plugin xfce4-fsguard-plugin
@@ -131,6 +129,7 @@
         feh
         dnsutils
 	pciutils
+	# inxi
 
         sloccount
         cloc
@@ -188,9 +187,6 @@
   	allowUnfree = true; # I'm horrible, nvidia sucks, TODO kill nvidia
 	  firefox = {
 		enableGoogleTalkPlugin = true;
-	  };
-	  chromium = {
-		enablePepperPDF = true;
 	  };
 	  pulseaudio = true;
 	  packageOverrides = pkgs: {
@@ -262,7 +258,7 @@
       fade = true;
       inactiveOpacity = "0.925";
       fadeSteps = ["0.04" "0.04"];
-      extraOptions = "no-fading-openclose = true"; # don't fade on workspace shift, annoying: https://github.com/chjj/compton/issues/314
+      # extraOptions = "no-fading-openclose = true"; # don't fade on workspace shift, annoying: https://github.com/chjj/compton/issues/314
     };
     openssh = {
       enable = true;
@@ -304,7 +300,6 @@
         '';
     };
 
-		gnome3.gnome-terminal-server.enable = true;
 		syncthing = {
           enable = true;
           user = "jappie";
@@ -331,7 +326,7 @@
 			  tapping = true;
 			  disableWhileTyping = true;
 			};
-			videoDrivers = [ "intel" ];
+			videoDrivers = [ "intel" "nvidia" ];
 			desktopManager.xfce.enable = true; # for the xfce-panel in i3
 			desktopManager.xfce.noDesktop = true;
 			desktopManager.xfce.enableXfwm = false ; # try disabling xfce popping over i3
@@ -344,12 +339,12 @@
 
 		redshift = {
 			enable = true;
-			provider = "geoclue2";
 		};
 
     # https://github.com/rfjakob/earlyoom
     earlyoom.enable = true; # kills big processes better then kernel
   };
+  location.provider = "geoclue2";
 
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
@@ -369,7 +364,7 @@
     # sudo nix-channel --update
     # sudo nix-channel --list
     # click nixos link, and in title copy over the hash
-    nixos.version = "19.03.173000.1c6bdbc766e";
+    # nixos.version = "19.09.173000.1c6bdbc766e";
 
   # This value determines the NixOS release with which your system is to be
   # compatible, in order to avoid breaking some software such as database
@@ -378,7 +373,7 @@
     # to upgrade, add a channel:
     # $ sudo nix-channel --add https://nixos.org/channels/nixos-18.09 nixos
     # $ sudo nixos-rebuild switch --upgrade
-    stateVersion = "19.03"; # Did you read the comment?
+    stateVersion = "19.09"; # Did you read the comment?
   };
   virtualisation = {
     docker.enable = true; 

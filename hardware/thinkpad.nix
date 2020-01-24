@@ -24,19 +24,19 @@
     { device = "/dev/nvme0n1p1";
       fsType = "vfat";
     };
-  hardware = {
-    nvidiaOptimus.disable = true;
-    opengl = {
-    extraPackages = [
-    pkgs.linuxPackages.nvidia_x11.out
-    pkgs.vaapiIntel
-    pkgs.vaapiVdpau
-    pkgs.libvdpau-va-gl
-    ];
-    driSupport = true;
+# hardware = {
+#   nvidiaOptimus.disable = true;
+#   opengl = {
+#   extraPackages = [
+#   pkgs.linuxPackages.nvidia_x11.out
+#   pkgs.vaapiIntel
+#   pkgs.vaapiVdpau
+#   pkgs.libvdpau-va-gl
+#   ];
+#   driSupport = true;
 
-    };
-  };
+#   };
+# };
 
   nix.maxJobs = lib.mkDefault 8;
   powerManagement.cpuFreqGovernor = lib.mkDefault "powersave";
