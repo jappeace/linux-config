@@ -39,6 +39,7 @@
         0.0.0.0 linkedin.com
         0.0.0.0 twitch.com
         0.0.0.0 www.twitch.com
+        127.0.0.1 rabbitmq-cluster
         '';
     };
 
@@ -129,7 +130,8 @@
         feh
         dnsutils
 	pciutils
-	# inxi
+	inxi
+   jetbrains.idea-community
 
         sloccount
         cloc
@@ -167,8 +169,19 @@
               fira-code
               fira-code-symbols
               corefonts
+              noto-fonts-emoji
+              twemoji-color-font
+              # pkgsUnstable.joypixels
+              joypixels 
         ];
+        fontconfig = {
+            defaultFonts = {
+                monospace = [ "Fira Code" ];
+                emoji = ["Joypixels"];
+            };
+        };
   };
+
 
   # Open ports in the firewall.
   networking.firewall.allowedTCPPorts = [ 6868 7777 ];
@@ -240,6 +253,10 @@
   # Enable the OpenSSH daemon.
   # services.openssh.enable = true;
   services = {
+    # rabbitmq = {
+      # enable = true;
+     #  plugins = ["rabbitmq_management"];
+    # };
    #gitlab = {
    #  enable = true;
    #  databasePassword = pkgs.lib.fileContents "/home/gitlabdbpass";
