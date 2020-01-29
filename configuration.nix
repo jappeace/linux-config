@@ -343,11 +343,11 @@
 			  tapping = true;
 			  disableWhileTyping = true;
 			}; 
-			screenSection = ''
-      SubSection        "Display"
-            Modes   "1920x1080"
-      EndSubSection
-			'';
+			# screenSection = ''
+      # SubSection        "Display"
+      #       Modes   "1920x1080"
+      # EndSubSection
+			# '';
 			videoDrivers = [ "intel" "nvidia" ];
 			desktopManager.xfce.enable = true; # for the xfce-panel in i3
 			desktopManager.xfce.noDesktop = true;
