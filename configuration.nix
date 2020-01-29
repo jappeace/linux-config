@@ -344,8 +344,26 @@
 			  disableWhileTyping = true;
 			}; 
 			deviceSection = ''
-			
-			''
+  Section "Monitor"
+      Identifier "Monitor0"
+  EndSection
+   Section Device
+    Identifier        "Device0"
+    Driver            "i915"
+    VendorName        "Intel Corporation"
+    BusID             "PCI:0:0:02.0"
+  EndSection
+   Section Screen
+    Identifier        "Screen0"
+    Device            "Device0"
+    Monitor           "Monitor0"
+    DefaultDepth      24
+    SubSection        "Display"
+      Depth   16
+      Modes   "1920x1080_60.00"
+    EndSubSection
+  EndSection
+			'';
 			videoDrivers = [ "intel" "nvidia" ];
 			desktopManager.xfce.enable = true; # for the xfce-panel in i3
 			desktopManager.xfce.noDesktop = true;
