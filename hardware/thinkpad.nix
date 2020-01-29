@@ -25,6 +25,9 @@
       fsType = "vfat";
     };
  hardware = {
+   nvidia.optimus_prime.enable = true;
+   hardware.nvidia.optimus_prime.intelBusId = "PCI:00:02:0";
+   hardware.nvidia.optimus_prime.nvidiaBusId = "PCI:01:00:0";
    # nvidiaOptimus.disable = true;
  };
 
