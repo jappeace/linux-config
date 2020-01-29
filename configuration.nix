@@ -7,7 +7,7 @@
   imports =
     [ # Include the results of the hardware scan.
       ./hardware/thinkpad.nix
-      # ./emacs
+      ./emacs
     ];
   
   # Use the systemd-boot EFI boot loader.
@@ -348,7 +348,7 @@
       #       Modes   "1920x1080"
       # EndSubSection
 			# '';
-			videoDrivers = [ "intel" "nvidia" ];
+			videoDrivers = [ "nvidia" ];
 			desktopManager.xfce.enable = true; # for the xfce-panel in i3
 			desktopManager.xfce.noDesktop = true;
 			desktopManager.xfce.enableXfwm = false ; # try disabling xfce popping over i3
