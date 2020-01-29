@@ -28,7 +28,6 @@
    # nvidiaOptimus.disable = true;
    opengl = {
    extraPackages = [
-
    pkgs.libGL_driver
    pkgs.linuxPackages.nvidia_x11.out
    pkgs.vaapiIntel
@@ -36,6 +35,7 @@
    pkgs.libvdpau-va-gl
    ];
    driSupport = true;
+   driSupport32Bit = true;
 
    };
  };
