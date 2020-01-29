@@ -344,10 +344,8 @@
 			  disableWhileTyping = true;
 			}; 
 			screenSection = ''
-      DefaultDepth      24
       SubSection        "Display"
-            Depth   16
-            Modes   "1920x1080"x60.0
+            Modes   "1920x1080"
       EndSubSection
 			'';
 			videoDrivers = [ "intel" "nvidia" ];
