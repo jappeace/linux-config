@@ -9,7 +9,7 @@
     ];
 
   boot.initrd.availableKernelModules = [ "xhci_pci" "ahci" "nvme" "usb_storage" "usbhid" "sd_mod" "rtsx_pci_sdmmc" ];
-  boot.kernelModules = [ "kvm-intel" ];
+  boot.kernelModules = [ "kvm-intel" "nvidia"];
   boot.extraModulePackages = [ ];
 
   fileSystems."/" =
@@ -24,19 +24,21 @@
     { device = "/dev/nvme0n1p1";
       fsType = "vfat";
     };
-# hardware = {
-#   nvidiaOptimus.disable = true;
-#   opengl = {
-#   extraPackages = [
-#   pkgs.linuxPackages.nvidia_x11.out
-#   pkgs.vaapiIntel
-#   pkgs.vaapiVdpau
-#   pkgs.libvdpau-va-gl
-#   ];
-#   driSupport = true;
+ hardware = {
+   nvidiaOptimus.disable = true;
+   opengl = {
+   extraPackages = [
 
-#   };
-# };
+   pkgs.libGL_driver
+   pkgs.linuxPackages.nvidia_x11.out
+   pkgs.vaapiIntel
+   pkgs.vaapiVdpau
+   pkgs.libvdpau-va-gl
+   ];
+   driSupport = true;
+
+   };
+ };
 
   nix.maxJobs = lib.mkDefault 8;
   powerManagement.cpuFreqGovernor = lib.mkDefault "powersave";
