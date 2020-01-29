@@ -342,7 +342,10 @@
 			  enable = true;
 			  tapping = true;
 			  disableWhileTyping = true;
-			};
+			}; 
+			deviceSection = ''
+			
+			''
 			videoDrivers = [ "intel" "nvidia" ];
 			desktopManager.xfce.enable = true; # for the xfce-panel in i3
 			desktopManager.xfce.noDesktop = true;

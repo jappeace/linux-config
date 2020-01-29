@@ -9,7 +9,7 @@
     ];
 
   boot.initrd.availableKernelModules = [ "xhci_pci" "ahci" "nvme" "usb_storage" "usbhid" "sd_mod" "rtsx_pci_sdmmc" ];
-  boot.kernelModules = [ "kvm-intel" "nvidia"];
+  boot.kernelModules = [ "kvm-intel" ];
   boot.extraModulePackages = [ ];
 
   fileSystems."/" =
@@ -25,7 +25,7 @@
       fsType = "vfat";
     };
  hardware = {
-   nvidiaOptimus.disable = true;
+   # nvidiaOptimus.disable = true;
    opengl = {
    extraPackages = [
 
