@@ -348,7 +348,7 @@
       #       Modes   "1920x1080"
       # EndSubSection
 			# '';
-			videoDrivers = [ "nvidia" ];
+			videoDrivers = [ "nvidia" ]; # "displaylink" # it says use displaylink: https://discourse.nixos.org/t/external-displays-through-usb-c-dock-dont-work/5014/9
 			desktopManager.xfce.enable = true; # for the xfce-panel in i3
 			desktopManager.xfce.noDesktop = true;
 			desktopManager.xfce.enableXfwm = false ; # try disabling xfce popping over i3
