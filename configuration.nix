@@ -253,11 +253,11 @@
   # Enable the OpenSSH daemon.
   # services.openssh.enable = true;
   services = {
-    # rabbitmq = {
-      # enable = true;
-     #  plugins = ["rabbitmq_management"];
-    # };
-   #gitlab = {
+    rabbitmq = {
+      enable = true;
+      plugins = ["rabbitmq_management"];
+    };
+   # gitlab = {
    #  enable = true;
    #  databasePassword = pkgs.lib.fileContents "/home/gitlabdbpass";
    #  port = 7777;
