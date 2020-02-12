@@ -415,7 +415,10 @@ in {
 			  tapping = true;
 			  disableWhileTyping = true;
 			};
-			videoDrivers = [ "intel" ];
+			videoDrivers = [ "intel" "displaylink"];  # "displaylink" # it says use displaylink: https://discourse.nixos.org/t/external-displays-through-usb-c-dock-dont-work/5014/9
+      # to insall display link I clicked the link and used developer tool network section to see which uri was generated.
+      # it'll print the link and we can just use nix-prefetch url like it tells us.
+      # also need to specifiy --name displaylink.zip
 			desktopManager.xfce.enable = true; # for the xfce-panel in i3
 			desktopManager.xfce.noDesktop = true;
 			desktopManager.xfce.enableXfwm = false ; # try disabling xfce popping over i3
