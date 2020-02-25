@@ -74,6 +74,7 @@ packagedEmacs =
     # lsp-rust https://github.com/emacs-lsp/lsp-rust
   ]) ++ (with epkgs.elpaPackages; [
     # ehh
+    cobol-mode
   ])));
 in
     packagedEmacs 

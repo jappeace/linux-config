@@ -670,6 +670,7 @@ two prefix arguments, write out the day and month name."
       (add-hook 'htmlize-after-hook #'modi/htmlize-after-hook-flyspell-enable-maybe))))
 
 (use-package php-mode)
+(use-package cobol-mode)
 
 (use-package dante
   :after haskell-mode
