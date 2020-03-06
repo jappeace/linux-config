@@ -217,7 +217,7 @@
 ;; load packages
 (use-package evil
   :init
-  (setq evil-want-integration nil) ; required for evil collection; but I patched it so no
+  (setq evil-want-keybinding nil) 
   :config
   (evil-mode 1)
   )
@@ -233,10 +233,8 @@
 
 (use-package evil-collection
   :after evil
-  :custom
-  (evil-want-integration nil) ; required for evil collection; but I patched it so no
   :config
-  (evil-collection-init 'diff-mode))
+  (evil-collection-init))
 
 ;; todo delete in favor of evil collection?
 (use-package evil-magit
