@@ -38,16 +38,18 @@ in
     # randomly checking them, even several times in a row.
     # Blocking them permenantly for a week or so gets rid of that behavior
     extraHosts = ''
+        0.0.0.0 reddit.com
+        0.0.0.0 www.reddit.com
         0.0.0.0 news.ycombinator.com
         0.0.0.0 facebook.com
         0.0.0.0 www.facebook.com
         0.0.0.0 trader.degiro.com
         0.0.0.0 www.degiro.com
-        0.0.0.0 trader.degiro.com
         0.0.0.0 twitter.com
-        0.0.0.0 www.twitter.com
-        0.0.0.0 www.linkedin.com
-        0.0.0.0 www.reddit.com
+        0.0.0.0 trader.degiro.nl
+        0.0.0.0 covid19info.live
+        0.0.0.0 linkdedin.com
+        0.0.0.0 www.linkdedin.com
         '';
     };
 
@@ -86,6 +88,7 @@ in
       gromit-mpx # draw on screen
       usbutils
       pkgsUnstable.boomer
+      gcc
 
     # lm-sensors
     fd # better find, 50% shorter command!
@@ -411,7 +414,7 @@ in
     # sudo nix-channel --update
     # sudo nix-channel --list
     # click nixos link, and in title copy over the hash
-    nixos.version = "19.09.1625.0dc46b0e1c8";
+    nixos.version = "19.09.2032.2de9367299f";
 
   # This value determines the NixOS release with which your system is to be
   # compatible, in order to avoid breaking some software such as database
