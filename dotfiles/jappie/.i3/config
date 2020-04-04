@@ -28,13 +28,14 @@ bindsym --release $mod+Ctrl+p exec --no-startup-id "xdotool keyup ctrl keyup alt
 bindsym --release $mod+Ctrl+m exec --no-startup-id "xdotool keyup ctrl keyup alt type --delay 5 0644237437"
 bindsym --release $mod+Ctrl+s exec --no-startup-id "xdotool keyup ctrl keyup alt type --delay 5 Kerkdijk\ 2"
 bindsym --release $mod+Ctrl+c exec --no-startup-id "xdotool keyup ctrl keyup alt type --delay 5 The\ Netherlands"
-bindsym --release $mod+Ctrl+d exec --no-startup-id "xdotool keyup ctrl keyup alt type --delay 5 Drenthe"
-bindsym --release $mod+Ctrl+l exec --no-startup-id "xdotool keyup ctrl keyup alt type --delay 5 Ansen"
-bindsym --release $mod+Ctrl+z exec --no-startup-id "xdotool keyup ctrl keyup alt type --delay 5 7964KB"
+bindsym --release $mod+Ctrl+d exec --no-startup-id "xdotool keyup ctrl keyup alt type --delay 5 Overijssel"
+bindsym --release $mod+Ctrl+l exec --no-startup-id "xdotool keyup ctrl keyup alt type --delay 5 Kampen"
+bindsym --release $mod+Ctrl+z exec --no-startup-id "xdotool keyup ctrl keyup alt type --delay 5 8262AN"
 bindsym --release $mod+Ctrl+n exec --no-startup-id "xdotool keyup ctrl keyup alt type --delay 5 Jappie\ Klooster"
 bindsym --release $mod+Ctrl+1 exec --no-startup-id "xdotool keyup ctrl keyup alt type --delay 5 Jappie"
 bindsym --release $mod+Ctrl+2 exec --no-startup-id "xdotool keyup ctrl keyup alt type --delay 5 Klooster"
 bindsym --release $mod+Ctrl+w exec --no-startup-id "xdotool keyup ctrl keyup alt type --delay 5 https://jappieklooster.nl"
+
 
 
 bindsym $mod+Shift+a exec boomer
