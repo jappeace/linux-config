@@ -3,34 +3,10 @@
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
 { config, pkgs, ... }:
-let 
-  wineOver = pkgs.wine.override {
-    wineRelease = "staging";
-    wineBuild = "wine64";
-    pngSupport = true;
-    jpegSupport = true;
-    gettextSupport = true;
-    fontconfigSupport = true;
-    alsaSupport = true;
-    gtkSupport = true;
-    openglSupport = true;
-    tlsSupport = true;
-    gstreamerSupport = true;
-    cupsSupport = true;
-    colorManagementSupport = true;
-    dbusSupport = true;
-    mpg123Support = true;
-    openalSupport = true;
-    cairoSupport = true;
-    netapiSupport = true;
-    cursesSupport = true;
-    pulseaudioSupport = true;
-    udevSupport = true;
-};
-in {
+{
   imports =
     [ # Include the results of the hardware scan.
-      ./hardware/tuxedo.nix
+      ./hardware/thinkpad.nix
       ./emacs
     ];
   
@@ -63,6 +39,7 @@ in {
         0.0.0.0 linkedin.com
         0.0.0.0 twitch.com
         0.0.0.0 www.twitch.com
+        127.0.0.1 rabbitmq-cluster
         '';
     };
 
@@ -99,9 +76,7 @@ in {
       gource
       p7zip
         bc # random calcualtions
-        androidenv.platformTools
-        android-studio
-        thunar
+       thunar
         openjdk # we need to be able to run java stuff (plantuml)
         plantuml # for thesis uml amongst other things, it's pretty nice
         inkscape # gotta make that artwork for site etc
@@ -120,7 +95,7 @@ in {
         keepassxc # to open my passwords
         syncthing # keepassfile in here
         tree # sl
-        gnome3.gnome-terminal # resizes collumns, good for i3
+	konsole
         xfce4-panel xfce4-battery-plugin xfce4-clipman-plugin
         xfce4-datetime-plugin xfce4-dockbarx-plugin xfce4-embed-plugin
         xfce4-eyes-plugin xfce4-fsguard-plugin
@@ -154,6 +129,9 @@ in {
         htop
         feh
         dnsutils
+	pciutils
+	inxi
+   jetbrains.idea-community
 
         sloccount
         cloc
@@ -191,8 +169,19 @@ in {
               fira-code
               fira-code-symbols
               corefonts
+              noto-fonts-emoji
+              twemoji-color-font
+              # pkgsUnstable.joypixels
+              joypixels 
         ];
+        fontconfig = {
+            defaultFonts = {
+                monospace = [ "Fira Code" ];
+                emoji = ["Joypixels"];
+            };
+        };
   };
+
 
   # Open ports in the firewall.
   networking.firewall.allowedTCPPorts = [ 6868 7777 ];
@@ -211,9 +200,6 @@ in {
   	allowUnfree = true; # I'm horrible, nvidia sucks, TODO kill nvidia
 	  firefox = {
 		enableGoogleTalkPlugin = true;
-	  };
-	  chromium = {
-		enablePepperPDF = true;
 	  };
 	  pulseaudio = true;
 	  packageOverrides = pkgs: {
@@ -267,7 +253,11 @@ in {
   # Enable the OpenSSH daemon.
   # services.openssh.enable = true;
   services = {
-   #gitlab = {
+    rabbitmq = {
+      enable = true;
+      plugins = ["rabbitmq_management"];
+    };
+   # gitlab = {
    #  enable = true;
    #  databasePassword = pkgs.lib.fileContents "/home/gitlabdbpass";
    #  port = 7777;
@@ -285,7 +275,7 @@ in {
       fade = true;
       inactiveOpacity = "0.925";
       fadeSteps = ["0.04" "0.04"];
-      extraOptions = "no-fading-openclose = true"; # don't fade on workspace shift, annoying: https://github.com/chjj/compton/issues/314
+      # extraOptions = "no-fading-openclose = true"; # don't fade on workspace shift, annoying: https://github.com/chjj/compton/issues/314
     };
     openssh = {
       enable = true;
@@ -327,7 +317,6 @@ in {
         '';
     };
 
-		gnome3.gnome-terminal-server.enable = true;
 		syncthing = {
           enable = true;
           user = "jappie";
@@ -340,7 +329,7 @@ in {
 		# services.xserver.layout = "us";
 		# services.xserver.xkbOptions = "eurosign:e";
 		xserver = {
-			autorun = true; # disable on troubles
+			# autorun = true; # disable on troubles
 			displayManager = {
 				slim = {
 				  defaultUser = "jappie";
@@ -353,8 +342,14 @@ in {
 			  enable = true;
 			  tapping = true;
 			  disableWhileTyping = true;
-			};
-			videoDrivers = [ "intel" "nvidia" ];
+			}; 
+			# screenSection = ''
+      # SubSection        "Display"
+      #       Modes   "1920x1080"
+      # EndSubSection
+			# '';
+			videoDrivers = [ "nvidia" "displaylink" ]; # "displaylink" # it says use displaylink: https://discourse.nixos.org/t/external-displays-through-usb-c-dock-dont-work/5014/9
+      # to insall display link I clicked the link and used developer tool network section to see which uri was generated.
 			desktopManager.xfce.enable = true; # for the xfce-panel in i3
 			desktopManager.xfce.noDesktop = true;
 			desktopManager.xfce.enableXfwm = false ; # try disabling xfce popping over i3
@@ -367,12 +362,12 @@ in {
 
 		redshift = {
 			enable = true;
-			provider = "geoclue2";
 		};
 
     # https://github.com/rfjakob/earlyoom
     earlyoom.enable = true; # kills big processes better then kernel
   };
+  location.provider = "geoclue2";
 
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
@@ -392,7 +387,7 @@ in {
     # sudo nix-channel --update
     # sudo nix-channel --list
     # click nixos link, and in title copy over the hash
-    nixos.version = "19.03.173000.1c6bdbc766e";
+    # nixos.version = "19.09.173000.1c6bdbc766e";
 
   # This value determines the NixOS release with which your system is to be
   # compatible, in order to avoid breaking some software such as database
@@ -401,7 +396,7 @@ in {
     # to upgrade, add a channel:
     # $ sudo nix-channel --add https://nixos.org/channels/nixos-18.09 nixos
     # $ sudo nixos-rebuild switch --upgrade
-    stateVersion = "19.03"; # Did you read the comment?
+    stateVersion = "19.09"; # Did you read the comment?
   };
   virtualisation = {
     docker.enable = true; 
