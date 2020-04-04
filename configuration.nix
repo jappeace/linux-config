@@ -6,7 +6,7 @@
 {
   imports =
     [ # Include the results of the hardware scan.
-      ./hardware/thinkpad.nix
+      ./hardware/tuxedo.nix
       ./emacs
     ];
   
@@ -253,11 +253,11 @@
   # Enable the OpenSSH daemon.
   # services.openssh.enable = true;
   services = {
-    rabbitmq = {
-      enable = true;
-      plugins = ["rabbitmq_management"];
-    };
-   # gitlab = {
+   #  rabbitmq = {
+   #    enable = true;
+   #    plugins = ["rabbitmq_management"];
+   #  };
+   # # gitlab = {
    #  enable = true;
    #  databasePassword = pkgs.lib.fileContents "/home/gitlabdbpass";
    #  port = 7777;
@@ -348,7 +348,7 @@
       #       Modes   "1920x1080"
       # EndSubSection
 			# '';
-			videoDrivers = [ "nvidia" "displaylink" ]; # "displaylink" # it says use displaylink: https://discourse.nixos.org/t/external-displays-through-usb-c-dock-dont-work/5014/9
+			videoDrivers = [ "intel" "nvidia" ]; # "displaylink" # it says use displaylink: https://discourse.nixos.org/t/external-displays-through-usb-c-dock-dont-work/5014/9
       # to insall display link I clicked the link and used developer tool network section to see which uri was generated.
 			desktopManager.xfce.enable = true; # for the xfce-panel in i3
 			desktopManager.xfce.noDesktop = true;
