@@ -89,6 +89,7 @@ in
       usbutils
       pkgsUnstable.boomer
       gcc
+      scrcpy
 
     # lm-sensors
     fd # better find, 50% shorter command!
