@@ -4,6 +4,8 @@
 
 { config, pkgs, ... }:
 let
+devpackeges = import /home/jappie/projects/nixpkgs { };
+
 pkgsUnstable = import ./pin-unstable.nix {
      config.allowUnfree = true;
      overlays = [
@@ -13,6 +15,7 @@ pkgsUnstable = import ./pin-unstable.nix {
                 ];
 
     config.allowBroken = true;
+    config.oraclejdk.accept_license = true;
      };
 in
 {
@@ -81,7 +84,7 @@ in
       idris
       vscode
       atom
-      pkgsUnstable.cut-the-crap
+      devpackeges.haskellPackages.cut-the-crap
       lsof
       hyper
       ffmpeg
@@ -90,6 +93,11 @@ in
       pkgsUnstable.boomer
       gcc
       scrcpy
+      audacity
+      xss-lock
+      i3lock
+
+      pkgsUnstable.ib-tws # intereactive brokers trader workstation
 
     # lm-sensors
     fd # better find, 50% shorter command!
@@ -157,7 +165,7 @@ in
         tcpdump
         ntfs3g
         qdirstat
-        youtube-dl
+        pkgsUnstable.youtube-dl
         google-cloud-sdk
         htop
         feh
@@ -167,6 +175,7 @@ in
         espeak
       pandoc
       wine
+      teamviewer
 
         sloccount
         cloc

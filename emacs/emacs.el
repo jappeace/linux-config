@@ -445,7 +445,7 @@
   :after evil
   :config
   (custom-set-variables
-   ;; '(haskell-font-lock-symbols t)
+   ;; '(haskell-font-lock-symbols t) 
    '(haskell-stylish-on-save t) ;; disable w/ (setq haskell-stylish-on-save nil)
    ;; enable w/ (setq haskell-stylish-on-save t)
    '(haskell-hoogle-command (concat (projectile-project-root) "scripts/hoogle.sh"))
@@ -670,7 +670,11 @@ two prefix arguments, write out the day and month name."
       (add-hook 'htmlize-before-hook #'modi/htmlize-before-hook-flyspell-disable)
       (add-hook 'htmlize-after-hook #'modi/htmlize-after-hook-flyspell-enable-maybe))))
 
-(use-package php-mode)
+(use-package php-mode
+  :config
+  ;; dante's xref doesn't work for mutli-project setups, we just use etags
+  ;; (remove-hook 'xref-backend-functions 'dante--xref-backend)
+  )
 
 (use-package dante
   :after haskell-mode
@@ -683,10 +687,11 @@ two prefix arguments, write out the day and month name."
   (with-eval-after-load 'dante
     (flycheck-add-next-checker 'haskell-dante
                                '(warning . haskell-hlint)))
-    
+  
   :config
   ;; dante's xref doesn't work for mutli-project setups, we just use etags
-  (remove-hook 'xref-backend-functions 'dante--xref-backend))
+  (remove-hook 'xref-backend-functions 'dante--xref-backend)
+  )
   
 (use-package parinfer
   :init
@@ -706,7 +711,9 @@ two prefix arguments, write out the day and month name."
     (add-hook 'lisp-mode-hook #'parinfer-mode)))
 
 (use-package pretty-symbols)
+(use-package cobol-mode)
 (use-package idris-mode)
+(use-package lua-mode)
 
 (defun unicode-symbol (name)
   "Translate a symbolic name for a Unicode character -- e.g., LEFT-ARROW
