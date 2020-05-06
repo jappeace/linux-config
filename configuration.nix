@@ -203,6 +203,8 @@ in {
     atom
     unrar
     # jetbrains.idea-community
+      xss-lock
+      i3lock
 
         ncdu # shell based q4dirstat
 
