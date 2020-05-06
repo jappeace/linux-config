@@ -105,6 +105,7 @@ in {
     scribus
     wget
     obs-studio
+    teamviewer
     fd # better find, 50% shorter command!
     qemu
     git-secrets # this appears to be broken
