@@ -96,6 +96,7 @@ in
       audacity
       xss-lock
       i3lock
+      skype
 
       pkgsUnstable.ib-tws # intereactive brokers trader workstation
 
