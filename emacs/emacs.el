@@ -268,6 +268,7 @@
    "SPC" '(avy-goto-word-or-subword-1  :which-key "go to char")
    "b"	'ivy-switch-buffer  ; change buffer, chose using ivy
 
+   "!"  'shell
    "j"  'xref-find-definitions ; lsp find definition
    "x"  'xref-find-references ; find usages
    "l"  'counsel-list-processes
@@ -488,7 +489,7 @@
 (use-package lsp-ui :after lsp)
 (use-package lsp-haskell
   :disabled ;; Need to look at: https://github.com/thalesmg/reflex-skeleton/
-            ;; For custom preludes we need to consider -XNoImplicitprelude
+  ;; For custom preludes we need to consider -XNoImplicitprelude
   :after lsp-mode
   :config
                                         ; https://github.com/emacs-lsp/lsp-haskell/blob/master/lsp-haskell.el#L57
