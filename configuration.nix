@@ -97,6 +97,7 @@ in
       xss-lock
       i3lock
       skype
+      nixfmt
 
 
 
