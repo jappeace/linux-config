@@ -57,10 +57,12 @@ in
     };
 
   # Select internationalisation properties.
+  console = {
+      font = "firacode-14";
+      keyMap = "us";
+  };
   i18n = {
     # consoleFont = "Lat2-Terminus16";
-    consoleFont = "firacode-14";
-    consoleKeyMap = "us";
     defaultLocale = "nl_NL.UTF-8";
     supportedLocales = ["en_US.UTF-8/UTF-8" "nl_NL.UTF-8/UTF-8"];
   };
@@ -73,6 +75,7 @@ in
   environment = {
 	  systemPackages = with pkgs.xfce // pkgs; [
       audacious
+      filezilla
     pkgsUnstable.obs-studio
     slop
     xorg.xhost
@@ -82,11 +85,8 @@ in
     blender
       mesa
       idris
-      vscode
-      atom
       devpackeges.haskellPackages.cut-the-crap
       lsof
-      hyper
       ffmpeg
       gromit-mpx # draw on screen
       usbutils
@@ -98,6 +98,8 @@ in
       i3lock
       skype
 
+
+
       pkgsUnstable.ib-tws # intereactive brokers trader workstation
 
     # lm-sensors
@@ -105,7 +107,6 @@ in
     docker_compose
     pgcli # better postgres cli client
     unrar
-    gtk-recordmydesktop
     sshuttle
       nixops
 	  	firmwareLinuxNonfree
@@ -124,7 +125,6 @@ in
         jq # deal with json on commandline
         wireguard # easier vpn
         sqlite-interactive # hack nixops
-        litecli
         gimp # edit my screenshots
         curl
         neovim # because emacs never breaks
@@ -138,7 +138,8 @@ in
         pkgsUnstable.obs-linuxbrowser # install instructions: https://github.com/NixOS/nixpkgs/blob/master/pkgs/applications/video/obs-studio/linuxbrowser.nix
         xfce4-panel xfce4-battery-plugin xfce4-clipman-plugin
         xfce4-datetime-plugin xfce4-dockbarx-plugin xfce4-embed-plugin
-        xfce4-eyes-plugin xfce4-fsguard-plugin
+        pkgsUnstable.xfce.xfce4-eyes-plugin
+        pkgsUnstable.xfce.xfce4-fsguard-plugin
         xfce4-namebar-plugin xfce4-whiskermenu-plugin # xfce plugins
         rofi # dmenu replacement (fancy launcher)
         xlibs.xmodmap # rebind capslock to escape
@@ -162,7 +163,6 @@ in
         # fbreader # read books # TODO broken?
         libreoffice
         qpdfview
-        mcomix
         tcpdump
         ntfs3g
         qdirstat
@@ -177,6 +177,7 @@ in
       pandoc
       wine
       teamviewer
+      tmate
 
         sloccount
         cloc
@@ -226,7 +227,7 @@ in
   };
 
   # Open ports in the firewall.
-  networking.firewall.allowedTCPPorts = [ 6868 4713 ];
+  networking.firewall.allowedTCPPorts = [ 6868 4713 8081 ];
   # networking.firewall.allowedUDPPorts = [ ... ];
   # Or disable the firewall altogether.
   # networking.firewall.enable = false;
@@ -333,6 +334,9 @@ in
         enable = true;
         nssmdns = true;
     };
+    redis = {
+      enable = true;
+    };
 
     postgresql = {
       enable = true; # postgres for local dev
@@ -375,12 +379,17 @@ in
 		xserver = {
 			autorun = true; # disable on troubles
 			displayManager = {
-				slim = {
-				  defaultUser = "jappie";
+				sddm = {
+          enable = true;
+          autoLogin = {
+            user = "jappie";
+            enable = true;
+          };
 				};
 				sessionCommands = ''
 					${pkgs.xlibs.xmodmap}/bin/xmodmap ~/.Xmodmap
 				'';
+        defaultSession = "none+i3";
 			};
 			libinput = {
 			  enable = true;
@@ -393,7 +402,6 @@ in
 			desktopManager.xfce.enableXfwm = false ; # try disabling xfce popping over i3
 			# desktopManager.gnome3.enable = true; # to get the themes working with gnome-tweak tool
 			windowManager.i3.enable = true;
-			windowManager.default = "i3";
 			enable = true;
 			layout = "us";
 		};
@@ -425,7 +433,7 @@ in
     # sudo nix-channel --update
     # sudo nix-channel --list
     # click nixos link, and in title copy over the hash
-    nixos.version = "19.09.2032.2de9367299f";
+    # nixos.version = "19.09.2032.2de9367299f";
 
   # This value determines the NixOS release with which your system is to be
   # compatible, in order to avoid breaking some software such as database
@@ -434,7 +442,7 @@ in
     # to upgrade, add a channel:
     # $ sudo nix-channel --add https://nixos.org/channels/nixos-18.09 nixos
     # $ sudo nixos-rebuild switch --upgrade
-    stateVersion = "19.09"; # Did you read the comment?
+    stateVersion = "20.03"; # Did you read the comment?
   };
   virtualisation = {
     docker.enable = true; 
@@ -450,12 +458,16 @@ in
       "https://cache.nixos.org"
       "https://hydra.iohk.io" # cardano
       "https://nixcache.reflex-frp.org" # reflex
+      "https://fairy-tale-agi-solutions.cachix.org"
+      "https://jappie.cachix.org"
       # "https://static-haskell-nix.cachix.org"
     ];
     binaryCachePublicKeys = [
       # "hydra.iohk.io:f/Ea+s+dFdN+3Y/G+FDgSq+a5NEWhJGzdjvKNGv0/EQ=" # cardano
       "ryantrinkle.com-1:JJiAKaRv9mWgpVAz8dwewnZe0AzzEAzPkagE9SP5NWI=" # reflex
       "static-haskell-nix.cachix.org-1:Q17HawmAwaM1/BfIxaEDKAxwTOyRVhPG5Ji9K3+FvUU="
+      "jappie.cachix.org-1:+5Liddfns0ytUSBtVQPUr/Wo6r855oNLgD4R8tm1AE4="
+      "fairy-tale-agi-solutions.cachix.org-1:FwDwUQVY1jJIz5/Z3Y9d0hNPNmFqMEr6wW+D99uaEGs="
     ];
   };
 }
