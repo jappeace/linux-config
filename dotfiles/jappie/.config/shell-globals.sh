@@ -67,3 +67,5 @@ export ANSIBLE_COW_SELECTION=random
 #nix (not neccisary for nixos)
 # source /home/jappie/.nix-profile/etc/profile.d/nix.sh
 
+
+export YESOD_ENV="development"
