@@ -205,6 +205,10 @@ in {
     # jetbrains.idea-community
       xss-lock
       i3lock
+    kitty
+
+    haskellPackages.ipprint
+    haskellPackages.hscolour
 
         ncdu # shell based q4dirstat
 
