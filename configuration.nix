@@ -99,6 +99,8 @@ in {
       atom
       mpv
       discord
+      ark
+
       pkgsUnstable.anydesk
 
       pkgsUnstable.ib-tws # intereactive brokers trader workstation
