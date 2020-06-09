@@ -300,9 +300,15 @@ in {
       anonymousClients.allowAll = true; # bite me
     };
   };
-  hardware.opengl.enable = true;
-  hardware.opengl.driSupport = true;
-  hardware.opengl.driSupport32Bit = true;
+  hardware.opengl = {
+    enable = true;
+    driSupport = true;
+    driSupport32Bit = true;
+    setLdLibraryPath = true;
+    extraPackages = with pkgs; [
+       libGL
+    ];
+  };
   # TODO figure this out, the fans are just running wild but I should be able to software control them
   # systemd.services.fancontrol = let configFile = pkgs.writeText "fancontrol.conf" ""; in {
   #   unitConfig.Documentation = "man:fancontrol(8)";
