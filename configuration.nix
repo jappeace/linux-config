@@ -96,6 +96,7 @@ in {
       i3lock
       skype
       nixfmt
+      atom
       mpv
 
       pkgsUnstable.ib-tws # intereactive brokers trader workstation
