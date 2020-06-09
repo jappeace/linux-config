@@ -137,7 +137,6 @@ in {
       imagemagick
       keepassxc # to open my passwords
       tree # sl
-      gnome3.gnome-terminal # resizes collumns, good for i3
       pkgsUnstable.obs-linuxbrowser # install instructions: https://github.com/NixOS/nixpkgs/blob/master/pkgs/applications/video/obs-studio/linuxbrowser.nix
       xfce4-panel
       xfce4-battery-plugin
