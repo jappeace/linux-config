@@ -327,7 +327,9 @@ in {
   # Enable the OpenSSH daemon.
   # services.openssh.enable = true;
   services = {
-
+    # free curl: sudo killall -HUP tor && curl --socks5-hostname 127.0.0.1:9050 https://ifconfig.me
+    tor.enable = true;
+    tor.client.enable = true;
     compton = { # allows for fading of windows and transparancy
       enable = true;
       fade = true;
