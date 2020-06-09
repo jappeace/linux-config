@@ -98,6 +98,7 @@ in {
       nixfmt
       atom
       mpv
+      discord
       pkgsUnstable.anydesk
 
       pkgsUnstable.ib-tws # intereactive brokers trader workstation
