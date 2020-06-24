@@ -34,16 +34,20 @@ packagedEmacs =
     counsel-projectile
     evil-escape
     elm-mode
+    lua-mode
     fill-column-indicator # 80 char
     haskell-mode
     yasnippet
     magit
     evil
     evil-magit
+    parinfer
+
     # evil-org # broken
     # dracula-theme
   ]) ++ (with epkgs.melpaPackages; [
     dante
+    ox-reveal # org reveal
     htmlize
     general # keybindings
     monokai-theme
@@ -69,7 +73,10 @@ packagedEmacs =
     nix-haskell-mode # https://github.com/matthewbauer/nix-haskell-mode
     nix-sandbox
     evil-collection
-    parinfer
+    smartparens
+    nyan-mode
+    idris-mode
+
 
     # lsp-rust https://github.com/emacs-lsp/lsp-rust
   ]) ++ (with epkgs.elpaPackages; [

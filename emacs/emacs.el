@@ -222,6 +222,8 @@
   (evil-mode 1)
   )
 
+(use-package smartparens)
+(use-package nyan-mode)
 (use-package cider)
 (use-package clojure-mode)
 
@@ -266,6 +268,7 @@
    "SPC" '(avy-goto-word-or-subword-1  :which-key "go to char")
    "b"	'ivy-switch-buffer  ; change buffer, chose using ivy
 
+   "!"  'shell
    "j"  'xref-find-definitions ; lsp find definition
    "x"  'xref-find-references ; find usages
    "l"  'counsel-list-processes
@@ -443,7 +446,7 @@
   :after evil
   :config
   (custom-set-variables
-   ;; '(haskell-font-lock-symbols t)
+   ;; '(haskell-font-lock-symbols t) 
    '(haskell-stylish-on-save t) ;; disable w/ (setq haskell-stylish-on-save nil)
    ;; enable w/ (setq haskell-stylish-on-save t)
    '(haskell-hoogle-command (concat (projectile-project-root) "scripts/hoogle.sh"))
@@ -479,11 +482,14 @@
 (use-package evil-org
   :disabled
   )
+(use-package ox-reveal
+  :disabled
+  )
 (use-package lsp-mode :commands lsp)
 (use-package lsp-ui :after lsp)
 (use-package lsp-haskell
   :disabled ;; Need to look at: https://github.com/thalesmg/reflex-skeleton/
-            ;; For custom preludes we need to consider -XNoImplicitprelude
+  ;; For custom preludes we need to consider -XNoImplicitprelude
   :after lsp-mode
   :config
                                         ; https://github.com/emacs-lsp/lsp-haskell/blob/master/lsp-haskell.el#L57
@@ -618,7 +624,7 @@ two prefix arguments, write out the day and month name."
   (setq fci-rule-width 2)
   )
 
-;; (use-package ox-reveal)
+(use-package ox-reveal)
 ;; https://emacs.stackexchange.com/questions/44361/org-mode-export-gets-weird-symbols-at-the-end-of-each-line-while-exporting-to-ht
 (use-package htmlize
   :defer t
@@ -665,7 +671,11 @@ two prefix arguments, write out the day and month name."
       (add-hook 'htmlize-before-hook #'modi/htmlize-before-hook-flyspell-disable)
       (add-hook 'htmlize-after-hook #'modi/htmlize-after-hook-flyspell-enable-maybe))))
 
-(use-package php-mode)
+(use-package php-mode
+  :config
+  ;; dante's xref doesn't work for mutli-project setups, we just use etags
+  ;; (remove-hook 'xref-backend-functions 'dante--xref-backend)
+  )
 
 (use-package dante
   :after haskell-mode
@@ -678,10 +688,11 @@ two prefix arguments, write out the day and month name."
   (with-eval-after-load 'dante
     (flycheck-add-next-checker 'haskell-dante
                                '(warning . haskell-hlint)))
-    
+  
   :config
   ;; dante's xref doesn't work for mutli-project setups, we just use etags
-  (remove-hook 'xref-backend-functions 'dante--xref-backend))
+  (remove-hook 'xref-backend-functions 'dante--xref-backend)
+  )
   
 (use-package parinfer
   :init
@@ -701,6 +712,9 @@ two prefix arguments, write out the day and month name."
     (add-hook 'lisp-mode-hook #'parinfer-mode)))
 
 (use-package pretty-symbols)
+(use-package cobol-mode)
+(use-package idris-mode)
+(use-package lua-mode)
 
 (defun unicode-symbol (name)
   "Translate a symbolic name for a Unicode character -- e.g., LEFT-ARROW
