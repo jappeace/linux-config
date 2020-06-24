@@ -16,7 +16,7 @@ let
 
   pkgsUnstable = import ./pin-unstable.nix {
     config.allowUnfree = true;
-
+    config.allowBroken = true;
     overlays = let bom = import ./overlays/boomer; in [ bom ];
   };
 
@@ -82,11 +82,11 @@ in {
     '';
   };
 
+  console.font = "firacode-14";
+  console.keyMap = "us";
   # Select internationalisation properties.
   i18n = {
     # consoleFont = "Lat2-Terminus16";
-    consoleFont = "firacode-14";
-    consoleKeyMap = "us";
     # defaultLocale = "en_US.UTF-8";
     defaultLocale = "nl_NL.utf8";
     supportedLocales = [ "en_US.UTF-8/UTF-8" "nl_NL.UTF-8/UTF-8" ];
@@ -112,13 +112,11 @@ in {
       screenkey
       slop
       scribus
-      wget
       obs-studio
       teamviewer
       fd # better find, 50% shorter command!
       qemu
       git-secrets # this appears to be broken
-      dbeaver
       kazam
       sshuttle
       nixops
@@ -156,8 +154,6 @@ in {
       xfce4-datetime-plugin
       xfce4-dockbarx-plugin
       xfce4-embed-plugin
-      xfce4-eyes-plugin
-      xfce4-fsguard-plugin
       xfce4-namebar-plugin
       xfce4-whiskermenu-plugin # xfce plugins
       rofi # dmenu replacement (fancy launcher)
@@ -184,7 +180,6 @@ in {
       # fbreader # read books # TODO broken?
       libreoffice
       qpdfview
-      mcomix
       tcpdump
       ntfs3g
       qdirstat
@@ -206,11 +201,10 @@ in {
       libGL
       libGLU
       libGL_driver
-      beignet
+      killall
       opencl-info
       neofetch
       audacious # plays music a bit better than vlc
-      pkgsUnstable.rustfmt
       ctags
       # pkgsUnstable.litecli # better sqlite browser
       pgcli # better postgres cli client
@@ -227,8 +221,8 @@ in {
       kitty
       nixfmt
 
-      haskellPackages.ipprint
-      haskellPackages.hscolour
+      pkgsUnstable.xfce.xfce4-eyes-plugin
+      pkgsUnstable.xfce.xfce4-fsguard-plugin
 
       ncdu # shell based q4dirstat
 
@@ -370,7 +364,7 @@ in {
   # Enable the OpenSSH daemon.
   # services.openssh.enable = true;
   services = {
-    # free curl: sudo killall -HUP tor && curl --socks5-hostname 127.0.0.1:9050 https://ifconfig.me
+    # free curl: sudo killall -HUP tor && curl -K --socks5-hostname 127.0.0.1:9050 https://ifconfig.me
     tor.enable = true;
     tor.client.enable = true;
     rabbitmq = {
@@ -441,7 +435,14 @@ in {
     xserver = {
       autorun = true; # disable on troubles
       displayManager = {
-        slim = { defaultUser = "jappie"; };
+        sddm = {
+          enable = true;
+          autoLogin = {
+            user = "jappie";
+            enable = true;
+          };
+        };
+        defaultSession = "none+i3";
         sessionCommands = ''
           ${pkgs.xlibs.xmodmap}/bin/xmodmap ~/.Xmodmap
         '';
@@ -453,7 +454,7 @@ in {
       };
       videoDrivers = [
         "intel"
-        "displaylink"
+        # "displaylink"
       ]; # "displaylink" # it says use displaylink: https://discourse.nixos.org/t/external-displays-through-usb-c-dock-dont-work/5014/9
       # to insall display link I clicked the link and used developer tool network section to see which uri was generated.
       # it'll print the link and we can just use nix-prefetch url like it tells us.
@@ -466,7 +467,6 @@ in {
         true; # alternative desktop in case programs are bugged and I'm lazy to debug
 
       windowManager.i3.enable = true;
-      windowManager.default = "i3";
       enable = true;
       layout = "us";
     };
@@ -494,12 +494,6 @@ in {
   users.extraGroups.vboxusers.members = [ "jappie" ];
 
   system = {
-    # to update:
-    # sudo nix-channel --update
-    # sudo nix-channel --list
-    # click nixos link, and in title copy over the hash
-    nixos.version = "19.09.1320.4ad6f1404a8";
-
     # This value determines the NixOS release with which your system is to be
     # compatible, in order to avoid breaking some software such as database
     # servers. You should change this only after NixOS release notes say you
@@ -507,7 +501,7 @@ in {
     # to upgrade, add a channel:
     # $ sudo nix-channel --add https://nixos.org/channels/nixos-18.09 nixos
     # $ sudo nixos-rebuild switch --upgrade
-    stateVersion = "19.09"; # Did you read the comment?
+    stateVersion = "20.03"; # Did you read the comment?
   };
   virtualisation = {
     docker.enable = true;

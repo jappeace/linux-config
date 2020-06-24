@@ -40,7 +40,6 @@ packagedEmacs =
     magit
     evil
     evil-magit
-    parinfer
     # evil-org # broken
     # dracula-theme
   ]) ++ (with epkgs.melpaPackages; [
@@ -70,6 +69,7 @@ packagedEmacs =
     nix-haskell-mode # https://github.com/matthewbauer/nix-haskell-mode
     nix-sandbox
     evil-collection
+    parinfer
 
     # lsp-rust https://github.com/emacs-lsp/lsp-rust
   ]) ++ (with epkgs.elpaPackages; [

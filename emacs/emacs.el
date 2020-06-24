@@ -222,8 +222,6 @@
   (evil-mode 1)
   )
 
-(use-package smartparens)
-(use-package nyan-mode)
 (use-package cider)
 (use-package clojure-mode)
 
@@ -481,9 +479,6 @@
 (use-package evil-org
   :disabled
   )
-(use-package ox-reveal
-  :disabled
-  )
 (use-package lsp-mode :commands lsp)
 (use-package lsp-ui :after lsp)
 (use-package lsp-haskell
@@ -623,7 +618,7 @@ two prefix arguments, write out the day and month name."
   (setq fci-rule-width 2)
   )
 
-(use-package ox-reveal)
+;; (use-package ox-reveal)
 ;; https://emacs.stackexchange.com/questions/44361/org-mode-export-gets-weird-symbols-at-the-end-of-each-line-while-exporting-to-ht
 (use-package htmlize
   :defer t
@@ -706,7 +701,6 @@ two prefix arguments, write out the day and month name."
     (add-hook 'lisp-mode-hook #'parinfer-mode)))
 
 (use-package pretty-symbols)
-(use-package idris-mode)
 
 (defun unicode-symbol (name)
   "Translate a symbolic name for a Unicode character -- e.g., LEFT-ARROW
