@@ -297,6 +297,7 @@
    "gs"  'magit-status
    "gp"  'magit-push-to-remote
    "gb"  'magit-blame
+   "gr"  'magit-show-refs
    ;; Applications
    "a" '(:ignore t :which-key "Applications")
    "d" 'insert-date
