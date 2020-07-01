@@ -11,7 +11,11 @@ in {
 	  systemPackages = with pkgs; [
         # emacs
         pkgs.silver-searcher # when configuring my emacs they told me to use this: https://github.com/ggreer/the_silver_searcher#installation
-        pkgs.ripgrep # better silver searcher?
+        (pkgs.writeShellScriptBin "rg" ''
+        ${pkgs.ripgrep}/bin/rg -M 100 "$@"
+        ''
+        ) # better silver searcher?
+
         aspell_with_dict # I can't spell
         pkgs.rustracer
         pkgs.haskellPackages.stylish-haskell
