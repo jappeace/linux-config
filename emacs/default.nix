@@ -12,7 +12,7 @@ in {
         # emacs
         pkgs.silver-searcher # when configuring my emacs they told me to use this: https://github.com/ggreer/the_silver_searcher#installation
         (pkgs.writeShellScriptBin "rg" ''
-        ${pkgs.ripgrep}/bin/rg -M 100 --glob \!*.min.css --glob \!*.min.js -m 2 "$@"
+        ${pkgs.ripgrep}/bin/rg -M 100 --glob \!*.min.css --glob \!*.min.js -m 1 --max-columns-preview "$@"
         ''
         ) # better silver searcher?
 
