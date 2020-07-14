@@ -217,7 +217,7 @@
 ;; load packages
 (use-package evil
   :init
-  (setq evil-want-keybinding nil) 
+  (setq evil-want-keybinding nil)
   :config
   (evil-mode 1)
   )
@@ -238,8 +238,8 @@
 
 ;; todo delete in favor of evil collection?
 (use-package evil-magit
-  :after (magit evil)
-  )
+  :after (magit evil))
+
 
 ;;; keybindings
 (use-package general
@@ -250,13 +250,13 @@
   (general-define-key
    :keymaps 'normal
    ;; simple command
-   "K" 'newline
-   )
+   "K" 'newline)
+
   (general-define-key
    ;; replace default keybindings
    "C-s" 'swiper             ; search for string in current buffer
-   "M-x" 'counsel-M-x        ; replace default M-x with ivy backend
-   )
+   "M-x" 'counsel-M-x)        ; replace default M-x with ivy backend
+
   (general-define-key
    :keymaps '(normal visual insert emacs)
    :prefix "SPC"
@@ -266,7 +266,7 @@
    "k"   '(projectile-kill-buffers :which-key "kill project buffers") ;; sometimes projectile gets confused about temp files, this fixes that
    "c"   'projectile-invalidate-cache
    "SPC" '(avy-goto-word-or-subword-1  :which-key "go to char")
-   "b"	'ivy-switch-buffer  ; change buffer, chose using ivy
+   "b"  'ivy-switch-buffer  ; change buffer, chose using ivy
 
    "!"  'shell
    "j"  'xref-find-definitions ; lsp find definition
@@ -288,22 +288,23 @@
    "s"  'save-some-buffers
    "p"  'counsel-projectile
    "o"  'counsel-projectile-switch-project
-   "r"	 'revert-buffer
+   "r"   'revert-buffer
    "q"   'kill-emacs
    "g"   '(:ignore t :which-key "git")
    "gg"  'counsel-git-grep
    ;; "gf"  '(counsel-git :which-key "find file in git dir")
    "gf"  'magit-pull-from-upstream
    "gs"  'magit-status
-   "gp"  'magit-push-to-remote
-   "gb"  'magit-blame
+   "gp"  'magit-push-popup ;; these days I often have to choose
+   "gb"  'magit-branch-popup
+   "gl"  'magit-blame
    "gr"  'magit-show-refs
    ;; Applications
    "a" '(:ignore t :which-key "Applications")
    "d" 'insert-date
    ";" 'comment-line
-   "ar" 'ranger)
-  )
+   "ar" 'ranger))
+
 
 ;;; project navigation
 (use-package counsel-projectile
@@ -447,7 +448,7 @@
   :after evil
   :config
   (custom-set-variables
-   ;; '(haskell-font-lock-symbols t) 
+   ;; '(haskell-font-lock-symbols t)
    '(haskell-stylish-on-save t) ;; disable w/ (setq haskell-stylish-on-save nil)
    ;; enable w/ (setq haskell-stylish-on-save t)
    '(haskell-hoogle-command (concat (projectile-project-root) "scripts/hoogle.sh"))
@@ -511,9 +512,9 @@
                                                     (list (mapconcat 'identity args " ")))
                                             (list (nix-current-sandbox))))))
                 (setq-local lsp-haskell-process-wrapper-function default-nix-wrapper))))
-  
-  
-  
+
+
+
 
   (add-hook 'haskell-mode-hook
             (lambda ()
@@ -526,7 +527,7 @@
                           (lambda (command) (apply 'nix-shell-command (nix-current-sandbox) command)))
               (setq-local flycheck-executable-find
                           (lambda (cmd) (nix-executable-find (nix-current-sandbox) cmd))))))
-  
+
 
 (use-package yasnippet
   :after lsp-mode
@@ -689,12 +690,12 @@ two prefix arguments, write out the day and month name."
   (with-eval-after-load 'dante
     (flycheck-add-next-checker 'haskell-dante
                                '(warning . haskell-hlint)))
-  
+
   :config
   ;; dante's xref doesn't work for mutli-project setups, we just use etags
   (remove-hook 'xref-backend-functions 'dante--xref-backend)
   )
-  
+
 (use-package parinfer
   :init
   (progn
@@ -721,45 +722,45 @@ two prefix arguments, write out the day and month name."
   "Translate a symbolic name for a Unicode character -- e.g., LEFT-ARROW
    or GREATER-THAN into an actual Unicode character code. "
   (decode-char 'ucs (case name
-                          ;; arrows
-                          ('left-arrow 8592)
-                          ('up-arrow 8593)
-                          ('right-arrow 8594)
-                          ('down-arrow 8595)
-                          ;; boxes
-                          ('double-vertical-bar #X2551)
-                          ;; relational operators
-                          ('equal #X003d)
-                          ('not-equal #X2260)
-                          ('identical #X2261)
-                          ('not-identical #X2262)
-                          ('less-than #X003c)
-                          ('greater-than #X003e)
-                          ('less-than-or-equal-to #X2264)
-                          ('greater-than-or-equal-to #X2265)
-                          ;; logical operators
-                          ('logical-and #X2227)
-                          ('logical-or #X2228)
-                          ('logical-neg #X00AC)
-                          ;; misc
-                          ('nil #X2205)
-                          ('horizontal-ellipsis #X2026)
-                          ('double-exclamation #X203C)
-                          ('prime #X2032)
-                          ('double-prime #X2033)
-                          ('for-all #X2200)
-                          ('there-exists #X2203)
-                          ('element-of #X2208)
-                          ;; mathematical operators
-                          ('square-root #X221A)
-                          ('squared #X00B2)
-                          ('cubed #X00B3)
-                          ;; letters
-                          ('lambda #X03BB)
-                          ('alpha #X03B1)
-                          ('beta #X03B2)
-                          ('gamma #X03B3)
-                          ('delta #X03B4))))
+                      ;; arrows
+                      ('left-arrow 8592)
+                      ('up-arrow 8593)
+                      ('right-arrow 8594)
+                      ('down-arrow 8595)
+                      ;; boxes
+                      ('double-vertical-bar #X2551)
+                      ;; relational operators
+                      ('equal #X003d)
+                      ('not-equal #X2260)
+                      ('identical #X2261)
+                      ('not-identical #X2262)
+                      ('less-than #X003c)
+                      ('greater-than #X003e)
+                      ('less-than-or-equal-to #X2264)
+                      ('greater-than-or-equal-to #X2265)
+                      ;; logical operators
+                      ('logical-and #X2227)
+                      ('logical-or #X2228)
+                      ('logical-neg #X00AC)
+                      ;; misc
+                      ('nil #X2205)
+                      ('horizontal-ellipsis #X2026)
+                      ('double-exclamation #X203C)
+                      ('prime #X2032)
+                      ('double-prime #X2033)
+                      ('for-all #X2200)
+                      ('there-exists #X2203)
+                      ('element-of #X2208)
+                      ;; mathematical operators
+                      ('square-root #X221A)
+                      ('squared #X00B2)
+                      ('cubed #X00B3)
+                      ;; letters
+                      ('lambda #X03BB)
+                      ('alpha #X03B1)
+                      ('beta #X03B2)
+                      ('gamma #X03B3)
+                      ('delta #X03B4))))
 
 (defun substitute-pattern-with-unicode (pattern symbol)
   "Add a font lock hook to replace the matched part of PATTERN with the
@@ -788,45 +789,45 @@ two prefix arguments, write out the day and month name."
   "Translate a symbolic name for a Unicode character -- e.g., LEFT-ARROW
 or GREATER-THAN into an actual Unicode character code. "
   (decode-char 'ucs (case name
-                          ;; arrows
-                          ('left-arrow 8592)
-                          ('up-arrow 8593)
-                          ('right-arrow 8594)
-                          ('down-arrow 8595)
-                          ;; boxes
-                          ('double-vertical-bar #X2551)
-                          ;; relational operators
-                          ('equal #X003d)
-                          ('not-equal #X2260)
-                          ('identical #X2261)
-                          ('not-identical #X2262)
-                          ('less-than #X003c)
-                          ('greater-than #X003e)
-                          ('less-than-or-equal-to #X2264)
-                          ('greater-than-or-equal-to #X2265)
-                          ;; logical operators
-                          ('logical-and #X2227)
-                          ('logical-or #X2228)
-                          ('logical-neg #X00AC)
-                          ;; misc
-                          ('nil #X2205)
-                          ('horizontal-ellipsis #X2026)
-                          ('double-exclamation #X203C)
-                          ('prime #X2032)
-                          ('double-prime #X2033)
-                          ('for-all #X2200)
-                          ('there-exists #X2203)
-                          ('element-of #X2208)
-                          ;; mathematical operators
-                          ('square-root #X221A)
-                          ('squared #X00B2)
-                          ('cubed #X00B3)
-                          ;; letters
-                          ('lambda #X03BB)
-                          ('alpha #X03B1)
-                          ('beta #X03B2)
-                          ('gamma #X03B3)
-                          ('delta #X03B4))))
+                      ;; arrows
+                      ('left-arrow 8592)
+                      ('up-arrow 8593)
+                      ('right-arrow 8594)
+                      ('down-arrow 8595)
+                      ;; boxes
+                      ('double-vertical-bar #X2551)
+                      ;; relational operators
+                      ('equal #X003d)
+                      ('not-equal #X2260)
+                      ('identical #X2261)
+                      ('not-identical #X2262)
+                      ('less-than #X003c)
+                      ('greater-than #X003e)
+                      ('less-than-or-equal-to #X2264)
+                      ('greater-than-or-equal-to #X2265)
+                      ;; logical operators
+                      ('logical-and #X2227)
+                      ('logical-or #X2228)
+                      ('logical-neg #X00AC)
+                      ;; misc
+                      ('nil #X2205)
+                      ('horizontal-ellipsis #X2026)
+                      ('double-exclamation #X203C)
+                      ('prime #X2032)
+                      ('double-prime #X2033)
+                      ('for-all #X2200)
+                      ('there-exists #X2203)
+                      ('element-of #X2208)
+                      ;; mathematical operators
+                      ('square-root #X221A)
+                      ('squared #X00B2)
+                      ('cubed #X00B3)
+                      ;; letters
+                      ('lambda #X03BB)
+                      ('alpha #X03B1)
+                      ('beta #X03B2)
+                      ('gamma #X03B3)
+                      ('delta #X03B4))))
 
 (defun substitute-pattern-with-unicode (pattern symbol)
   "Add a font lock hook to replace the matched part of PATTERN with the
