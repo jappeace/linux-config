@@ -291,7 +291,7 @@
    "r"   'revert-buffer
    "q"   'kill-emacs
    "g"   '(:ignore t :which-key "git")
-   "gg"  'counsel-git-grep
+   "gg"  'magit-status
    ;; "gf"  '(counsel-git :which-key "find file in git dir")
    "gf"  'magit-pull-from-upstream
    "gs"  'magit-status
@@ -299,6 +299,8 @@
    "gb"  'magit-branch-popup
    "gl"  'magit-blame
    "gr"  'magit-show-refs
+   "gc"  'magit-cherry-pick-popup
+   "gz"  'magit-stash-popup
    ;; Applications
    "a" '(:ignore t :which-key "Applications")
    "d" 'insert-date
@@ -381,10 +383,18 @@
 (use-package avy
   :commands (avy-goto-word-1 avy-goto-word-or-subword-1))
 
+
 ;;; git
 (use-package magit
   :defer
-  :commands (magit-status magit-dispatch-popup magit-push-to-remote)
+  :commands
+  (magit-status
+   magit-dispatch-popup
+   magit-push-to-remote
+   magit-push-popup
+   magit-branch-popup
+   magit-cherry-pick-popup
+   magit-stash-popup)
   )
 
 ;;; I can't spell
