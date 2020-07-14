@@ -44,9 +44,6 @@ in {
       0.0.0.0 news.ycombinator.com
       0.0.0.0 facebook.com
       0.0.0.0 www.facebook.com
-      0.0.0.0 trader.degiro.com
-      0.0.0.0 www.degiro.com
-      0.0.0.0 twitter.com
       0.0.0.0 trader.degiro.nl
       0.0.0.0 covid19info.live
       0.0.0.0 linkdedin.com
@@ -97,12 +94,14 @@ in {
       skype
       nixfmt
       atom
-      mpv
+      mpv # mplayer
       discord
       ark
+      burpsuite
 
       pkgsUnstable.anydesk
-
+      nmap
+      
       pkgsUnstable.ib-tws # intereactive brokers trader workstation
 
       # lm-sensors
@@ -128,6 +127,7 @@ in {
       jq # deal with json on commandline
       wireguard # easier vpn
       sqlite-interactive # hack nixops
+      pkgsUnstable.litecli
       gimp # edit my screenshots
       curl
       neovim # because emacs never breaks
@@ -234,7 +234,7 @@ in {
   };
 
   # Open ports in the firewall.
-  networking.firewall.allowedTCPPorts = [ 6868 4713 8081 ];
+  networking.firewall.allowedTCPPorts = [ 6868 4713 8081 3000 ];
   # networking.firewall.allowedUDPPorts = [ ... ];
   # Or disable the firewall altogether.
   # networking.firewall.enable = false;
