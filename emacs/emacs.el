@@ -296,8 +296,8 @@
    "gf"  'magit-pull-from-upstream
    "gs"  'magit-status
    "gp"  'magit-push-popup ;; these days I often have to choose
-   "gb"  'magit-branch-popup
-   "gl"  'magit-blame
+   "gb"  'magit-blame
+   "gl"  'magit-log-popup
    "gr"  'magit-show-refs
    "gc"  'magit-cherry-pick-popup
    "gz"  'magit-stash-popup
@@ -394,7 +394,10 @@
    magit-push-popup
    magit-branch-popup
    magit-cherry-pick-popup
-   magit-stash-popup)
+   magit-stash-popup
+   magit-log-popup
+   magit-blame
+   )
   )
 
 ;;; I can't spell
