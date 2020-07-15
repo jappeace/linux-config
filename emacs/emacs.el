@@ -176,12 +176,12 @@
 (add-hook 'prog-mode-hook
           #'add-fira-code-symbol-keywords)
 
-;; me me me
+;; me me me https://www.youtube.com/watch?v=1oQWvoXMWME
 (setq user-full-name "Jappie J. T. Klooster"
       user-mail-address "jappieklooster@hotmail.com"
       calendar-latitude 52.782
       calendar-longitude 6.331
-      calendar-location-name "Kerkdijk 2, Ansen")
+      calendar-location-name "Ooienvaarstraat 38, Kampen")
 
 ;; use windows logo as meta, alt is used by i3
 (setq x-super-keysym 'meta)
