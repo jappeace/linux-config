@@ -865,3 +865,5 @@ or GREATER-THAN into an actual Unicode character code. "
 
 (add-hook 'purescript-mode-hook 'haskell-unicode)
 (add-hook 'haskell-mode-hook 'haskell-unicode)
+
+(use-package ws-butler :commands lsp)

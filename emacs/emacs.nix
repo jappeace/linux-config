@@ -42,6 +42,7 @@ packagedEmacs =
     evil
     evil-magit
     parinfer
+    ws-butler
 
     # evil-org # broken
     # dracula-theme
