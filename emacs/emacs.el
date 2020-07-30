@@ -866,4 +866,12 @@ or GREATER-THAN into an actual Unicode character code. "
 (add-hook 'purescript-mode-hook 'haskell-unicode)
 (add-hook 'haskell-mode-hook 'haskell-unicode)
 
-(use-package ws-butler :commands lsp)
+(use-package ws-butler
+  :init
+  (add-hook 'prog-mode-hook #'ws-butler-mode)
+  )
+
+(use-package flymake-shellcheck
+  :commands flymake-shellcheck-load
+  :init
+  (add-hook 'sh-mode-hook 'flymake-shellcheck-load))

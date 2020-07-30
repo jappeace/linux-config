@@ -26,6 +26,7 @@ in {
         html-tidy
         pkgs.nodePackages.prettier
         pkgs.python37Packages.sqlparse # sqlforamt
+        pkgs.shellcheck
 	  ];
   };
 
