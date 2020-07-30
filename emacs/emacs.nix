@@ -57,6 +57,7 @@ packagedEmacs =
     flycheck-rust
     format-all
     pretty-symbols
+    flymake-shellcheck
     # lsp-rust
     # evil-collection
     # we bind emacs lsp to whatever lsp's we want
@@ -77,6 +78,7 @@ packagedEmacs =
     smartparens
     nyan-mode
     idris-mode
+    shakespeare-mode
 
 
     # lsp-rust https://github.com/emacs-lsp/lsp-rust

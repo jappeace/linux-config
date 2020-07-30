@@ -298,8 +298,11 @@
    "gp"  'magit-push-popup ;; these days I often have to choose
    "gb"  'magit-blame
    "gl"  'magit-log-popup
-   "gr"  'magit-show-refs
-   "gc"  'magit-cherry-pick-popup
+   "gM"  'magit-remote-popup
+   "gr"  'magit-rebase-popup
+   "gy"  'magit-show-refs
+   "gc"  'magit-commit-popup
+   "gC"  'magit-cherry-pick-popup
    "gz"  'magit-stash-popup
    ;; Applications
    "a" '(:ignore t :which-key "Applications")
@@ -388,15 +391,19 @@
 (use-package magit
   :defer
   :commands
-  (magit-status
-   magit-dispatch-popup
-   magit-push-to-remote
-   magit-push-popup
+  (magit-blame
    magit-branch-popup
    magit-cherry-pick-popup
-   magit-stash-popup
+   magit-commit-popup
+   magit-dispatch-popup
    magit-log-popup
-   magit-blame
+   magit-pull-from-upstream
+   magit-push-popup
+   magit-push-to-remote
+   magit-remote-popup
+   magit-show-refs
+   magit-stash-popup
+   magit-status
    )
   )
 
@@ -437,6 +444,8 @@
   )
                                         ; but no this instead:
 (add-to-list 'auto-mode-alist '("\\.js\\'" . rjsx-mode))
+
+(use-package shakespeare-mode)
 
 ;;; python
 (use-package python
