@@ -156,7 +156,7 @@ in {
       lxappearance # theme
       lxappearance-gtk3
       glxinfo # glxgears
-      fasd
+      fasd # try zoxide in future, it's rust based and active (this one is dead)
       cowsay
       fortune
       thefuck # zsh stuff
