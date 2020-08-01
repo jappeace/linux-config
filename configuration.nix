@@ -101,7 +101,8 @@ in {
 
       pkgsUnstable.anydesk
       nmap
-      
+
+      kdeApplications.konqueror # apparantly safari is mostly this
       pkgsUnstable.ib-tws # intereactive brokers trader workstation
 
       # lm-sensors
