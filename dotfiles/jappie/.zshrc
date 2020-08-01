@@ -86,6 +86,7 @@ export SDKMAN_DIR="/home/jappie/.sdkman"
 [[ -f /home/jappie/Projects/work/chromeless/serverless/node_modules/tabtab/.completions/sls.zsh ]] && . /home/jappie/Projects/work/chromeless/serverless/node_modules/tabtab/.completions/sls.zsh
 
 # OPAM configuration
-. /home/jappie/.opam/opam-init/init.zsh > /dev/null 2> /dev/null || true
+# . /home/jappie/.opam/opam-init/init.zsh > /dev/null 2> /dev/null || true
 # source /home/jappie/.nix-profile/etc/profile.d/nix.sh
 
+eval "$(starship init zsh)"

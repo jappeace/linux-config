@@ -98,6 +98,7 @@ in {
       discord
       ark
       burpsuite
+      starship
 
       pkgsUnstable.anydesk
       nmap
