@@ -483,6 +483,12 @@ in {
   };
 
   nix = {
+    gc = {
+        automatic = true;
+        dates = "weekly"; # weekly means: Mon *-*-* 00:00:00
+        options = "--delete-older-than 30d";
+    };
+
     trustedUsers = [ "jappie" "root" ];
     autoOptimiseStore = true;
     binaryCaches = [
