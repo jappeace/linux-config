@@ -371,12 +371,22 @@ in {
         # journalctl -fu postgresql.service
         log_connections = yes
         log_statement = 'all'
-        logging_collector = yes
         log_disconnections = yes
         log_destination = 'syslog'
 
         # accept connection from anywhere
         listen_addresses = '*'
+
+        logging_collector = no
+        shared_buffers = 12MB
+        fsync = off
+        synchronous_commit = off
+        full_page_writes = off
+        client_min_messages = ERROR
+        commit_delay = 100000
+        wal_level = minimal
+        archive_mode = off
+        max_wal_senders = 0
       '';
       initialScript = pkgs.writeText "backend-initScript" ''
         CREATE USER jappie WITH PASSWORD \'\';
