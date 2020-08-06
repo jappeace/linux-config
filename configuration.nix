@@ -24,6 +24,11 @@ in {
     ./cachix.nix
   ];
 
+  fileSystems."/var/lib/postgresql" =
+        { fsType = "tmpfs";
+        options = [ "mode=0755" "size=2G"];
+        neededForBoot = false;
+        };
   # Use the systemd-boot EFI boot loader.
   boot = {
     loader.systemd-boot.enable = true;
