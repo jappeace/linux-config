@@ -104,6 +104,7 @@ in {
       ark
       burpsuite
       starship
+      openssl
 
       pkgsUnstable.anydesk
       nmap
