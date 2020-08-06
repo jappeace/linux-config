@@ -383,7 +383,7 @@ in {
         listen_addresses = '*'
 
         logging_collector = no
-        shared_buffers = 12MB
+        shared_buffers = 512MB
         fsync = off
         synchronous_commit = off
         full_page_writes = off
@@ -397,6 +397,9 @@ in {
         CREATE USER jappie WITH PASSWORD \'\';
         CREATE DATABASE jappie;
         ALTER USER jappie WITH SUPERUSER;
+
+        CREATE DATABASE riskbook;
+        CREATE DATABASE riskbook_test;
       '';
     };
 
