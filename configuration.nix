@@ -39,12 +39,9 @@ in {
     # randomly checking them, even several times in a row.
     # Blocking them permenantly for a week or so gets rid of that behavior
     extraHosts = ''
-      0.0.0.0 reddit.com
-      0.0.0.0 www.reddit.com
       0.0.0.0 news.ycombinator.com
       0.0.0.0 facebook.com
       0.0.0.0 www.facebook.com
-      0.0.0.0 trader.degiro.nl
       0.0.0.0 covid19info.live
       0.0.0.0 linkdedin.com
       0.0.0.0 www.linkdedin.com
@@ -462,7 +459,7 @@ in {
       "docker"
       "vboxusers"
     ];
-    openssh.authorizedKeys.keys = (import ./encrypted/keys.nix { });
+    openssh.authorizedKeys.keys = (import ./encrypted/keys.nix);
     group = "users";
     home = "/home/jappie";
     isNormalUser = true;
@@ -521,6 +518,6 @@ in {
       "jappie.cachix.org-1:+5Liddfns0ytUSBtVQPUr/Wo6r855oNLgD4R8tm1AE4="
       "fairy-tale-agi-solutions.cachix.org-1:FwDwUQVY1jJIz5/Z3Y9d0hNPNmFqMEr6wW+D99uaEGs="
       "all-hies.cachix.org-1:JjrzAOEUsD9ZMt8fdFbzo3jNAyEWlPAwdVuHw4RD43k="
-    ];
+    ] ++ import ./encrypted/cachix.nix;
   };
 }
