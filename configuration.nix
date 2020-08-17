@@ -189,6 +189,7 @@ in {
       wine
       teamviewer
       tmate
+      cachix
 
       sloccount
       cloc
