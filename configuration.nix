@@ -404,7 +404,7 @@ in {
       '';
       extraConfig = ''
         # log all the things
-        # journalctl -fu postgresql.service
+        # journalctl -fu postgresql
         log_connections = yes
         log_statement = 'all'
         logging_collector = yes
