@@ -102,7 +102,7 @@ in {
       nmap
 
       kdeApplications.konqueror # apparantly safari is mostly this
-      pkgsUnstable.ib-tws # intereactive brokers trader workstation
+      # pkgsUnstable.ib-tws # intereactive brokers trader workstation
 
       # lm-sensors
       fd # better find, 50% shorter command!
