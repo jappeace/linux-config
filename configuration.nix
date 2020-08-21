@@ -92,7 +92,7 @@ in {
       nixfmt
       atom
       mpv # mplayer
-      discord
+      pkgsUnstable.discord
       ark
       burpsuite
       starship
