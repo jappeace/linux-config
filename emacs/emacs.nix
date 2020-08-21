@@ -47,6 +47,7 @@ packagedEmacs =
     # evil-org # broken
     # dracula-theme
   ]) ++ (with epkgs.melpaPackages; [
+    package-lint
     dante
     ox-reveal # org reveal
     htmlize

@@ -318,6 +318,11 @@
    ";" 'comment-line
    "ar" 'ranger))
 
+(use-package package-lint
+  :commands  (package-lint-current-buffer
+              package-lint-buffer
+              )
+  )
 
 ;;; project navigation
 (use-package counsel-projectile
