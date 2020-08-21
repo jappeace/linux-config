@@ -5,6 +5,7 @@ import (
     {
         url = "https://github.com/NixOS/nixpkgs";
         ref = "master";
-        rev = "45c22565f60293b2343b1881826683e00316cb69";
+        # 21.08.2020
+        rev = "7d03cf2c8d2ef8895719c4cc386ede0050f77cd0";
     }
     ))
