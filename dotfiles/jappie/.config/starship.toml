@@ -1,0 +1,5 @@
+[nix_shell]
+use_name = true
+impure_msg = "impure shell"
+pure_msg = "pure shell"
+symbol = "❄️ "
