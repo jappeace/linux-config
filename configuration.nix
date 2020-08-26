@@ -218,8 +218,9 @@ in {
       # jetbrains.idea-community
       xss-lock
       i3lock
-      kitty
+      konsole
       nixfmt
+      pkgsUnstable.discord
 
       pkgsUnstable.xfce.xfce4-eyes-plugin
       pkgsUnstable.xfce.xfce4-fsguard-plugin
