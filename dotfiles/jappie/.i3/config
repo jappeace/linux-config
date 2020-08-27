@@ -37,7 +37,7 @@ bindsym --release $mod+Ctrl+2 exec --no-startup-id "xdotool keyup ctrl keyup alt
 bindsym --release $mod+Ctrl+w exec --no-startup-id "xdotool keyup ctrl keyup alt type --delay 5 https://jappieklooster.nl"
 
 # start a terminal
-bindsym $mod+Return exec kitty
+bindsym $mod+Return exec konsole
 
 # kill focused window
 bindsym $mod+Shift+q kill
