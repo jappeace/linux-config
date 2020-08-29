@@ -420,11 +420,23 @@
    )
   )
 
-;;; I can't spell
 (use-package flycheck
   :defer 2
   :config
-  (global-flycheck-mode))
+  (global-flycheck-mode)
+  )
+
+;;; I can't spell
+(use-package flyspell
+  :defer t
+  :init
+  (progn
+    (add-hook 'prog-mode-hook 'flyspell-prog-mode)
+    (add-hook 'text-mode-hook 'flyspell-mode)
+    )
+  :config
+  (setq ispell-dictionary "american")
+  )
 
 ;;; I can't program
 (use-package company

@@ -17,6 +17,10 @@ let
     config.allowBroken = true;
     config.oraclejdk.accept_license = true;
   };
+
+  reload-emacs = pkgs.writeShellScriptBin "reload-emacs" ''
+    sudo nixos-rebuild switch && systemctl daemon-reload --user &&    systemctl restart emacs --user
+  '';
 in {
   imports = [ # Include the results of the hardware scan.
     ./hardware/work-machine.nix
@@ -40,8 +44,6 @@ in {
     # Blocking them permenantly for a week or so gets rid of that behavior
     extraHosts = ''
       0.0.0.0 news.ycombinator.com
-      0.0.0.0 facebook.com
-      0.0.0.0 www.facebook.com
       0.0.0.0 covid19info.live
       0.0.0.0 linkdedin.com
       0.0.0.0 www.linkdedin.com
@@ -97,6 +99,7 @@ in {
       burpsuite
       starship
       openssl
+      reload-emacs
 
       pkgsUnstable.anydesk
       nmap
