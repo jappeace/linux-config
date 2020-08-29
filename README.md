@@ -1,6 +1,5 @@
-[![Jappiejappie](https://img.shields.io/badge/twitch.tv-jappiejappie-purple?logo=twitch&style=for-the-badge)](https://www.twitch.tv/jappiejappie)
-[![Jappiejappie](https://img.shields.io/badge/discord-jappiejappie-black?logo=discord&style=for-the-badge)](https://discord.gg/Hp4agqy)
-[![jappieklooster](https://img.shields.io/badge/twitter-jappieklooster-blue?logo=twitter&style=for-the-badge)](https://twitter.com/jappieklooster)
+[![Jappiejappie](https://img.shields.io/badge/twitch.tv-jappiejappie-purple?logo=twitch)](https://www.twitch.tv/jappiejappie)
+[![Jappiejappie](https://img.shields.io/badge/discord-jappiejappie-black?logo=discord)](https://discord.gg/Hp4agqy)
 
 This project contains config files so that they're backuped and can be shared
 across multiple devices.

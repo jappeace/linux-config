@@ -5,6 +5,7 @@ filetype off                  " required
 set number
 set ruler
 set cursorline
+set noesckeys
 
 
 "highlight OverLength ctermbg=darkred ctermfg=white guibg=#592929

@@ -6,7 +6,7 @@ let
 
   # https://sam217pa.github.io/2016/09/02/how-to-build-your-own-spacemacs/
   myEmacsConfig = pkgs.writeText "default.el" (builtins.readFile ./emacs.el);
-packagedEmacs = 
+packagedEmacs =
   emacsWithPackages (epkgs:
   (
   (with epkgs.melpaStablePackages; [
@@ -42,10 +42,12 @@ packagedEmacs =
     evil
     evil-magit
     parinfer
+    ws-butler
 
     # evil-org # broken
     # dracula-theme
   ]) ++ (with epkgs.melpaPackages; [
+    package-lint
     dante
     ox-reveal # org reveal
     htmlize
@@ -56,6 +58,7 @@ packagedEmacs =
     flycheck-rust
     format-all
     pretty-symbols
+    flymake-shellcheck
     # lsp-rust
     # evil-collection
     # we bind emacs lsp to whatever lsp's we want
@@ -76,6 +79,7 @@ packagedEmacs =
     smartparens
     nyan-mode
     idris-mode
+    shakespeare-mode
 
 
     # lsp-rust https://github.com/emacs-lsp/lsp-rust
@@ -84,4 +88,4 @@ packagedEmacs =
     cobol-mode
   ])));
 in
-    packagedEmacs 
+    packagedEmacs

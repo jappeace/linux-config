@@ -2,24 +2,29 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
+<<<<<<< variant A
 { config, pkgs, options, ... }:
+>>>>>>> variant B
+{ config, pkgs, ... }:
+======= end
 let
-  intero-neovim = pkgs.vimUtils.buildVimPlugin {
-    name = "intero-neovim";
-    src = pkgs.fetchFromGitHub {
-      owner = "parsonsmatt";
-      repo = "intero-neovim";
-      rev = "51999e8abfb096960ba0bc002c49be1ef678e8a9";
-      sha256 = "1igc8swgbbkvyykz0ijhjkzcx3d83yl22hwmzn3jn8dsk6s4an8l";
-    };
-  };
+  devpackeges = import /home/jappie/projects/nixpkgs { };
 
   pkgsUnstable = import ./pin-unstable.nix {
     config.allowUnfree = true;
+    overlays = [
+      # (import ./overlays/cut-the-crap)
+      (import /home/jappie/projects/cut-the-crap/overlay)
+      (import ./overlays/boomer)
+    ];
+
     config.allowBroken = true;
-    overlays = let bom = import ./overlays/boomer; in [ bom ];
+    config.oraclejdk.accept_license = true;
   };
 
+  reload-emacs = pkgs.writeShellScriptBin "reload-emacs" ''
+    sudo nixos-rebuild switch && systemctl daemon-reload --user &&    systemctl restart emacs --user
+  '';
 in {
   imports = [ # Include the results of the hardware scan.
     ./hardware/bto.nix
@@ -85,6 +90,10 @@ in {
   console.font = "firacode-14";
   console.keyMap = "us";
   # Select internationalisation properties.
+  console = {
+    font = "firacode-14";
+    keyMap = "us";
+  };
   i18n = {
     # consoleFont = "Lat2-Terminus16";
     # defaultLocale = "en_US.UTF-8";
@@ -172,7 +181,7 @@ in {
       gparted # partitiioning for dummies, like me
       thunderbird # some day I'll use emacs for this
       deluge # bittorrent
-      # the spell to make openvpn work:   nmcli connection modify jappie vpn.data "key = /home/jappie/openvpn/website/jappie.key, ca = /home/jappie/openvpn/website/ca.crt, dev = tun, cert = /home/jappie/openvpn/website/jappie.crt, ns-cert-type = server, cert-pass-flags = 0, comp-lzo = adaptive, remote = jappieklooster.nl:1194, connection-type = tls" 
+      # the spell to make openvpn work:   nmcli connection modify jappie vpn.data "key = /home/jappie/openvpn/website/jappie.key, ca = /home/jappie/openvpn/website/ca.crt, dev = tun, cert = /home/jappie/openvpn/website/jappie.crt, ns-cert-type = server, cert-pass-flags = 0, comp-lzo = adaptive, remote = jappieklooster.nl:1194, connection-type = tls"
       # from https://github.com/NixOS/nixpkgs/issues/30235
       openvpn # piratebay access
       ksysguard # monitor my system.. with graphs! (so I don't need to learn real skills)
@@ -251,7 +260,6 @@ in {
   # programs.bash.enableCompletion = true;
   # programs.mtr.enable = true;
   programs = {
-
     gnupg.agent = {
       enable = true;
       enableSSHSupport = true;
@@ -268,6 +276,7 @@ in {
   };
 
   fonts = {
+    enableDefaultFonts = true;
     fonts = with pkgs; [
       inconsolata
       ubuntu_font_family
@@ -288,7 +297,7 @@ in {
   };
 
   # Open ports in the firewall.
-  networking.firewall.allowedTCPPorts = [ 6868 ];
+  networking.firewall.allowedTCPPorts = [ 6868 4713 8081 3000 22 ];
   # networking.firewall.allowedUDPPorts = [ ... ];
   # Or disable the firewall altogether.
   # networking.firewall.enable = false;
@@ -368,10 +377,6 @@ in {
     # free curl: sudo killall -HUP tor && curl -K --socks5-hostname 127.0.0.1:9050 https://ifconfig.me
     tor.enable = true;
     tor.client.enable = true;
-    rabbitmq = {
-      enable = true;
-      plugins = [ "management" ];
-    };
     compton = { # allows for fading of windows and transparancy
       # api: https://github.com/NixOS/nixpkgs/blob/master/nixos/modules/services/x11/compton.nix
       enable = true;
@@ -394,6 +399,7 @@ in {
       enable = true;
       nssmdns = true;
     };
+    redis = { enable = true; };
 
     postgresql = {
       enable = true; # postgres for local dev
@@ -408,17 +414,30 @@ in {
         # journalctl -fu postgresql
         log_connections = yes
         log_statement = 'all'
-        logging_collector = yes
         log_disconnections = yes
         log_destination = 'syslog'
 
         # accept connection from anywhere
         listen_addresses = '*'
+
+        logging_collector = no
+        shared_buffers = 512MB
+        fsync = off
+        synchronous_commit = off
+        full_page_writes = off
+        client_min_messages = ERROR
+        commit_delay = 100000
+        wal_level = minimal
+        archive_mode = off
+        max_wal_senders = 0
       '';
       initialScript = pkgs.writeText "backend-initScript" ''
-        CREATE USER tom WITH PASSWORD 'myPassword';
-        CREATE DATABASE jerry;
-        GRANT ALL PRIVILEGES ON DATABASE jerry to tom;
+        CREATE USER jappie WITH PASSWORD \'\';
+        CREATE DATABASE jappie;
+        ALTER USER jappie WITH SUPERUSER;
+
+        CREATE DATABASE riskbook;
+        CREATE DATABASE riskbook_test;
       '';
     };
 
@@ -483,14 +502,21 @@ in {
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.extraUsers.jappie = {
     createHome = true;
-    extraGroups =
-      [ "wheel" "video" "audio" "disk" "networkmanager" "adbusers" "docker" ];
-    openssh.authorizedKeys.keys = (import ./encrypted/keys.nix { });
+    extraGroups = [
+      "wheel"
+      "video"
+      "audio"
+      "disk"
+      "networkmanager"
+      "adbusers"
+      "docker"
+      "vboxusers"
+    ];
+    openssh.authorizedKeys.keys = (import ./encrypted/keys.nix);
     group = "users";
     home = "/home/jappie";
     isNormalUser = true;
     uid = 1000;
-    shell = pkgs.zsh;
   };
   users.extraGroups.vboxusers.members = [ "jappie" ];
 
@@ -516,17 +542,30 @@ in {
   };
 
   nix = {
+    gc = {
+        automatic = true;
+        dates = "weekly"; # weekly means: Mon *-*-* 00:00:00
+        options = "--delete-older-than 30d";
+    };
+
+    trustedUsers = [ "jappie" "root" ];
     autoOptimiseStore = true;
     binaryCaches = [
       "https://cache.nixos.org"
       "https://hydra.iohk.io" # cardano
       "https://nixcache.reflex-frp.org" # reflex
+      "https://fairy-tale-agi-solutions.cachix.org"
+      "https://jappie.cachix.org"
+      "https://all-hies.cachix.org"
       # "https://static-haskell-nix.cachix.org"
     ];
     binaryCachePublicKeys = [
       # "hydra.iohk.io:f/Ea+s+dFdN+3Y/G+FDgSq+a5NEWhJGzdjvKNGv0/EQ=" # cardano
       "ryantrinkle.com-1:JJiAKaRv9mWgpVAz8dwewnZe0AzzEAzPkagE9SP5NWI=" # reflex
       "static-haskell-nix.cachix.org-1:Q17HawmAwaM1/BfIxaEDKAxwTOyRVhPG5Ji9K3+FvUU="
-    ];
+      "jappie.cachix.org-1:+5Liddfns0ytUSBtVQPUr/Wo6r855oNLgD4R8tm1AE4="
+      "fairy-tale-agi-solutions.cachix.org-1:FwDwUQVY1jJIz5/Z3Y9d0hNPNmFqMEr6wW+D99uaEGs="
+      "all-hies.cachix.org-1:JjrzAOEUsD9ZMt8fdFbzo3jNAyEWlPAwdVuHw4RD43k="
+    ] ++ import ./encrypted/cachix.nix;
   };
 }

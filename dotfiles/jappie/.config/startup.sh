@@ -20,16 +20,18 @@ cow_mode[9]="-y"
 rng=$(( $RANDOM % 9 + 1))
 
 IFS=' '
-# remove telebears because it can be awkard
 command -v cowsay >/dev/null 2>&1
 if [ $? -eq 0 ]; then
 	command  -v fortune >/dev/null 2>&1
 	if [ $? -eq 0 ]; then
+        # remove telebears because it can be awkard
 	cowfiles=(`cowsay -l | sed 1d | paste -sd " " | sed s/telebears\ // `)
 	num_files=${#cowfiles[*]}
 	cowfile=${cowfiles[$((((RANDOM % ((num_files - 1)))) + 1))]}
 
-	fortune | cowsay -W 35 ${cow_mode[$rng]} -f $cowfile
+        mahFortune=$(fortune)
+        # echo $mahFortune | espeak &! # this was a horrible idea!
+	echo $mahFortune | cowsay -W 35 ${cow_mode[$rng]} -f $cowfile
 	fi
 fi
 

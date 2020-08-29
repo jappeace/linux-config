@@ -1,4 +1,4 @@
-{ stdenv, fetchFromGitHub, nim, libX11, libGL, freeglut, nim_1_0 }:
+{ stdenv, fetchFromGitHub, nim, libX11, libXrandr, libGL, nim_1_0 }:
 
 let
   x11-nim = fetchFromGitHub {
@@ -15,18 +15,18 @@ let
   };
 in stdenv.mkDerivation rec {
   pname = "boomer";
-  version = "unstable-2019-11-28";
+  version = "unstable-2019-12-19";
   src = fetchFromGitHub {
     owner = "tsoding";
     repo = "boomer";
-    rev = "e631ef22d7c79d71bb955e1467f4400594233408";
-    sha256 = "0pnygv0a8z1shmdad9kn6wyda7bv5rblh1qg64fd9rwiwf5dfn9c";
+    rev = "9a410b326d505d9b996945fd056d4ca19f4f8f33";
+    sha256 = "1dd4wivj9vzawy7n5s0g38104pp760p4nr04kkpkszwdjh9pa9ql";
   };
-  buildInputs = [ nim_1_0 libX11 libGL freeglut ];
+  buildInputs = [ nim_1_0 libX11 libXrandr libGL ];
   buildPhase = ''
     HOME=$TMPDIR
     nim -p:${x11-nim}/ -p:${opengl-nim}/src c -d:release src/boomer.nim
   '';
   installPhase = "install -Dt $out/bin src/boomer";
-  fixupPhase = "patchelf --set-rpath ${stdenv.lib.makeLibraryPath [stdenv.cc.cc libX11 libGL freeglut]} $out/bin/boomer";
+  fixupPhase = "patchelf --set-rpath ${stdenv.lib.makeLibraryPath [stdenv.cc.cc libX11 libXrandr libGL]} $out/bin/boomer";
 }

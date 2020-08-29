@@ -176,12 +176,12 @@
 (add-hook 'prog-mode-hook
           #'add-fira-code-symbol-keywords)
 
-;; me me me
+;; me me me https://www.youtube.com/watch?v=1oQWvoXMWME
 (setq user-full-name "Jappie J. T. Klooster"
       user-mail-address "jappieklooster@hotmail.com"
       calendar-latitude 52.782
       calendar-longitude 6.331
-      calendar-location-name "Kerkdijk 2, Ansen")
+      calendar-location-name "Ooienvaarstraat 38, Kampen")
 
 ;; use windows logo as meta, alt is used by i3
 (setq x-super-keysym 'meta)
@@ -217,7 +217,7 @@
 ;; load packages
 (use-package evil
   :init
-  (setq evil-want-keybinding nil) 
+  (setq evil-want-keybinding nil)
   :config
   (evil-mode 1)
   )
@@ -238,7 +238,14 @@
 
 ;; todo delete in favor of evil collection?
 (use-package evil-magit
-  :after (magit evil)
+  :after (magit evil))
+
+(defun toggle-stylish()
+  "toggles stylish haskell"
+  (if haskell-stylish-on-save
+      (setq haskell-stylish-on-save nil)
+    (setq haskell-stylish-on-save t)
+    )
   )
 
 ;;; keybindings
@@ -285,23 +292,36 @@
    "h"   '(:ignore t :which-key "hoogle/inspection")
    "hl"  'haskell-hoogle-lookup-from-local
    "hq"  'haskell-hoogle
+   "hs"  '(toggle-stylish :which-key "toggle stylish")
    "s"  'save-some-buffers
    "p"  'counsel-projectile
    "o"  'counsel-projectile-switch-project
    "r"	 'revert-buffer
    "q"   'kill-emacs
    "g"   '(:ignore t :which-key "git")
-   "gg"  'counsel-git-grep
+   "gg"  'magit-status
    ;; "gf"  '(counsel-git :which-key "find file in git dir")
    "gf"  'magit-pull-from-upstream
    "gs"  'magit-status
-   "gp"  'magit-push-to-remote
+   "gp"  'magit-push-popup ;; these days I often have to choose
    "gb"  'magit-blame
+   "gl"  'magit-log-popup
+   "gM"  'magit-remote-popup
+   "gr"  'magit-rebase-popup
+   "gy"  'magit-show-refs
+   "gc"  'magit-commit-popup
+   "gC"  'magit-cherry-pick-popup
+   "gz"  'magit-stash-popup
    ;; Applications
    "a" '(:ignore t :which-key "Applications")
    "d" 'insert-date
    ";" 'comment-line
-   "ar" 'ranger)
+   "ar" 'ranger))
+
+(use-package package-lint
+  :commands  (package-lint-current-buffer
+              package-lint-buffer
+              )
   )
 
 ;;; project navigation
@@ -379,17 +399,44 @@
 (use-package avy
   :commands (avy-goto-word-1 avy-goto-word-or-subword-1))
 
+
 ;;; git
 (use-package magit
   :defer
-  :commands (magit-status magit-dispatch-popup magit-push-to-remote)
+  :commands
+  (magit-blame
+   magit-branch-popup
+   magit-cherry-pick-popup
+   magit-commit-popup
+   magit-dispatch-popup
+   magit-log-popup
+   magit-pull-from-upstream
+   magit-push-popup
+   magit-push-to-remote
+   magit-remote-popup
+   magit-show-refs
+   magit-stash-popup
+   magit-status
+   )
   )
 
-;;; I can't spell
 (use-package flycheck
   :defer 2
   :config
-  (global-flycheck-mode))
+  (global-flycheck-mode)
+  )
+
+;;; I can't spell
+(use-package flyspell
+  :defer t
+  :init
+  (progn
+    (add-hook 'prog-mode-hook 'flyspell-prog-mode)
+    (add-hook 'text-mode-hook 'flyspell-mode)
+    )
+  :config
+  (setq ispell-dictionary "american")
+  )
 
 ;;; I can't program
 (use-package company
@@ -423,6 +470,8 @@
                                         ; but no this instead:
 (add-to-list 'auto-mode-alist '("\\.js\\'" . rjsx-mode))
 
+(use-package shakespeare-mode)
+
 ;;; python
 (use-package python
   :mode ("\\.py\\'" . python-mode)
@@ -446,7 +495,7 @@
   :after evil
   :config
   (custom-set-variables
-   ;; '(haskell-font-lock-symbols t) 
+   ;; '(haskell-font-lock-symbols t)
    '(haskell-stylish-on-save t) ;; disable w/ (setq haskell-stylish-on-save nil)
    ;; enable w/ (setq haskell-stylish-on-save t)
    '(haskell-hoogle-command (concat (projectile-project-root) "scripts/hoogle.sh"))
@@ -510,9 +559,9 @@
                                                     (list (mapconcat 'identity args " ")))
                                             (list (nix-current-sandbox))))))
                 (setq-local lsp-haskell-process-wrapper-function default-nix-wrapper))))
-  
-  
-  
+
+
+
 
   (add-hook 'haskell-mode-hook
             (lambda ()
@@ -525,7 +574,7 @@
                           (lambda (command) (apply 'nix-shell-command (nix-current-sandbox) command)))
               (setq-local flycheck-executable-find
                           (lambda (cmd) (nix-executable-find (nix-current-sandbox) cmd))))))
-  
+
 
 (use-package yasnippet
   :after lsp-mode
@@ -688,12 +737,12 @@ two prefix arguments, write out the day and month name."
   (with-eval-after-load 'dante
     (flycheck-add-next-checker 'haskell-dante
                                '(warning . haskell-hlint)))
-  
+
   :config
   ;; dante's xref doesn't work for mutli-project setups, we just use etags
   (remove-hook 'xref-backend-functions 'dante--xref-backend)
   )
-  
+
 (use-package parinfer
   :init
   (progn
@@ -720,45 +769,45 @@ two prefix arguments, write out the day and month name."
   "Translate a symbolic name for a Unicode character -- e.g., LEFT-ARROW
    or GREATER-THAN into an actual Unicode character code. "
   (decode-char 'ucs (case name
-                          ;; arrows
-                          ('left-arrow 8592)
-                          ('up-arrow 8593)
-                          ('right-arrow 8594)
-                          ('down-arrow 8595)
-                          ;; boxes
-                          ('double-vertical-bar #X2551)
-                          ;; relational operators
-                          ('equal #X003d)
-                          ('not-equal #X2260)
-                          ('identical #X2261)
-                          ('not-identical #X2262)
-                          ('less-than #X003c)
-                          ('greater-than #X003e)
-                          ('less-than-or-equal-to #X2264)
-                          ('greater-than-or-equal-to #X2265)
-                          ;; logical operators
-                          ('logical-and #X2227)
-                          ('logical-or #X2228)
-                          ('logical-neg #X00AC)
-                          ;; misc
-                          ('nil #X2205)
-                          ('horizontal-ellipsis #X2026)
-                          ('double-exclamation #X203C)
-                          ('prime #X2032)
-                          ('double-prime #X2033)
-                          ('for-all #X2200)
-                          ('there-exists #X2203)
-                          ('element-of #X2208)
-                          ;; mathematical operators
-                          ('square-root #X221A)
-                          ('squared #X00B2)
-                          ('cubed #X00B3)
-                          ;; letters
-                          ('lambda #X03BB)
-                          ('alpha #X03B1)
-                          ('beta #X03B2)
-                          ('gamma #X03B3)
-                          ('delta #X03B4))))
+                      ;; arrows
+                      ('left-arrow 8592)
+                      ('up-arrow 8593)
+                      ('right-arrow 8594)
+                      ('down-arrow 8595)
+                      ;; boxes
+                      ('double-vertical-bar #X2551)
+                      ;; relational operators
+                      ('equal #X003d)
+                      ('not-equal #X2260)
+                      ('identical #X2261)
+                      ('not-identical #X2262)
+                      ('less-than #X003c)
+                      ('greater-than #X003e)
+                      ('less-than-or-equal-to #X2264)
+                      ('greater-than-or-equal-to #X2265)
+                      ;; logical operators
+                      ('logical-and #X2227)
+                      ('logical-or #X2228)
+                      ('logical-neg #X00AC)
+                      ;; misc
+                      ('nil #X2205)
+                      ('horizontal-ellipsis #X2026)
+                      ('double-exclamation #X203C)
+                      ('prime #X2032)
+                      ('double-prime #X2033)
+                      ('for-all #X2200)
+                      ('there-exists #X2203)
+                      ('element-of #X2208)
+                      ;; mathematical operators
+                      ('square-root #X221A)
+                      ('squared #X00B2)
+                      ('cubed #X00B3)
+                      ;; letters
+                      ('lambda #X03BB)
+                      ('alpha #X03B1)
+                      ('beta #X03B2)
+                      ('gamma #X03B3)
+                      ('delta #X03B4))))
 
 (defun substitute-pattern-with-unicode (pattern symbol)
   "Add a font lock hook to replace the matched part of PATTERN with the
@@ -787,45 +836,45 @@ two prefix arguments, write out the day and month name."
   "Translate a symbolic name for a Unicode character -- e.g., LEFT-ARROW
 or GREATER-THAN into an actual Unicode character code. "
   (decode-char 'ucs (case name
-                          ;; arrows
-                          ('left-arrow 8592)
-                          ('up-arrow 8593)
-                          ('right-arrow 8594)
-                          ('down-arrow 8595)
-                          ;; boxes
-                          ('double-vertical-bar #X2551)
-                          ;; relational operators
-                          ('equal #X003d)
-                          ('not-equal #X2260)
-                          ('identical #X2261)
-                          ('not-identical #X2262)
-                          ('less-than #X003c)
-                          ('greater-than #X003e)
-                          ('less-than-or-equal-to #X2264)
-                          ('greater-than-or-equal-to #X2265)
-                          ;; logical operators
-                          ('logical-and #X2227)
-                          ('logical-or #X2228)
-                          ('logical-neg #X00AC)
-                          ;; misc
-                          ('nil #X2205)
-                          ('horizontal-ellipsis #X2026)
-                          ('double-exclamation #X203C)
-                          ('prime #X2032)
-                          ('double-prime #X2033)
-                          ('for-all #X2200)
-                          ('there-exists #X2203)
-                          ('element-of #X2208)
-                          ;; mathematical operators
-                          ('square-root #X221A)
-                          ('squared #X00B2)
-                          ('cubed #X00B3)
-                          ;; letters
-                          ('lambda #X03BB)
-                          ('alpha #X03B1)
-                          ('beta #X03B2)
-                          ('gamma #X03B3)
-                          ('delta #X03B4))))
+                      ;; arrows
+                      ('left-arrow 8592)
+                      ('up-arrow 8593)
+                      ('right-arrow 8594)
+                      ('down-arrow 8595)
+                      ;; boxes
+                      ('double-vertical-bar #X2551)
+                      ;; relational operators
+                      ('equal #X003d)
+                      ('not-equal #X2260)
+                      ('identical #X2261)
+                      ('not-identical #X2262)
+                      ('less-than #X003c)
+                      ('greater-than #X003e)
+                      ('less-than-or-equal-to #X2264)
+                      ('greater-than-or-equal-to #X2265)
+                      ;; logical operators
+                      ('logical-and #X2227)
+                      ('logical-or #X2228)
+                      ('logical-neg #X00AC)
+                      ;; misc
+                      ('nil #X2205)
+                      ('horizontal-ellipsis #X2026)
+                      ('double-exclamation #X203C)
+                      ('prime #X2032)
+                      ('double-prime #X2033)
+                      ('for-all #X2200)
+                      ('there-exists #X2203)
+                      ('element-of #X2208)
+                      ;; mathematical operators
+                      ('square-root #X221A)
+                      ('squared #X00B2)
+                      ('cubed #X00B3)
+                      ;; letters
+                      ('lambda #X03BB)
+                      ('alpha #X03B1)
+                      ('beta #X03B2)
+                      ('gamma #X03B3)
+                      ('delta #X03B4))))
 
 (defun substitute-pattern-with-unicode (pattern symbol)
   "Add a font lock hook to replace the matched part of PATTERN with the
@@ -850,3 +899,13 @@ or GREATER-THAN into an actual Unicode character code. "
 
 (add-hook 'purescript-mode-hook 'haskell-unicode)
 (add-hook 'haskell-mode-hook 'haskell-unicode)
+
+(use-package ws-butler
+  :init
+  (add-hook 'prog-mode-hook #'ws-butler-mode)
+  )
+
+(use-package flymake-shellcheck
+  :commands flymake-shellcheck-load
+  :init
+  (add-hook 'sh-mode-hook 'flymake-shellcheck-load))
