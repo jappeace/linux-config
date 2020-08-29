@@ -16,6 +16,9 @@ sudo ln -fs $DIR/configuration.nix /etc/nixos/configuration.nix
 
 DOTFILES=$DIR/dotfiles
 
+# future me, try: find /linux-config/dotfiles/ -type f
+# works, but how to ensure directories? (regex, chop off file, mkdir -p?)
+# then also have fun debugging.
 for file in $(find $DOTFILES -regex "[./A-Za-z\-]+/\.[A-Za-z]+"); do
 	ln -s $file $HOME/ || echo "skipping $file"
 done
@@ -31,6 +34,7 @@ CONFIG=$USER/.config
 mkdir -p $HOME/.config
 
 ln -sf $CONFIG/shell-globals.sh $HOME/.config/
+ln -sf $CONFIG/starship.toml $HOME/.config/
 ln -sf $CONFIG/startup.sh $HOME/.config/
 ln -sf $CONFIG/zsh-hacks.sh $HOME/.config/
 ln -sf $USER/.emacs.d/configuration.org $HOME/.config/emacsconfig.org
