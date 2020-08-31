@@ -226,7 +226,7 @@ bindsym $mod+Shift+s exec sudo sleep-memory
 # bindsym $mod+Shift+a exec --no-startup-id /home/jappie/bin/monitor-2
 
 #bind browser to b, use new window otherwise it'l complain
-bindsym $mod+b exec firefox -new-window
+bindsym $mod+b exec chromium --new-window
 
 #block hosts if I'm slacking to much
 bindsym $mod+Shift+b exec sudo hostblock -b
