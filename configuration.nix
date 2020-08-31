@@ -499,8 +499,8 @@ in {
   nix = {
     gc = {
         automatic = true;
-        dates = "weekly"; # weekly means: Mon *-*-* 00:00:00
-        options = "--delete-older-than 30d";
+        dates = "monthly"; # https://jlk.fjfi.cvut.cz/arch/manpages/man/systemd.time.7
+        options = "--delete-older-than 90d";
     };
 
     trustedUsers = [ "jappie" "root" ];
