@@ -240,14 +240,6 @@
 (use-package evil-magit
   :after (magit evil))
 
-(defun toggle-stylish()
-  "toggles stylish haskell"
-  (if haskell-stylish-on-save
-      (setq haskell-stylish-on-save nil)
-    (setq haskell-stylish-on-save t)
-    )
-  )
-
 ;;; keybindings
 (use-package general
   :config
@@ -292,7 +284,7 @@
    "h"   '(:ignore t :which-key "hoogle/inspection")
    "hl"  'haskell-hoogle-lookup-from-local
    "hq"  'haskell-hoogle
-   "hs"  '(toggle-stylish :which-key "toggle stylish")
+   "hs"  'haskell-mode-stylish-buffer
    "s"  'save-some-buffers
    "p"  'counsel-projectile
    "o"  'counsel-projectile-switch-project
@@ -496,8 +488,7 @@
   :config
   (custom-set-variables
    ;; '(haskell-font-lock-symbols t)
-   '(haskell-stylish-on-save t) ;; disable w/ (setq haskell-stylish-on-save nil)
-   ;; enable w/ (setq haskell-stylish-on-save t)
+   '(haskell-stylish-on-save nil)
    '(haskell-hoogle-command (concat (projectile-project-root) "scripts/hoogle.sh"))
    )
   (defun haskell-evil-open-above ()
