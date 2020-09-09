@@ -100,7 +100,9 @@ in {
       starship
       openssl
       reload-emacs
+
       hardinfo # https://askubuntu.com/questions/179958/how-do-i-find-out-my-motherboard-model
+      dmidecode
 
       pkgsUnstable.anydesk
       nmap
