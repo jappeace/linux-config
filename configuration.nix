@@ -10,7 +10,7 @@ let
     config.allowUnfree = true;
     overlays = [
       # (import ./overlays/cut-the-crap)
-      (import /home/jappie/projects/cut-the-crap/overlay)
+      (import /home/jappie/projects/cut-the-crap/nix/overlay)
       (import ./overlays/boomer)
     ];
 
@@ -79,7 +79,7 @@ in {
       blender
       mesa
       idris
-      devpackeges.haskellPackages.cut-the-crap
+      # devpackeges.haskellPackages.cut-the-crap
       lsof
       ffmpeg
       gromit-mpx # draw on screen
@@ -100,6 +100,7 @@ in {
       starship
       openssl
       reload-emacs
+      hardinfo # https://askubuntu.com/questions/179958/how-do-i-find-out-my-motherboard-model
 
       pkgsUnstable.anydesk
       nmap
@@ -431,7 +432,7 @@ in {
         tapping = true;
         disableWhileTyping = true;
       };
-      videoDrivers = [ "amdgpu" ];
+      videoDrivers = [ "amdgpu" "modesetting"];
       desktopManager.xfce.enable = true; # for the xfce-panel in i3
       desktopManager.xfce.noDesktop = true;
       desktopManager.xfce.enableXfwm =
