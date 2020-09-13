@@ -1,6 +1,8 @@
 [![Jappiejappie](https://img.shields.io/badge/twitch.tv-jappiejappie-purple?logo=twitch)](https://www.twitch.tv/jappiejappie)
 [![Jappiejappie](https://img.shields.io/badge/discord-jappiejappie-black?logo=discord)](https://discord.gg/Hp4agqy)
 
+> You learn to run by running.
+
 This project contains config files so that they're backuped and can be shared
 across multiple devices.
 It's made shareable by heavily [relying on nix](https://nixos.org/).
