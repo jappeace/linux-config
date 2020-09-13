@@ -14,6 +14,10 @@ let
       (import ./overlays/boomer)
     ];
 
+    # permittedInsecurePackages = [
+    #   "openssl-1.0.2u"
+    # ];
+
     config.allowBroken = true;
     config.oraclejdk.accept_license = true;
   };
@@ -104,6 +108,8 @@ in {
       hardinfo # https://askubuntu.com/questions/179958/how-do-i-find-out-my-motherboard-model
       dmidecode
 
+      pkgsUnstable.dmg2img # https://www.uubyte.com/convert-dmg-to-iso-free.html
+
       pkgsUnstable.anydesk
       nmap
 
@@ -158,7 +164,7 @@ in {
       xlibs.xmodmap # rebind capslock to escape
       xdotool # i3 auto type
       blackbird
-      lxappearance # theme
+      lxappearance # theme, adwaita-dark works for gtk3, gtk2 and qt5.
       lxappearance-gtk3
       glxinfo # glxgears
       fasd # try zoxide in future, it's rust based and active (this one is dead)
@@ -197,6 +203,8 @@ in {
       tmate
       cachix
 
+      pkgsUnstable.ib-tws
+
       sloccount
       cloc
       lshw # list hardware
@@ -231,13 +239,16 @@ in {
   fonts = {
     enableDefaultFonts = true;
     fonts = with pkgs; [
-      inconsolata
-      ubuntu_font_family
       fira-code
       fira-code-symbols
+      inconsolata
+      ubuntu_font_family
       corefonts
     ];
-    fontconfig = { defaultFonts = { monospace = [ "Fira Code" ]; }; };
+    fontconfig = { defaultFonts = {
+      # we need to set in in qt5ct as well.
+      monospace = [ "Fira Code" ]; };
+      };
   };
 
   # Open ports in the firewall.
@@ -421,7 +432,7 @@ in {
           enable = true;
           autoLogin = {
             user = "jappie";
-            enable = true;
+            enable = false;
           };
         };
         sessionCommands = ''
@@ -434,7 +445,7 @@ in {
         tapping = true;
         disableWhileTyping = true;
       };
-      videoDrivers = [ "amdgpu" "modesetting"];
+      videoDrivers = [ "amdgpu" "radeon" "cirrus" "vesa" "modesetting" "intel"];
       desktopManager.xfce.enable = true; # for the xfce-panel in i3
       desktopManager.xfce.noDesktop = true;
       desktopManager.xfce.enableXfwm =
@@ -491,7 +502,10 @@ in {
   };
   virtualisation = {
     docker.enable = true;
-    virtualbox.host.enable = true;
+    virtualbox.host = {
+      enable = true;
+      enableExtensionPack = false;
+    };
     libvirtd.enable = true;
   };
   powerManagement = {
