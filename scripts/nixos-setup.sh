@@ -15,19 +15,21 @@ DIR=/linux-config
 sudo ln -fs $DIR/configuration.nix /etc/nixos/configuration.nix
 
 DOTFILES=$DIR/dotfiles
+USER=$DOTFILES/jappie
+CONFIG=$USER/.config
+
+mkdir -p $CONFIG
 
 for file in $(find $DOTFILES -regex "[./A-Za-z\-]+/\.[A-Za-z]+"); do
 	ln -s $file $HOME/ || echo "skipping $file"
 done
 
-USER=$DOTFILES/jappie
 
 mkdir -p $HOME/.i3
 ln -sf $USER/.i3/config $HOME/.i3/config
 
 ln -sf $USER/vimrc.local $HOME/.vimrc
 
-CONFIG=$USER/.config
 mkdir -p $HOME/.config
 
 ln -sf $CONFIG/shell-globals.sh $HOME/.config/
