@@ -755,6 +755,7 @@ two prefix arguments, write out the day and month name."
 (use-package cobol-mode)
 (use-package idris-mode)
 (use-package lua-mode)
+(use-package typescript-mode)
 
 (defun unicode-symbol (name)
   "Translate a symbolic name for a Unicode character -- e.g., LEFT-ARROW

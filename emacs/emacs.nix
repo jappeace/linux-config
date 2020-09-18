@@ -27,6 +27,7 @@ packagedEmacs =
     nix-mode
     yaml-mode
     markdown-mode
+    typescript-mode
     rjsx-mode # better js
     linum-relative # line numbers are useless, just tell me how much I need to go up
     rust-mode
