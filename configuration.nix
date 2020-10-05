@@ -39,6 +39,19 @@ in {
     # kernelPackages = pkgs.linuxPackages_4_9; # fix supsend maybe?
   };
 
+    security.pam.loginLimits = [{
+        domain = "@users";
+        type = "hard";
+        item = "data";
+        value = "16000000"; # kill process if it goes over this
+    }
+    {
+        domain = "@users";
+        type = "soft";
+        item = "data";
+        value = "8000000"; # notify process if it eats more than 8gig
+    }];
+
   networking = {
     hostName = "work-machine"; # Define your hostname.
     # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
@@ -104,6 +117,8 @@ in {
       starship
       openssl
       reload-emacs
+
+      crawlTiles
 
       hardinfo # https://askubuntu.com/questions/179958/how-do-i-find-out-my-motherboard-model
       dmidecode
