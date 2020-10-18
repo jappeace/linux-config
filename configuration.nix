@@ -10,11 +10,10 @@ let
     config.allowUnfree = true;
     overlays = [
       # (import ./overlays/cut-the-crap)
-      (import /home/jappie/projects/cut-the-crap/overlay)
       (import ./overlays/boomer)
     ];
 
-    config.allowBroken = true;
+    # config.allowBroken = true;
     config.oraclejdk.accept_license = true;
   };
 
@@ -70,16 +69,8 @@ in {
       0.0.0.0 analytics.google.com
       0.0.0.0 facebook.com
       0.0.0.0 www.facebook.com
-      0.0.0.0 linkedin.com
-      0.0.0.0 www.linkedin.com
-      0.0.0.0 youtube.com
-      0.0.0.0 www.youtube.com
-      0.0.0.0 reddit.com
-      0.0.0.0 www.reddit.com
       0.0.0.0 twitch.com
       0.0.0.0 www.twitch.com
-      0.0.0.0 twitter.com
-      0.0.0.0 www.twitter.com
     '';
   };
 
@@ -109,8 +100,6 @@ in {
         lame = pkgs.lame;
       }) # split OSTs with this spell: https://unix.stackexchange.com/questions/318164/sox-split-audio-on-silence-but-keep-silence
       krita
-      pkgsUnstable.jetbrains.idea-community
-      # pkgsUnstable.steam
       steam
       screenkey
       slop
@@ -224,9 +213,11 @@ in {
       konsole
       nixfmt
       pkgsUnstable.discord
+      reload-emacs
 
       pkgsUnstable.xfce.xfce4-eyes-plugin
       pkgsUnstable.xfce.xfce4-fsguard-plugin
+      kgsUnstable.haskellPackages.cut-the-crap
       starship
 
       ncdu # shell based q4dirstat
@@ -478,8 +469,7 @@ in {
       desktopManager.xfce.noDesktop = true;
       desktopManager.xfce.enableXfwm =
         false; # try disabling xfce popping over i3
-      desktopManager.mate.enable =
-        true; # alternative desktop in case programs are bugged and I'm lazy to debug
+      desktopManager.xfce.thunarPlugins = [ pkgs.xfce.thunar-archive-plugin pkgs.xfce.thunar-volman ];
 
       windowManager.i3.enable = true;
       enable = true;
