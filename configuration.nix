@@ -25,6 +25,14 @@ let
   reload-emacs = pkgs.writeShellScriptBin "reload-emacs" ''
     sudo nixos-rebuild switch && systemctl daemon-reload --user &&    systemctl restart emacs --user
   '';
+
+  /* a good workaround is worth a thousand poor fixes */
+  start-ib = pkgs.writeShellScriptBin "start-ib" ''
+    xhost +
+    docker rm broker-client
+    docker run --name=broker-client -d -v /tmp/.X11-unix:/tmp/.X11-unix -it ib bash
+    docker exec -it broker-client bas
+  '';
 in {
   imports = [ # Include the results of the hardware scan.
     ./hardware/work-machine.nix
@@ -60,7 +68,6 @@ in {
     # randomly checking them, even several times in a row.
     # Blocking them permenantly for a week or so gets rid of that behavior
     extraHosts = ''
-      0.0.0.0 news.ycombinator.com
       0.0.0.0 covid19info.live
       0.0.0.0 linkdedin.com
       0.0.0.0 www.linkdedin.com
@@ -117,6 +124,7 @@ in {
       starship
       openssl
       reload-emacs
+      start-ib
 
       crawlTiles
 
@@ -162,7 +170,7 @@ in {
       networkmanagerapplet # make wifi clickable
       git
       imagemagick
-      keepassxc # to open my passwords
+      pkgsUnstable.keepassxc # to open my passwords
       tree # sl
       pkgsUnstable.obs-linuxbrowser # install instructions: https://github.com/NixOS/nixpkgs/blob/master/pkgs/applications/video/obs-studio/linuxbrowser.nix
       xfce4-panel
@@ -224,6 +232,9 @@ in {
       cloc
       lshw # list hardware
       pkgs.xorg.xev # monitor x events
+
+      direnv # https://direnv.net/
+      nix-direnv
     ];
     shellAliases = {
       vim = "nvim";
@@ -232,6 +243,9 @@ in {
       bc = "bc -l"; # fix scale
     };
     variables = { LESS = "-F -X -R"; };
+    pathsToLink = [
+        "/share/nix-direnv"
+    ];
   };
 
   # Some programs need SUID wrappers, can be configured further or are
