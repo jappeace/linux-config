@@ -31,7 +31,7 @@ let
     xhost +
     docker rm broker-client
     docker run --name=broker-client -d -v /tmp/.X11-unix:/tmp/.X11-unix -it ib bash
-    docker exec -it broker-client bas
+    docker exec -it broker-client bash
   '';
 in {
   imports = [ # Include the results of the hardware scan.
