@@ -558,6 +558,7 @@ in {
       "https://fairy-tale-agi-solutions.cachix.org"
       "https://jappie.cachix.org"
       "https://all-hies.cachix.org"
+      "https://nix-community.cachix.org"
       # "https://static-haskell-nix.cachix.org"
     ];
     binaryCachePublicKeys = [
@@ -567,6 +568,7 @@ in {
       "jappie.cachix.org-1:+5Liddfns0ytUSBtVQPUr/Wo6r855oNLgD4R8tm1AE4="
       "fairy-tale-agi-solutions.cachix.org-1:FwDwUQVY1jJIz5/Z3Y9d0hNPNmFqMEr6wW+D99uaEGs="
       "all-hies.cachix.org-1:JjrzAOEUsD9ZMt8fdFbzo3jNAyEWlPAwdVuHw4RD43k="
+      "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
     ] ++ import ./encrypted/cachix.nix;
   };
 }
