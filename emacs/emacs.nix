@@ -1,7 +1,7 @@
-{ pkgs ? import (builtins.fetchTarball "https://github.com/NixOS/nixpkgs-channels/archive/58b68770692.tar.gz") {} }:
+{ pkgs }:
 
 let
-  myEmacs = pkgs.emacs.override{};
+  myEmacs = pkgs.emacs; # pkgs.emacsGcc compiles all elisp to native code, no drawback according to skybro.
   emacsWithPackages = (pkgs.emacsPackagesNgGen myEmacs).emacsWithPackages;
 
   # https://sam217pa.github.io/2016/09/02/how-to-build-your-own-spacemacs/
