@@ -244,6 +244,17 @@ in {
     pathsToLink = [
         "/share/nix-direnv"
     ];
+
+    etc."xdg/gtk-2.0/gtkrc".text = ''
+        gtk-theme-name="Adwaita-dark"
+    '';
+    etc."xdg/gtk-3.0/settings.ini".text = ''
+        [Settings]
+        gtk-theme-name=Adwaita-dark
+    '';
+
+    # variables.QT_QPA_PLATFORMTHEME = "gtk3";
+    variables.QT_STYLE_OVERRIDE = "adwaita-dark";
   };
 
   # Some programs need SUID wrappers, can be configured further or are
@@ -256,7 +267,6 @@ in {
       enableSSHSupport = true;
     };
     vim.defaultEditor = true;
-    qt5ct.enable = true; # fix qt5 themes
     adb.enable = true;
     light.enable = true;
     gnome-terminal.enable = true;
@@ -290,6 +300,12 @@ in {
   # Enable sound.
   sound.enable = true;
 
+  # https://github.com/NixOS/nixpkgs/blob/master/nixos/modules/config/qt5.nix
+  qt5 = {
+    enable = true;
+    platformTheme = "gnome";
+    style = "adwaita-dark";
+  };
   nixpkgs.config = {
     allowUnfree = true; # I'm horrible, nvidia sucks, TODO kill nvidia
     pulseaudio = true;
@@ -473,6 +489,7 @@ in {
         false; # try disabling xfce popping over i3
       # desktopManager.gnome3.enable = true; # to get the themes working with gnome-tweak tool
       windowManager.i3.enable = true;
+      windowManager.i3.extraPackages = [ pkgs.adwaita-qt ];
       enable = true;
       layout = "us";
     };
