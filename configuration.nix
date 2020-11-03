@@ -185,8 +185,12 @@ in {
       rofi # dmenu replacement (fancy launcher)
       xlibs.xmodmap # rebind capslock to escape
       xdotool # i3 auto type
+
+      # theme shit
       blackbird
       lxappearance # theme, adwaita-dark works for gtk3, gtk2 and qt5.
+      qt5ct
+
       glxinfo # glxgears
       fasd # try zoxide in future, it's rust based and active (this one is dead)
       cowsay
@@ -253,9 +257,16 @@ in {
         gtk-theme-name=Adwaita-dark
     '';
 
-    # variables.QT_QPA_PLATFORMTHEME = "gtk3";
-    variables.QT_STYLE_OVERRIDE = "adwaita-dark";
+    variables.QT_QPA_PLATFORMTHEME = "qt5ct";
+    # variables.QT_STYLE_OVERRIDE = "adwaita-dark";
   };
+
+  # # https://github.com/NixOS/nixpkgs/blob/master/nixos/modules/config/qt5.nix
+  # qt5 = {
+  #   enable = true;
+  #   platformTheme = "gnome";
+  #   style = "adwaita-dark";
+  # };
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
@@ -300,12 +311,6 @@ in {
   # Enable sound.
   sound.enable = true;
 
-  # https://github.com/NixOS/nixpkgs/blob/master/nixos/modules/config/qt5.nix
-  qt5 = {
-    enable = true;
-    platformTheme = "gnome";
-    style = "adwaita-dark";
-  };
   nixpkgs.config = {
     allowUnfree = true; # I'm horrible, nvidia sucks, TODO kill nvidia
     pulseaudio = true;
@@ -490,6 +495,10 @@ in {
       # desktopManager.gnome3.enable = true; # to get the themes working with gnome-tweak tool
       windowManager.i3.enable = true;
       windowManager.i3.extraPackages = [ pkgs.adwaita-qt ];
+      desktopManager.plasma5 = {
+        enable = true;
+        phononBackend = "vlc";
+      };
       enable = true;
       layout = "us";
     };
