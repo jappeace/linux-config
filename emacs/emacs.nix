@@ -1,4 +1,4 @@
-{ pkgs }:
+{ pkgs ? import <nixpkgs> { }}:
 
 let
   myEmacs = pkgs.emacs; # pkgs.emacsGcc compiles all elisp to native code, no drawback according to skybro.
@@ -39,15 +39,15 @@ packagedEmacs =
     fill-column-indicator # 80 char
     haskell-mode
     yasnippet
-    magit
     evil
-    evil-magit
     parinfer
     ws-butler
 
     # evil-org # broken
     # dracula-theme
   ]) ++ (with epkgs.melpaPackages; [
+    magit
+    # evil-magit
     package-lint
     dante
     ox-reveal # org reveal
@@ -61,7 +61,6 @@ packagedEmacs =
     pretty-symbols
     flymake-shellcheck
     # lsp-rust
-    # evil-collection
     # we bind emacs lsp to whatever lsp's we want
     # for example haskell: https://github.com/haskell/haskell-ide-engine#using-hie-with-emacs
     # rust https://github.com/rust-lang-nursery/rls

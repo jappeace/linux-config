@@ -41,7 +41,8 @@ bindsym --release $mod+Ctrl+w exec --no-startup-id "xdotool keyup ctrl keyup alt
 bindsym $mod+Shift+a exec boomer
 
 # start a terminal
-bindsym $mod+Return exec konsole
+# bindsym $mod+Return exec konsole
+bindsym $mod+Return exec xfce4-terminal
 
 # kill focused window
 bindsym $mod+Shift+q kill

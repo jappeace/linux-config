@@ -218,6 +218,7 @@
 (use-package evil
   :init
   (setq evil-want-keybinding nil)
+  (setq evil-want-integration t)
   :config
   (evil-mode 1)
   )
@@ -234,11 +235,11 @@
 (use-package evil-collection
   :after evil
   :config
-  (evil-collection-init))
+  (evil-collection-init '(calendar magit)))
 
 ;; todo delete in favor of evil collection?
-(use-package evil-magit
-  :after (magit evil))
+;; (use-package evil-magit
+;;   :after (magit evil))
 
 ;;; keybindings
 (use-package general
@@ -648,7 +649,7 @@
 two prefix arguments, write out the day and month name."
   (interactive "P")
   (let ((format (cond
-                 ((not prefix) "%d.%m.%Y")
+                 ((not prefix) "%Y.%m.%d")
                  ((equal prefix '(4)) "%Y-%m-%d")
                  ((equal prefix '(16)) "%A, %d. %B %Y")))
         (system-time-locale "de_DE"))
