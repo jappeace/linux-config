@@ -99,6 +99,12 @@ in {
         enableLame = true;
         lame = pkgs.lame;
       }) # split OSTs with this spell: https://unix.stackexchange.com/questions/318164/sox-split-audio-on-silence-but-keep-silence
+      (pkgs.pidgin-with-plugins.override {
+      ## Add whatever plugins are desired (see nixos.org package listing).
+        plugins = [ pkgs.purple-discord pkgs.purple-slack pkgs.purple-facebook
+                    # pkgs.whatsapp-purple
+                  ];
+      })
       krita
       steam
       screenkey
