@@ -235,11 +235,11 @@
 (use-package evil-collection
   :after evil
   :config
-  (evil-collection-init '(calendar magit)))
+  (evil-collection-init))
 
 ;; todo delete in favor of evil collection?
-;; (use-package evil-magit
-;;   :after (magit evil))
+(use-package evil-magit
+  :after (magit evil))
 
 ;;; keybindings
 (use-package general

@@ -4,11 +4,32 @@ let
   myEmacs = pkgs.emacs; # pkgs.emacsGcc compiles all elisp to native code, no drawback according to skybro.
   emacsWithPackages = (pkgs.emacsPackagesNgGen myEmacs).emacsWithPackages;
 
+
   # https://sam217pa.github.io/2016/09/02/how-to-build-your-own-spacemacs/
   myEmacsConfig = pkgs.writeText "default.el" (builtins.readFile ./emacs.el);
 packagedEmacs = 
   emacsWithPackages (epkgs:
-  (
+    (let
+  evilMagit =     epkgs.melpaBuild (
+      {
+        pname = "evil-magit";
+        ename = "evil-magit";
+        version = "9999";
+        recipe = builtins.toFile "recipe" ''
+          (evil-magit :fetcher github
+          :repo "emacs-evil/evil-magit")
+        '';
+
+        src = pkgs.fetchFromGitHub {
+          owner = "emacs-evil";
+          repo = "evil-magit";
+          rev = "04a4580c6eadc0e2b821a3525687e74aefc30e84";
+          sha256 = "1zckz54pwx63w9j4vlkx0h9mv0p9nbvvynvf9cb6wqm3d0xa4rw2";
+        };
+      }
+    );
+      in
+
   (with epkgs.melpaStablePackages; [
 
 (pkgs.runCommand "default.el" {} ''
@@ -46,8 +67,8 @@ packagedEmacs =
     # evil-org # broken
     # dracula-theme
   ]) ++ (with epkgs.melpaPackages; [
+    evilMagit
     magit
-    # evil-magit
     package-lint
     dante
     ox-reveal # org reveal
