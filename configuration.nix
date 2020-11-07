@@ -329,6 +329,7 @@ in {
             set t_Co=512
             set cmdheight=1
             set expandtab
+            set clipboard=unnamedplus
             autocmd FileType haskell setlocal sw=4 sts=4 et
           '';
           packages.neovim2 = with pkgs.vimPlugins; {
