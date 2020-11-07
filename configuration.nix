@@ -223,7 +223,7 @@ in {
 
       pkgsUnstable.xfce.xfce4-eyes-plugin
       pkgsUnstable.xfce.xfce4-fsguard-plugin
-      kgsUnstable.haskellPackages.cut-the-crap
+      pkgsUnstable.haskellPackages.cut-the-crap
       starship
 
       ncdu # shell based q4dirstat
