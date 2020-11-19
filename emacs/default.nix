@@ -10,11 +10,12 @@ in {
   environment = {
 	  systemPackages = with pkgs; [
         # emacs
-        (pkgs.writeShellScriptBin "rg" ''
-        ${pkgs.ripgrep}/bin/rg -M 100 --glob \!*.min.css --glob \!*.min.js -m 1 --max-columns-preview "$@"
-        ''
-        ) # better silver searcher?
+        # (pkgs.writeShellScriptBin "rg" ''
+        # ${pkgs.ripgrep}/bin/rg -M 100 --glob \!*.min.css --glob \!*.min.js -m 1 --max-columns-preview "$@"
+        # ''
+        # ) # better silver searcher?
 
+        pkgs.ripgrep
         aspell_with_dict # I can't spell
         pkgs.rustracer
         pkgs.haskellPackages.stylish-haskell

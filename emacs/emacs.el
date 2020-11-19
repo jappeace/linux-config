@@ -328,6 +328,8 @@
              )
   :config
   (counsel-projectile-mode)
+  (setq counsel-rg-base-command
+        "rg --with-filename --no-heading --line-number --color never -M 120 -iglob \"!*/static/**\" %s"
   )
 
 (use-package projectile
@@ -396,13 +398,13 @@
 
 ;;; git
 (use-package magit
+  :after ivy
   :defer
   :commands
   (magit-blame
    magit-branch-popup
    magit-cherry-pick-popup
    magit-commit-popup
-   magit-dispatch-popup
    magit-log-popup
    magit-pull-from-upstream
    magit-push-popup
@@ -411,7 +413,10 @@
    magit-show-refs
    magit-stash-popup
    magit-status
+   magit-rebase
    )
+  :config
+  (setq magit-completing-read-function 'ivy-completing-read)
   )
 
 (use-package flycheck
