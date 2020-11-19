@@ -283,7 +283,6 @@
    "fr"  'projectile-replace-regexp
    "fg"  'counsel-git-grep
    "fh"  'haskell-hoogle-lookup-from-local
-   "fa"  'counsel-projectile-ag
    "f/"  'counsel-projectile-rg ; dumb habit
    "h"   '(:ignore t :which-key "hoogle/inspection")
    "hl"  'haskell-hoogle-lookup-from-local
@@ -326,7 +325,6 @@
              counsel-projectile-find-file
              counsel-projectile-rg
              counsel-projectile
-             counsel-projectile-ag
              )
   :config
   (counsel-projectile-mode)
