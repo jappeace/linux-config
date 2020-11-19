@@ -303,7 +303,7 @@
    "gb"  'magit-blame
    "gl"  'magit-log-popup
    "gM"  'magit-remote-popup
-   "gr"  'magit-rebase-popup
+   "gr"  'magit-rebase
    "gy"  'magit-show-refs
    "gc"  'magit-commit-popup
    "gC"  'magit-cherry-pick-popup
