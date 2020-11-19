@@ -9,13 +9,15 @@ in {
   # $ nix search wget
   environment = {
 	  systemPackages = with pkgs; [
-        # emacs
-        # (pkgs.writeShellScriptBin "rg" ''
-        # ${pkgs.ripgrep}/bin/rg -M 100 --glob \!*.min.css --glob \!*.min.js -m 1 --max-columns-preview "$@"
-        # ''
-        # ) # better silver searcher?
 
-        pkgs.ripgrep
+        # TODO use counsel-rg-base-command instead, however bugged at the moment
+        # emacs
+        (pkgs.writeShellScriptBin "rg" ''
+        ${pkgs.ripgrep}/bin/rg --with-filename -M 120 --glob '!*.min.js' --iglob '!**/static/**' --max-columns-preview "$@"
+        ''
+        ) # better silver searcher?
+
+        # pkgs.ripgrep
         aspell_with_dict # I can't spell
         pkgs.rustracer
         pkgs.haskellPackages.stylish-haskell

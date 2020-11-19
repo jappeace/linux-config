@@ -315,22 +315,22 @@
 
 (use-package package-lint
   :commands  (package-lint-current-buffer
-              package-lint-buffer
-              )
-  )
+              package-lint-buffer))
+
+  
 
 ;;; project navigation
 (use-package counsel-projectile
   :commands (
              counsel-projectile-find-file
              counsel-projectile-rg
-             counsel-projectile
-             )
+             counsel-projectile)
+
   :config
-  (counsel-projectile-mode)
-  (setq counsel-rg-base-command
-        "rg --with-filename --no-heading --line-number --color never -M 120 -iglob \"!*/static/**\" %s"
-  )
+  (counsel-projectile-mode))
+  ;; :custom ;; see emacs/default.nix
+  ;; (counsel-rg-base-command "")
+
 
 (use-package projectile
   :config
