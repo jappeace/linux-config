@@ -728,6 +728,7 @@ two prefix arguments, write out the day and month name."
 
 (use-package dante
   :after haskell-mode
+  :disabled
   :commands 'dante-mode
   :init
   (add-hook 'haskell-mode-hook 'flycheck-mode)
