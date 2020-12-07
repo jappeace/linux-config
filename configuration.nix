@@ -65,12 +65,13 @@ in {
     # Blocking them permenantly for a week or so gets rid of that behavior
     extraHosts = ''
       0.0.0.0 trader.degiro.nl
-      0.0.0.0 news.ycombinator.com
       0.0.0.0 analytics.google.com
-      0.0.0.0 facebook.com
-      0.0.0.0 www.facebook.com
       0.0.0.0 twitch.com
       0.0.0.0 www.twitch.com
+      0.0.0.0 linkedin.com
+      0.0.0.0 www.linkedin.com
+      0.0.0.0 facebook.com
+      0.0.0.0 www.facebook.com
     '';
   };
 
@@ -89,7 +90,7 @@ in {
   # Set your time zone.
   # time.timeZone = "Europe/Amsterdam";
   # aruba = Canada/Atlantic
-  time.timeZone = "Europe/Amsterdam";
+  time.timeZone = "Canada/Atlantic";
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment = {
@@ -203,6 +204,7 @@ in {
       opencl-info
       neofetch
       audacious # plays music a bit better than vlc
+      pkgsUnstable.zoom-us
       ctags
       # pkgsUnstable.litecli # better sqlite browser
       pgcli # better postgres cli client
@@ -225,6 +227,7 @@ in {
       pkgsUnstable.xfce.xfce4-fsguard-plugin
       pkgsUnstable.haskellPackages.cut-the-crap
       starship
+      gnome3.file-roller
 
       ncdu # shell based q4dirstat
 
@@ -237,6 +240,9 @@ in {
       cloc
       lshw # list hardware
       pkgs.xorg.xev # monitor x events
+
+      direnv # https://direnv.net/
+      nix-direnv
     ];
     shellAliases = {
       vim = "nvim";
@@ -245,6 +251,10 @@ in {
       bc = "bc -l"; # fix scale
     };
     variables = { LESS = "-F -X -R"; };
+    pathsToLink = [
+        "/share/nix-direnv"
+    ];
+
   };
 
   # Some programs need SUID wrappers, can be configured further or are
@@ -361,6 +371,7 @@ in {
       systemWide = true;
     };
     opengl.driSupport32Bit = true;
+
   };
   # List services that you want to enable:
 
