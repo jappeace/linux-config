@@ -364,11 +364,15 @@ in {
   # hardware.bumblebee.enable = true;
   # hardware.bumblebee.connectDisplay = true;
   hardware = {
+    bluetooth.enable = true;
+
     enableRedistributableFirmware = true;
     pulseaudio = {
       enable = true;
       support32Bit = true;
       systemWide = true;
+      package = pkgs.pulseaudioFull;
+
     };
     opengl.driSupport32Bit = true;
 
@@ -378,12 +382,14 @@ in {
   # Enable the OpenSSH daemon.
   # services.openssh.enable = true;
   services = {
+    blueman.enable = true;
+
     # free curl: sudo killall -HUP tor && curl -K --socks5-hostname 127.0.0.1:9050 https://ifconfig.me
     tor.enable = true;
     tor.client.enable = true;
     compton = { # allows for fading of windows and transparancy
       # api: https://github.com/NixOS/nixpkgs/blob/master/nixos/modules/services/x11/compton.nix
-      enable = true;
+      enable = false;
       fade = true;
       inactiveOpacity = "0.925";
       # fade steps fadeSteps = ["0.04" "0.04"];
