@@ -127,7 +127,6 @@ in {
       bc # random calcualtions
       # androidenv.platformTools
       android-studio
-      virtualbox
       thunar
       openjdk # we need to be able to run java stuff (plantuml)
       inkscape # gotta make that artwork for site etc
