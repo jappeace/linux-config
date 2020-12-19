@@ -222,6 +222,7 @@ in {
       nixfmt
       pkgsUnstable.discord
       reload-emacs
+      ngrok-2
 
       pkgsUnstable.xfce.xfce4-eyes-plugin
       pkgsUnstable.xfce.xfce4-fsguard-plugin
