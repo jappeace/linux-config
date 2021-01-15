@@ -1,14 +1,35 @@
-{ pkgs ? import (builtins.fetchTarball "https://github.com/NixOS/nixpkgs-channels/archive/58b68770692.tar.gz") {} }:
+{ pkgs ? import <nixpkgs> { }}:
 
 let
-  myEmacs = pkgs.emacs.override{};
+  myEmacs = pkgs.emacs; # pkgs.emacsGcc compiles all elisp to native code, no drawback according to skybro.
   emacsWithPackages = (pkgs.emacsPackagesNgGen myEmacs).emacsWithPackages;
+
 
   # https://sam217pa.github.io/2016/09/02/how-to-build-your-own-spacemacs/
   myEmacsConfig = pkgs.writeText "default.el" (builtins.readFile ./emacs.el);
 packagedEmacs =
   emacsWithPackages (epkgs:
-  (
+    (let
+  evilMagit =     epkgs.melpaBuild (
+      {
+        pname = "evil-magit";
+        ename = "evil-magit";
+        version = "9999";
+        recipe = builtins.toFile "recipe" ''
+          (evil-magit :fetcher github
+          :repo "emacs-evil/evil-magit")
+        '';
+
+        src = pkgs.fetchFromGitHub {
+          owner = "emacs-evil";
+          repo = "evil-magit";
+          rev = "04a4580c6eadc0e2b821a3525687e74aefc30e84";
+          sha256 = "1zckz54pwx63w9j4vlkx0h9mv0p9nbvvynvf9cb6wqm3d0xa4rw2";
+        };
+      }
+    );
+      in
+
   (with epkgs.melpaStablePackages; [
 
 (pkgs.runCommand "default.el" {} ''
@@ -27,6 +48,7 @@ packagedEmacs =
     nix-mode
     yaml-mode
     markdown-mode
+    typescript-mode
     rjsx-mode # better js
     linum-relative # line numbers are useless, just tell me how much I need to go up
     rust-mode
@@ -38,15 +60,15 @@ packagedEmacs =
     fill-column-indicator # 80 char
     haskell-mode
     yasnippet
-    magit
     evil
-    evil-magit
     parinfer
     ws-butler
 
     # evil-org # broken
     # dracula-theme
   ]) ++ (with epkgs.melpaPackages; [
+    evilMagit
+    magit
     package-lint
     dante
     ox-reveal # org reveal
@@ -60,7 +82,6 @@ packagedEmacs =
     pretty-symbols
     flymake-shellcheck
     # lsp-rust
-    # evil-collection
     # we bind emacs lsp to whatever lsp's we want
     # for example haskell: https://github.com/haskell/haskell-ide-engine#using-hie-with-emacs
     # rust https://github.com/rust-lang-nursery/rls

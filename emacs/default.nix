@@ -20,7 +20,7 @@ in {
         pkgs.rustracer
         pkgs.haskellPackages.stylish-haskell
         pkgs.haskellPackages.brittany
-        pkgs.haskellPackages.hindent
+        # pkgs.haskellPackages.hindent
         pkgs.haskellPackages.hlint
         shfmt
         html-tidy
@@ -29,6 +29,10 @@ in {
         pkgs.shellcheck
 	  ];
   };
+
+  nixpkgs.overlays = [
+      (import (builtins.fetchTarball "https://github.com/nix-community/emacs-overlay/archive/ee4469f861bef810a57b6ac242b85eacfcf1383e.tar.gz"))
+  ];
 
   services = {
 		emacs = {

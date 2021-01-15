@@ -20,6 +20,14 @@ let
   reload-emacs = pkgs.writeShellScriptBin "reload-emacs" ''
     sudo nixos-rebuild switch && systemctl daemon-reload --user &&    systemctl restart emacs --user
   '';
+
+  /* a good workaround is worth a thousand poor fixes */
+  start-ib = pkgs.writeShellScriptBin "start-ib" ''
+    xhost +
+    docker rm broker-client
+    docker run --name=broker-client -d -v /tmp/.X11-unix:/tmp/.X11-unix -it ib bash
+    docker exec -it broker-client tws
+  '';
 in {
   imports = [ # Include the results of the hardware scan.
     ./hardware/bto.nix
@@ -55,6 +63,19 @@ in {
     what = "tmpfs";
     options = "mode=1777,strictatime,nosuid,nodev,size=75%";
   }];
+
+    security.pam.loginLimits = [{
+        domain = "@users";
+        type = "hard";
+        item = "data";
+        value = "16000000"; # kill process if it goes over this
+    }
+    {
+        domain = "@users";
+        type = "soft";
+        item = "data";
+        value = "8000000"; # notify process if it eats more than 8gig
+    }];
 
   networking = {
     hostName = "portable-jappie-nixos"; # Define your hostname.
@@ -157,14 +178,17 @@ in {
       rofi # dmenu replacement (fancy launcher)
       xlibs.xmodmap # rebind capslock to escape
       xdotool # i3 auto type
+
+      # theme shit
       blackbird
       lxappearance # theme
       fasd
+      qt5ct
       cowsay
       fortune
       thefuck # zsh stuff
       vlc
-      firefoxWrapper
+      firefox
       chromium
       pavucontrol
       gparted # partitiioning for dummies, like me
@@ -236,6 +260,8 @@ in {
       (winetricks.override { wine = pkgs.wine; })
       pkgs.samba
 
+      pkgsUnstable.ib-tws
+
       sloccount
       cloc
       lshw # list hardware
@@ -255,7 +281,24 @@ in {
         "/share/nix-direnv"
     ];
 
+    etc."xdg/gtk-2.0/gtkrc".text = ''
+        gtk-theme-name="Adwaita-dark"
+    '';
+    etc."xdg/gtk-3.0/settings.ini".text = ''
+        [Settings]
+        gtk-theme-name=Adwaita-dark
+    '';
+
+    variables.QT_QPA_PLATFORMTHEME = "qt5ct";
+    # variables.QT_STYLE_OVERRIDE = "adwaita-dark";
   };
+
+  # # https://github.com/NixOS/nixpkgs/blob/master/nixos/modules/config/qt5.nix
+  # qt5 = {
+  #   enable = true;
+  #   platformTheme = "gnome";
+  #   style = "adwaita-dark";
+  # };
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
@@ -267,7 +310,6 @@ in {
       enableSSHSupport = true;
     };
     vim.defaultEditor = true;
-    qt5ct.enable = true; # fix qt5 themes
     adb.enable = true;
     light.enable = true;
     tmux = {
@@ -280,22 +322,20 @@ in {
   fonts = {
     enableDefaultFonts = true;
     fonts = with pkgs; [
-      inconsolata
-      ubuntu_font_family
       fira-code
       fira-code-symbols
+      inconsolata
+      ubuntu_font_family
       corefonts
       noto-fonts-emoji
       twemoji-color-font
       # pkgsUnstable.joypixels
       joypixels
     ];
-    fontconfig = {
-      defaultFonts = {
-        monospace = [ "Fira Code" ];
-        emoji = [ "Joypixels" ];
+    fontconfig = { defaultFonts = {
+      # we need to set in in qt5ct as well.
+      monospace = [ "Fira Code" ]; };
       };
-    };
   };
 
   # Open ports in the firewall.
@@ -312,7 +352,7 @@ in {
 
   nixpkgs.config = {
     allowUnfree = true; # I'm horrible, nvidia sucks, TODO kill nvidia
-    firefox = { enableGoogleTalkPlugin = true; };
+    pulseaudio = true;
     packageOverrides = pkgs: {
       neovim = pkgs.neovim.override {
         configure = {
@@ -427,28 +467,23 @@ in {
         host all all 0.0.0.0/0 md5
         host all all ::/0       md5
       '';
-      extraConfig = ''
-        # log all the things
-        # journalctl -fu postgresql
-        log_connections = yes
-        log_statement = 'all'
-        log_disconnections = yes
-        log_destination = 'syslog'
+      settings = {
+        log_connections = true;
+        log_statement = "all";
+        log_disconnections = true;
 
-        # accept connection from anywhere
-        listen_addresses = '*'
+        logging_collector = false;
+        shared_buffers = "512MB";
+        fsync = false;
+        synchronous_commit = false;
+        full_page_writes = false;
+        client_min_messages = "ERROR";
+        commit_delay = 100000;
+        wal_level = "minimal";
+        archive_mode = "off";
+        max_wal_senders = 0;
+      };
 
-        logging_collector = no
-        shared_buffers = 512MB
-        fsync = off
-        synchronous_commit = off
-        full_page_writes = off
-        client_min_messages = ERROR
-        commit_delay = 100000
-        wal_level = minimal
-        archive_mode = off
-        max_wal_senders = 0
-      '';
       initialScript = pkgs.writeText "backend-initScript" ''
         CREATE USER jappie WITH PASSWORD \'\';
         CREATE DATABASE jappie;
@@ -473,12 +508,12 @@ in {
     xserver = {
       autorun = true; # disable on troubles
       displayManager = {
+        autoLogin = {
+          user = "jappie";
+          enable = false;
+        };
         sddm = {
           enable = true;
-          autoLogin = {
-            user = "jappie";
-            enable = true;
-          };
         };
         defaultSession = "none+i3";
         sessionCommands = ''
@@ -504,6 +539,11 @@ in {
       desktopManager.xfce.thunarPlugins = [ pkgs.xfce.thunar-archive-plugin pkgs.xfce.thunar-volman ];
 
       windowManager.i3.enable = true;
+      windowManager.i3.extraPackages = [ pkgs.adwaita-qt ];
+      desktopManager.plasma5 = {
+        enable = true;
+        phononBackend = "vlc";
+      };
       enable = true;
       layout = "us";
     };
@@ -549,8 +589,10 @@ in {
   };
   virtualisation = {
     docker.enable = true;
-    virtualbox.host.enable = true;
-    virtualbox.host.enableExtensionPack = true;
+    virtualbox.host = {
+      enable = true;
+      enableExtensionPack = false;
+    };
     libvirtd.enable = true;
     anbox.enable = true;
   };
@@ -575,6 +617,7 @@ in {
       "https://fairy-tale-agi-solutions.cachix.org"
       "https://jappie.cachix.org"
       "https://all-hies.cachix.org"
+      "https://nix-community.cachix.org"
       # "https://static-haskell-nix.cachix.org"
     ];
     binaryCachePublicKeys = [
@@ -585,6 +628,7 @@ in {
       "jappie.cachix.org-1:+5Liddfns0ytUSBtVQPUr/Wo6r855oNLgD4R8tm1AE4="
       "fairy-tale-agi-solutions.cachix.org-1:FwDwUQVY1jJIz5/Z3Y9d0hNPNmFqMEr6wW+D99uaEGs="
       "all-hies.cachix.org-1:JjrzAOEUsD9ZMt8fdFbzo3jNAyEWlPAwdVuHw4RD43k="
+      "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
     ] ++ import ./encrypted/cachix.nix;
   };
 }

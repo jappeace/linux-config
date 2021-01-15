@@ -218,6 +218,7 @@
 (use-package evil
   :init
   (setq evil-want-keybinding nil)
+  (setq evil-want-integration t)
   :config
   (evil-mode 1)
   )
@@ -239,7 +240,6 @@
 ;; todo delete in favor of evil collection?
 (use-package evil-magit
   :after (magit evil))
-
 
 ;;; keybindings
 (use-package general
@@ -285,6 +285,7 @@
    "h"   '(:ignore t :which-key "hoogle/inspection")
    "hl"  'haskell-hoogle-lookup-from-local
    "hq"  'haskell-hoogle
+   "hs"  'haskell-mode-stylish-buffer
    "s"  'save-some-buffers
    "p"  'counsel-projectile
    "o"  'counsel-projectile-switch-project
@@ -488,8 +489,7 @@
   :config
   (custom-set-variables
    ;; '(haskell-font-lock-symbols t)
-   '(haskell-stylish-on-save nil) ;; disable w/ (setq haskell-stylish-on-save nil)
-   ;; enable w/ (setq haskell-stylish-on-save t)
+   '(haskell-stylish-on-save nil)
    '(haskell-hoogle-command (concat (projectile-project-root) "scripts/hoogle.sh"))
    )
   (defun haskell-evil-open-above ()
@@ -649,7 +649,7 @@
 two prefix arguments, write out the day and month name."
   (interactive "P")
   (let ((format (cond
-                 ((not prefix) "%d.%m.%Y")
+                 ((not prefix) "%Y.%m.%d")
                  ((equal prefix '(4)) "%Y-%m-%d")
                  ((equal prefix '(16)) "%A, %d. %B %Y")))
         (system-time-locale "de_DE"))
@@ -757,6 +757,7 @@ two prefix arguments, write out the day and month name."
 (use-package cobol-mode)
 (use-package idris-mode)
 (use-package lua-mode)
+(use-package typescript-mode)
 
 (defun unicode-symbol (name)
   "Translate a symbolic name for a Unicode character -- e.g., LEFT-ARROW
@@ -902,3 +903,5 @@ or GREATER-THAN into an actual Unicode character code. "
   :commands flymake-shellcheck-load
   :init
   (add-hook 'sh-mode-hook 'flymake-shellcheck-load))
+
+;; (use-package agda2-mode)

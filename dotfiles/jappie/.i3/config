@@ -41,7 +41,8 @@ bindsym --release $mod+Ctrl+w exec --no-startup-id "xdotool keyup ctrl keyup alt
 bindsym $mod+Shift+a exec boomer
 
 # start a terminal
-bindsym $mod+Return exec konsole
+# bindsym $mod+Return exec konsole
+bindsym $mod+Return exec xfce4-terminal
 
 # kill focused window
 bindsym $mod+Shift+q kill
@@ -240,7 +241,7 @@ exec dbus-launch nm-applet &
 exec fcitx
 
 # exec i3-msg 'workspace $wf1; exec thunderbird' #... disabled cuase its addicting
-exec i3-msg 'workspace $w9; exec firefox'
+exec i3-msg 'workspace $w9; exec chromium'
 exec i3-msg 'workspace $w10;exec ksysguard; exec konsole -e htop'
 # exec i3-msg 'workspace $w1; exec deluge'
 exec i3-msg 'workspace $wf8; exec keepassxc'

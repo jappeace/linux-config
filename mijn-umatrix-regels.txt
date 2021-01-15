@@ -724,6 +724,7 @@ twitch.tv google.com * allow
 twitch.tv google.com frame allow
 twitch.tv imasdk.googleapis.com * allow
 twitch.tv imasdk.googleapis.com script block
+<<<<<<< HEAD
 <<<<<<< variant A
 twitch.tv pt33xuskm584dpxkqnjs35zlkp406d.ext-twitch.tv frame allow
 >>>>>>> variant B
@@ -734,16 +735,26 @@ twitch.tv sentry.io xhr allow
 twitch.tv streamstickers.com * allow
 >>>>>>> variant B
 ======= end
+=======
+twitch.tv pt33xuskm584dpxkqnjs35zlkp406d.ext-twitch.tv frame allow
+twitch.tv recaptcha.net * allow
+twitch.tv sentry.io xhr allow
+twitch.tv streamstickers.com * allow
+>>>>>>> work-machine
 twitch.tv supervisor.ext-twitch.tv frame allow
 twitch.tv tipalti.com * allow
 twitch.tv ttvnw.net * allow
 twitch.tv twitchcdn.net * allow
 twitch.tv twitchsvc.net * allow
 twitch.tv ui2.tipalti.com frame allow
+<<<<<<< HEAD
 <<<<<<< variant A
 twitch.tv virtual-camera-backend-prod.appspot.com xhr allow
 >>>>>>> variant B
 ======= end
+=======
+twitch.tv virtual-camera-backend-prod.appspot.com xhr allow
+>>>>>>> work-machine
 twitch.tv wb3bnc8np7tdnxj2sfbk0aa3vklulo.ext-twitch.tv frame allow
 twitter.com player.twitch.tv frame allow
 twitter.com twimg.com * allow
@@ -793,6 +804,7 @@ werkenbijbelsimpel.nl sentry.io * allow
 wetransfer.com amazonaws.com * allow
 wetransfer.com wetransfer.net * allow
 whatsapp.com whatsapp.net * allow
+<<<<<<< HEAD
 <<<<<<< variant A
 whiting.com gcs-web.com * allow
 whiting.com whitingpetroleumcorp.gcs-web.com frame allow
@@ -801,7 +813,11 @@ whiting.com whitingpetroleumcorp.gcs-web.com frame allow
 wikipedia.org wikimedia.org * allow
 winehq.org bootstrapcdn.com * allow
 winehq.org jquery.com * allow
-<<<<<<< variant A
+whiting.com gcs-web.com * allow
+whiting.com whitingpetroleumcorp.gcs-web.com frame allow
+wikipedia.org wikimedia.org * allow
+winehq.org bootstrapcdn.com * allow
+winehq.org jquery.com * allow
 worldometers.info datatables.net * allow
 worldometers.info highcharts.com * allow
 wuflu.live covid19info.live * allow
@@ -811,6 +827,7 @@ yacht.nl randstadgroep.nl * allow
 yacht.nl synovite-scripts.com * allow
 yahoo.com oath.com * allow
 yahoo.com yimg.com * allow
+<<<<<<< HEAD
 >>>>>>> variant B
 ======= end
 youtube-nocookie.com ytimg.com * allow
@@ -818,6 +835,10 @@ youtube-nocookie.com ytimg.com * allow
 youtube.com google.nl * allow
 >>>>>>> variant B
 ======= end
+=======
+youtube-nocookie.com ytimg.com * allow
+youtube.com google.nl * allow
+>>>>>>> work-machine
 youtube.com googleusercontent.com * allow
 youtube.com googlevideo.com * allow
 youtube.com www.googleapis.com * allow
