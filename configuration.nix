@@ -116,17 +116,6 @@ in {
   # $ nix search wget
   environment = {
     systemPackages = with pkgs.xfce // pkgs; [
-      minecraft # best game
-      (sox.override {
-        enableLame = true;
-        lame = pkgs.lame;
-      }) # split OSTs with this spell: https://unix.stackexchange.com/questions/318164/sox-split-audio-on-silence-but-keep-silence
-      (pkgs.pidgin-with-plugins.override {
-      ## Add whatever plugins are desired (see nixos.org package listing).
-        plugins = [ pkgs.purple-discord pkgs.purple-slack pkgs.purple-facebook
-                    # pkgs.whatsapp-purple
-                  ];
-      })
       krita
       steam
       screenkey
@@ -137,7 +126,6 @@ in {
       fd # better find, 50% shorter command!
       qemu
       git-secrets # this appears to be broken
-      kazam
       sshuttle
       nixops
       firmwareLinuxNonfree
@@ -146,15 +134,11 @@ in {
       p7zip
       gdb
       bc # random calcualtions
-      # androidenv.platformTools
-      android-studio
       thunar
-      openjdk # we need to be able to run java stuff (plantuml)
       inkscape # gotta make that artwork for site etc
       gnupg # for private keys
       git-crypt # pgp based encryption for git repos (the dream is real)
       jq # deal with json on commandline
-      wireguard # easier vpn
       sqlite-interactive # hack nixops
       gimp # edit my screenshots
       curl
@@ -191,7 +175,7 @@ in {
       firefox
       chromium
       pavucontrol
-      gparted # partitiioning for dummies, like me
+      # gparted # partitiioning for dummies, like me
       thunderbird # some day I'll use emacs for this
       deluge # bittorrent
       # the spell to make openvpn work:   nmcli connection modify jappie vpn.data "key = /home/jappie/openvpn/website/jappie.key, ca = /home/jappie/openvpn/website/ca.crt, dev = tun, cert = /home/jappie/openvpn/website/jappie.crt, ns-cert-type = server, cert-pass-flags = 0, comp-lzo = adaptive, remote = jappieklooster.nl:1194, connection-type = tls"
@@ -205,11 +189,9 @@ in {
       tcpdump
       ntfs3g
       qdirstat
-      pkgsUnstable.youtube-dl
+      youtube-dl
       google-cloud-sdk
-      kdenlive
       htop
-      simplescreenrecorder
       blender
       audacity
       ngrok-2
@@ -219,18 +201,14 @@ in {
       intel-ocl
       binutils
       zlib
-      libGL
-      libGLU
-      libGL_driver
       killall
-      opencl-info
       neofetch
       audacious # plays music a bit better than vlc
-      pkgsUnstable.zoom-us
+      zoom-us
       ctags
       # pkgsUnstable.litecli # better sqlite browser
       pgcli # better postgres cli client
-      pkgsUnstable.cachix
+      cachix
       konsole
       pkgsUnstable.boomer # zoomer application
       chatterino2
@@ -254,13 +232,6 @@ in {
       gnome3.file-roller
 
       ncdu # shell based q4dirstat
-
-      # wine crap
-      pkgs.wine
-      (winetricks.override { wine = pkgs.wine; })
-      pkgs.samba
-
-      pkgsUnstable.ib-tws
 
       sloccount
       cloc
