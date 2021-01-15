@@ -203,7 +203,6 @@ in {
       zlib
       killall
       neofetch
-      audacious # plays music a bit better than vlc
       zoom-us
       ctags
       # pkgsUnstable.litecli # better sqlite browser
