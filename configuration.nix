@@ -191,7 +191,6 @@ in {
       ngrok-2
       feh
       docker_compose
-      ghc
       opencl-info
       intel-ocl
       binutils
@@ -222,6 +221,7 @@ in {
       pkgsUnstable.discord
       reload-emacs
       ngrok-2
+      lsof
 
       pkgsUnstable.xfce.xfce4-eyes-plugin
       pkgsUnstable.xfce.xfce4-fsguard-plugin
@@ -313,7 +313,6 @@ in {
   nixpkgs.config = {
     allowUnfree = true; # I'm horrible, nvidia sucks, TODO kill nvidia
     firefox = { enableGoogleTalkPlugin = true; };
-    pulseaudio = true;
     packageOverrides = pkgs: {
       neovim = pkgs.neovim.override {
         configure = {
@@ -370,8 +369,17 @@ in {
     pulseaudio = {
       enable = true;
       support32Bit = true;
-      systemWide = true;
+      # systemWide = true;
       package = pkgs.pulseaudioFull;
+      # configFile = pkgs.writeText "default.pa" ''
+      #  load-module module-bluetooth-policy
+      #  load-module module-bluetooth-discover
+      #  ## module fails to load with
+      #  ##   module-bluez5-device.c: Failed to get device path from module arguments
+      #  ##   module.c: Failed to load module "module-bluez5-device" (argument: ""): initialization failed.
+      #  # load-module module-bluez5-device
+      #  # load-module module-bluez5-discover
+      # '';
 
     };
     opengl.driSupport32Bit = true;
@@ -537,11 +545,12 @@ in {
     # to upgrade, add a channel:
     # $ sudo nix-channel --add https://nixos.org/channels/nixos-18.09 nixos
     # $ sudo nixos-rebuild switch --upgrade
-    stateVersion = "20.03"; # Did you read the comment?
+    stateVersion = "20.09"; # Did you read the comment?
   };
   virtualisation = {
     docker.enable = true;
     virtualbox.host.enable = true;
+    virtualbox.host.enableExtensionPack = true;
     libvirtd.enable = true;
     anbox.enable = true;
   };
@@ -569,6 +578,7 @@ in {
       # "https://static-haskell-nix.cachix.org"
     ];
     binaryCachePublicKeys = [
+      "hydra.iohk.io:f/Ea+s+dFdN+3Y/G+FDgSq+a5NEWhJGzdjvKNGv0/EQ="
       # "hydra.iohk.io:f/Ea+s+dFdN+3Y/G+FDgSq+a5NEWhJGzdjvKNGv0/EQ=" # cardano
       "ryantrinkle.com-1:JJiAKaRv9mWgpVAz8dwewnZe0AzzEAzPkagE9SP5NWI=" # reflex
       "static-haskell-nix.cachix.org-1:Q17HawmAwaM1/BfIxaEDKAxwTOyRVhPG5Ji9K3+FvUU="
