@@ -91,8 +91,6 @@ in {
       0.0.0.0 www.twitch.com
       0.0.0.0 linkedin.com
       0.0.0.0 www.linkedin.com
-      0.0.0.0 facebook.com
-      0.0.0.0 www.facebook.com
     '';
   };
 
@@ -245,6 +243,7 @@ in {
       cp = "cp --reflink=auto"; # btrfs shine
       ssh = "ssh -C"; # why is this not default?
       bc = "bc -l"; # fix scale
+      ls = "ls -l --color=tty -t --group-directories-first -r";
     };
     variables = { LESS = "-F -X -R"; };
     pathsToLink = [
