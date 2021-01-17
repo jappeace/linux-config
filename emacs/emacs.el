@@ -2,6 +2,7 @@
 ;; (set-default 'truncate-lines nil)
 (setq-default indent-tabs-mode nil) ;; disable tabs
 (setq tab-width 2)
+(setq x-select-enable-primary t)
 (setq version-control t )		; use version control
 (setq vc-follow-symlinks t )				       ; don't ask for confirmation when opening symlinked file
 (setq auto-save-file-name-transforms '((".*" "~/.emacs.d/auto-save-list/" t)) ) ;transform backups file name
