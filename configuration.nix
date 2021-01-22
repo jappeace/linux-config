@@ -89,8 +89,6 @@ in {
       0.0.0.0 analytics.google.com
       0.0.0.0 twitch.com
       0.0.0.0 www.twitch.com
-      0.0.0.0 linkedin.com
-      0.0.0.0 www.linkedin.com
     '';
   };
 
