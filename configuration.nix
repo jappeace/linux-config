@@ -227,6 +227,7 @@ in {
       pkgsUnstable.haskellPackages.cut-the-crap
       starship
       gnome3.file-roller
+      filezilla
 
       ncdu # shell based q4dirstat
 
