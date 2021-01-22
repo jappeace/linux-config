@@ -240,7 +240,10 @@
 
 ;; todo delete in favor of evil collection?
 (use-package evil-magit
-  :after (magit evil))
+  :after (magit evil)
+  :config
+  (define-key transient-map (kbd "<escape>") 'transient-quit-one)
+  )
 
 ;;; keybindings
 (use-package general
