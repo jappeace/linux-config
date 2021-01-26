@@ -64,7 +64,13 @@ in {
     options = "mode=1777,strictatime,nosuid,nodev,size=75%";
   }];
 
-    security.pam.loginLimits = [{
+  security = {
+    sudo.extraRules = [
+      { users = [ "jappie"];
+        commands = [ { command = "${pkgs.sshuttle}/bin/.sshuttle-wrapped"; options = [ "SETENV" "NOPASSWD" ]; } ];
+      }
+    ];
+    pam.loginLimits = [{
         domain = "@users";
         type = "hard";
         item = "data";
@@ -76,6 +82,7 @@ in {
         item = "data";
         value = "8000000"; # notify process if it eats more than 8gig
     }];
+  };
 
   networking = {
     hostName = "portable-jappie-nixos"; # Define your hostname.
