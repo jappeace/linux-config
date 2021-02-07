@@ -165,7 +165,6 @@ in {
       rofi # dmenu replacement (fancy launcher)
       xlibs.xmodmap # rebind capslock to escape
       xdotool # i3 auto type
-      heimdall-gui
       heimdall-gui # to root samsung phones.
       unzip
 
