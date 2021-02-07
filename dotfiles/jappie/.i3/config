@@ -10,6 +10,7 @@
 # Please see http://i3wm.org/docs/userguide.html for a complete reference!
 
 set $mod Mod1
+set $terminal xfce4-terminal
 
 # Font for window titles. Will also be used by the bar unless a different font
 # is used in the bar {} block below. ISO 10646 = Unicode
@@ -42,7 +43,7 @@ bindsym $mod+Shift+a exec boomer
 
 # start a terminal
 # bindsym $mod+Return exec konsole
-bindsym $mod+Return exec xfce4-terminal
+bindsym $mod+Return exec $terminal
 
 # kill focused window
 bindsym $mod+Shift+q kill
@@ -241,10 +242,13 @@ exec dbus-launch nm-applet &
 exec fcitx
 
 # exec i3-msg 'workspace $wf1; exec thunderbird' #... disabled cuase its addicting
-exec i3-msg 'workspace $w9; exec chromium'
-exec i3-msg 'workspace $w10;exec ksysguard; exec konsole -e htop'
+exec i3-msg 'workspace $w9;'
+exec i3-msg 'exec chromium;'
+exec i3-msg 'workspace $w10;'
+exec i3-msg 'exec ksysguard; exec $terminal -e glances; exec chromium --new-window "http://localhost:19999"'
 # exec i3-msg 'workspace $w1; exec deluge'
-exec i3-msg 'workspace $wf8; exec keepassxc'
+exec i3-msg 'workspace $wf8;'
+exec i3-msg 'exec keepassxc'
 # exec i3-msg 'workspace $w2;exec konsole'
 # exec i3-msg 'workspace $w3;exec dolphin'
 #exec i3-msg 'workspace $w1;exec steam'
