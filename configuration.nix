@@ -92,7 +92,6 @@ in {
     # randomly checking them, even several times in a row.
     # Blocking them permenantly for a week or so gets rid of that behavior
     extraHosts = ''
-      0.0.0.0 trader.degiro.nl
       0.0.0.0 analytics.google.com
       0.0.0.0 twitch.com
       0.0.0.0 www.twitch.com
@@ -119,6 +118,7 @@ in {
   # $ nix search wget
   environment = {
     systemPackages = with pkgs.xfce // pkgs; [
+      cabal2nix
       krita
       steam
       screenkey
@@ -165,8 +165,10 @@ in {
       rofi # dmenu replacement (fancy launcher)
       xlibs.xmodmap # rebind capslock to escape
       xdotool # i3 auto type
+      xorg.xhost
       heimdall-gui # to root samsung phones.
       unzip
+
 
       # theme shit
       blackbird
@@ -228,6 +230,9 @@ in {
       reload-emacs
       ngrok-2
       lsof
+
+      # performance
+      glances
 
       pkgsUnstable.xfce.xfce4-eyes-plugin
       pkgsUnstable.xfce.xfce4-fsguard-plugin
@@ -407,6 +412,12 @@ in {
   # Enable the OpenSSH daemon.
   # services.openssh.enable = true;
   services = {
+    netdata.enable = true;
+    teamviewer.enable = true;
+
+    udev.packages = [
+        pkgs.android-udev-rules
+    ];
     blueman.enable = true;
 
     # free curl: sudo killall -HUP tor && curl -K --socks5-hostname 127.0.0.1:9050 https://ifconfig.me
