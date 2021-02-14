@@ -107,7 +107,15 @@ in {
     # consoleFont = "Lat2-Terminus16";
     # defaultLocale = "en_US.UTF-8";
     defaultLocale = "nl_NL.utf8";
-    supportedLocales = [ "en_US.UTF-8/UTF-8" "nl_NL.UTF-8/UTF-8" ];
+    supportedLocales = [ "en_US.UTF-8/UTF-8" "nl_NL.UTF-8/UTF-8" "zh_CN.UTF-8/UTF-8" "zh_TW.UTF-8/UTF-8" ];
+
+    inputMethod = {
+      fcitx.engines = [
+        pkgs.fcitx-engines.cloudpinyin # use internet sources
+                        # pkgs.fcitx-engines.chewing # traditional chinese (taiwan)
+                      ];
+      enabled = "fcitx" ;
+    };
   };
 
   # Set your time zone.
@@ -169,7 +177,6 @@ in {
       heimdall-gui # to root samsung phones.
       unzip
 
-
       # theme shit
       blackbird
       lxappearance # theme
@@ -230,6 +237,7 @@ in {
       reload-emacs
       ngrok-2
       lsof
+      anki
 
       # performance
       glances
