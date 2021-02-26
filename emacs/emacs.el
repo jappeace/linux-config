@@ -277,7 +277,7 @@
    "x"  'xref-find-references ; find usages
    "l"  'counsel-list-processes
    "t"  '(:ignore t :which-key "toggles")
-   "tp"  'parinfer-toggle-mode
+   ;; "tp"  'parinfer-toggle-mode
    "f"   '(:ignore t :which-key "find/format")
    "ff"  'format-all-buffer
    "fi"  'counsel-projectile-find-file
@@ -741,6 +741,7 @@ two prefix arguments, write out the day and month name."
   )
 
 (use-package parinfer
+  :disabled
   :init
   (progn
     (setq parinfer-extensions

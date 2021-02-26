@@ -238,6 +238,8 @@ in {
       ngrok-2
       lsof
       anki
+      simg2img
+      hdparm
 
       # performance
       glances
@@ -603,6 +605,11 @@ in {
         dates = "weekly"; # weekly means: Mon *-*-* 00:00:00
         options = "--delete-older-than 30d";
     };
+    extraOptions = ''
+    timeout = 86400
+    max-silent-time = 21600
+    '';
+
 
     trustedUsers = [ "jappie" "root" ];
     autoOptimiseStore = true;
