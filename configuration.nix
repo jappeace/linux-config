@@ -21,6 +21,11 @@ let
     sudo nixos-rebuild switch && systemctl daemon-reload --user &&    systemctl restart emacs --user
   '';
 
+  # https://stackoverflow.com/questions/39801718/how-to-run-a-http-server-which-serves-a-specific-path
+  host-dir = pkgs.writeShellScriptBin "host-dir" ''
+      ${pkgs.python3}/bin/python -m http.server
+  '';
+
   /* a good workaround is worth a thousand poor fixes */
   start-ib = pkgs.writeShellScriptBin "start-ib" ''
     xhost +
@@ -176,6 +181,7 @@ in {
       xorg.xhost
       heimdall-gui # to root samsung phones.
       unzip
+      host-dir
 
       # theme shit
       blackbird
@@ -240,6 +246,7 @@ in {
       anki
       simg2img
       hdparm
+      ncat
 
       # performance
       glances
