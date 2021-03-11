@@ -42,7 +42,6 @@ packagedEmacs =
     swiper # other search?
     which-key # space menu
     ranger # nav file system
-    company # completion
     flycheck # squegely lines??
     powerline # beter status bar (col count, cur line)
     nix-mode
@@ -61,12 +60,12 @@ packagedEmacs =
     haskell-mode
     yasnippet
     evil
-    parinfer
     ws-butler
 
     # evil-org # broken
     # dracula-theme
   ]) ++ (with epkgs.melpaPackages; [
+    company # completion
     evilMagit
     magit
     package-lint

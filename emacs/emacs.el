@@ -437,11 +437,12 @@
 
 ;;; I can't program
 (use-package company
-  :diminish company-mode
+  ;; :diminish company-mode
   :commands (company-mode global-company-mode)
   :defer 1
-  :config
-  (global-company-mode))
+  ;; :init
+  ;; (global-company-mode)
+  )
 
 ;;; more info
 (use-package powerline
@@ -531,46 +532,38 @@
   :disabled
   )
 (use-package lsp-mode :commands lsp)
-(use-package lsp-ui :after lsp)
-(use-package lsp-haskell
-  :disabled ;; Need to look at: https://github.com/thalesmg/reflex-skeleton/
-  ;; For custom preludes we need to consider -XNoImplicitprelude
-  :after lsp-mode
+(use-package lsp-ui
   :config
-                                        ; https://github.com/emacs-lsp/lsp-haskell/blob/master/lsp-haskell.el#L57
-  ;; (setq lsp-haskell-process-wrapper-function
-  ;;       (lambda (argv)
-  ;;         (append
-  ;;          (append (list "nix-shell" "--run" )
-  ;;                  (list (mapconcat 'identity argv " ")))
-  ;;          (list (concat (projectile-project-root) "shell.nix"))
-  ;;          )))
-  (add-hook 'haskell-mode-hook 'flycheck-mode)
-  (add-hook 'haskell-mode-hook #'lsp)
-  (add-hook 'haskell-mode-hook
-            (lambda ()
-              (let ((default-nix-wrapper (lambda (args)
-                                           (append
-                                            (append (list "nix-shell" "-I" "." "--command")
-                                                    (list (mapconcat 'identity args " ")))
-                                            (list (nix-current-sandbox))))))
-                (setq-local lsp-haskell-process-wrapper-function default-nix-wrapper))))
+  (setq lsp-ui-doc-enable t
+        lsp-ui-doc-glance 1
+        lsp-ui-doc-delay 0.5
+        lsp-ui-doc-include-signature t
+        lsp-ui-doc-position 'Top
+        lsp-ui-doc-border "#fdf5b1"
+        lsp-ui-doc-max-width 65
+        lsp-ui-doc-max-height 70
+        lsp-ui-sideline-enable t
+        lsp-ui-sideline-ignore-duplicate t
+        lsp-ui-peek-enable t
+        )
+  :after lsp)
 
+(use-package lsp-haskell
 
+  :custom
+  (lsp-haskell-server-wrapper-function
+    (lambda (argv)
+        (append
+         (append (list "nix-shell" "-i" "/home/jappie/projects/nixpkgs" "--run" )
+                 (list (mapconcat 'identity argv " ")))
+         (list (concat (projectile-project-root) "shell.nix"))
+         ))
+  )
+  (lsp-haskell-server-path "haskell-language-server-8.8.4")
+    ;; (add-hook 'haskell-mode-hook #'lsp)
+    ;; (add-hook 'haskell-literate-mode-hook #'lsp)
 
-
-  (add-hook 'haskell-mode-hook
-            (lambda ()
-              (setq-local haskell-process-wrapper-function
-                          (lambda (args) (apply 'nix-shell-command (nix-current-sandbox) args)))))
-
-  (add-hook 'flycheck-mode-hook
-            (lambda ()
-              (setq-local flycheck-command-wrapper-function
-                          (lambda (command) (apply 'nix-shell-command (nix-current-sandbox) command)))
-              (setq-local flycheck-executable-find
-                          (lambda (cmd) (nix-executable-find (nix-current-sandbox) cmd))))))
-
+  )
 
 (use-package yasnippet
   :after lsp-mode
@@ -740,23 +733,7 @@ two prefix arguments, write out the day and month name."
   (remove-hook 'xref-backend-functions 'dante--xref-backend)
   )
 
-(use-package parinfer
-  :disabled
-  :init
-  (progn
-    (setq parinfer-extensions
-          '(defaults       ; should be included.
-             pretty-parens  ; different paren styles for different modes.
-             evil           ; If you use Evil.
-             lispy          ; If you use Lispy. With this extension, you should install Lispy and do not enable lispy-mode directly.
-             paredit        ; Introduce some paredit commands.
-             smart-tab      ; C-b & C-f jump positions and smart shift with tab & S-tab.
-             smart-yank))   ; Yank behavior depend on mode.
-    (add-hook 'clojure-mode-hook #'parinfer-mode)
-    (add-hook 'emacs-lisp-mode-hook #'parinfer-mode)
-    (add-hook 'common-lisp-mode-hook #'parinfer-mode)
-    (add-hook 'scheme-mode-hook #'parinfer-mode)
-    (add-hook 'lisp-mode-hook #'parinfer-mode)))
+
 
 (use-package pretty-symbols)
 (use-package cobol-mode)
@@ -910,3 +887,10 @@ or GREATER-THAN into an actual Unicode character code. "
   (add-hook 'sh-mode-hook 'flymake-shellcheck-load))
 
 ;; (use-package agda2-mode)
+
+; trying to save these macros
+; TODO:
+; df;A;pxj^
+
+(fset 'macro-anki-copy-space-to-end ; f dt;$pj^
+   (kmacro-lambda-form [?f ?  ?d ?t ?\; ?$ ?p ?j ?^] 0 "%d"))
