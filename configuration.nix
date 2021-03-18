@@ -23,10 +23,10 @@ let
 
   # https://stackoverflow.com/questions/39801718/how-to-run-a-http-server-which-serves-a-specific-path
   host-dir = pkgs.writeShellScriptBin "host-dir" ''
-      ${pkgs.python3}/bin/python -m http.server
+    ${pkgs.python3}/bin/python -m http.server
   '';
 
-  /* a good workaround is worth a thousand poor fixes */
+  # a good workaround is worth a thousand poor fixes
   start-ib = pkgs.writeShellScriptBin "start-ib" ''
     xhost +
     docker rm broker-client
@@ -70,23 +70,27 @@ in {
   }];
 
   security = {
-    sudo.extraRules = [
-      { users = [ "jappie"];
-        commands = [ { command = "${pkgs.sshuttle}/bin/.sshuttle-wrapped"; options = [ "SETENV" "NOPASSWD" ]; } ];
-      }
-    ];
-    pam.loginLimits = [{
+    sudo.extraRules = [{
+      users = [ "jappie" ];
+      commands = [{
+        command = "${pkgs.sshuttle}/bin/.sshuttle-wrapped";
+        options = [ "SETENV" "NOPASSWD" ];
+      }];
+    }];
+    pam.loginLimits = [
+      {
         domain = "@users";
         type = "hard";
         item = "data";
         value = "16000000"; # kill process if it goes over this
-    }
-    {
+      }
+      {
         domain = "@users";
         type = "soft";
         item = "data";
         value = "8000000"; # notify process if it eats more than 8gig
-    }];
+      }
+    ];
   };
 
   networking = {
@@ -112,14 +116,19 @@ in {
     # consoleFont = "Lat2-Terminus16";
     # defaultLocale = "en_US.UTF-8";
     defaultLocale = "nl_NL.utf8";
-    supportedLocales = [ "en_US.UTF-8/UTF-8" "nl_NL.UTF-8/UTF-8" "zh_CN.UTF-8/UTF-8" "zh_TW.UTF-8/UTF-8" ];
+    supportedLocales = [
+      "en_US.UTF-8/UTF-8"
+      "nl_NL.UTF-8/UTF-8"
+      "zh_CN.UTF-8/UTF-8"
+      "zh_TW.UTF-8/UTF-8"
+    ];
 
     inputMethod = {
       fcitx.engines = [
         pkgs.fcitx-engines.cloudpinyin # use internet sources
-                        # pkgs.fcitx-engines.chewing # traditional chinese (taiwan)
-                      ];
-      enabled = "fcitx" ;
+        # pkgs.fcitx-engines.chewing # traditional chinese (taiwan)
+      ];
+      enabled = "fcitx";
     };
   };
 
@@ -276,16 +285,14 @@ in {
       ls = "ls -l --color=tty -t --group-directories-first -r";
     };
     variables = { LESS = "-F -X -R"; };
-    pathsToLink = [
-        "/share/nix-direnv"
-    ];
+    pathsToLink = [ "/share/nix-direnv" ];
 
     etc."xdg/gtk-2.0/gtkrc".text = ''
-        gtk-theme-name="Adwaita-dark"
+      gtk-theme-name="Adwaita-dark"
     '';
     etc."xdg/gtk-3.0/settings.ini".text = ''
-        [Settings]
-        gtk-theme-name=Adwaita-dark
+      [Settings]
+      gtk-theme-name=Adwaita-dark
     '';
 
     variables.QT_QPA_PLATFORMTHEME = "qt5ct";
@@ -304,17 +311,17 @@ in {
   programs.bash.enableCompletion = true;
   # programs.mtr.enable = true;
   programs = {
-     sway = { # https://nixos.wiki/wiki/Sway
-    enable = true;
-    wrapperFeatures.gtk = true; # so that gtk works properly
-    extraPackages = [
+    sway = { # https://nixos.wiki/wiki/Sway
+      enable = true;
+      wrapperFeatures.gtk = true; # so that gtk works properly
+      extraPackages = [
         pkgs.swaylock
         pkgs.swayidle
         pkgs.wl-clipboard
         pkgs.mako # notification daemon
         pkgs.alacritty # Alacritty is the default terminal in the config
         pkgs.dmenu # Dmenu is the default in the config but i recommend wofi since its wayland native
-    ];
+      ];
     };
     gnupg.agent = {
       enable = true;
@@ -343,10 +350,12 @@ in {
       # pkgsUnstable.joypixels
       joypixels
     ];
-    fontconfig = { defaultFonts = {
-      # we need to set in in qt5ct as well.
-      monospace = [ "Fira Code" ]; };
+    fontconfig = {
+      defaultFonts = {
+        # we need to set in in qt5ct as well.
+        monospace = [ "Fira Code" ];
       };
+    };
   };
 
   # Open ports in the firewall.
@@ -444,9 +453,7 @@ in {
     netdata.enable = true;
     teamviewer.enable = true;
 
-    udev.packages = [
-        pkgs.android-udev-rules
-    ];
+    udev.packages = [ pkgs.android-udev-rules ];
     blueman.enable = true;
 
     # free curl: sudo killall -HUP tor && curl -K --socks5-hostname 127.0.0.1:9050 https://ifconfig.me
@@ -529,9 +536,7 @@ in {
           user = "jappie";
           enable = false;
         };
-        sddm = {
-          enable = true;
-        };
+        sddm = { enable = true; };
         defaultSession = "none+i3";
         sessionCommands = ''
           ${pkgs.xlibs.xmodmap}/bin/xmodmap ~/.Xmodmap
@@ -553,7 +558,8 @@ in {
       desktopManager.xfce.noDesktop = true;
       desktopManager.xfce.enableXfwm =
         false; # try disabling xfce popping over i3
-      desktopManager.xfce.thunarPlugins = [ pkgs.xfce.thunar-archive-plugin pkgs.xfce.thunar-volman ];
+      desktopManager.xfce.thunarPlugins =
+        [ pkgs.xfce.thunar-archive-plugin pkgs.xfce.thunar-volman ];
 
       windowManager.i3.enable = true;
       windowManager.i3.extraPackages = [ pkgs.adwaita-qt ];
@@ -620,15 +626,14 @@ in {
 
   nix = {
     gc = {
-        automatic = false;
-        dates = "weekly"; # weekly means: Mon *-*-* 00:00:00
-        options = "--delete-older-than 30d";
+      automatic = false;
+      dates = "weekly"; # weekly means: Mon *-*-* 00:00:00
+      options = "--delete-older-than 30d";
     };
     extraOptions = ''
-    timeout = 86400
-    max-silent-time = 21600
+      timeout = 86400
+      max-silent-time = 21600
     '';
-
 
     trustedUsers = [ "jappie" "root" ];
     autoOptimiseStore = true;
