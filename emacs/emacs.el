@@ -554,7 +554,8 @@
   (lsp-haskell-server-wrapper-function
     (lambda (argv)
         (append
-         (append (list "nix-shell" "-i" "/home/jappie/projects/nixpkgs" "--run" )
+         ;; (append (list "nix-shell" "-I" "/home/jappie/projects/nixpkgs" "--run" )
+         (append (list "nix-shell" "--run" )
                  (list (mapconcat 'identity argv " ")))
          (list (concat (projectile-project-root) "shell.nix"))
          ))
