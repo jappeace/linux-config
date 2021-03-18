@@ -304,6 +304,18 @@ in {
   programs.bash.enableCompletion = true;
   # programs.mtr.enable = true;
   programs = {
+     sway = { # https://nixos.wiki/wiki/Sway
+    enable = true;
+    wrapperFeatures.gtk = true; # so that gtk works properly
+    extraPackages = [
+        pkgs.swaylock
+        pkgs.swayidle
+        pkgs.wl-clipboard
+        pkgs.mako # notification daemon
+        pkgs.alacritty # Alacritty is the default terminal in the config
+        pkgs.dmenu # Dmenu is the default in the config but i recommend wofi since its wayland native
+    ];
+    };
     gnupg.agent = {
       enable = true;
       enableSSHSupport = true;
