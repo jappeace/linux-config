@@ -38,7 +38,7 @@ in {
     ./hardware/bto.nix
     ./emacs
     ./cachix.nix
-    # ./overlays/wayland.nix
+    ./overlays/wayland.nix
   ];
 
   # Use the systemd-boot EFI boot loader.
@@ -147,7 +147,7 @@ in {
       screenkey
       slop
       scribus
-      obs-studio
+      # obs-studio
       teamviewer
       fd # better find, 50% shorter command!
       qemu
@@ -193,7 +193,7 @@ in {
       unzip
       host-dir
 
-      # theme shit
+        # theme shit
       blackbird
       lxappearance # theme
       fasd
@@ -320,8 +320,6 @@ in {
         pkgs.swayidle
         pkgs.wl-clipboard
         pkgs.mako # notification daemon
-        pkgs.alacritty # Alacritty is the default terminal in the config
-        pkgs.dmenu # Dmenu is the default in the config but i recommend wofi since its wayland native
       ];
     };
     gnupg.agent = {
