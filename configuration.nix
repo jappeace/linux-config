@@ -38,6 +38,7 @@ in {
     ./hardware/bto.nix
     ./emacs
     ./cachix.nix
+    # ./overlays/wayland.nix
   ];
 
   # Use the systemd-boot EFI boot loader.
