@@ -4,6 +4,10 @@
 { config, pkgs, ... }:
 let
   aspell_with_dict = pkgs.aspellWithDicts(ps: [ps.nl ps.en]);
+  myEmacs = pkgs.emacs.override{
+    withGTK3 = true;
+    withGTK2 = false;
+  }; # pkgs.emacsGcc compiles all elisp to native code, no drawback according to skybro.
 in {
   # List packages installed in system profile. To search, run:
   # $ nix search wget
@@ -27,6 +31,7 @@ in {
         pkgs.nodePackages.prettier
         pkgs.python37Packages.sqlparse # sqlforamt
         pkgs.shellcheck
+        (import ./emacs.nix {inherit pkgs myEmacs; })
 	  ];
   };
 
@@ -37,7 +42,7 @@ in {
   services = {
 		emacs = {
 			enable = true; # deamon mode
-			package = (import ./emacs.nix { inherit pkgs; });
+			package = (import ./emacs.nix { inherit pkgs myEmacs; });
 		};
   };
 }

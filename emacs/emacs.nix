@@ -1,7 +1,11 @@
-{ pkgs ? import <nixpkgs> { }}:
+{ pkgs, myEmacs}:
 
 let
-  myEmacs = pkgs.emacs; # pkgs.emacsGcc compiles all elisp to native code, no drawback according to skybro.
+
+  myEmacs = pkgs.emacs.override{
+    withGTK3 = true;
+    withGTK2 = false;
+  }; # pkgs.emacsGcc compiles all elisp to native code, no drawback according to skybro.
   emacsWithPackages = (pkgs.emacsPackagesNgGen myEmacs).emacsWithPackages;
 
 
@@ -83,7 +87,7 @@ packagedEmacs =
     # lsp-rust
     # we bind emacs lsp to whatever lsp's we want
     # for example haskell: https://github.com/haskell/haskell-ide-engine#using-hie-with-emacs
-    # rust https://github.com/rust-lang-nursery/rls
+    # rust https://github.com/rust-lang-nur  sery/rls
     # etc
     # use hooks to bind haskell to lsp haskell
     # lspHaskell # https://github.com/emacs-lsp/lsp-haskell
