@@ -27,6 +27,9 @@ done
 
 ln -sf $USER/.i3/config $HOME/.i3/config
 
+mkdir -p $HOME/.config/sway
+ln -sf $USER/.config/sway/config $HOME/.config/sway/config
+
 ln -sf $USER/vimrc.local $HOME/.vimrc
 
 
