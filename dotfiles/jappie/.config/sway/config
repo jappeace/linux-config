@@ -207,7 +207,9 @@ bindsym --release $mod+i exec $terminal -e "emax"
 #   urgent_workspace #2f343a #900000 #ffffff
 # }
 #}
-exec --no-startup-id xfce4-panel --disable-wm-check
+bar {
+    status_command waybar
+}
 
 assign [class="transmission" instance="transmission-qt" title="Transmission"] $w1
 assign [class="Deluge"] $w1

@@ -30,6 +30,10 @@ ln -sf $USER/.i3/config $HOME/.i3/config
 mkdir -p $HOME/.config/sway
 ln -sf $USER/.config/sway/config $HOME/.config/sway/config
 
+mkdir -p $HOME/.config/waybar
+ln -sf $USER/.config/waybar/config $HOME/.config/waybar/config
+ln -sf $USER/.config/waybar/style.css $HOME/.config/waybar/style.css
+
 ln -sf $USER/vimrc.local $HOME/.vimrc
 
 
