@@ -4,16 +4,15 @@
 { config, pkgs, ... }:
 let
   aspell_with_dict = pkgs.aspellWithDicts(ps: [ps.nl ps.en]);
-  myEmacs = pkgs.emacs.override{
-    withGTK3 = true;
-    withGTK2 = false;
-  }; # pkgs.emacsGcc compiles all elisp to native code, no drawback according to skybro.
+
+  # emacsUnstable-nox # a gtk3 port
+  myEmacs = (import ./emacs.nix {inherit pkgs; myEmacs = pkgs.emacsGit; });
 in {
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment = {
 	  systemPackages = with pkgs; [
-        # emacs
+          # emacs
         pkgs.silver-searcher # when configuring my emacs they told me to use this: https://github.com/ggreer/the_silver_searcher#installation
         (pkgs.writeShellScriptBin "rg" ''
         ${pkgs.ripgrep}/bin/rg --with-filename -M 120 --glob '!*.min.js' --iglob '!**/static/**' --max-columns-preview "$@"
@@ -31,7 +30,7 @@ in {
         pkgs.nodePackages.prettier
         pkgs.python37Packages.sqlparse # sqlforamt
         pkgs.shellcheck
-        (import ./emacs.nix {inherit pkgs myEmacs; })
+        myEmacs
 	  ];
   };
 
@@ -41,8 +40,8 @@ in {
 
   services = {
 		emacs = {
-			enable = true; # deamon mode
-			package = (import ./emacs.nix { inherit pkgs myEmacs; });
+			enable = false; # deamon mode
+			package = myEmacs;
 		};
   };
 }

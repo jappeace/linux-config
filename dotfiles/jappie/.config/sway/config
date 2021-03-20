@@ -191,7 +191,7 @@ mode "resize" {
 		bindsym Return mode "default"
 		bindsym Escape mode "default"
 }
-bindsym --release $mod+i exec $terminal -e "emacsclient -ce -nw '(lambda () (interactive) previous-buffer)'"
+bindsym --release $mod+i exec $terminal -e "emax"
 
 # Start i3bar to display a workspace bar (plus the system information i3status
 # finds out, if available)
@@ -252,6 +252,8 @@ exec swaymsg 'exec keepassxc'
 # exec swaymsg 'workspace $w3;exec dolphin'
 #exec swaymsg 'workspace $w1;exec steam'
 exec sudo brightness 500
+
+exec emacs --daemon
 
 
 client.focused #3b1261 #3b1261 #ffffff #662b9c

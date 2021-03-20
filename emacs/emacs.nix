@@ -1,11 +1,8 @@
-{ pkgs, myEmacs}:
+  { pkgs, myEmacs}:
 
 let
 
-  myEmacs = pkgs.emacs.override{
-    withGTK3 = true;
-    withGTK2 = false;
-  }; # pkgs.emacsGcc compiles all elisp to native code, no drawback according to skybro.
+  # emacsUnstable-nox = wayland support (lol)
   emacsWithPackages = (pkgs.emacsPackagesNgGen myEmacs).emacsWithPackages;
 
 

@@ -14,9 +14,11 @@ in
     environment.systemPackages = [
       pkgs.wldash
       pkgs.wl-clipboard
-      # pkgs.waybar
+      (pkgs.waybar.override {
+        spdlog = (pkgs.callPackage ./wayland/spdlog.nix {});
+        })
       pkgs.gammastep
       pkgs.clipman
     ];
     # ...
-  }
+    }

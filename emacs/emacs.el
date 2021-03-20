@@ -193,7 +193,7 @@
 ;;; I'm not a mouse peasant (disable menu/toolbars)
 (tool-bar-mode -1) ;; disables tool buttons (little icons)
 (menu-bar-mode -1) ;; disables file edit help etc
-(scroll-bar-mode -1) ;; disables scrol bar
+; (scroll-bar-mode -1) ;; disables scrol bar ; disabled for wayland
 
 (global-hl-line-mode +1) ;; highlight current line
 
@@ -910,3 +910,6 @@ or GREATER-THAN into an actual Unicode character code. "
         (shell-command-to-string "wl-paste -n | tr -d \r")))
   (setq interprogram-cut-function 'wl-copy)
   (setq interprogram-paste-function 'wl-paste)
+
+(load "server")
+(unless (server-running-p) (server-start))

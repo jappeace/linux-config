@@ -20,6 +20,9 @@ let
   reload-emacs = pkgs.writeShellScriptBin "reload-emacs" ''
     sudo nixos-rebuild switch && systemctl daemon-reload --user &&    systemctl restart emacs --user
   '';
+  emax = pkgs.writeShellScriptBin "emax" ''
+            emacsclient -ce -nw '(lambda () (interactive) previous-buffer)' || emacs -nw
+  '';
 
   # https://stackoverflow.com/questions/39801718/how-to-run-a-http-server-which-serves-a-specific-path
   host-dir = pkgs.writeShellScriptBin "host-dir" ''
@@ -40,6 +43,7 @@ in {
     ./cachix.nix
     ./overlays/wayland.nix
   ];
+
 
   # Use the systemd-boot EFI boot loader.
   boot = {
@@ -141,6 +145,7 @@ in {
   # $ nix search wget
   environment = {
     systemPackages = with pkgs.xfce // pkgs; [
+      emax
       cabal2nix
       krita
       steam
@@ -370,6 +375,7 @@ in {
   sound.enable = true;
 
   nixpkgs.config = {
+
     allowUnfree = true; # I'm horrible, nvidia sucks, TODO kill nvidia
     pulseaudio = true;
     packageOverrides = pkgs: {
