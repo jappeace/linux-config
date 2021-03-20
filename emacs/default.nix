@@ -5,8 +5,8 @@
 let
   aspell_with_dict = pkgs.aspellWithDicts(ps: [ps.nl ps.en]);
 
-  # emacsUnstable-nox # a gtk3 port
-  myEmacs = (import ./emacs.nix {inherit pkgs; myEmacs = pkgs.emacsGit; });
+  # pkgs.emacsPgtk # a gtk3 port, needs upgrade
+  myEmacs = (import ./emacs.nix {inherit pkgs; myEmacs = pkgs.emacsPgtk; });
 in {
   # List packages installed in system profile. To search, run:
   # $ nix search wget
@@ -35,7 +35,7 @@ in {
   };
 
   nixpkgs.overlays = [
-      (import (builtins.fetchTarball "https://github.com/nix-community/emacs-overlay/archive/ee4469f861bef810a57b6ac242b85eacfcf1383e.tar.gz"))
+      (import (builtins.fetchTarball "https://github.com/nix-community/emacs-overlay/archive/d9530a7048f4b1c0f65825202a0ce1d111a1d39a.tar.gz"))
   ];
 
   services = {
