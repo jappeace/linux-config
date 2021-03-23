@@ -263,6 +263,7 @@ in {
       simg2img
       hdparm
       ncat
+      zip
 
       # performance
       glances
