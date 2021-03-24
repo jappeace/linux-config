@@ -145,6 +145,7 @@ in {
   # $ nix search wget
   environment = {
     systemPackages = with pkgs.xfce // pkgs; [
+      grim slurp
       emax
       cabal2nix
       krita
