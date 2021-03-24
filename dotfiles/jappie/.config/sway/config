@@ -171,9 +171,7 @@ bindsym $mod+Shift+r restart
 bindsym $mod+Shift+e exec "swaynag -t warning -m 'Should I close this session sir?' -b 'Yes..' 'swaymsg exit'"
 
 # screenshot
-bindsym --release $mod+c exec gnome-screenshot -c
-
-bindsym --release $mod+Shift+x exec gnome-screenshot -c -a
+bindsym --release $mod+Shift+x exec grim -g "$(slurp)" - | wl-copy
 # resize window (you can also use the mouse for that)
 mode "resize" {
 		# These bindings trigger as soon as you enter the resize mode
