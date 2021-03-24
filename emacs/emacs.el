@@ -260,6 +260,7 @@
    ;; replace default keybindings
    "C-s" 'swiper             ; search for string in current buffer
    "M-x" 'counsel-M-x        ; replace default M-x with ivy backend
+   "M-i" nil
    )
   (general-define-key
    :keymaps '(normal visual insert emacs)
