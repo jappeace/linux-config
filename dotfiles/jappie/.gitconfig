@@ -3,7 +3,7 @@
 [user]
 	email = jappieklooster@hotmail.com
 	name = Jappie Klooster
-	signingkey = 326504E64551A7FBD430E278FDA7B87746B63326
+	signingkey = 80CA2D963C481BA4
 [color]
 	ui = true
 [alias]
@@ -21,7 +21,7 @@
 [core]
 	autocrlf = input
 [commit]
-	#gpgsign = true
+	gpgsign = true
 [secrets]
 	providers = git secrets --aws-provider
 	patterns = [A-Z0-9]{20}
@@ -43,3 +43,5 @@
 	allowed = wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY
 [init]
 	templateDir = /home/jappie/.git-templates/git-secrets
+[gpg]
+	program = gpg2
