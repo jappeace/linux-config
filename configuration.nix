@@ -330,9 +330,16 @@ in {
       ];
     };
     gnupg.agent = {
+
+      # the default logic maybe a bit botched because
+      # I have so many dm's enabled.
+      # we need gnome3 on sway
+      # fixes 'can't connect to the PIN entry module'
+      pinentryFlavor = "gnome3";
       enable = true;
       enableSSHSupport = true;
     };
+
     vim.defaultEditor = true;
     adb.enable = true;
     light.enable = true;
