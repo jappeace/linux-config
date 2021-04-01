@@ -346,7 +346,7 @@ in {
       # I have so many dm's enabled.
       # we need gnome3 on sway
       # fixes 'can't connect to the PIN entry module'
-      pinentryFlavor = "gnome3";
+      pinentryFlavor = "qt";
       enable = true;
       enableSSHSupport = true;
     };
