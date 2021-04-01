@@ -305,6 +305,17 @@ in {
 
     variables.QT_QPA_PLATFORMTHEME = "qt5ct";
     # variables.QT_STYLE_OVERRIDE = "adwaita-dark";
+    variables = {
+        CLUTTER_BACKEND="wayland";
+        XDG_SESSION_TYPE="wayland";
+        # QT_QPA_PLATFORM="wayland-egl";
+        # QT_WAYLAND_FORCE_DPI="physical";
+        # QT_WAYLAND_DISABLE_WINDOWDECORATION="1";
+        SDL_VIDEODRIVER="wayland";
+        "_JAVA_AWT_WM_NONREPARENTING"="1";
+        MOZ_ENABLE_WAYLAND="1";
+        MOZ_WEBRENDER="1";
+    };
   };
 
   # # https://github.com/NixOS/nixpkgs/blob/master/nixos/modules/config/qt5.nix
