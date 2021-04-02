@@ -882,6 +882,7 @@ or GREATER-THAN into an actual Unicode character code. "
   :init
   (add-hook 'prog-mode-hook #'ws-butler-mode)
   )
+(use-package cmake-mode)
 
 (use-package flymake-shellcheck
   :commands flymake-shellcheck-load

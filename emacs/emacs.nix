@@ -101,6 +101,7 @@ packagedEmacs =
     nyan-mode
     idris-mode
     shakespeare-mode
+    cmake-mode
 
 
     # lsp-rust https://github.com/emacs-lsp/lsp-rust
