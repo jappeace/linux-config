@@ -5,6 +5,7 @@
 { config, pkgs, ... }:
 let
   devpackeges = import /home/jappie/projects/nixpkgs { };
+  ydotool = devpackeges.ydotool;
 
   pkgsUnstable = import ./pin-unstable.nix {
     config.allowUnfree = true;
@@ -73,6 +74,23 @@ in {
     what = "tmpfs";
     options = "mode=1777,strictatime,nosuid,nodev,size=75%";
   }];
+
+  # This daemon setup works, but the daemon has a bug.
+  # see https://github.com/ReimuNotMoe/ydotool/issues/106
+  # so I chowned and chmoded /dev/uinput directly
+  # which makes it work.
+  # systemd.services.ydotool = {
+  #   wantedBy = [ "multi-user.target" ];
+  #   script = ''
+  #   ${ydotool}/bin/ydotoold
+  #   '';
+  #   # the sleep is to give it time to setup the socket
+  #   postStart = ''
+  #   sleep 1
+  #   chown root:ydotoolers /tmp/.ydotool_socket
+  #   chmod 660 /tmp/.ydotool_socket
+  #   '';
+  # };
 
   security = {
     sudo.extraRules = [{
@@ -264,6 +282,8 @@ in {
       hdparm
       ncat
       zip
+
+      ydotool # xdotool for wayland
 
       # performance
       glances
@@ -624,6 +644,7 @@ in {
     uid = 1000;
   };
   users.extraGroups.vboxusers.members = [ "jappie" ];
+  users.extraGroups.ydotoolers.members = [ "jappie" ];
 
   system = {
     # This value determines the NixOS release with which your system is to be
