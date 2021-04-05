@@ -25,7 +25,7 @@ let
   outfolder=/tmp/small
   mkdir -p $outfolder
   for i in `echo *.jpg`; do
-  ${pkgs.imagemagick}/bin/convert -resize 50% -quality 90 $i $outfolder/$i.small.jpg;
+  ${pkgs.imagemagick}/bin/convert -resize 50% -quality 90 "$@" $i $outfolder/$i.small.jpg;
   done
   echo "wrote to "$outfolder
   '';
