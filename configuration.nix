@@ -18,6 +18,23 @@ let
     config.oraclejdk.accept_license = true;
   };
 
+  # phone makes pictures to big usually
+  # I need to track these often in a git repo and having it be bigger then 1meg is bad
+  resize-images = pkgs.writeShellScriptBin "resize-images" ''
+  set -xe
+  outfolder=/tmp/small
+  mkdir -p $outfolder
+  for i in `echo *.jpg`; do
+  ${pkgs.imagemagick}/bin/convert -resize 50% -quality 90 $i $outfolder/$i.small.jpg;
+  done
+  echo "wrote to "$outfolder
+  '';
+
+  # open browser from shell with b, also make it work in sway
+  browser = pkgs.writeShellScriptBin "b" ''
+    chromium --enable-features=UseOzonePlatform --ozone-platform=wayland --new-window
+  '';
+
   reload-emacs = pkgs.writeShellScriptBin "reload-emacs" ''
     sudo nixos-rebuild switch && systemctl daemon-reload --user &&    systemctl restart emacs --user
   '';
@@ -49,7 +66,7 @@ in {
   # Use the systemd-boot EFI boot loader.
   boot = {
     loader.systemd-boot.enable = true;
-    kernelModules = [ "kvm-intel" ];
+    kernelModules = [ "kvm-intel" "v4l2loopback" ];
     loader.efi.canTouchEfiVariables = true;
     tmpOnTmpfs = true;
 
@@ -171,7 +188,7 @@ in {
       screenkey
       slop
       scribus
-      # obs-studio
+      obs-studio
       teamviewer
       fd # better find, 50% shorter command!
       qemu
@@ -216,6 +233,7 @@ in {
       heimdall-gui # to root samsung phones.
       unzip
       host-dir
+      browser
 
         # theme shit
       blackbird
@@ -282,8 +300,10 @@ in {
       hdparm
       ncat
       zip
+      resize-images
 
       ydotool # xdotool for wayland
+      imv # image viewer for wayland
 
       # performance
       glances
@@ -636,6 +656,7 @@ in {
       "adbusers"
       "docker"
       "vboxusers"
+      "libvirtd"
     ];
     openssh.authorizedKeys.keys = import ./encrypted/keys.nix { };
     group = "users";
