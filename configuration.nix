@@ -32,7 +32,7 @@ let
 
   # open browser from shell with b, also make it work in sway
   browser = pkgs.writeShellScriptBin "b" ''
-    chromium --enable-features=UseOzonePlatform --ozone-platform=wayland --new-window
+    chromium --enable-features=UseOzonePlatform --ozone-platform=wayland --new-window "$@"
   '';
 
   reload-emacs = pkgs.writeShellScriptBin "reload-emacs" ''
