@@ -96,18 +96,19 @@ in {
   # see https://github.com/ReimuNotMoe/ydotool/issues/106
   # so I chowned and chmoded /dev/uinput directly
   # which makes it work.
-  # systemd.services.ydotool = {
-  #   wantedBy = [ "multi-user.target" ];
-  #   script = ''
-  #   ${ydotool}/bin/ydotoold
-  #   '';
-  #   # the sleep is to give it time to setup the socket
-  #   postStart = ''
-  #   sleep 1
-  #   chown root:ydotoolers /tmp/.ydotool_socket
-  #   chmod 660 /tmp/.ydotool_socket
-  #   '';
-  # };
+  systemd.services.ydotool = {
+    wantedBy = [ "multi-user.target" ];
+    script = ''
+    # ${ydotool}/bin/ydotoold
+    sleep 10
+    '';
+    # the sleep is to give it time to setup the socket
+    postStart = ''
+    sleep 1
+    chown root:ydotoolers /tmp/.ydotool_socket
+    chmod 660 /tmp/.ydotool_socket
+    '';
+  };
 
   security = {
     sudo.extraRules = [{
@@ -386,7 +387,7 @@ in {
       # I have so many dm's enabled.
       # we need gnome3 on sway
       # fixes 'can't connect to the PIN entry module'
-      pinentryFlavor = "qt";
+      pinentryFlavor = "gnome3";
       enable = true;
       enableSSHSupport = true;
     };
