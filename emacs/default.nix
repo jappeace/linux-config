@@ -23,6 +23,7 @@ in {
         pkgs.rustracer
         pkgs.haskellPackages.stylish-haskell
         pkgs.haskellPackages.brittany
+        # pkgs.haskellPackages.ormolu # TODO enable after upgrade
         # pkgs.haskellPackages.hindent
         pkgs.haskellPackages.hlint
         shfmt
