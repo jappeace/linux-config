@@ -98,16 +98,21 @@ in {
   # which makes it work.
   systemd.services.ydotool = {
     wantedBy = [ "multi-user.target" ];
+
     script = ''
+        chown root:ydotoolers /dev/uinput
+    '';
+
+    # script = ''
     # ${ydotool}/bin/ydotoold
-    sleep 10
-    '';
+    # sleep 10
+    # '';
     # the sleep is to give it time to setup the socket
-    postStart = ''
-    sleep 1
-    chown root:ydotoolers /tmp/.ydotool_socket
-    chmod 660 /tmp/.ydotool_socket
-    '';
+    # postStart = ''
+    # sleep 1
+    # chown root:ydotoolers /tmp/.ydotool_socket
+    # chmod 660 /tmp/.ydotool_socket
+    # '';
   };
 
   security = {
