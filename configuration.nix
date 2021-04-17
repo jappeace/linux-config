@@ -101,6 +101,7 @@ in {
 
     script = ''
         chown root:ydotoolers /dev/uinput
+        chmod 660 /dev/uinput
     '';
 
     # script = ''
