@@ -378,6 +378,7 @@ in {
   programs.bash.enableCompletion = true;
   # programs.mtr.enable = true;
   programs = {
+    # xwayland.enable = true; # TODO upgrade (lol)
     sway = { # https://nixos.wiki/wiki/Sway
       enable = true;
       wrapperFeatures.gtk = true; # so that gtk works properly
