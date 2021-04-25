@@ -241,6 +241,7 @@ in {
       unzip
       host-dir
       browser
+      obs-wlrobs
 
         # theme shit
       blackbird
