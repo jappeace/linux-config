@@ -242,9 +242,15 @@
 (use-package evil-magit
   :after (magit evil)
   :config
-  (define-key transient-map (kbd "<escape>") 'transient-quit-one)
+
+  (define-key transient-map (kbd "<escape>") 'transient-quit-one) ;
   )
 
+;; I need to save kmacro-name-last-macro
+;; and then I can insert insert-kbd-macro
+;; which generates code like this (which can be used in general):
+(fset 'macro-anki-2 ;; df;A;px0df A px0j
+  (kmacro-lambda-form [?d ?f ?\; ?A ?\; escape ?p ?x ?0 ?d ?f ?  ?A ?  escape ?p ?x ?0 ?j] 0 "%d"))
 ;;; keybindings
 (use-package general
   :config
@@ -310,10 +316,11 @@
    "gc"  'magit-commit-popup
    "gC"  'magit-cherry-pick-popup
    "gz"  'magit-stash-popup
-   ;; Applications
-   "a" '(:ignore t :which-key "Applications")
    "d" 'insert-date
    ";" 'comment-line
+   ;; Applications
+   "a" '(:ignore t :which-key "Applications/anki")
+   "al" 'macro-anki-2
    "ar" 'ranger))
 
 (use-package package-lint
@@ -530,7 +537,6 @@
   :disabled
   )
 (use-package ox-reveal
-  :disabled
   )
 (use-package lsp-mode :commands lsp)
 (use-package lsp-ui
@@ -891,13 +897,6 @@ or GREATER-THAN into an actual Unicode character code. "
 
 ;; (use-package agda2-mode)
 
-; trying to save these macros
-; TODO:
-; df;A;pxj^
-
-(fset 'macro-anki-copy-space-to-end ; f dt;$pj^
-   (kmacro-lambda-form [?f ?  ?d ?t ?\; ?$ ?p ?j ?^] 0 "%d"))
-
   (setq wl-copy-process nil)
   (defun wl-copy (text)
     (setq wl-copy-process (make-process :name "wl-copy"
@@ -910,7 +909,9 @@ or GREATER-THAN into an actual Unicode character code. "
     (if (and wl-copy-process (process-live-p wl-copy-process))
         nil ; should return nil if we're the current paste owner
         (shell-command-to-string "wl-paste -n | tr -d \r")))
-(unless (string= "Failed to connect to a Wayland server" (wl-paste))
+
+(unless (string= "Failed to connect to a Wayland server
+" (wl-paste))
    (setq interprogram-cut-function 'wl-copy)
    (setq interprogram-paste-function 'wl-paste)
 )
