@@ -309,6 +309,7 @@ in {
       ncat
       zip
       resize-images
+      manpages
 
       ydotool # xdotool for wayland
       imv # image viewer for wayland
