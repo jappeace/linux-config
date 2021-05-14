@@ -309,6 +309,7 @@ in {
       ncat
       zip
       resize-images
+      scrcpy
       manpages
 
       ydotool # xdotool for wayland
