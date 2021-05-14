@@ -10,6 +10,7 @@
 set $mod Mod1
 set $mod2 Mod4
 set $terminal xfce4-terminal
+set $browser chromium --enable-features=UseOzonePlatform --ozone-platform=wayland
 
 
 
@@ -37,9 +38,6 @@ bindsym --release $mod+Ctrl+n exec --no-startup-id "ydotool sleep 300 , type 'Ja
 bindsym --release $mod+Ctrl+1 exec --no-startup-id "ydotool sleep 300 , type 'Jappie'"
 bindsym --release $mod+Ctrl+2 exec --no-startup-id "ydotool sleep 300 , type 'Klooster'"
 bindsym --release $mod+Ctrl+w exec --no-startup-id "ydotool sleep 300 , type 'https://jappieklooster.nl'"
-
-
-
 
 # start a terminal
 # bindsym $mod+Return exec konsole
@@ -227,7 +225,7 @@ bindsym $mod+Shift+s exec sudo sleep-memory
 # bindsym $mod+Shift+a exec --no-startup-id /home/jappie/bin/monitor-2
 
 #bind browser to b, use new window otherwise it'l complain
-bindsym $mod+b exec chromium --enable-features=UseOzonePlatform --ozone-platform=wayland --new-window
+bindsym $mod+b exec $browser
 
 #block hosts if I'm slacking to much
 bindsym $mod+Shift+b exec sudo hostblock -b
@@ -243,9 +241,9 @@ exec fcitx
 # exec swaymsg 'workspace $wf1; exec thunderbird' #... disabled cuase its addicting
 exec swaymsg 'workspace $w9;'
 
-exec swaymsg 'exec chromium --enable-features=UseOzonePlatform --ozone-platform=wayland;'
+exec swaymsg 'exec $browser;'
 exec swaymsg 'workspace $w10;'
-exec swaymsg 'exec ksysguard; exec $terminal -e glances; exec chromium --enable-features=UseOzonePlatform --ozone-platform=wayland --new-window "http://localhost:19999"'
+exec swaymsg 'exec ksysguard; exec $terminal -e glances; exec $browser'
 # exec swaymsg 'workspace $w1; exec deluge'
 exec swaymsg 'workspace $wf8;'
 exec swaymsg 'exec keepassxc'
@@ -283,4 +281,8 @@ output eDP-1 enable
 # https://github.com/swaywm/sway/wiki#keyboard-layout
 input "type:keyboard" {           
     xkb_options caps:escape
+}
+input type:touchpad {
+    tap disabled
+    natural_scroll disabled
 }
