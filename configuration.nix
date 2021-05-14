@@ -699,6 +699,8 @@ in {
     enable = true;
     cpuFreqGovernor = "ondemand";
   };
+  documentation.dev.enable = true;
+
 
   nix = {
     gc = {
