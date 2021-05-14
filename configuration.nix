@@ -283,7 +283,7 @@ in {
       zlib
       killall
       neofetch
-      zoom-us
+      pkgsUnstable.zoom-us
       ctags
       # pkgsUnstable.litecli # better sqlite browser
       pgcli # better postgres cli client
