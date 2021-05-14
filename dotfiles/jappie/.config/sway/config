@@ -10,7 +10,7 @@
 set $mod Mod1
 set $mod2 Mod4
 set $terminal xfce4-terminal
-set $browser chromium --enable-features=UseOzonePlatform --ozone-platform=wayland
+set $browser firefox
 
 
 
