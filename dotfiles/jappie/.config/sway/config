@@ -226,9 +226,10 @@ bindsym $mod+Shift+s exec sudo sleep-memory
 
 #bind browser to b, use new window otherwise it'l complain
 bindsym $mod+b exec $browser
+bindsym $mod+Shift+b chromium --enable-features=UseOzonePlatform --ozone-platform=wayland
 
 #block hosts if I'm slacking to much
-bindsym $mod+Shift+b exec sudo hostblock -b
+# bindsym $mod+Shift+b exec sudo hostblock -b # doesn't work on nixos as far as I know
 
 #invert colors
 #not necisary with kde
