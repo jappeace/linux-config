@@ -21,7 +21,7 @@ Make sure your user owns that directory:
 ```shell
 chown jappie:users -R /linux-config
 ```
-
+ 
 Now run the script to install all dotfiles.
 
 ```shell
