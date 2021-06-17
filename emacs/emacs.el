@@ -1,7 +1,7 @@
 ;; globals
 ;; (set-default 'truncate-lines nil)
 (setq-default indent-tabs-mode nil) ;; disable tabs
-(setq tab-width 2)
+(setq-default tab-width 2)
 (setq version-control t )		; use version control
 (setq vc-follow-symlinks t )				       ; don't ask for confirmation when opening symlinked file
 (setq auto-save-file-name-transforms '((".*" "~/.emacs.d/auto-save-list/" t)) ) ;transform backups file name
@@ -481,12 +481,6 @@
                       (setq evil-shift-width 2))))
 
 (use-package nix-sandbox)
-(use-package nix-haskell-mode
-  :disabled ;; throws error saying can't find haskell-process-args-cabal-new-repl
-  :hook (haskell-mode . nix-haskell-mode)
-  :config
-  (setq haskell-process-args-cabal-new-repl (list "--ghc-option=-O0"))
-  )
 
 
 ;;; Haskell
@@ -722,23 +716,6 @@ two prefix arguments, write out the day and month name."
   :config
   ;; dante's xref doesn't work for mutli-project setups, we just use etags
   ;; (remove-hook 'xref-backend-functions 'dante--xref-backend)
-  )
-
-(use-package dante
-  :after haskell-mode
-  :commands 'dante-mode
-  :init
-  (add-hook 'haskell-mode-hook 'flycheck-mode)
-  ;; OR:
-  ;; (add-hook 'haskell-mode-hook 'flymake-mode)
-  (add-hook 'haskell-mode-hook 'dante-mode)
-  (with-eval-after-load 'dante
-    (flycheck-add-next-checker 'haskell-dante
-                               '(warning . haskell-hlint)))
-
-  :config
-  ;; dante's xref doesn't work for mutli-project setups, we just use etags
-  (remove-hook 'xref-backend-functions 'dante--xref-backend)
   )
 
 (use-package parinfer

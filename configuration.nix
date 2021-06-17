@@ -176,8 +176,8 @@ in {
       xfce4-battery-plugin
       xfce4-clipman-plugin
       xfce4-datetime-plugin
-      xfce4-dockbarx-plugin
-      xfce4-embed-plugin
+      # xfce4-dockbarx-plugin # insecure by Pillow
+      # xfce4-embed-plugin
       pkgsUnstable.xfce.xfce4-eyes-plugin
       pkgsUnstable.xfce.xfce4-fsguard-plugin
       xfce4-namebar-plugin
@@ -485,8 +485,10 @@ in {
       };
       libinput = {
         enable = true;
-        tapping = true;
-        disableWhileTyping = true;
+        touchpad = {
+            tapping = true;
+            disableWhileTyping = true;
+        };
       };
       videoDrivers = [ "amdgpu" "radeon" "cirrus" "vesa" "modesetting" "intel"];
       desktopManager.xfce.enable = true; # for the xfce-panel in i3
@@ -546,7 +548,20 @@ in {
     # to upgrade, add a channel:
     # $ sudo nix-channel --add https://nixos.org/channels/nixos-18.09 nixos
     # $ sudo nixos-rebuild switch --upgrade
-    stateVersion = "20.09"; # Did you read the comment?
+    stateVersion = "21.05"; # Did you read the comment?
+# 🕙 2021-06-13 19:59:36 in ~ took 14m27s
+# ✦ ❯ nixos-version
+# 20.09.4321.115dbbe82eb (Nightingale)
+
+# 🕙 2021-06-13 22:09:54 in ~
+# ✦ ❯ sudo reboot
+# [sudo] wachtwoord voor jappie:
+# sudo: een wachtwoord is verplicht
+
+# 🕙 2021-06-13 22:09:58 in ~
+# ✦ ❯ uname -a
+# Linux work-machine 5.4.72 #1-NixOS SMP Sat Oct 17 08:11:24 UTC 2020 x86_64 GNU/Linux
+
   };
   virtualisation = {
     docker.enable = true;
