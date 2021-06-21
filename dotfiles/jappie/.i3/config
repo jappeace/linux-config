@@ -264,5 +264,5 @@ client.urgent #2f343a #900000 #ffffff #900000
 exec --no-startup-id while true; do feh --bg-scale `files=(/home/jappie/docs/backgrounds/*); printf "%s\n" "${files[RANDOM % ${#files[@]}]}"`; sleep 1200; done
 
 exec_always xset dpms 0 1800 0
-exec_always --no-startup-id xss-lock -- /linux-config/scripts/suspend.sh
+# exec_always --no-startup-id xss-lock -- /linux-config/scripts/suspend.sh # annoying
 bindsym Mod4+s exec /linux-config/scripts/suspend.sh

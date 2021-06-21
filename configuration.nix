@@ -180,9 +180,9 @@ in {
   };
 
   # Set your time zone.
-  # time.timeZone = "Europe/Amsterdam";
+  time.timeZone = "Europe/Amsterdam";
   # aruba = America/Caracas
-  time.timeZone = "America/Caracas";
+  # time.timeZone = "America/Caracas";
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment = {
@@ -194,14 +194,12 @@ in {
       steam
       screenkey
       slop
-      scribus
       obs-studio
       teamviewer
       fd # better find, 50% shorter command!
       qemu
       git-secrets # this appears to be broken
       sshuttle
-      nixops
       firmwareLinuxNonfree
       # fbreader # broken
       gource
@@ -229,8 +227,8 @@ in {
       xfce4-battery-plugin
       xfce4-clipman-plugin
       xfce4-datetime-plugin
-      xfce4-dockbarx-plugin
-      xfce4-embed-plugin
+      # xfce4-dockbarx-plugin
+      # xfce4-embed-plugin
       xfce4-namebar-plugin
       xfce4-whiskermenu-plugin # xfce plugins
       rofi # dmenu replacement (fancy launcher)
@@ -311,6 +309,7 @@ in {
       resize-images
       scrcpy
       manpages
+      fbreader
 
       ydotool # xdotool for wayland
       imv # image viewer for wayland
@@ -318,8 +317,6 @@ in {
       # performance
       glances
 
-      pkgsUnstable.xfce.xfce4-eyes-plugin
-      pkgsUnstable.xfce.xfce4-fsguard-plugin
       pkgsUnstable.haskellPackages.cut-the-crap
       starship
       gnome3.file-roller
@@ -423,7 +420,7 @@ in {
       noto-fonts-emoji
       twemoji-color-font
       # pkgsUnstable.joypixels
-      joypixels
+      # joypixels
     ];
     fontconfig = {
       defaultFonts = {
@@ -438,9 +435,6 @@ in {
   # networking.firewall.allowedUDPPorts = [ ... ];
   # Or disable the firewall altogether.
   # networking.firewall.enable = false;
-
-  # Enable CUPS to print documents.
-  # services.printing.enable = true;
 
   # Enable sound.
   sound.enable = true;
@@ -551,7 +545,9 @@ in {
     };
     printing = {
       enable = true;
-      drivers = [ pkgs.hplip ];
+      drivers = [ pkgs.hplip
+                  pkgs.epson-escpr # jappie hutje
+                ];
     };
     avahi = {
       enable = true;
@@ -620,8 +616,11 @@ in {
       };
       libinput = {
         enable = true;
-        tapping = true;
-        disableWhileTyping = true;
+        touchpad = {
+          tapping = true;
+          disableWhileTyping = true;
+        };
+
       };
       videoDrivers = [
         "intel"
@@ -686,7 +685,7 @@ in {
     # to upgrade, add a channel:
     # $ sudo nix-channel --add https://nixos.org/channels/nixos-18.09 nixos
     # $ sudo nixos-rebuild switch --upgrade
-    stateVersion = "20.09"; # Did you read the comment?
+    stateVersion = "21.05"; # Did you read the comment?
   };
   virtualisation = {
     docker.enable = true;
@@ -695,7 +694,7 @@ in {
       enableExtensionPack = false;
     };
     libvirtd.enable = true;
-    anbox.enable = true;
+    anbox.enable = false;
   };
   powerManagement = {
     enable = true;
