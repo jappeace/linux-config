@@ -114,6 +114,7 @@ in {
       audacity
       xss-lock
       i3lock
+      i3status
       skype
       nixfmt
       atom
@@ -130,6 +131,8 @@ in {
 
       hardinfo # https://askubuntu.com/questions/179958/how-do-i-find-out-my-motherboard-model
       dmidecode
+
+      pv # cat with progress bar
 
       pkgsUnstable.dmg2img # https://www.uubyte.com/convert-dmg-to-iso-free.html
 
