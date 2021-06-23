@@ -86,12 +86,6 @@ in {
       "mitigations=off"
     ];
   };
-  systemd.mounts = [{
-    where = "/tmp";
-    what = "tmpfs";
-    options = "mode=1777,strictatime,nosuid,nodev,size=75%";
-  }];
-
   # This daemon setup works, but the daemon has a bug.
   # see https://github.com/ReimuNotMoe/ydotool/issues/106
   # so I chowned and chmoded /dev/uinput directly
