@@ -94,7 +94,7 @@ in {
     systemPackages = with pkgs.xfce // pkgs; [
       audacious
       filezilla
-      pkgsUnstable.obs-studio
+      obs-studio
       slop
       xorg.xhost
       unzip
@@ -232,6 +232,7 @@ in {
       cachix
 
       pkgsUnstable.ib-tws
+      anki
 
       sloccount
       cloc
@@ -307,9 +308,6 @@ in {
   # networking.firewall.allowedUDPPorts = [ ... ];
   # Or disable the firewall altogether.
   # networking.firewall.enable = false;
-
-  # Enable CUPS to print documents.
-  # services.printing.enable = true;
 
   # Enable sound.
   sound.enable = true;
@@ -417,7 +415,10 @@ in {
     };
     printing = {
       enable = true;
-      drivers = [ pkgs.hplip ];
+      drivers = [
+        pkgs.hplip
+        pkgs.epson-escpr # jappie hutje
+      ];
     };
     avahi = {
       enable = true;
