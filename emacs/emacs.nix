@@ -88,12 +88,9 @@ packagedEmacs =
     # etc
     # use hooks to bind haskell to lsp haskell
     # lspHaskell # https://github.com/emacs-lsp/lsp-haskell
-    lsp-mode
-    lsp-haskell
-    lsp-ui
     php-mode
     clojure-mode
-    cider
+    # cider
     nix-haskell-mode # https://github.com/matthewbauer/nix-haskell-mode
     nix-sandbox
     evil-collection
