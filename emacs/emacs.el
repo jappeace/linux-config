@@ -244,6 +244,12 @@
   (define-key transient-map (kbd "<escape>") 'transient-quit-one)
   )
 
+;; I need to save kmacro-name-last-macro
+;; and then I can insert insert-kbd-macro
+;; which generates code like this (which can be used in general):
+(fset 'macro-anki-2 ;; df;A;px0df A px0j
+      (kmacro-lambda-form [?d ?f ?\; ?A ?\; escape ?p ?x ?0 ?d ?f ?  ?A ?  escape ?p ?x ?0 ?j] 0 "%d"))
+
 ;;; keybindings
 (use-package general
   :config
@@ -308,6 +314,7 @@
    "gC"  'magit-cherry-pick-popup
    "gz"  'magit-stash-popup
    ;; Applications
+   "al" 'macro-anki-2
    "a" '(:ignore t :which-key "Applications")
    "d" 'insert-date
    ";" 'comment-line
