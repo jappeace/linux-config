@@ -9,8 +9,6 @@ let
   pkgsUnstable = import ./pin-unstable.nix {
     config.allowUnfree = true;
     overlays = [
-      # (import ./overlays/cut-the-crap)
-      (import /home/jappie/projects/cut-the-crap/nix/overlay)
       (import ./overlays/boomer)
     ];
 
@@ -35,7 +33,7 @@ let
   '';
 in {
   imports = [ # Include the results of the hardware scan.
-    ./hardware/work-machine.nix
+    ./hardware/lenovo-amd.nix
     ./emacs
     ./cachix.nix
   ];
@@ -160,6 +158,7 @@ in {
       plantuml # for thesis uml amongst other things, it's pretty nice
       inkscape # gotta make that artwork for site etc
       gnupg # for private keys
+
       git-crypt # pgp based encryption for git repos (the dream is real)
       jq # deal with json on commandline
       wireguard # easier vpn
@@ -530,7 +529,7 @@ in {
       "docker"
       "vboxusers"
     ];
-    openssh.authorizedKeys.keys = (import ./encrypted/keys.nix);
+    # openssh.authorizedKeys.keys = (import ./encrypted/keys.nix); # TODO renable
     group = "users";
     home = "/home/jappie";
     isNormalUser = true;
