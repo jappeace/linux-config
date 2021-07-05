@@ -231,7 +231,6 @@ in {
       tmate
       cachix
 
-      pkgsUnstable.ib-tws
       anki
 
       sloccount
