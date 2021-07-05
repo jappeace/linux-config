@@ -117,7 +117,6 @@ in {
       nixfmt
       atom
       mpv # mplayer
-      pkgsUnstable.discord
       ark
       burpsuite
       starship
@@ -132,9 +131,7 @@ in {
 
       pv # cat with progress bar
 
-      pkgsUnstable.dmg2img # https://www.uubyte.com/convert-dmg-to-iso-free.html
-
-      pkgsUnstable.anydesk
+      anydesk
       nmap
 
       # pkgsUnstable.ib-tws # intereactive brokers trader workstation
@@ -145,7 +142,6 @@ in {
       pgcli # better postgres cli client
       unrar
       sshuttle
-      nixops
       firmwareLinuxNonfree
       # fbreader # broken
       gource
@@ -163,7 +159,7 @@ in {
       jq # deal with json on commandline
       wireguard # easier vpn
       sqlite-interactive # hack nixops
-      pkgsUnstable.litecli
+      litecli
       gimp # edit my screenshots
       curl
       neovim # because emacs never breaks
@@ -171,7 +167,7 @@ in {
       networkmanagerapplet # make wifi clickable
       git
       imagemagick
-      pkgsUnstable.keepassxc # to open my passwords
+      keepassxc # to open my passwords
       tree # sl
       pkgsUnstable.obs-linuxbrowser # install instructions: https://github.com/NixOS/nixpkgs/blob/master/pkgs/applications/video/obs-studio/linuxbrowser.nix
       xfce4-panel
@@ -180,8 +176,8 @@ in {
       xfce4-datetime-plugin
       # xfce4-dockbarx-plugin # insecure by Pillow
       # xfce4-embed-plugin
-      pkgsUnstable.xfce.xfce4-eyes-plugin
-      pkgsUnstable.xfce.xfce4-fsguard-plugin
+      xfce.xfce4-eyes-plugin
+      xfce.xfce4-fsguard-plugin
       xfce4-namebar-plugin
       xfce4-whiskermenu-plugin # xfce plugins
       rofi # dmenu replacement (fancy launcher)
@@ -216,7 +212,6 @@ in {
       tcpdump
       ntfs3g
       qdirstat
-      pkgsUnstable.youtube-dl
       google-cloud-sdk
       htop
       feh
