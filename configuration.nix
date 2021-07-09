@@ -59,7 +59,7 @@ in {
     }];
 
   networking = {
-    hostName = "work-machine"; # Define your hostname.
+    hostName = "lenovo-amd"; # Define your hostname.
     # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
     networkmanager.enable = true;
     # these are sites I've developed a 'mental hook' for, eg
@@ -74,7 +74,7 @@ in {
 
   # Select internationalisation properties.
   console = {
-    font = "firacode-14";
+    # font = "firacode-14";
     keyMap = "us";
   };
   i18n = {
@@ -600,6 +600,6 @@ in {
       "fairy-tale-agi-solutions.cachix.org-1:FwDwUQVY1jJIz5/Z3Y9d0hNPNmFqMEr6wW+D99uaEGs="
       "all-hies.cachix.org-1:JjrzAOEUsD9ZMt8fdFbzo3jNAyEWlPAwdVuHw4RD43k="
       "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
-    ] ++ import ./encrypted/cachix.nix;
+    ]; # ++ import ./encrypted/cachix.nix; TODO renable
   };
 }
