@@ -22,6 +22,9 @@ let
     config.oraclejdk.accept_license = true;
   };
 
+  # Me to the max
+  maxme = pkgs.writeShellScriptBin "maxme" ''emacsclient . &!'';
+
   reload-emacs = pkgs.writeShellScriptBin "reload-emacs" ''
     sudo nixos-rebuild switch && systemctl daemon-reload --user &&    systemctl restart emacs --user
   '';
@@ -126,6 +129,8 @@ in {
       openssl
       reload-emacs
       start-ib
+      cabal2nix
+      maxme
 
       crawlTiles
 
