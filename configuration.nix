@@ -461,7 +461,7 @@ in {
       dataDir = "/home/jappie/public";
     };
 
-    services.logind.extraConfig = ''
+    logind.extraConfig = ''
         IdleAction=hybrid-sleep
         IdleActionSec=30min
     '';
