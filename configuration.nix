@@ -461,6 +461,11 @@ in {
       dataDir = "/home/jappie/public";
     };
 
+    services.logind.extraConfig = ''
+        IdleAction=hybrid-sleep
+        IdleActionSec=30min
+    '';
+
     # Enable the X11 windowing system.
     # services.xserver.enable = true;
     # services.xserver.layout = "us";
