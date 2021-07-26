@@ -131,6 +131,7 @@ in {
       start-ib
       cabal2nix
       maxme
+      zip
 
       crawlTiles
 
@@ -232,9 +233,16 @@ in {
       espeak
       pandoc
       wine
+      winetricks
       teamviewer
       tmate
       cachix
+      (pkgs.polybar.override {
+        alsaSupport = true;
+        pulseSupport = true;
+        mpdSupport = true;
+        i3Support = true;
+      })
 
       anki
 
@@ -300,6 +308,8 @@ in {
       inconsolata
       ubuntu_font_family
       corefonts
+      font-awesome_4
+      font-awesome_5 siji jetbrains-mono
     ];
     fontconfig = { defaultFonts = {
       # we need to set in in qt5ct as well.
@@ -597,7 +607,6 @@ in {
       "https://cache.nixos.org"
       "https://hydra.iohk.io" # cardano
       "https://nixcache.reflex-frp.org" # reflex
-      "https://fairy-tale-agi-solutions.cachix.org"
       "https://jappie.cachix.org"
       "https://all-hies.cachix.org"
       "https://nix-community.cachix.org"
@@ -608,7 +617,6 @@ in {
       "ryantrinkle.com-1:JJiAKaRv9mWgpVAz8dwewnZe0AzzEAzPkagE9SP5NWI=" # reflex
       "static-haskell-nix.cachix.org-1:Q17HawmAwaM1/BfIxaEDKAxwTOyRVhPG5Ji9K3+FvUU="
       "jappie.cachix.org-1:+5Liddfns0ytUSBtVQPUr/Wo6r855oNLgD4R8tm1AE4="
-      "fairy-tale-agi-solutions.cachix.org-1:FwDwUQVY1jJIz5/Z3Y9d0hNPNmFqMEr6wW+D99uaEGs="
       "all-hies.cachix.org-1:JjrzAOEUsD9ZMt8fdFbzo3jNAyEWlPAwdVuHw4RD43k="
       "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
     ] ++ import ./encrypted/cachix.nix;
