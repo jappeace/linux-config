@@ -95,7 +95,9 @@ in {
   # $ nix search wget
   environment = {
     systemPackages = with pkgs.xfce // pkgs; [
+      pkgs.haskellPackages.greenclip
       audacious
+      xclip
       filezilla
       obs-studio
       slop
@@ -174,7 +176,6 @@ in {
       gimp # edit my screenshots
       curl
       neovim # because emacs never breaks
-      gnome3.gnome-screenshot # put screenshots in clipy and magically work with i3
       networkmanagerapplet # make wifi clickable
       git
       imagemagick
