@@ -198,7 +198,7 @@ bindsym --release $mod+i exec emacsclient -ce '(lambda () (interactive) previous
 # finds out, if available)
 bar {
  status_command i3status
- font pango:DejaVu Sans Mono, Terminus Bold Semi-Condensed 16
+ font pango:DejaVu Sans Mono, Terminus Bold Semi-Condensed 18
  colors {
    separator #666666
    background #000000
