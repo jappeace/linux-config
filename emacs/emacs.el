@@ -374,7 +374,7 @@
   :config
   (setq ivy-re-builders-alist
         '((ivy-switch-buffer . ivy--regex-plus)
-          (t . ivy--regex-fuzzy)))
+          ))
   (setq ivy-initial-inputs-alist nil)
   )
 
@@ -400,7 +400,10 @@
 
 ;;; jump around
 (use-package avy
-  :commands (avy-goto-word-1 avy-goto-word-or-subword-1))
+  :commands (avy-goto-word-1 avy-goto-word-or-subword-1)
+  :config
+  (setq avy-all-windows 'all-frames)
+  )
 
 
 ;;; git
