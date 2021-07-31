@@ -24,5 +24,16 @@ extract () {
     fi
 }
 
+# https://blog.sanctum.geek.nz/better-bash-history/
+shopt -s histappend
+HISTFILESIZE=1000000
+HISTSIZE=1000000
+HISTCONTROL=ignoreboth
+HISTIGNORE='ls:bg:fg:history:echo'
+HISTTIMEFORMAT='%F %T '
+shopt -s cmdhist
+PROMPT_COMMAND='history -a'
+
 eval "$(starship init bash)"
 eval "$(direnv hook bash)"
+
