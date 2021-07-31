@@ -35,6 +35,7 @@ packagedEmacs =
 (pkgs.runCommand "default.el" {} ''
       mkdir -p $out/share/emacs/site-lisp
       cp ${myEmacsConfig} $out/share/emacs/site-lisp/default.el
+      ln -sf ${./persistent-mode.el} $out/share/emacs/site-lisp/
       '')
     avy # jump to word
     ivy # I think the M-x thing
@@ -88,12 +89,9 @@ packagedEmacs =
     # etc
     # use hooks to bind haskell to lsp haskell
     # lspHaskell # https://github.com/emacs-lsp/lsp-haskell
-    lsp-mode
-    lsp-haskell
-    lsp-ui
     php-mode
     clojure-mode
-    cider
+    # cider
     nix-haskell-mode # https://github.com/matthewbauer/nix-haskell-mode
     nix-sandbox
     evil-collection
