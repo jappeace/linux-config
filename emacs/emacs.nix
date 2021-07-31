@@ -91,7 +91,7 @@ packagedEmacs =
     # lspHaskell # https://github.com/emacs-lsp/lsp-haskell
     php-mode
     clojure-mode
-    # cider
+    cider
     nix-haskell-mode # https://github.com/matthewbauer/nix-haskell-mode
     nix-sandbox
     evil-collection
