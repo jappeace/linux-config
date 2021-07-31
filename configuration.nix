@@ -461,10 +461,15 @@ in {
       dataDir = "/home/jappie/public";
     };
 
-    logind.extraConfig = ''
+    logind = {
+      extraConfig = ''
         IdleAction=hybrid-sleep
         IdleActionSec=30min
-    '';
+      '';
+      lidSwitch = "hybrid-sleep";
+    };
+
+
 
     # Enable the X11 windowing system.
     # services.xserver.enable = true;
