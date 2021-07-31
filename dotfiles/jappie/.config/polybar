@@ -20,7 +20,6 @@ margin-bottom = 0
 
 [bar/main]
 enable-ipc = true
-override-redirect = true
 fixed-center = true
 
 background = ${colors.background}
@@ -29,7 +28,7 @@ foreground = ${colors.white}
 width = 100%
 height = 35
 offset-x = 0
-offset-y = -1
+offset-y = 0
 bottom = true
 
 overline-size = 0

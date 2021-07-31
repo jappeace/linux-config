@@ -193,21 +193,22 @@ mode "resize" {
 }
 bindsym --release $mod+i exec emacsclient -ce '(lambda () (interactive) previous-buffer)'
 
+# I use polybar now.
 # Start i3bar to display a workspace bar (plus the system information i3status
 # finds out, if available)
-bar {
- status_command i3status
- font pango:DejaVu Sans Mono, Terminus Bold Semi-Condensed 18
- colors {
-   separator #666666
-   background #000000
-   statusline #ffffff
-   focused_workspace #551a8b #551a8b #ffffff
-   active_workspace #333333 #5f676a #ffffff
-   inactive_workspace #000000 #000000 #888888
-   urgent_workspace #2f343a #900000 #ffffff
- }
-}
+# bar {
+#  status_command i3status
+#  font pango:DejaVu Sans Mono, Terminus Bold Semi-Condensed 18
+#  colors {
+#    separator #666666
+#    background #000000
+#    statusline #ffffff
+#    focused_workspace #551a8b #551a8b #ffffff
+#    active_workspace #333333 #5f676a #ffffff
+#    inactive_workspace #000000 #000000 #888888
+#    urgent_workspace #2f343a #900000 #ffffff
+#  }
+# }
 
 # exec --no-startup-id xfce4-panel --disable-wm-check
 
