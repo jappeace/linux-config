@@ -77,7 +77,7 @@ in {
 
   # Select internationalisation properties.
   console = {
-    font = "firacode-14";
+    # font = "firacode-14";
     keyMap = "us";
   };
   i18n = {
