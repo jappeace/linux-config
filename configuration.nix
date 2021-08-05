@@ -99,7 +99,6 @@ in {
       audacious
       xclip
       filezilla
-      obs-studio
       slop
       xorg.xhost
       unzip
@@ -108,6 +107,7 @@ in {
       blender
       mesa
       idris
+      pciutils
       # devpackeges.haskellPackages.cut-the-crap
       lsof
       ffmpeg
@@ -540,7 +540,7 @@ in {
   location.provider = "geoclue2";
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
-  users.extraUsers.jappie = {
+  users.users.jappie = {
     createHome = true;
     extraGroups = [
       "wheel"
@@ -557,6 +557,23 @@ in {
     home = "/home/jappie";
     isNormalUser = true;
     uid = 1000;
+  };
+  users.users.streamer = {
+    createHome = true;
+    extraGroups = [
+      "video"
+      "audio"
+      "disk"
+      "networkmanager"
+    ];
+    # we only make obs available to the streamer so we don't accidently start it from another user
+    packages = [
+      pkgs.obs-studio
+    ];
+    # openssh.authorizedKeys.keys = (import ./encrypted/keys.nix); # TODO renable
+    group = "users";
+    home = "/home/streamer";
+    isNormalUser = true;
   };
 
   system = {
@@ -592,7 +609,7 @@ in {
     docker.enable = true;
     virtualbox.host = {
       enable = true;
-      enableExtensionPack = false;
+      enableExtensionPack = true;
     };
     libvirtd.enable = true;
   };
