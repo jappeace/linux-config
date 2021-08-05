@@ -4,11 +4,20 @@ echo "Basic nixos setup assuming this repository is used"
 echo "symlink to the configuration.nix in this repo, "
 echo "create symlink to dotfiles"
 read -p "Press enter to continue"
-set -xe
+set -e
 
 DIR=/linux-config
 
-sudo ln -fs $DIR/configuration.nix /etc/nixos/configuration.nix
+echo "Install /etc/nixos/configuration.nix (requires root) (y/n)?"
+read answer
+
+set -x
+if [ "$answer" != "${answer#[Yy]}" ] ;then
+    sudo ln -fs $DIR/configuration.nix /etc/nixos/configuration.nix
+else
+    echo "skipping"
+fi
+
 DOTFILES=$DIR/dotfiles
 USER=$DOTFILES/jappie
 CONFIG=$USER/.config
