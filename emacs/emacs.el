@@ -14,6 +14,7 @@
 (setq initial-scratch-message "Good day sir, your wish is my command.") ; Emacs shows its subservience. Machines are tools.
 (setq create-lockfiles nil) ;; this clashes with projectile
 (setq tags-revert-without-query 1)
+(setq auto-save-default nil)
 (advice-add 'risky-local-variable-p :override #'ignore) ;; allow remembering of risky vars https://emacs.stackexchange.com/questions/10983/remember-permission-to-execute-risky-local-variables
 
 
@@ -885,6 +886,8 @@ or GREATER-THAN into an actual Unicode character code. "
 
 (add-hook 'purescript-mode-hook 'haskell-unicode)
 (add-hook 'haskell-mode-hook 'haskell-unicode)
+
+(use-package wgrep)
 
 (use-package ws-butler
   :init

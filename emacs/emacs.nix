@@ -68,6 +68,7 @@ packagedEmacs =
     # evil-org # broken
     # dracula-theme
   ]) ++ (with epkgs.melpaPackages; [
+    wgrep # allow ripgrep find and replace https://github.com/mhayashi1120/Emacs-wgrep
     evilMagit
     magit
     package-lint
