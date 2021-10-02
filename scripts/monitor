@@ -1,6 +1,7 @@
 #! /bin/sh
-EXTERNAL_OUTPUT="HDMI2"
-INTERNAL_OUTPUT="eDP1"
+EXTERNAL_OUTPUT="DisplayPort-2"
+INTERNAL_OUTPUT="DisplayPort-1"
+# INTERNAL_OUTPUT="HDMI-A-0"
 
 # if we don't have a file, start at zero
 if [ ! -f "/tmp/monitor_mode.dat" ] ; then
@@ -22,6 +23,10 @@ elif [ $monitor_mode = "INTERNAL" ]; then
         xrandr --output $INTERNAL_OUTPUT --auto --output $EXTERNAL_OUTPUT --auto --same-as $INTERNAL_OUTPUT
 else
         monitor_mode="all"
-        xrandr --output $INTERNAL_OUTPUT --auto --output $EXTERNAL_OUTPUT --mode 3840x2160 --above $INTERNAL_OUTPUT
+        xrandr --output $INTERNAL_OUTPUT --auto --output $EXTERNAL_OUTPUT --mode 3840x2160 --left-of $INTERNAL_OUTPUT
 fi
+
+echo "${monitor_mode}"
+(i3-nagbar -t warning -m "switching to ${monitor_mode}")&
 echo "${monitor_mode}" > /tmp/monitor_mode.dat
+chmod 0664 /tmp/monitor_mode.dat
