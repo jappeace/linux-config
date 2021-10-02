@@ -114,6 +114,9 @@ in {
       mesa
       idris
       pciutils
+      clang-tools # clang-format
+
+      fbreader
       # devpackeges.haskellPackages.cut-the-crap
       lsof
       ffmpeg
@@ -142,6 +145,7 @@ in {
       # ib-tws
 
       crawlTiles
+      electrum
 
       hardinfo # https://askubuntu.com/questions/179958/how-do-i-find-out-my-motherboard-model
       dmidecode
