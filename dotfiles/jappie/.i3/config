@@ -263,6 +263,6 @@ exec --no-startup-id while true; do feh --bg-scale `files=(/home/jappie/docs/bac
 # exec_always xset s 900
 exec_always xset dpms 0 1800 0
 exec_always --no-startup-id xss-lock -- /linux-config/scripts/suspend.sh
-exec_always --no-startup-id pkill polybar && polybar -c /linux-config/dotfiles/jappie/.config/polybar main
+exec_always --no-startup-id pkill polybar; polybar -c /linux-config/dotfiles/jappie/.config/polybar main
 exec_always --no-startup-id greenclip daemon
 bindsym Mod4+s exec systemctl hybrid-sleep
