@@ -81,6 +81,9 @@ in {
       0.0.0.0 www.reddit.com
       0.0.0.0 news.ycombinator.com
     '';
+    # interfaces."lo".ip4.addresses = [
+    #     { address = "192.168.0.172"; prefixLength = 32; }
+    # ];
   };
 
   # Select internationalisation properties.
