@@ -15,7 +15,7 @@
   fileSystems."/" =
     { device = "/dev/disk/by-uuid/45c4358e-ae9f-44fb-97b3-87243983cc5b";
       fsType = "btrfs";
-      options = [ "subvol=nixos" ];
+      options = [ "subvol=nixos" "ssd" "noatime"];
     };
 
   boot.initrd.luks.devices."nixenc".device = "/dev/disk/by-uuid/f7a58374-f63e-4bbf-94cb-dbc5f391eced";
