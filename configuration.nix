@@ -22,6 +22,23 @@ let
     config.oraclejdk.accept_license = true;
   };
 
+  host-dir = pkgs.writeShellScriptBin "host-dir" ''
+    ${pkgs.python3}/bin/python -m http.server
+  '';
+
+  # phone makes pictures to big usually
+  # I need to track these often in a git repo and having it be bigger then 1meg is bad
+  resize-images = pkgs.writeShellScriptBin "resize-images" ''
+  set -xe
+  outfolder=/tmp/small
+  mkdir -p $outfolder
+  for i in `echo *.jpg`; do
+  ${pkgs.imagemagick}/bin/convert -resize 50% -quality 90 "$@" $i $outfolder/$i.small.jpg;
+  done
+  echo "wrote to "$outfolder
+  '';
+
+
   # Me to the max
   maxme = pkgs.writeShellScriptBin "maxme" ''emacsclient . &!'';
 
@@ -118,6 +135,7 @@ in {
       idris
       pciutils
       clang-tools # clang-format
+      lz4
 
       fbreader
       # devpackeges.haskellPackages.cut-the-crap
