@@ -22,7 +22,7 @@ let
     config.oraclejdk.accept_license = true;
   };
 
-  host-dir = pkgs.writeShellScriptBin "host-dir" ''
+  hostdir = pkgs.writeShellScriptBin "hostdir" ''
     ${pkgs.python3}/bin/python -m http.server
   '';
 
@@ -101,6 +101,8 @@ in {
     # interfaces."lo".ip4.addresses = [
     #     { address = "192.168.0.172"; prefixLength = 32; }
     # ];
+
+    firewall.allowedTCPPorts = [ 6868 4713 8081 3000 22 8000];
   };
 
   # Select internationalisation properties.
@@ -164,6 +166,8 @@ in {
       maxme
       zip
       # ib-tws
+      resize-images
+      hostdir
 
       crawlTiles
       electrum
@@ -345,12 +349,6 @@ in {
       monospace = [ "Fira Code" ]; };
       };
   };
-
-  # Open ports in the firewall.
-  networking.firewall.allowedTCPPorts = [ 6868 4713 8081 3000 22 ];
-  # networking.firewall.allowedUDPPorts = [ ... ];
-  # Or disable the firewall altogether.
-  # networking.firewall.enable = false;
 
   # Enable sound.
   sound.enable = true;
