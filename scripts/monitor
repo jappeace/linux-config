@@ -1,7 +1,8 @@
 #! /bin/sh
 MIDDLE_OUTPUT="DisplayPort-2"
 LEFT_OUTPUT="DisplayPort-1"
-RIGHT_OUTPUT="HDMI-A-0"
+RIGHT_OUTPUT="DisplayPort-0"
+BACK_OUTPUT="HDMI-A-0"
 
 # if we don't have a file, start at zero
 if [ ! -f "/tmp/monitor_mode.dat" ] ; then
@@ -14,16 +15,22 @@ fi
 
 if [ $monitor_mode = "all" ]; then
         monitor_mode="EXTERNAL"
-        xrandr --output $MIDDLE_OUTPUT --off --output $LEFT_OUTPUT --auto
+        xrandr --output $MIDDLE_OUTPUT --off --output $LEFT_OUTPUT --auto --output $RIGHT_OUTPUT --off
 elif [ $monitor_mode = "EXTERNAL" ]; then
         monitor_mode="MIDDLE"
         xrandr --output $MIDDLE_OUTPUT --auto --output $LEFT_OUTPUT --off --output $RIGHT_OUTPUT --off
 elif [ $monitor_mode = "MIDDLE" ]; then
         monitor_mode="CLONES"
-        xrandr --output $MIDDLE_OUTPUT --auto --output $LEFT_OUTPUT --auto --same-as $MIDDLE_OUTPUT  --output $RIGHT_OUTPUT --auto --same-as $MIDDLE_OUTPUT
+        xrandr --output $MIDDLE_OUTPUT --auto \
+               --output $LEFT_OUTPUT --auto --same-as $MIDDLE_OUTPUT \
+               --output $RIGHT_OUTPUT --auto --same-as $MIDDLE_OUTPUT \
+               --output $BACK_OUTPUT --auto --same-as $MIDDLE_OUTPUT \
 else
         monitor_mode="all"
-        xrandr --auto  --output $MIDDLE_OUTPUT --auto --output $LEFT_OUTPUT --auto --left-of $MIDDLE_OUTPUT --output $RIGHT_OUTPUT --right-of $MIDDLE_OUTPUT
+        xrandr --output $MIDDLE_OUTPUT --auto \
+               --output $LEFT_OUTPUT   --auto --left-of  $MIDDLE_OUTPUT \
+               --output $RIGHT_OUTPUT  --auto --right-of $MIDDLE_OUTPUT \
+               --output $BACK_OUTPUT   --auto --right-of $RIGHT_OUTPUT --left-of $LEFT_OUTPUT
 fi
 
 echo "${monitor_mode}"
