@@ -510,9 +510,12 @@ in {
     };
 
     logind = {
+      # https://www.freedesktop.org/software/systemd/man/logind.conf.html
+      # https://man.archlinux.org/man/systemd-sleep.conf.5
       extraConfig = ''
-        IdleAction=hybrid-sleep
+        IdleAction=suspend-then-hibernate
         IdleActionSec=30min
+        HibernateDelaySec=30min
       '';
       lidSwitch = "hybrid-sleep";
     };
