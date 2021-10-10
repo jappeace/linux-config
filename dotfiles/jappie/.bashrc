@@ -37,3 +37,4 @@ PROMPT_COMMAND='history -a'
 eval "$(starship init bash)"
 eval "$(direnv hook bash)"
 
+eval "$(zoxide init --hook pwd bash)"

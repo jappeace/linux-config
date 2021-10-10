@@ -234,8 +234,12 @@ in {
       lxappearance # theme, adwaita-dark works for gtk3, gtk2 and qt5.
       qt5ct
 
+
       glxinfo # glxgears
-      fasd # try zoxide in future, it's rust based and active (this one is dead)
+
+      zoxide # fasd # fasd died on me for some reason # try zoxide in future, it's rust based and active (this one is dead)
+      fzf # used by zoxide
+
       cowsay
       fortune
       thefuck # zsh stuff
