@@ -181,6 +181,7 @@ in {
       nmap
 
       # pkgsUnstable.ib-tws # intereactive brokers trader workstation
+      fcitx
 
       # lm-sensors
       fd # better find, 50% shorter command!
