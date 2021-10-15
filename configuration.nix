@@ -657,6 +657,7 @@ in {
   };
 
   nix = {
+    daemonNiceLevel = 18;
     gc = {
         automatic = true;
         dates = "monthly"; # https://jlk.fjfi.cvut.cz/arch/manpages/man/systemd.time.7
