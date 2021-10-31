@@ -897,3 +897,4 @@ or GREATER-THAN into an actual Unicode character code. "
   (add-hook 'sh-mode-hook 'flymake-shellcheck-load))
 
 ;; (use-package agda2-mode)
+(use-package wgrep)

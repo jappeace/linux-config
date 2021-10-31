@@ -68,6 +68,7 @@ packagedEmacs =
     # evil-org # broken
     # dracula-theme
   ]) ++ (with epkgs.melpaPackages; [
+    wgrep
     evilMagit
     magit
     package-lint
@@ -99,6 +100,9 @@ packagedEmacs =
     nyan-mode
     idris-mode
     shakespeare-mode
+
+    # eglot # TODO make works
+    envrc
 
 
     # lsp-rust https://github.com/emacs-lsp/lsp-rust
