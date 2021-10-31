@@ -91,7 +91,7 @@ in {
   };
 
   # Set your time zone.
-  time.timeZone = "Europe/Amsterdam";
+  time.timeZone = "Asia/Istanbul";
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
@@ -135,6 +135,10 @@ in {
       cabal2nix
       maxme
       zip
+      jetbrains.idea-community # .. variance
+      lz4
+
+      fsv # browse files like a chad
 
       crawlTiles
 
