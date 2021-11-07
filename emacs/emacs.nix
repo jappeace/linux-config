@@ -62,7 +62,6 @@ packagedEmacs =
     haskell-mode
     yasnippet
     evil
-    parinfer
     ws-butler
 
     # evil-org # broken
@@ -101,7 +100,7 @@ packagedEmacs =
     idris-mode
     shakespeare-mode
 
-    # eglot # TODO make works
+    eglot # TODO make works
     envrc
 
 
