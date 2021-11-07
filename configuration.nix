@@ -91,7 +91,8 @@ in {
   };
 
   # Set your time zone.
-  time.timeZone = "Asia/Istanbul";
+  # https://en.wikipedia.org/wiki/List_of_tz_database_time_zones
+  time.timeZone = "Europe/Amsterdam";
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
