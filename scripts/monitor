@@ -4,16 +4,18 @@ LEFT_OUTPUT="DisplayPort-1"
 RIGHT_OUTPUT="DisplayPort-0"
 BACK_OUTPUT="HDMI-A-0"
 
+DAT_FILE="/tmp/monitor_mode_${USER}.dat"
+
 # if we don't have a file, start at zero
-if [ ! -f "/tmp/monitor_mode.dat" ] ; then
+if [ ! -f "$DAT_FILE" ] ; then
   monitor_mode="all"
 
 # otherwise read the value from the file
 else
-  monitor_mode=`cat /tmp/monitor_mode.dat`
+  monitor_mode=$(cat "$DAT_FILE")
 fi
 
-if [ $monitor_mode = "all" ]; then
+if [ "$monitor_mode" = "all" ]; then
         monitor_mode="EXTERNAL"
         xrandr --output $MIDDLE_OUTPUT --off --output $LEFT_OUTPUT --auto --output $RIGHT_OUTPUT --off
 elif [ $monitor_mode = "EXTERNAL" ]; then
@@ -35,5 +37,4 @@ fi
 
 echo "${monitor_mode}"
 (i3-nagbar -t warning -m "switching to ${monitor_mode}")&
-echo "${monitor_mode}" > /tmp/monitor_mode.dat
-chmod 0664 /tmp/monitor_mode.dat
+echo "${monitor_mode}" > "$DAT_FILE"
