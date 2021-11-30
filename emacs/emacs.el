@@ -284,13 +284,14 @@
    "l"  'counsel-list-processes
    "t"  '(:ignore t :which-key "toggles")
    "tp"  'parinfer-toggle-mode
-   "f"   '(:ignore t :which-key "find/format")
+   "f"   '(:ignore t :which-key "find/format/file")
    "ff"  'format-all-buffer
    "fi"  'counsel-projectile-find-file
    "fr"  'projectile-replace-regexp
    "fg"  'counsel-git-grep
    "fh"  'haskell-hoogle-lookup-from-local
    "f/"  'counsel-projectile-rg ; dumb habit
+   "fc"  'dired-copy-filename-as-kill
    "h"   '(:ignore t :which-key "hoogle/inspection")
    "hl"  'haskell-hoogle-lookup-from-local
    "hq"  'haskell-hoogle
