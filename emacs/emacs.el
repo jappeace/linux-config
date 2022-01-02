@@ -900,4 +900,4 @@ or GREATER-THAN into an actual Unicode character code. "
   :init
   (add-hook 'sh-mode-hook 'flymake-shellcheck-load))
 
-;; (use-package agda2-mode)
+(use-package agda2-mode)
