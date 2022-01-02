@@ -538,7 +538,7 @@ in {
           user = "jappie";
           enable = false;
         };
-        sddm = {
+        lightdm = {
           enable = true;
         };
         sessionCommands = ''
