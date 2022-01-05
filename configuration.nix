@@ -6,6 +6,16 @@
 let
   devpackeges = import /home/jappie/projects/nixpkgs { };
 
+  rofiWithHoogle = let
+        rofi-hoogle-src = pkgs.fetchFromGitHub {
+          owner = "rebeccaskinner";
+          repo = "rofi-hoogle";
+          rev = "27c273ff67add68578052a13f560a08c12fa5767";
+          sha256 = "09vx9bc8s53c575haalcqkdwy44ys1j8v9k2aaly7lndr19spp8f";
+        };
+        rofi-hoogle = import "${rofi-hoogle-src}/release.nix";
+        in pkgs.rofi.override { plugins = [ rofi-hoogle.rofi-hoogle ]; };
+
   pkgsUnstable = import ./pin-unstable.nix {
     config.allowUnfree = true;
     overlays = [
@@ -138,6 +148,7 @@ in {
       pciutils
       clang-tools # clang-format
       lz4
+      rofiWithHoogle # dmenu replacement (fancy launcher)
 
       fbreader
       # devpackeges.haskellPackages.cut-the-crap
@@ -226,7 +237,6 @@ in {
       xfce.xfce4-fsguard-plugin
       xfce4-namebar-plugin
       xfce4-whiskermenu-plugin # xfce plugins
-      rofi # dmenu replacement (fancy launcher)
       xlibs.xmodmap # rebind capslock to escape
       xdotool # i3 auto type
 
