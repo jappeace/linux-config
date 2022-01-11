@@ -20,6 +20,11 @@ let
     config.oraclejdk.accept_license = true;
   };
 
+
+  hostdir = pkgs.writeShellScriptBin "hostdir" ''
+    ${pkgs.python3}/bin/python -m http.server
+  '';
+
   # Me to the max
   maxme = pkgs.writeShellScriptBin "maxme" ''emacsclient . &!'';
 
@@ -116,7 +121,7 @@ in {
       ffmpeg
       gromit-mpx # draw on screen
       usbutils
-      pkgsUnstable.boomer
+      # pkgsUnstable.boomer
       gcc
       scrcpy
       audacity
@@ -138,8 +143,10 @@ in {
       zip
       jetbrains.idea-community # .. variance
       lz4
+      mcomix3
 
       fsv # browse files like a chad
+      hostdir
 
       crawlTiles
 
@@ -163,7 +170,7 @@ in {
       # fbreader # broken
       gource
       p7zip
-      steam
+      pkgsUnstable.steam
       bc # random calcualtions
       android-studio
       thunar
@@ -185,7 +192,7 @@ in {
       imagemagick
       keepassxc # to open my passwords
       tree # sl
-      pkgsUnstable.obs-linuxbrowser # install instructions: https://github.com/NixOS/nixpkgs/blob/master/pkgs/applications/video/obs-studio/linuxbrowser.nix
+      # pkgsUnstable.obs-linuxbrowser # install instructions: https://github.com/NixOS/nixpkgs/blob/master/pkgs/applications/video/obs-studio/linuxbrowser.nix
       xfce4-panel
       xfce4-battery-plugin
       xfce4-clipman-plugin
