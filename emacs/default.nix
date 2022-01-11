@@ -3,7 +3,10 @@
 
 { config, pkgs, ... }:
 let
+
   aspell_with_dict = pkgs.aspellWithDicts(ps: [ps.nl ps.en]);
+
+  agsy = (import ./agsy.nix).agsy;
 in {
   # List packages installed in system profile. To search, run:
   # $ nix search wget
@@ -29,6 +32,7 @@ in {
         pkgs.nodePackages.prettier
         pkgs.python37Packages.sqlparse # sqlforamt
         pkgs.shellcheck
+        agsy
 	  ];
   };
 

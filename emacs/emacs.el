@@ -902,3 +902,5 @@ or GREATER-THAN into an actual Unicode character code. "
 (use-package direnv
  :config
  (direnv-mode))
+
+(use-package agda2-mode)

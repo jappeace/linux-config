@@ -4,6 +4,9 @@ let
   myEmacs = pkgs.emacs; # pkgs.emacsGcc compiles all elisp to native code, no drawback according to skybro.
   emacsWithPackages = (pkgs.emacsPackagesNgGen myEmacs).emacsWithPackages;
 
+  agsy = (import ./agsy.nix).agda-mode;
+
+
 
   # https://sam217pa.github.io/2016/09/02/how-to-build-your-own-spacemacs/
   myEmacsConfig = pkgs.writeText "default.el" (builtins.readFile ./emacs.el);
@@ -26,6 +29,41 @@ packagedEmacs =
           rev = "04a4580c6eadc0e2b821a3525687e74aefc30e84";
           sha256 = "1zckz54pwx63w9j4vlkx0h9mv0p9nbvvynvf9cb6wqm3d0xa4rw2";
         };
+      agda2-mode = epkgs.melpaBuild (
+      {
+        pname = "agda2-mode";
+        ename = "agda2-mode";
+        version = "2";
+        recipe = builtins.toFile "recipe" ''
+          (agda2-mode :fetcher github :repo "agda/agda"
+            :files ("agda*.el")
+          )
+        '';
+
+        src = agsy;
+      });
+      annotation = epkgs.melpaBuild (
+      {
+        pname = "annotation";
+        ename = "annotation";
+        version = "2";
+        recipe = builtins.toFile "recipe" ''
+            (annotation :fetcher github :repo "agda/agda"
+                :files ("annotation.el"))
+        '';
+        src = agsy;
+      });
+      eri = epkgs.melpaBuild (
+      {
+        pname = "eri";
+        ename = "eri";
+        version = "2";
+        recipe = builtins.toFile "recipe" ''
+            (eri :fetcher github :repo "agda/agda"
+                :files ("eri.el"))
+        '';
+        src = agsy;
+      });
       }
     );
       in
