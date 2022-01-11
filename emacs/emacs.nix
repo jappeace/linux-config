@@ -13,7 +13,7 @@ let
 packagedEmacs = 
   emacsWithPackages (epkgs:
     (let
-  evilMagit =     epkgs.melpaBuild (
+        evilMagit =     epkgs.melpaBuild (
       {
         pname = "evil-magit";
         ename = "evil-magit";
@@ -29,7 +29,8 @@ packagedEmacs =
           rev = "04a4580c6eadc0e2b821a3525687e74aefc30e84";
           sha256 = "1zckz54pwx63w9j4vlkx0h9mv0p9nbvvynvf9cb6wqm3d0xa4rw2";
         };
-      agda2-mode = epkgs.melpaBuild (
+      });
+    agda2-mode = epkgs.melpaBuild (
       {
         pname = "agda2-mode";
         ename = "agda2-mode";
@@ -64,8 +65,6 @@ packagedEmacs =
         '';
         src = agsy;
       });
-      }
-    );
       in
 
   (with epkgs.melpaStablePackages; [
@@ -75,9 +74,6 @@ packagedEmacs =
       cp ${myEmacsConfig} $out/share/emacs/site-lisp/default.el
       ln -sf ${./persistent-mode.el} $out/share/emacs/site-lisp/
       '')
-    agda2-mode
-    annotation
-    eri
     avy # jump to word
     ivy # I think the M-x thing
     counsel # seach?
@@ -150,6 +146,12 @@ packagedEmacs =
   ]) ++ (with epkgs.elpaPackages; [
     # ehh
     cobol-mode
-  ])));
+  ])
+    ++ [
+    agda2-mode
+    annotation
+    eri
+    ]
+  ));
 in
     packagedEmacs 
