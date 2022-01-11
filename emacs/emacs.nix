@@ -102,6 +102,7 @@ packagedEmacs =
 
     eglot # TODO make works
     envrc
+    direnv
 
 
     # lsp-rust https://github.com/emacs-lsp/lsp-rust
