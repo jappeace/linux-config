@@ -75,6 +75,9 @@ packagedEmacs =
       cp ${myEmacsConfig} $out/share/emacs/site-lisp/default.el
       ln -sf ${./persistent-mode.el} $out/share/emacs/site-lisp/
       '')
+    agda2-mode
+    annotation
+    eri
     avy # jump to word
     ivy # I think the M-x thing
     counsel # seach?
