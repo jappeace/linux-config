@@ -159,6 +159,7 @@ in {
       nmap
 
       # pkgsUnstable.ib-tws # intereactive brokers trader workstation
+      zoxide
 
       # lm-sensors
       fd # better find, 50% shorter command!
