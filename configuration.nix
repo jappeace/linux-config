@@ -20,7 +20,7 @@ let
     config.allowUnfree = true;
     overlays = [
       # (import ./overlays/cut-the-crap)
-      (import /home/jappie/projects/cut-the-crap/nix/overlay)
+      # (import /home/jappie/projects/cut-the-crap/nix/overlay)
       (import ./overlays/boomer)
     ];
 

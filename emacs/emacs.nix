@@ -113,7 +113,7 @@ packagedEmacs =
     magit
     package-lint
     dante
-    ox-reveal # org reveal
+    # ox-reveal # org reveal
     htmlize
     general # keybindings
     monokai-theme
