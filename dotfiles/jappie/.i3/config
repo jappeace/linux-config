@@ -60,6 +60,8 @@ set $right l
 set $down j
 set $up k
 
+
+
 # change focus
 bindsym $mod+$left focus left
 bindsym $mod+$down focus down
@@ -214,7 +216,7 @@ bindsym --release $mod+i exec emacsclient -ce '(lambda () (interactive) previous
 
 assign [class="transmission" instance="transmission-qt" title="Transmission"] $w1
 assign [class="Deluge"] $w1
-# assign [class="Chromium"] $w8
+# assign [class="Firefox"] $w8
 assign [class="ksysguard"] $w10
 assign [class="keepassxc"] $wf8
 
@@ -228,7 +230,7 @@ bindsym $mod+Shift+z exec --no-startup-id /linux-config/scripts/monitor
 # bindsym $mod+Shift+a exec --no-startup-id /home/jappie/bin/monitor-2
 
 #bind browser to b, use new window otherwise it'l complain
-bindsym $mod+b exec chromium --new-window
+bindsym $mod+b exec firefox --new-window
 
 #block hosts if I'm slacking to much
 bindsym $mod+Shift+b exec sudo hostblock -b
@@ -241,8 +243,39 @@ bindsym $mod+Shift+b exec sudo hostblock -b
 exec dbus-launch nm-applet &
 exec fcitx
 
+set $MIDDLE_OUTPUT DisplayPort-0
+set $LEFT_OUTPUT DisplayPort-1
+set $RIGHT_OUTPUT DisplayPort-2
+set $BACK_OUTPUT HDMI-A-0
+
+exec --no-startup-id xrandr --output $MIDDLE_OUTPUT --auto \
+               --output $LEFT_OUTPUT   --auto --left-of  $MIDDLE_OUTPUT \
+               --output $RIGHT_OUTPUT  --auto --right-of $MIDDLE_OUTPUT \
+               --output $BACK_OUTPUT   --auto --right-of $RIGHT_OUTPUT --left-of $LEFT_OUTPUT
+
+workspace $w1 output $MIDDLE_OUTPUT
+workspace $wf1 output $LEFT_OUTPUT
+workspace $w2 output $MIDDLE_OUTPUT
+workspace $wf2 output $MIDDLE_OUTPUT
+workspace $w3 output $MIDDLE_OUTPUT
+workspace $wf3 output $MIDDLE_OUTPUT
+workspace $w4 output $MIDDLE_OUTPUT
+workspace $wf4 output $MIDDLE_OUTPUT
+workspace $w5 output $MIDDLE_OUTPUT
+workspace $wf5 output $MIDDLE_OUTPUT
+workspace $w6 output $MIDDLE_OUTPUT
+workspace $wf6 output $MIDDLE_OUTPUT
+workspace $w7 output $MIDDLE_OUTPUT
+workspace $wf7 output $MIDDLE_OUTPUT
+workspace $w8 output $MIDDLE_OUTPUT
+workspace $wf8 output $MIDDLE_OUTPUT
+workspace $w9 output $MIDDLE_OUTPUT
+workspace $wf9 output $RIGHT_OUTPUT
+workspace $w10 output $MIDDLE_OUTPUT
+workspace $wf10 output $BACK_OUTPUT
+
 # exec i3-msg 'workspace $wf1; exec thunderbird' #... disabled cuase its addicting
-exec i3-msg 'workspace $w9; exec chromium'
+exec i3-msg 'workspace $w9; exec firefox'
 exec i3-msg 'workspace $w10;exec ksysguard; exec konsole -e htop'
 # exec i3-msg 'workspace $w1; exec deluge'
 exec i3-msg 'workspace $wf8; exec keepassxc'
