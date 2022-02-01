@@ -276,6 +276,7 @@ workspace $wf10 output $BACK_OUTPUT
 
 # exec i3-msg 'workspace $wf1; exec thunderbird' #... disabled cuase its addicting
 exec i3-msg 'workspace $w9; exec firefox'
+exec i3-msg 'workspace $w10; exec firefox'
 # exec i3-msg 'workspace $w1; exec deluge'
 exec i3-msg 'workspace $wf1; exec keepassxc; exec ksysguard'
 # exec i3-msg 'workspace $w2;exec konsole'
