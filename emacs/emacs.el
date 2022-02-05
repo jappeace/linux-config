@@ -278,6 +278,7 @@
    "SPC" '(avy-goto-word-or-subword-1  :which-key "go to char")
    "b"  'ivy-switch-buffer  ; change buffer, chose using ivy
 
+   "u"  'undo-tree-visualize
    "!"  'shell
    "j"  'xref-find-definitions ; lsp find definition
    "x"  'xref-find-references ; find usages
