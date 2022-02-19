@@ -1,7 +1,7 @@
 #! /bin/sh
 MIDDLE_OUTPUT="DisplayPort-2"
-LEFT_OUTPUT="DisplayPort-0"
-RIGHT_OUTPUT="DisplayPort-1"
+LEFT_OUTPUT="DisplayPort-1"
+RIGHT_OUTPUT="DisplayPort-0"
 BACK_OUTPUT="HDMI-A-0"
 
 DAT_FILE="/tmp/monitor_mode_${USER}.dat"
@@ -17,10 +17,10 @@ fi
 
 if [ "$monitor_mode" = "all" ]; then
         monitor_mode="EXTERNAL"
-        xrandr --output $MIDDLE_OUTPUT --off --output $LEFT_OUTPUT --auto --output $RIGHT_OUTPUT --off
+        xrandr --output $MIDDLE_OUTPUT --off --output $LEFT_OUTPUT --auto --output $RIGHT_OUTPUT --off --output $BACK_OUTPUT --off
 elif [ $monitor_mode = "EXTERNAL" ]; then
         monitor_mode="MIDDLE"
-        xrandr --output $MIDDLE_OUTPUT --auto --output $LEFT_OUTPUT --off --output $RIGHT_OUTPUT --off
+        xrandr --output $MIDDLE_OUTPUT --auto --output $LEFT_OUTPUT --off --output $RIGHT_OUTPUT --off --output $BACK_OUTPUT --off
 elif [ $monitor_mode = "MIDDLE" ]; then
         monitor_mode="CLONES"
         xrandr --output $MIDDLE_OUTPUT --auto \
