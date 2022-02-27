@@ -244,8 +244,8 @@ exec dbus-launch nm-applet &
 exec fcitx
 
 set $MIDDLE_OUTPUT DisplayPort-2
-set $LEFT_OUTPUT DisplayPort-0
-set $RIGHT_OUTPUT DisplayPort-1
+set $LEFT_OUTPUT DisplayPort-1
+set $RIGHT_OUTPUT DisplayPort-0
 set $BACK_OUTPUT HDMI-A-0
 
 exec --no-startup-id xrandr --output $MIDDLE_OUTPUT --auto \
