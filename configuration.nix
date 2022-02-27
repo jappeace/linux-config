@@ -320,6 +320,8 @@ in {
       corefonts
       font-awesome_4
       font-awesome_5 siji jetbrains-mono
+      noto-fonts-cjk
+      ipaexfont
     ];
     fontconfig = { defaultFonts = {
       # we need to set in in qt5ct as well.
