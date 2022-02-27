@@ -9,7 +9,7 @@ let
 
   # https://sam217pa.github.io/2016/09/02/how-to-build-your-own-spacemacs/
   myEmacsConfig = pkgs.writeText "default.el" (builtins.readFile ./emacs.el);
-packagedEmacs = 
+packagedEmacs =
   emacsWithPackages (epkgs:
     (let
       evilMagit =     epkgs.melpaBuild (
@@ -64,7 +64,6 @@ packagedEmacs =
         '';
         src = agsy;
       });
-
       in
 
   (with epkgs.melpaStablePackages; [
@@ -99,7 +98,6 @@ packagedEmacs =
     haskell-mode
     yasnippet
     evil
-    parinfer
     ws-butler
 
     agda2-mode
@@ -142,11 +140,21 @@ packagedEmacs =
     idris-mode
     shakespeare-mode
 
+    eglot # TODO make works
+    envrc
+    direnv
+
 
     # lsp-rust https://github.com/emacs-lsp/lsp-rust
   ]) ++ (with epkgs.elpaPackages; [
     # ehh
     cobol-mode
-  ])));
+  ])
+    ++ [
+    agda2-mode
+    annotation
+    eri
+    ]
+  ));
 in
-    packagedEmacs 
+    packagedEmacs

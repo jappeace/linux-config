@@ -19,8 +19,6 @@ let
   pkgsUnstable = import ./pin-unstable.nix {
     config.allowUnfree = true;
     overlays = [
-      # (import ./overlays/cut-the-crap)
-      # (import /home/jappie/projects/cut-the-crap/nix/overlay)
       (import ./overlays/boomer)
     ];
 
@@ -31,6 +29,7 @@ let
     config.allowBroken = true;
     config.oraclejdk.accept_license = true;
   };
+
 
   hostdir = pkgs.writeShellScriptBin "hostdir" ''
     ${pkgs.python3}/bin/python -m http.server
@@ -65,7 +64,7 @@ let
   '';
 in {
   imports = [ # Include the results of the hardware scan.
-    ./hardware/work-machine.nix
+    ./hardware/lenovo-amd.nix
     ./emacs
     ./cachix.nix
   ];
@@ -74,6 +73,10 @@ in {
   boot = {
     loader.systemd-boot.enable = true;
     loader.efi.canTouchEfiVariables = true;
+    plymouth = {
+      enable = true;
+      theme = "spinfinity"; # spinfinity
+    };
     # kernelPackages = pkgs.linuxPackages_4_9; # fix supsend maybe?
   };
 
@@ -91,7 +94,7 @@ in {
     }];
 
   networking = {
-    hostName = "work-machine"; # Define your hostname.
+    hostName = "lenovo-amd"; # Define your hostname.
     # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
     networkmanager.enable = true;
     # these are sites I've developed a 'mental hook' for, eg
@@ -117,7 +120,7 @@ in {
 
   # Select internationalisation properties.
   console = {
-    font = "firacode-14";
+    # font = "firacode-14";
     keyMap = "us";
   };
   i18n = {
@@ -127,6 +130,7 @@ in {
   };
 
   # Set your time zone.
+  # https://en.wikipedia.org/wiki/List_of_tz_database_time_zones
   time.timeZone = "Europe/Amsterdam";
 
   # List packages installed in system profile. To search, run:
@@ -156,7 +160,7 @@ in {
       ffmpeg
       gromit-mpx # draw on screen
       usbutils
-      pkgsUnstable.boomer
+      # pkgsUnstable.boomer
       gcc
       scrcpy
       audacity
@@ -178,6 +182,10 @@ in {
       zip
       # ib-tws
       resize-images
+      lz4
+      mcomix3
+
+      fsv # browse files like a chad
       hostdir
 
       crawlTiles
@@ -193,6 +201,7 @@ in {
 
       # pkgsUnstable.ib-tws # intereactive brokers trader workstation
       fcitx
+      zoxide
 
       # lm-sensors
       fd # better find, 50% shorter command!
@@ -201,15 +210,12 @@ in {
       unrar
       sshuttle
       firmwareLinuxNonfree
-      # fbreader # broken
+      fbreader
       gource
       p7zip
-      steam
+      pkgsUnstable.steam
       bc # random calcualtions
-      android-studio
       thunar
-      openjdk # we need to be able to run java stuff (plantuml)
-      plantuml # for thesis uml amongst other things, it's pretty nice
       inkscape # gotta make that artwork for site etc
       gnupg # for private keys
 
@@ -226,7 +232,7 @@ in {
       imagemagick
       keepassxc # to open my passwords
       tree # sl
-      pkgsUnstable.obs-linuxbrowser # install instructions: https://github.com/NixOS/nixpkgs/blob/master/pkgs/applications/video/obs-studio/linuxbrowser.nix
+      # pkgsUnstable.obs-linuxbrowser # install instructions: https://github.com/NixOS/nixpkgs/blob/master/pkgs/applications/video/obs-studio/linuxbrowser.nix
       xfce4-panel
       xfce4-battery-plugin
       xfce4-clipman-plugin
@@ -261,7 +267,7 @@ in {
       gparted # partitiioning for dummies, like me
       thunderbird # some day I'll use emacs for this
       deluge # bittorrent
-      # the spell to make openvpn work:   nmcli connection modify jappie vpn.data "key = /home/jappie/openvpn/website/jappie.key, ca = /home/jappie/openvpn/website/ca.crt, dev = tun, cert = /home/jappie/openvpn/website/jappie.crt, ns-cert-type = server, cert-pass-flags = 0, comp-lzo = adaptive, remote = jappieklooster.nl:1194, connection-type = tls" 
+      # the spell to make openvpn work:   nmcli connection modify jappie vpn.data "key = /home/jappie/openvpn/website/jappie.key, ca = /home/jappie/openvpn/website/ca.crt, dev = tun, cert = /home/jappie/openvpn/website/jappie.crt, ns-cert-type = server, cert-pass-flags = 0, comp-lzo = adaptive, remote = jappieklooster.nl:1194, connection-type = tls"
       # from https://github.com/NixOS/nixpkgs/issues/30235
       openvpn # piratebay access
       ksysguard # monitor my system.. with graphs! (so I don't need to learn real skills)
@@ -280,6 +286,7 @@ in {
       zoom-us
       espeak
       pandoc
+      pidgin
       wine
       winetricks
       teamviewer
@@ -683,10 +690,12 @@ in {
       "https://jappie.cachix.org"
       "https://all-hies.cachix.org"
       "https://nix-community.cachix.org"
+      "https://iohk.cachix.org"
       # "https://static-haskell-nix.cachix.org"
     ];
     binaryCachePublicKeys = [
-      # "hydra.iohk.io:f/Ea+s+dFdN+3Y/G+FDgSq+a5NEWhJGzdjvKNGv0/EQ=" # cardano
+      "hydra.iohk.io:f/Ea+s+dFdN+3Y/G+FDgSq+a5NEWhJGzdjvKNGv0/EQ=" # cardano
+      "iohk.cachix.org-1:DpRUyj7h7V830dp/i6Nti+NEO2/nhblbov/8MW7Rqoo="
       "ryantrinkle.com-1:JJiAKaRv9mWgpVAz8dwewnZe0AzzEAzPkagE9SP5NWI=" # reflex
       "static-haskell-nix.cachix.org-1:Q17HawmAwaM1/BfIxaEDKAxwTOyRVhPG5Ji9K3+FvUU="
       "jappie.cachix.org-1:+5Liddfns0ytUSBtVQPUr/Wo6r855oNLgD4R8tm1AE4="
