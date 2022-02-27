@@ -64,7 +64,7 @@ let
   '';
 in {
   imports = [ # Include the results of the hardware scan.
-    ./hardware/lenovo-amd.nix
+    ./hardware/work-machine.nix
     ./emacs
     ./cachix.nix
   ];
