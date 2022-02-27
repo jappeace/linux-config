@@ -671,7 +671,7 @@ in {
     gc = {
         automatic = true;
         dates = "monthly"; # https://jlk.fjfi.cvut.cz/arch/manpages/man/systemd.time.7
-        options = "--delete-older-than 90d";
+        options = "--delete-older-than 120d";
     };
 
     trustedUsers = [ "jappie" "root" ];
