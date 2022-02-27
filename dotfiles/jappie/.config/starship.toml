@@ -1,5 +1,4 @@
-format = """
-    $username\
+format = """$username\
     $hostname\
     $time\
     $kubernetes\
@@ -55,3 +54,7 @@ time_format = "🕙 %F %T"
 [hostname]
 ssh_only = true
 format="⟪$hostname⟫"
+
+[username]
+show_always = true
+format="[🙂$user]($style) "
