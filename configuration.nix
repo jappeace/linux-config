@@ -185,6 +185,61 @@ in {
       lz4
       mcomix3
 
+      ib-tws
+/*
+ ***
+ This nix expression requires that ibtws_9542.jar is already part of the store.
+ Download the TWS from
+ https://download2.interactivebrokers.com/download/unixmacosx_latest.jar,
+ rename the file to ibtws_9542.jar, and add it to the nix store with
+ "nix-prefetch-url file://$PWD/ibtws_9542.jar".
+
+ ***
+ ***
+ Unfortunately, we cannot download file jdk-8u281-linux-x64.tar.gz automatically.
+ Please go to http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html to download it yourself, and add it to the Nix store
+      NO HERE https://www.oracle.com/java/technologies/javase/javase8u211-later-archive-downloads.html#license-lightbox
+   nix-store --add-fixed sha256 jdk-8u281-linux-x64.tar.gz
+
+
+ ***
+
+ 🙂jappie at 🕙 2022-02-27 17:25:45 ~ took 30s
+ ❯ ib-tws
+ ERROR: "" is not a valid name of a profile.
+
+... FUCK YOU.
+
+🙂jappie at 🕙 2022-02-27 17:27:48 ~
+❯ ib-tws jappie
+realpath: /home/jappie/IB/jappie: No such file or directory
+cp: kan het normale bestand '/./jts.ini' niet aanmaken: Permission denied
+17:27:53:144 main: Usage: java -cp <required jar files> jclient.LoginFrame <srcDir>
+
+🙂jappie at 🕙 2022-02-27 17:27:53 ~
+❯ touch jts.ini
+
+🙂jappie at 🕙 2022-02-27 17:28:31 ~
+❯ mkdir -p IB/jappie
+
+🙂jappie at 🕙 2022-02-27 17:28:44 ~
+❯ ib-tws jappie
+WARNING: The version of libXrender.so cannot be detected.
+,The pipe line will be enabled, but note that versions less than 0.9.3
+may cause hangs and crashes
+	See the release notes for more details.
+XRender pipeline enabled
+17:28:48:675 JTS-Main: dayInit: new values: dayOfTheWeek: 1 (Sun), YYYYMMofToday: 202202, YYYYMMDDofToday: 20220227
+17:28:48:949 JTS-Main: getFileFromUrl: dest=/home/jappie/IB/jappie/locales.jar empty sourceSize=114646
+17:28:49:738 JTS-Main: Build 952.1e, Oct 27, 2015 2:21:22 PM
+
+That worked. Assholes.
+MAKE SURE TO TICK USE SSL
+I don't know why this is disabled by default.
+*/
+
+
+
       fsv # browse files like a chad
       hostdir
 
