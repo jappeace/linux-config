@@ -27,6 +27,7 @@ in {
         pkgs.haskellPackages.brittany
         # pkgs.haskellPackages.hindent
         pkgs.haskellPackages.hlint
+        pkgs.haskellPackages.ormolu
         shfmt
         html-tidy
         pkgs.nodePackages.prettier
