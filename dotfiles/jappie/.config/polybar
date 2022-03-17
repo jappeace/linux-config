@@ -53,7 +53,7 @@ font-4 = "Siji:pixelsize=10;3"
 
 modules-left = cpu pad memory pad pulseaudio pad
 modules-center = pad i3
-modules-right = pad pad date
+modules-right = pad pad battery date
 
 format = <label-state> <label-mode>
 label-padding = 1
@@ -280,3 +280,34 @@ content = "   "
 [module/logo]
 type = custom/text
 content = " "
+
+[module/battery]
+type = internal/battery
+
+; This is useful in case the battery never reports 100% charge
+; Default: 100
+full-at = 100
+
+; format-low once this charge percentage is reached
+; Default: 10
+; New in version 3.6.0
+low-at = 5
+
+; Use the following command to list batteries and adapters:
+; $ ls -1 /sys/class/power_supply/
+battery = BAT0
+; adapter = ACAD
+
+; If an inotify event haven't been reported in this many
+; seconds, manually poll for new values.
+;
+; Needed as a fallback for systems that don't report events
+; on sysfs/procfs.
+;
+; Disable polling by setting the interval to 0.
+;
+; Default: 5
+poll-interval = 5
+label-charging = 🔌 %percentage%%
+label-discharging = 🔋 %percentage%%
+label-full = ✓ %percentage%%
