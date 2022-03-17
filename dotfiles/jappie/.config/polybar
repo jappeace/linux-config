@@ -51,9 +51,9 @@ font-2 = "Material\-Design\-Iconic\-Font:size=13;3"
 font-3 = "FontAwesome:size=10;3"
 font-4 = "Siji:pixelsize=10;3"
 
-modules-left = cpu pad memory pad pulseaudio pad
+modules-left = cpu pad memory pad network pad network-up pad network-down pad pulseaudio 
 modules-center = pad i3
-modules-right = pad pad battery date
+modules-right = pad pad battery pad date
 
 format = <label-state> <label-mode>
 label-padding = 1
@@ -185,7 +185,7 @@ label-focused-padding = 1
 type = internal/cpu
 interval = 2
 format = <bar-load>
-format-prefix = " "
+format-prefix = "cpu "
 format-prefix-foreground = ${colors.purple}
 format-foreground = ${colors.white}
 format-padding = 1
@@ -204,7 +204,7 @@ bar-load-empty-foreground = ${colors.gray}
 type = internal/memory
 interval = 3
 format = <bar-used>
-format-prefix = " "
+format-prefix = "memory "
 format-prefix-foreground = ${colors.purple}
 format-padding-left = 1
 ; Only applies if <bar-used> is used
@@ -219,32 +219,32 @@ bar-used-fill = |
 bar-used-empty = ¦
 bar-used-empty-foreground = ${colors.gray}
 
-# [module/network-up]
-# type = internal/network
-# interface = eno1
-# interval = 4.0
-# label-connected = "%upspeed%"
-# format-connected-prefix = " "
-# format-connected-prefix-foreground = ${colors.purple}
-# format-connected-foreground = ${colors.foreground}
-# format-connected-background =
-# format-connected-underline =
-# format-disconnected-prefix-foreground = ${colors.alert}
-# format-disconnected-foreground = ${colors.alert}
+[module/network-up]
+type = internal/network
+interface = wlp1s0
+interval = 4.0
+label-connected = "%upspeed%"
+format-connected-prefix = " "
+format-connected-prefix-foreground = ${colors.purple}
+format-connected-foreground = ${colors.foreground}
+format-connected-background =
+format-connected-underline =
+format-disconnected-prefix-foreground = ${colors.alert}
+format-disconnected-foreground = ${colors.alert}
 
-# [module/network-down]
-# type = internal/network
-# interface = eno1
-# interval = 4.0
-# label-connected = "%downspeed%"
-# format-connected-prefix = " "
-# format-connected-prefix-foreground = ${colors.purple}
-# format-connected-foreground = ${colors.foreground}
-# format-connected-background =
-# format-connected-underline =
-# format-disconnected-prefix = " "
-# format-disconnected-prefix-foreground = ${colors.alert}
-# format-disconnected-foreground = ${colors.alert}
+[module/network-down]
+type = internal/network
+interface = wlp1s0
+interval = 4.0
+label-connected = "%downspeed%"
+format-connected-prefix = " "
+format-connected-prefix-foreground = ${colors.purple}
+format-connected-foreground = ${colors.foreground}
+format-connected-background =
+format-connected-underline =
+format-disconnected-prefix = " "
+format-disconnected-prefix-foreground = ${colors.alert}
+format-disconnected-foreground = ${colors.alert}
 
 [module/pulseaudio]
 type = internal/pulseaudio
@@ -277,10 +277,6 @@ type = custom/text
 content = "   "
 ;content-foreground = ${colors.gray}
 
-[module/logo]
-type = custom/text
-content = " "
-
 [module/battery]
 type = internal/battery
 
@@ -311,3 +307,50 @@ poll-interval = 5
 label-charging = 🔌 %percentage%%
 label-discharging = 🔋 %percentage%%
 label-full = ✓ %percentage%%
+
+[module/network]
+type = internal/network
+; Name of the network interface to display. You can get the names of the
+; interfaces on your machine with `ip link`
+; Wireless interfaces often start with `wl` and ethernet interface with `eno` or `eth`
+interface = wlp1s0
+
+; If no interface is specified, polybar can detect an interface of the given type.
+; If multiple are found, it will prefer running interfaces and otherwise just
+; use the first one found.
+; Either 'wired' or 'wireless'
+; New in version 3.6.0
+interface-type = wireless
+
+; Seconds to sleep between updates
+; Default: 1
+interval = 3.0
+
+; Test connectivity every Nth update
+; A value of 0 disables the feature
+; NOTE: Experimental (needs more testing)
+; Default: 0
+;ping-interval = 3
+
+; @deprecated: Define min width using token specifiers (%downspeed:min% and %upspeed:min%)
+; Minimum output width of upload/download rate
+; Default: 3
+udspeed-minwidth = 5
+
+; Accumulate values from all interfaces
+; when querying for up/downspeed rate
+; Default: false
+accumulate-stats = true
+
+; Consider an `UNKNOWN` interface state as up.
+; Some devices like USB network adapters have 
+; an unknown state, even when they're running
+; Default: false
+unknown-as-up = true
+
+; The unit used for displaying network speeds
+; For example if set to the empty string, a speed of 5 KB/s is displayed as 5 K
+; Default: B/s
+; New in version 3.6.0
+speed-unit = ''
+label-connected = %essid%
