@@ -39,6 +39,17 @@ let
     docker run --name=broker-client -d -v /tmp/.X11-unix:/tmp/.X11-unix -it ib bash
     docker exec -it broker-client tws
   '';
+
+
+  # for whenever people think mac is hardcoded in hardware.
+  # succers.
+  change-mac = pkgs.writeShellScriptBin "change-mac" ''
+  pkill NetworkManager
+  ifconfig wlp1s0 down
+  macchanger -r wlp1s0
+  ifconfig wlp1s0 up
+  NetworkManager
+  '';
 in {
   imports = [ # Include the results of the hardware scan.
     ./hardware/lenovo-amd.nix
@@ -81,6 +92,8 @@ in {
       0.0.0.0 covid19info.live
       0.0.0.0 linkdedin.com
       0.0.0.0 www.linkdedin.com
+      127.0.0.1 tealc-mint
+      127.0.0.1 baz.example.com
     '';
   };
 
