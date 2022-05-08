@@ -159,10 +159,24 @@ in {
       lz4
       mcomix3
 
+      ormolu
+
+      burpsuite
+
       fsv # browse files like a chad
       hostdir
 
-      crawlTiles
+      crawlTiles mariadb
+
+      macchanger # change mac address
+      change-mac
+      /*
+$ sudo service network-manager stop
+$ ifconfig wlp2s0b1 down
+$ sudo macchanger -r wlp2s0b1
+$ sudo service network-manager start
+$ sudo ifconfig wlp2s0b1 up
+*/
 
       hardinfo # https://askubuntu.com/questions/179958/how-do-i-find-out-my-motherboard-model
       dmidecode
@@ -650,6 +664,7 @@ in {
       "https://all-hies.cachix.org"
       "https://nix-community.cachix.org"
       "https://iohk.cachix.org"
+      "https://nix-cache.jappie.me"
       # "https://static-haskell-nix.cachix.org"
     ];
     binaryCachePublicKeys = [
@@ -660,6 +675,7 @@ in {
       "jappie.cachix.org-1:+5Liddfns0ytUSBtVQPUr/Wo6r855oNLgD4R8tm1AE4="
       "all-hies.cachix.org-1:JjrzAOEUsD9ZMt8fdFbzo3jNAyEWlPAwdVuHw4RD43k="
       "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
+      "nix-cache.jappie.me:WjkKcvFtHih2i+n7bdsrJ3HuGboJiU2hA2CZbf9I9oc="
     ]; # ++ import ./encrypted/cachix.nix; TODO renable
   };
 }
