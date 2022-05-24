@@ -590,12 +590,6 @@
   ;; install https://crates.io/crates/rustfmt-nightly
   (setq rust-format-on-save t)
   )
-(use-package racer
-  :hook (racer-mode . rust-mode)
-  :config
-  (add-hook 'racer-mode-hook #'eldoc-mode)
-  (add-hook 'racer-mode-hook #'company-mode)
-  )
 (use-package flycheck-rust
   :after rust-mode
   :config

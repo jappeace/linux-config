@@ -22,7 +22,6 @@ in {
 
         # pkgs.ripgrep
         aspell_with_dict # I can't spell
-        pkgs.rustracer
         pkgs.haskellPackages.stylish-haskell
         pkgs.haskellPackages.brittany
         # pkgs.haskellPackages.hindent
@@ -38,7 +37,7 @@ in {
   };
 
   nixpkgs.overlays = [
-      (import (builtins.fetchTarball "https://github.com/nix-community/emacs-overlay/archive/25dd5297f613fd13971e4847e82d1097077eeb53.tar.gz"))
+      (import (builtins.fetchTarball "https://github.com/nix-community/emacs-overlay/archive/5eca6eb3f6bad6b8121c5f73a3ce403b3cb2be51.tar.gz"))
   ];
 
   services = {

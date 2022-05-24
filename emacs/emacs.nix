@@ -116,7 +116,6 @@ packagedEmacs =
     general # keybindings
     monokai-theme
     use-package # lazy package loading TODO downgrade to stable (custom wan't there)
-    racer
     flycheck-rust
     format-all
     pretty-symbols
