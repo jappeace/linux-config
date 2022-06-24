@@ -159,6 +159,9 @@ in {
       lz4
       mcomix3
 
+      torsocks
+      nixpkgs-fmt
+
       ormolu
 
       burpsuite
