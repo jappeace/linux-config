@@ -33,6 +33,8 @@ in {
         pkgs.python37Packages.sqlparse # sqlforamt
         pkgs.shellcheck
         agsy
+
+        pgformatter
 	  ];
   };
 
