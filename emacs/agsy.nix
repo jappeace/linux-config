@@ -4,8 +4,8 @@ let agda-nix = builtins.fetchGit (
     {
         url = "https://github.com/jappeace/agda-nix";
         ref = "master";
-        # 2022.01.02
-        rev = "5b10b95a4a615a0438de094bcbe58de03bffe480";
+        # 2022.07.03
+        rev = "b58f8ee92c6ae667fc08a052e2e301e5809c5b44";
     }
     );
 in
