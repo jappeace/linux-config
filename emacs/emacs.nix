@@ -12,23 +12,23 @@ let
 packagedEmacs =
   emacsWithPackages (epkgs:
     (let
-      evilMagit =     epkgs.melpaBuild (
-      {
-        pname = "evil-magit";
-        ename = "evil-magit";
-        version = "9999";
-        recipe = builtins.toFile "recipe" ''
-          (evil-magit :fetcher github
-          :repo "emacs-evil/evil-magit")
-        '';
+      # evilMagit =     epkgs.melpaBuild (
+      # {
+      #   pname = "evil-magit";
+      #   ename = "evil-magit";
+      #   version = "9999";
+      #   recipe = builtins.toFile "recipe" ''
+      #     (evil-magit :fetcher github
+      #     :repo "emacs-evil/evil-magit")
+      #   '';
 
-        src = pkgs.fetchFromGitHub {
-          owner = "emacs-evil";
-          repo = "evil-magit";
-          rev = "04a4580c6eadc0e2b821a3525687e74aefc30e84";
-          sha256 = "1zckz54pwx63w9j4vlkx0h9mv0p9nbvvynvf9cb6wqm3d0xa4rw2";
-        };
-      });
+      #   src = pkgs.fetchFromGitHub {
+      #     owner = "emacs-evil";
+      #     repo = "evil-magit";
+      #     rev = "04a4580c6eadc0e2b821a3525687e74aefc30e84";
+      #     sha256 = "1zckz54pwx63w9j4vlkx0h9mv0p9nbvvynvf9cb6wqm3d0xa4rw2";
+      #   };
+      # });
       agda2-mode = epkgs.melpaBuild (
       {
         pname = "agda2-mode";
@@ -100,14 +100,16 @@ packagedEmacs =
     evil
     ws-butler
 
-    agda2-mode
-    annotation
-    eri
+    # TODO fix these
+    # agda2-mode
+    # annotation
+    # eri
+
     # evil-org # broken
     # dracula-theme
   ]) ++ (with epkgs.melpaPackages; [
     wgrep # allow ripgrep find and replace https://github.com/mhayashi1120/Emacs-wgrep
-    evilMagit
+    # evilMagit
     magit
     package-lint
     dante
@@ -128,7 +130,7 @@ packagedEmacs =
     # etc
     # use hooks to bind haskell to lsp haskell
     # lspHaskell # https://github.com/emacs-lsp/lsp-haskell
-    php-mode
+    # php-mode
     clojure-mode
     cider
     nix-haskell-mode # https://github.com/matthewbauer/nix-haskell-mode
@@ -149,11 +151,6 @@ packagedEmacs =
     # ehh
     cobol-mode
   ])
-    ++ [
-    agda2-mode
-    annotation
-    eri
-    ]
   ));
 in
     packagedEmacs

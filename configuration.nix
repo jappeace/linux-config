@@ -107,8 +107,6 @@ in {
       0.0.0.0 linkedin.com
       0.0.0.0 twitter.com
       0.0.0.0 www.twitter.com
-      0.0.0.0 reddit.com
-      0.0.0.0 www.reddit.com
       0.0.0.0 news.ycombinator.com
     '';
     # interfaces."lo".ip4.addresses = [
@@ -154,6 +152,7 @@ in {
       lz4
       rofiWithHoogle # dmenu replacement (fancy launcher)
 
+
       fbreader
       # devpackeges.haskellPackages.cut-the-crap
       lsof
@@ -185,7 +184,6 @@ in {
       lz4
       mcomix3
 
-      ib-tws
 /*
  ***
  This nix expression requires that ibtws_9542.jar is already part of the store.
@@ -342,7 +340,7 @@ I don't know why this is disabled by default.
       espeak
       pandoc
       pidgin
-      wine
+      wine64
       winetricks
       teamviewer
       tmate
@@ -471,7 +469,6 @@ I don't know why this is disabled by default.
               ctrlp
               neoformat
               gitgutter
-              "github:tomasr/molokai"
             ];
             opt = [ ];
           };

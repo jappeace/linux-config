@@ -232,18 +232,10 @@
 (use-package evil-escape
   :commands (evil-escape) ;; load it after press
   :after evil)
-
 (use-package evil-collection
   :after evil
   :config
   (evil-collection-init))
-
-;; todo delete in favor of evil collection?
-(use-package evil-magit
-  :after (magit evil)
-  :config
-  (define-key transient-map (kbd "<escape>") 'transient-quit-one)
-  )
 
 ;; I need to save kmacro-name-last-macro
 ;; and then I can insert insert-kbd-macro
@@ -255,6 +247,9 @@
 (use-package general
   :config
   (general-define-key "<escape>" 'evil-escape) ;; escape anything
+  (general-define-key
+   :keymaps 'transient-base-map
+   "<escape>" 'transient-quit-one)
   (general-define-key "C-'" 'avy-goto-word-1)
   (general-define-key "C-x b" 'ivy-switch-buffer)
   (general-define-key
@@ -721,6 +716,7 @@ two prefix arguments, write out the day and month name."
 
 (use-package php-mode
   :config
+  :disabled
   ;; dante's xref doesn't work for mutli-project setups, we just use etags
   ;; (remove-hook 'xref-backend-functions 'dante--xref-backend)
   )
@@ -902,4 +898,6 @@ or GREATER-THAN into an actual Unicode character code. "
  :config
  (direnv-mode))
 
-(use-package agda2-mode)
+(use-package agda2-mode
+  :disabled
+  )

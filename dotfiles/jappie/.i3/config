@@ -217,7 +217,7 @@ bindsym --release $mod+i exec emacsclient -ce '(lambda () (interactive) previous
 assign [class="transmission" instance="transmission-qt" title="Transmission"] $w1
 assign [class="Deluge"] $w1
 # assign [class="Firefox"] $w8
-assign [class="ksysguard"] $wf1
+assign [class="plasma-systemmonitor"] $wf1
 assign [class="keepassxc"] $wf1
 
 # client.background \#000000
@@ -278,7 +278,7 @@ workspace $wf10 output $BACK_OUTPUT
 exec i3-msg 'workspace $w9; exec firefox'
 exec i3-msg 'workspace $w10; exec firefox'
 # exec i3-msg 'workspace $w1; exec deluge'
-exec i3-msg 'workspace $wf1; exec keepassxc; exec ksysguard'
+exec i3-msg 'workspace $wf1; exec keepassxc; exec plasma-systemmonitor'
 # exec i3-msg 'workspace $w2;exec konsole'
 # exec i3-msg 'workspace $w3;exec dolphin'
 #exec i3-msg 'workspace $w1;exec steam'
