@@ -29,41 +29,6 @@ packagedEmacs =
       #     sha256 = "1zckz54pwx63w9j4vlkx0h9mv0p9nbvvynvf9cb6wqm3d0xa4rw2";
       #   };
       # });
-      agda2-mode = epkgs.melpaBuild (
-      {
-        pname = "agda2-mode";
-        ename = "agda2-mode";
-        version = "2";
-        recipe = builtins.toFile "recipe" ''
-          (agda2-mode :fetcher github :repo "agda/agda"
-            :files ("agda*.el")
-          )
-        '';
-
-        src = agsy;
-      });
-      annotation = epkgs.melpaBuild (
-      {
-        pname = "annotation";
-        ename = "annotation";
-        version = "2";
-        recipe = builtins.toFile "recipe" ''
-            (annotation :fetcher github :repo "agda/agda"
-                :files ("annotation.el"))
-        '';
-        src = agsy;
-      });
-      eri = epkgs.melpaBuild (
-      {
-        pname = "eri";
-        ename = "eri";
-        version = "2";
-        recipe = builtins.toFile "recipe" ''
-            (eri :fetcher github :repo "agda/agda"
-                :files ("eri.el"))
-        '';
-        src = agsy;
-      });
       in
 
   (with epkgs.melpaStablePackages; [
@@ -100,10 +65,6 @@ packagedEmacs =
     evil
     ws-butler
 
-    # TODO fix these
-    # agda2-mode
-    # annotation
-    # eri
 
     # evil-org # broken
     # dracula-theme
@@ -150,6 +111,9 @@ packagedEmacs =
   ]) ++ (with epkgs.elpaPackages; [
     # ehh
     cobol-mode
+  ])
+  ++ ([
+    agsy
   ])
   ));
 in
