@@ -899,4 +899,5 @@ or GREATER-THAN into an actual Unicode character code. "
  (direnv-mode))
 
 (use-package agda2-mode
+    :mode "\\.lagda\\.md\\'"
   )
