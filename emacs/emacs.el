@@ -276,6 +276,9 @@
    "u"  'undo-tree-visualize
    "!"  'shell
    "j"  'xref-find-definitions ; lsp find definition
+   "J"  '(:ignore t :which-key "jump")
+   "Jx" 'xref-find-definitions
+   "Jg" 'agda2-goto-definition-keyboard
    "x"  'xref-find-references ; find usages
    "l"  'counsel-list-processes
    "t"  '(:ignore t :which-key "toggles")
