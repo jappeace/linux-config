@@ -15,10 +15,11 @@ in {
 
         # TODO use counsel-rg-base-command instead, however bugged at the moment
         # emacs
-        (pkgs.writeShellScriptBin "rg" ''
-        ${pkgs.ripgrep}/bin/rg --with-filename -M 120 --glob '!*.min.js' --iglob '!**/static/**' --max-columns-preview "$@"
-        ''
-        ) # better silver searcher?
+        # (pkgs.writeShellScriptBin "rg" ''
+        # ${pkgs.ripgrep}/bin/rg --with-filename -M 120 --glob '!*.min.js' --iglob '!**/static/**' --max-columns-preview "$@"
+        # ''
+        # ) # better silver searcher?
+        pkgs.ripgrep
 
         # pkgs.ripgrep
         aspell_with_dict # I can't spell
