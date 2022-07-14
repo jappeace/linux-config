@@ -119,27 +119,21 @@
    :keymaps 'transient-base-map
    "<escape>" 'transient-quit-one)
   (general-define-key "C-'" 'avy-goto-word-1)
-  (general-define-key "C-x b" 'ivy-switch-buffer)
+  (general-define-key "C-x b" 'consult-buffer)
   (general-define-key
    :keymaps 'normal
    ;; simple command
    "K" 'newline)
 
   (general-define-key
-   ;; replace default keybindings
-   "C-s" 'swiper             ; search for string in current buffer
-   "M-x" 'counsel-M-x)        ; replace default M-x with ivy backend
-
-  (general-define-key
    :keymaps '(normal visual insert emacs)
    :prefix "SPC"
    :non-normal-prefix "C-SPC"
 
-   "/"   'counsel-projectile-rg
-   "k"   '(projectile-kill-buffers :which-key "kill project buffers") ;; sometimes projectile gets confused about temp files, this fixes that
-   "c"   'projectile-invalidate-cache
+   "/"   'consult-ripgrep
+   "k"   '(project-kill-buffers :which-key "kill project buffers") ;; sometimes projectile gets confused about temp files, this fixes that
    "SPC" '(avy-goto-word-or-subword-1  :which-key "go to char")
-   "b"  'ivy-switch-buffer  ; change buffer, chose using ivy
+   "b"  'consult-buffer  ; change buffer, chose using ivy
 
    "u"  'undo-tree-visualize
    "!"  'shell
@@ -148,24 +142,25 @@
    "Jx" 'xref-find-definitions
    "Jg" 'agda2-goto-definition-keyboard
    "x"  'xref-find-references ; find usages
-   "l"  'counsel-list-processes
+   "l"  'list-processes
    "t"  '(:ignore t :which-key "toggles")
    "tp"  'parinfer-toggle-mode
    "f"   '(:ignore t :which-key "find/format/file")
    "ff"  'format-all-buffer
-   "fi"  'counsel-projectile-find-file
-   "fr"  'projectile-replace-regexp
+   "fi"  'project-find-file
+   "fr"  'project-query-replace-regexp
    "fg"  'counsel-git-grep
    "fh"  'haskell-hoogle-lookup-from-local
-   "f/"  'counsel-projectile-rg ; dumb habit
+   "fl"  'consult-line
+   "f/"   'consult-ripgrep
    "fc"  'dired-copy-filename-as-kill
    "h"   '(:ignore t :which-key "hoogle/inspection")
    "hl"  'haskell-hoogle-lookup-from-local
    "hq"  'haskell-hoogle
    "hs"  'haskell-mode-stylish-buffer
    "s"  'save-some-buffers
-   "p"  'counsel-projectile
-   "o"  'counsel-projectile-switch-project
+   "p"  'consult-project-buffer ;; or project-find-file
+   "o"  'project-switch-project
    "r"   'revert-buffer
    "q"   'kill-emacs
    "g"   '(:ignore t :which-key "git")
@@ -194,36 +189,6 @@
               package-lint-buffer))
 
 
-
-;;; project navigation
-(use-package counsel-projectile
-  :commands (
-             counsel-projectile-find-file
-             counsel-projectile-rg
-             counsel-projectile)
-
-  :config
-  (counsel-projectile-mode))
-  ;; :custom ;; see emacs/default.nix
-  ;; (counsel-rg-base-command "")
-
-
-(use-package projectile
-  :config
-  (setq projectile-enable-caching nil)
-  (projectile-mode) ;; I always want this?
-
-  :custom
-  (projectile-git-command
-   "git ls-files -zco --exclude-standard | sed \"s/\\.git-crypt\\/.*.gpg//g\""
-   ;; "rg --line-number --smart-case --follow --mmap --null --files" ; https://emacs.stackexchange.com/questions/16497/how-to-exclude-files-from-projectile
-   )
-  )
-(use-package swiper
-  :commands (
-             swiper
-             ))
-
                                         ; loooks pretty good butt.. another time
                                         ; https://github.com/lassik/emacs-format-all-the-code
 (use-package format-all ;;
@@ -236,16 +201,6 @@
   )
 
 (use-package flx)
-
-(use-package ivy
-  :after flx
-  :commands (ivy-switch-buffer)
-  :config
-  (setq ivy-re-builders-alist
-        '((ivy-switch-buffer . ivy--regex-plus)
-          ))
-  (setq ivy-initial-inputs-alist nil)
-  )
 
 (use-package ranger
   :commands (ranger)
@@ -277,7 +232,6 @@
 
 ;;; git
 (use-package magit
-  :after ivy
   :defer
   :commands
   (magit-blame
@@ -294,19 +248,12 @@
    magit-status
    magit-rebase
    )
-  :config
-  (setq magit-completing-read-function 'ivy-completing-read)
-  )
-
-(use-package flycheck
-  :defer 2
-  :config
-  (global-flycheck-mode)
   )
 
 ;;; I can't spell
 (use-package flyspell
   :defer t
+  :ensure nil
   :init
   (progn
     (add-hook 'prog-mode-hook 'flyspell-prog-mode)
@@ -315,14 +262,6 @@
   :config
   (setq ispell-dictionary "american")
   )
-
-;;; I can't program
-(use-package company
-  :diminish company-mode
-  :commands (company-mode global-company-mode)
-  :defer 1
-  :config
-  (global-company-mode))
 
 ;;; more info
 (use-package powerline
@@ -359,9 +298,6 @@
           (function (lambda ()
                       (setq evil-shift-width 2))))
 
-(use-package nix-sandbox)
-
-
 ;;; Haskell
 (use-package haskell-mode
   :after evil
@@ -369,7 +305,6 @@
   (custom-set-variables
    ;; '(haskell-font-lock-symbols t)
    '(haskell-stylish-on-save nil)
-   '(haskell-hoogle-command (concat (projectile-project-root) "scripts/hoogle.sh"))
    )
   (defun haskell-evil-open-above ()
     (interactive)
@@ -407,47 +342,6 @@
 (use-package ox-reveal
   :disabled
   )
-(use-package lsp-mode :commands lsp)
-(use-package lsp-ui :after lsp)
-(use-package lsp-haskell
-  :disabled ;; Need to look at: https://github.com/thalesmg/reflex-skeleton/
-  ;; For custom preludes we need to consider -XNoImplicitprelude
-  :after lsp-mode
-  :config
-                                        ; https://github.com/emacs-lsp/lsp-haskell/blob/master/lsp-haskell.el#L57
-  ;; (setq lsp-haskell-process-wrapper-function
-  ;;       (lambda (argv)
-  ;;         (append
-  ;;          (append (list "nix-shell" "--run" )
-  ;;                  (list (mapconcat 'identity argv " ")))
-  ;;          (list (concat (projectile-project-root) "shell.nix"))
-  ;;          )))
-  (add-hook 'haskell-mode-hook 'flycheck-mode)
-  (add-hook 'haskell-mode-hook #'lsp)
-  (add-hook 'haskell-mode-hook
-            (lambda ()
-              (let ((default-nix-wrapper (lambda (args)
-                                           (append
-                                            (append (list "nix-shell" "-I" "." "--command")
-                                                    (list (mapconcat 'identity args " ")))
-                                            (list (nix-current-sandbox))))))
-                (setq-local lsp-haskell-process-wrapper-function default-nix-wrapper))))
-
-
-
-
-  (add-hook 'haskell-mode-hook
-            (lambda ()
-              (setq-local haskell-process-wrapper-function
-                          (lambda (args) (apply 'nix-shell-command (nix-current-sandbox) args)))))
-
-  (add-hook 'flycheck-mode-hook
-            (lambda ()
-              (setq-local flycheck-command-wrapper-function
-                          (lambda (command) (apply 'nix-shell-command (nix-current-sandbox) command)))
-              (setq-local flycheck-executable-find
-                          (lambda (cmd) (nix-executable-find (nix-current-sandbox) cmd))))))
-
 
 (use-package yasnippet
   :after lsp-mode
@@ -462,17 +356,6 @@
   :after rust-mode
   :config
   (add-hook 'flycheck-mode-hook #'flycheck-rust-setup)
-  )
-(use-package lsp-rust
-  :disabled ; doesn't work yet
-  :after lsp-ui
-  ;; install https://github.com/rust-lang-nursery/rls
-  :init
-  (setq lsp-rust-rls-command '("rustup" "run" "stable" "rls"))
-  :config
-  (add-hook 'lsp-mode-hook 'lsp-ui-mode)
-  (add-hook 'rust-mode-hook #'lsp-rust-enable)
-  (add-hook 'rust-mode-hook 'flycheck-mode)
   )
 ;; use emacs as mergetool
 (defvar ediff-after-quit-hooks nil
@@ -764,14 +647,89 @@ or GREATER-THAN into an actual Unicode character code. "
   :init
   (add-hook 'sh-mode-hook 'flymake-shellcheck-load))
 
-(use-package wgrep)
-(use-package eglot)
+;;; this is an lsp client better then lsp-mode package
+(use-package eglot
+  :disabled
+  :defer t
+  :hook
+  (haskell-mode . eglot-ensure)
+  )
 
-(use-package direnv
- :config
- (direnv-mode))
+(use-package envrc
+  :hook (prog-mode . envrc-mode)
+  )
 
 (use-package agda2-mode
     :mode "\\.lagda\\.md\\'"
           "\\.agda\\'"
   )
+
+
+;; pulse frame completion
+(use-package corfu
+  :custom
+  (corfu-auto-delay 0.2)
+  (corfu-cycle t)
+  (corfu-auto t)
+  (corfu-commit-predicate nil)
+  (corfu-quit-at-boundary t)
+  (corfu-quit-no-match t)
+  (corfu-echo-documentation nil)
+  :init
+  (global-corfu-mode))
+
+;; actual completion backend... so this does the work?
+(use-package vertico
+  :init
+  (use-package orderless
+    :commands (orderless)
+    :custom (completion-styles '(orderless flex)))
+
+  (use-package consult
+    :init
+    (setq consult-preview-key nil)
+    :bind
+    ("C-c r" . consult-recent-file)
+    ("C-c f" . consult-ripgrep)
+    ("C-c l" . consult-line)
+    ("C-c i" . consult-imenu)
+    ("C-c t" . gtags-find-tag)
+    ("C-x b" . consult-buffer)
+    ("C-c x" . consult-complex-command)
+    (:map comint-mode-map
+      ("C-c C-l" . consult-history)))
+  :config
+  (recentf-mode t)
+  (vertico-mode t))
+
+(use-package embark
+  :ensure t
+
+  :bind
+  (("C-." . embark-act)         ;; pick some comfortable binding
+   ("C-o" . embark-export)
+   ("C-;" . embark-dwim)        ;; good alternative: M-.
+   ("C-h B" . embark-bindings)) ;; alternative for `describe-bindings'
+
+  :init
+
+  ;; Optionally replace the key help with a completing-read interface
+  (setq prefix-help-command #'embark-prefix-help-command)
+
+  :config
+
+  ;; Hide the mode line of the Embark live/completions buffers
+  (add-to-list 'display-buffer-alist
+               '("\\`\\*Embark Collect \\(Live\\|Completions\\)\\*"
+                 nil
+                 (window-parameters (mode-line-format . none)))))
+
+;; Consult users will also want the embark-consult package.
+(use-package embark-consult
+  :ensure t
+  :after (embark consult)
+  :demand t ; only necessary if you have the hook below
+  ;; if you want to have consult previews as you move around an
+  ;; auto-updating embark collect buffer
+  :hook
+  (embark-collect-mode . consult-preview-at-point-mode))

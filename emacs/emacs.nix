@@ -1,9 +1,6 @@
 { pkgs ? import <nixpkgs> { }}:
 
 let
-  myEmacs = pkgs.emacs; # pkgs.emacsGcc compiles all elisp to native code, no drawback according to skybro.
-  emacsWithPackages = (pkgs.emacsPackagesNgGen myEmacs).emacsWithPackages;
-
   agsy = (import ./agsy.nix).agda-mode;
 
         init = pkgs.runCommand "default.el" {} ''
@@ -22,4 +19,5 @@ in
         ];
         alwaysEnsure = true;
         config = configTxt;
+        package = pkgs.emacsNativeComp;
   }
