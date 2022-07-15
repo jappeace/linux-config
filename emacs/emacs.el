@@ -598,3 +598,5 @@ two prefix arguments, write out the day and month name."
   ;; auto-updating embark collect buffer
   :hook
   (embark-collect-mode . consult-preview-at-point-mode))
+
+(use-package elm-mode)
