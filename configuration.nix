@@ -166,7 +166,6 @@ in {
       xss-lock
       i3lock
       i3status
-      skype
       nixpkgs-fmt
       atom
       mpv # mplayer
@@ -258,7 +257,6 @@ I don't know why this is disabled by default.
 
       # lm-sensors
       fd # better find, 50% shorter command!
-      docker_compose
       pgcli # better postgres cli client
       unrar
       sshuttle
