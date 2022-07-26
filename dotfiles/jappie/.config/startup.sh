@@ -3,9 +3,6 @@
 # fuck helps with wrongly typed commands
 command -v thefuck >/dev/null 2>&1 && eval "$(thefuck --alias)"
 
-# fasd, jump around files etc quickly: https://github.com/clvv/fasd
-command -v fasd >/dev/null 2>&1 && eval "$(fasd --init auto)"
-
 # show a nice intro
 cow_mode[1]="-b"
 cow_mode[2]="-d"

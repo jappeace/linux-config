@@ -2,9 +2,6 @@
 # dunno, something with grep, maybe killing some errors?
 unset GREP_OPTIONS
 
-# where are the dist files (source code of installed software)
-export DISTDIR='/usr/portage/distfiles'
-
 #temnial collors
 # export TERM='konsole-256color'
 export TERM='screen-256color'

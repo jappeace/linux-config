@@ -1,0 +1,108 @@
+! 2020-09-27 https://github.com
+github.com##div.watch_started
+github.com##div.fork
+github.com##div.follow
+github.com##.repo
+
+! 2020-10-06 https://www.twitch.tv
+www.twitch.tv##div.tw-top-0.tw-right-0.tw-left-0.tw-bottom-0.tw-absolute:nth-of-type(3)
+
+! 2020-10-08 https://www.twitch.tv
+www.twitch.tv##.tw-button__text
+
+! 2020-10-16 https://www.figma.com
+www.figma.com##.modal--modalShadow--HbHkT.modal--modal--OAB3b.footer_banner--bannerTop--2_8M9.footer_banner--banner--H-B_t.footer_banner--googleBanner--3dAQe
+
+! 2021-06-13 https://www.twitch.tv
+www.twitch.tv##.VGQNd.ScCoreButtonSuccess-sc-1qn4ixc-5.ScCoreButton-sc-1qn4ixc-0
+
+! 2021-06-14 https://github.com
+github.com##div.release > .body > .color-border-secondary.border-bottom.js-news-feed-event-group.js-details-container.Details > .py-3.flex-items-baseline.d-flex
+github.com##div.release
+
+! 2021-06-15 https://www.reddit.com
+www.reddit.com##.cookie-infobar.with-btn.with-icon.md-container-small.reddit-infobar
+
+! 11/6/2019 https://calendar.google.com
+calendar.google.com##.zoom-free-tooltip > div
+
+! 11/25/2019 https://medium.com
+medium.com##.nu.nt.ns.nr.nq.np.no.nn.nm.nl.nk.nj.ni.nh.ng.nf.ne.nd.nc.nb.na.mz.my.mx.mw.mv.mu.mt.ms.mr.mq.ak.mp.io.t.s
+
+! 12/16/2019 https://www.internalpointers.com
+www.internalpointers.com##.ip-follow-us-popup
+www.internalpointers.com##.item.ip-post__social-tools__twitter
+www.internalpointers.com##.ip-cookie-banner
+
+! 12/18/2019 https://www.twitch.tv
+www.twitch.tv##.tw-relative.prime-offers > .tw-relative > div:nth-of-type(1) > .tw-tooltip-wrapper.tw-relative.tw-inline-flex > div:nth-of-type(1) > .tw-relative.tw-overflow-hidden.tw-justify-content-center.tw-interactive.tw-inline-flex.tw-core-button.tw-button-icon.tw-border-top-right-radius-medium.tw-border-top-left-radius-medium.tw-border-bottom-right-radius-medium.tw-border-bottom-left-radius-medium.tw-align-middle.tw-align-items-center
+www.twitch.tv##.tw-top-0.tw-right-0.tw-relative.tw-pd-y-1.tw-pd-x-2.tw-left-0.tw-justify-content-center.tw-flex-row.tw-flex.tw-c-text-overlay.tw-c-background-accent-alt-2.tw-align-items-center.gdpr-consent-banner
+
+! 12/27/2019 https://www.twitch.tv
+www.twitch.tv##.tw-button__text
+
+! 1/14/2020 https://simplywall.st
+simplywall.st##.keDRlY.sc-bdVaJa
+simplywall.st##.kXBsfx.styled__ModalContentWrapper-idlfy4-0.sc-bdVaJa
+simplywall.st##.gEtuMl.sc-iomxrj.sc-bdVaJa
+
+! 23/02/2020 https://internet80.com
+internet80.com##.rxn-footer-message > span
+
+! 06/03/2020 https://www.linkedin.com
+www.linkedin.com##.core-rail
+www.linkedin.com##.feed-follows-module
+
+! 06/03/2020 https://github.com
+github.com##div.watch_started
+github.com##div.fork
+github.com##div.follow
+github.com##div.repo
+github.com##div > .js-ajax-pagination.ajax-pagination-form
+
+! 10/3/2018, 6:28:34 PM https://www.frankwatching.com/archive/2018/03/21/5-meest-gestelde-vragen-over-avg-gdpr/
+www.frankwatching.com##.in-post-ad.in-post-ad--right.cams-ad
+||ytimg.com/yts/swfbin/player-*/endscreen.swf$object-subrequest,domain=youtube.com
+||youtube.com/share_ajax?action_get_share_box=1&video_id=$xmlhttprequest
+||youtube.com/annotations_invideo?$object-subrequest
+youtube.com/get_endscreen?
+youtube.com##.ytp-title-channel
+youtube.com##.ytp-scroll-max.ytp-scroll-min.ytp-pause-overlay
+youtube.com##.ytp-pause-overlay
+youtube.com##.ytp-ce-expanding-image
+youtube.com##.ytp-ce-element.ytp-ce-video.ytp-ce-element-show
+youtube.com##.ytp-ce-element.ytp-ce-channel.ytp-ce-channel-this
+youtube.com##.ytp-ce-element-show
+youtube.com##.ytp-ce-element-shadow
+youtube.com##.ytp-ce-element
+youtube.com##.ytp-ce-covering-overlay
+youtube.com##.ytp-ce-covering-image
+youtube.com##.ytp-cards-teaser
+youtube.com##.ytp-cards-button.ytp-button
+youtube.com##.ytp-cards-button
+youtube.com##.yt-uix-button[data-trigger-for="action-panel-share"]
+youtube.com##.video-annotations
+youtube.com##.subscribecard-endscreen
+youtube.com##.iv-promo-contents
+youtube.com##.iv-click-target.iv-promo-img
+youtube.com##.iv-click-target.branding-img
+youtube.com##.iv-click-target
+youtube.com##.html5-endscreen-content
+youtube.com##.html5-endscreen
+youtube.com##.home .branded-page-v2-secondary-col
+youtube.com##.guide-builder-v2 .branded-page-v2-secondary-col
+youtube.com##.feed .branded-page-v2-secondary-col
+youtube.com##.action-panel-trigger[role="button"][data-trigger-for="action-panel-share"]
+youtube.com###ticker
+youtube.com###sb-button-notify
+youtube.com###page > .alerts-wrapper
+youtube.com###channel-subscription-promo-in-feed
+##.ytp-pause-overlay
+##.ytp-ce-expanding-image
+##.ytp-ce-element.ytp-ce-video.ytp-ce-element-show
+##.ytp-ce-element.ytp-ce-channel.ytp-ce-channel-this
+##.ytp-ce-element-shadow
+##.ytp-ce-element
+##.ytp-ce-covering-overlay
+##.ytp-ce-covering-image
+

@@ -14,6 +14,7 @@
 (setq initial-scratch-message "Good day sir, your wish is my command.") ; Emacs shows its subservience. Machines are tools.
 (setq create-lockfiles nil) ;; this clashes with projectile
 (setq tags-revert-without-query 1)
+(setq auto-save-default nil)
 (advice-add 'risky-local-variable-p :override #'ignore) ;; allow remembering of risky vars https://emacs.stackexchange.com/questions/10983/remember-permission-to-execute-risky-local-variables
 
 
@@ -43,138 +44,6 @@
 
 ;; font
 (push '(font . "firacode-14") default-frame-alist)
-;;; Fira code
-;; This works when using emacs --daemon + emacsclient
-(add-hook 'after-make-frame-functions (lambda (frame) (set-fontset-font t '(#Xe100 . #Xe16f) "Fira Code Symbol")))
-;; This works when using emacs without server/client
-                                        ;(set-fontset-font t '(#Xe100 . #Xe16f) "Fira Code Symbol")
-;; I haven't found one statement that makes both of the above situations work, so I use both for now
-
-(defconst fira-code-font-lock-keywords-alist
-  (mapcar (lambda (regex-char-pair)
-            `(,(car regex-char-pair)
-              (0 (prog1 ()
-                   (compose-region (match-beginning 1)
-                                   (match-end 1)
-                                   ;; The first argument to concat is a string containing a literal tab
-                                   ,(concat "	" (list (decode-char 'ucs (cadr regex-char-pair)))))))))
-          '(("\\(www\\)"                   #Xe100)
-            ("[^/]\\(\\*\\*\\)[^/]"        #Xe101)
-            ("\\(\\*\\*\\*\\)"             #Xe102)
-            ("\\(\\*\\*/\\)"               #Xe103)
-            ("\\(\\*>\\)"                  #Xe104)
-            ("[^*]\\(\\*/\\)"              #Xe105)
-            ("\\(\\\\\\\\\\)"              #Xe106)
-            ("\\(\\\\\\\\\\\\\\)"          #Xe107)
-            ("\\({-\\)"                    #Xe108)
-            ("\\(\\[\\]\\)"                #Xe109)
-            ("\\(::\\)"                    #Xe10a)
-            ("\\(:::\\)"                   #Xe10b)
-            ("[^=]\\(:=\\)"                #Xe10c)
-            ("\\(!!\\)"                    #Xe10d)
-            ("\\(!=\\)"                    #Xe10e)
-            ("\\(!==\\)"                   #Xe10f)
-            ("\\(-}\\)"                    #Xe110)
-            ("\\(--\\)"                    #Xe111)
-            ("\\(---\\)"                   #Xe112)
-            ("\\(-->\\)"                   #Xe113)
-            ("[^-]\\(->\\)"                #Xe114)
-            ("\\(->>\\)"                   #Xe115)
-            ("\\(-<\\)"                    #Xe116)
-            ("\\(-<<\\)"                   #Xe117)
-            ("\\(-~\\)"                    #Xe118)
-            ("\\(#{\\)"                    #Xe119)
-            ("\\(#\\[\\)"                  #Xe11a)
-            ("\\(##\\)"                    #Xe11b)
-            ("\\(###\\)"                   #Xe11c)
-            ("\\(####\\)"                  #Xe11d)
-            ("\\(#(\\)"                    #Xe11e)
-            ("\\(#\\?\\)"                  #Xe11f)
-            ("\\(#_\\)"                    #Xe120)
-            ("\\(#_(\\)"                   #Xe121)
-            ("\\(\\.-\\)"                  #Xe122)
-            ("\\(\\.=\\)"                  #Xe123)
-            ("\\(\\.\\.\\)"                #Xe124)
-            ("\\(\\.\\.<\\)"               #Xe125)
-            ("\\(\\.\\.\\.\\)"             #Xe126)
-            ("\\(\\?=\\)"                  #Xe127)
-            ("\\(\\?\\?\\)"                #Xe128)
-            ("\\(;;\\)"                    #Xe129)
-            ("\\(/\\*\\)"                  #Xe12a)
-            ("\\(/\\*\\*\\)"               #Xe12b)
-            ("\\(/=\\)"                    #Xe12c)
-            ("\\(/==\\)"                   #Xe12d)
-            ("\\(/>\\)"                    #Xe12e)
-            ("\\(//\\)"                    #Xe12f)
-            ("\\(///\\)"                   #Xe130)
-            ("\\(&&\\)"                    #Xe131)
-            ("\\(||\\)"                    #Xe132)
-            ("\\(||=\\)"                   #Xe133)
-            ("[^|]\\(|=\\)"                #Xe134)
-            ("\\(|>\\)"                    #Xe135)
-            ("\\(\\^=\\)"                  #Xe136)
-            ("\\(\\$>\\)"                  #Xe137)
-            ("\\(\\+\\+\\)"                #Xe138)
-            ("\\(\\+\\+\\+\\)"             #Xe139)
-            ("\\(\\+>\\)"                  #Xe13a)
-            ("\\(=:=\\)"                   #Xe13b)
-            ("[^!/]\\(==\\)[^>]"           #Xe13c)
-            ("\\(===\\)"                   #Xe13d)
-            ("\\(==>\\)"                   #Xe13e)
-            ("[^=]\\(=>\\)"                #Xe13f)
-            ("\\(=>>\\)"                   #Xe140)
-            ("\\(<=\\)"                    #Xe141)
-            ("\\(=<<\\)"                   #Xe142)
-            ("\\(=/=\\)"                   #Xe143)
-            ("\\(>-\\)"                    #Xe144)
-            ("\\(>=\\)"                    #Xe145)
-            ("\\(>=>\\)"                   #Xe146)
-            ("[^-=]\\(>>\\)"               #Xe147)
-            ("\\(>>-\\)"                   #Xe148)
-            ("\\(>>=\\)"                   #Xe149)
-            ("\\(>>>\\)"                   #Xe14a)
-            ("\\(<\\*\\)"                  #Xe14b)
-            ("\\(<\\*>\\)"                 #Xe14c)
-            ("\\(<|\\)"                    #Xe14d)
-            ("\\(<|>\\)"                   #Xe14e)
-            ("\\(<\\$\\)"                  #Xe14f)
-            ("\\(<\\$>\\)"                 #Xe150)
-            ("\\(<!--\\)"                  #Xe151)
-            ("\\(<-\\)"                    #Xe152)
-            ("\\(<--\\)"                   #Xe153)
-            ("\\(<->\\)"                   #Xe154)
-            ("\\(<\\+\\)"                  #Xe155)
-            ("\\(<\\+>\\)"                 #Xe156)
-            ("\\(<=\\)"                    #Xe157)
-            ("\\(<==\\)"                   #Xe158)
-            ("\\(<=>\\)"                   #Xe159)
-            ("\\(<=<\\)"                   #Xe15a)
-            ("\\(<>\\)"                    #Xe15b)
-            ("[^-=]\\(<<\\)"               #Xe15c)
-            ("\\(<<-\\)"                   #Xe15d)
-            ("\\(<<=\\)"                   #Xe15e)
-            ("\\(<<<\\)"                   #Xe15f)
-            ("\\(<~\\)"                    #Xe160)
-            ("\\(<~~\\)"                   #Xe161)
-            ("\\(</\\)"                    #Xe162)
-            ("\\(</>\\)"                   #Xe163)
-            ("\\(~@\\)"                    #Xe164)
-            ("\\(~-\\)"                    #Xe165)
-            ("\\(~=\\)"                    #Xe166)
-            ("\\(~>\\)"                    #Xe167)
-            ("[^<]\\(~~\\)"                #Xe168)
-            ("\\(~~>\\)"                   #Xe169)
-            ("\\(%%\\)"                    #Xe16a)
-            ;; ("\\(x\\)"                   #Xe16b) This ended up being hard to do properly so i'm leaving it out.
-            ("[^:=]\\(:\\)[^:=]"           #Xe16c)
-            ("[^\\+<>]\\(\\+\\)[^\\+<>]"   #Xe16d)
-            ("[^\\*/<>]\\(\\*\\)[^\\*/<>]" #Xe16f))))
-
-(defun add-fira-code-symbol-keywords ()
-  (font-lock-add-keywords nil fira-code-font-lock-keywords-alist))
-
-(add-hook 'prog-mode-hook
-          #'add-fira-code-symbol-keywords)
 
 ;; me me me https://www.youtube.com/watch?v=1oQWvoXMWME
 (setq user-full-name "Jappie J. T. Klooster"
@@ -231,18 +100,10 @@
 (use-package evil-escape
   :commands (evil-escape) ;; load it after press
   :after evil)
-
 (use-package evil-collection
   :after evil
   :config
   (evil-collection-init))
-
-;; todo delete in favor of evil collection?
-(use-package evil-magit
-  :after (magit evil)
-  :config
-  (define-key transient-map (kbd "<escape>") 'transient-quit-one)
-  )
 
 ;; I need to save kmacro-name-last-macro
 ;; and then I can insert insert-kbd-macro
@@ -254,49 +115,53 @@
 (use-package general
   :config
   (general-define-key "<escape>" 'evil-escape) ;; escape anything
+  (general-define-key
+   :keymaps 'transient-base-map
+   "<escape>" 'transient-quit-one)
   (general-define-key "C-'" 'avy-goto-word-1)
-  (general-define-key "C-x b" 'ivy-switch-buffer)
+  (general-define-key "C-x b" 'consult-buffer)
   (general-define-key
    :keymaps 'normal
    ;; simple command
    "K" 'newline)
 
   (general-define-key
-   ;; replace default keybindings
-   "C-s" 'swiper             ; search for string in current buffer
-   "M-x" 'counsel-M-x)        ; replace default M-x with ivy backend
-
-  (general-define-key
    :keymaps '(normal visual insert emacs)
    :prefix "SPC"
    :non-normal-prefix "C-SPC"
 
-   "/"   'counsel-projectile-rg
-   "k"   '(projectile-kill-buffers :which-key "kill project buffers") ;; sometimes projectile gets confused about temp files, this fixes that
-   "c"   'projectile-invalidate-cache
+   "/"   'consult-ripgrep
+   "k"   '(project-kill-buffers :which-key "kill project buffers") ;; sometimes projectile gets confused about temp files, this fixes that
    "SPC" '(avy-goto-word-or-subword-1  :which-key "go to char")
-   "b"  'ivy-switch-buffer  ; change buffer, chose using ivy
+   "b"  'consult-buffer  ; change buffer, chose using ivy
 
+   "u"  'undo-tree-visualize
    "!"  'shell
    "j"  'xref-find-definitions ; lsp find definition
+   "J"  '(:ignore t :which-key "jump")
+   "Jx" 'xref-find-definitions
+   "Jg" 'agda2-goto-definition-keyboard
    "x"  'xref-find-references ; find usages
-   "l"  'counsel-list-processes
+   "l"  'list-processes
    "t"  '(:ignore t :which-key "toggles")
-   ;; "tp"  'parinfer-toggle-mode
-   "f"   '(:ignore t :which-key "find/format")
+   "tp"  'parinfer-toggle-mode
+   "f"   '(:ignore t :which-key "find/format/file")
    "ff"  'format-all-buffer
-   "fi"  'counsel-projectile-find-file
-   "fr"  'projectile-replace-regexp
+   "fi"  'project-find-file
+   "fr"  'project-query-replace-regexp
    "fg"  'counsel-git-grep
    "fh"  'haskell-hoogle-lookup-from-local
-   "f/"  'counsel-projectile-rg ; dumb habit
+   "fl"  'consult-line
+   "f/"   'consult-ripgrep
+   "fc"  'dired-copy-filename-as-kill
+   "fp"  'consult-project-buffer
    "h"   '(:ignore t :which-key "hoogle/inspection")
    "hl"  'haskell-hoogle-lookup-from-local
    "hq"  'haskell-hoogle
    "hs"  'haskell-mode-stylish-buffer
    "s"  'save-some-buffers
-   "p"  'counsel-projectile
-   "o"  'counsel-projectile-switch-project
+   "p"  'project-find-file
+   "o"  'project-switch-project
    "r"   'revert-buffer
    "q"   'kill-emacs
    "g"   '(:ignore t :which-key "git")
@@ -324,36 +189,6 @@
   :commands  (package-lint-current-buffer
               package-lint-buffer))
 
-  
-
-;;; project navigation
-(use-package counsel-projectile
-  :commands (
-             counsel-projectile-find-file
-             counsel-projectile-rg
-             counsel-projectile)
-
-  :config
-  (counsel-projectile-mode))
-  ;; :custom ;; see emacs/default.nix
-  ;; (counsel-rg-base-command "")
-
-
-(use-package projectile
-  :config
-  (setq projectile-enable-caching nil)
-  (projectile-mode) ;; I always want this?
-
-  :custom
-  (projectile-git-command
-   "git ls-files -zco --exclude-standard | sed \"s/\\.git-crypt\\/.*.gpg//g\""
-   ;; "rg --line-number --smart-case --follow --mmap --null --files" ; https://emacs.stackexchange.com/questions/16497/how-to-exclude-files-from-projectile
-   )
-  )
-(use-package swiper
-  :commands (
-             swiper
-             ))
 
                                         ; loooks pretty good butt.. another time
                                         ; https://github.com/lassik/emacs-format-all-the-code
@@ -367,16 +202,6 @@
   )
 
 (use-package flx)
-
-(use-package ivy
-  :after flx
-  :commands (ivy-switch-buffer)
-  :config
-  (setq ivy-re-builders-alist
-        '((ivy-switch-buffer . ivy--regex-plus)
-          ))
-  (setq ivy-initial-inputs-alist nil)
-  )
 
 (use-package ranger
   :commands (ranger)
@@ -408,7 +233,6 @@
 
 ;;; git
 (use-package magit
-  :after ivy
   :defer
   :commands
   (magit-blame
@@ -425,19 +249,12 @@
    magit-status
    magit-rebase
    )
-  :config
-  (setq magit-completing-read-function 'ivy-completing-read)
-  )
-
-(use-package flycheck
-  :defer 2
-  :config
-  (global-flycheck-mode)
   )
 
 ;;; I can't spell
 (use-package flyspell
   :defer t
+  :ensure nil
   :init
   (progn
     (add-hook 'prog-mode-hook 'flyspell-prog-mode)
@@ -447,14 +264,6 @@
   (setq ispell-dictionary "american")
   )
 
-;;; I can't program
-(use-package company
-  :diminish company-mode
-  :commands (company-mode global-company-mode)
-  :defer 1
-  :config
-  (global-company-mode))
-
 ;;; more info
 (use-package powerline
   :config
@@ -462,9 +271,7 @@
   )
 
 ;;; nix syntax highlighting
-(use-package nix-mode
-  :after company
-  )
+(use-package nix-mode)
 
 (use-package yaml-mode
   :mode "\\.yaml\\'")
@@ -490,9 +297,6 @@
           (function (lambda ()
                       (setq evil-shift-width 2))))
 
-(use-package nix-sandbox)
-
-
 ;;; Haskell
 (use-package haskell-mode
   :after evil
@@ -500,7 +304,6 @@
   (custom-set-variables
    ;; '(haskell-font-lock-symbols t)
    '(haskell-stylish-on-save nil)
-   '(haskell-hoogle-command (concat (projectile-project-root) "scripts/hoogle.sh"))
    )
   (defun haskell-evil-open-above ()
     (interactive)
@@ -528,6 +331,8 @@
   (evil-define-key 'normal haskell-mode-map
     "o" 'haskell-evil-open-below
     "O" 'haskell-evil-open-above)
+  :custom
+  (haskell-font-lock-symbols t)
   )
 
 (use-package evil-org
@@ -536,47 +341,6 @@
 (use-package ox-reveal
   :disabled
   )
-(use-package lsp-mode :commands lsp)
-(use-package lsp-ui :after lsp)
-(use-package lsp-haskell
-  :disabled ;; Need to look at: https://github.com/thalesmg/reflex-skeleton/
-  ;; For custom preludes we need to consider -XNoImplicitprelude
-  :after lsp-mode
-  :config
-                                        ; https://github.com/emacs-lsp/lsp-haskell/blob/master/lsp-haskell.el#L57
-  ;; (setq lsp-haskell-process-wrapper-function
-  ;;       (lambda (argv)
-  ;;         (append
-  ;;          (append (list "nix-shell" "--run" )
-  ;;                  (list (mapconcat 'identity argv " ")))
-  ;;          (list (concat (projectile-project-root) "shell.nix"))
-  ;;          )))
-  (add-hook 'haskell-mode-hook 'flycheck-mode)
-  (add-hook 'haskell-mode-hook #'lsp)
-  (add-hook 'haskell-mode-hook
-            (lambda ()
-              (let ((default-nix-wrapper (lambda (args)
-                                           (append
-                                            (append (list "nix-shell" "-I" "." "--command")
-                                                    (list (mapconcat 'identity args " ")))
-                                            (list (nix-current-sandbox))))))
-                (setq-local lsp-haskell-process-wrapper-function default-nix-wrapper))))
-
-
-
-
-  (add-hook 'haskell-mode-hook
-            (lambda ()
-              (setq-local haskell-process-wrapper-function
-                          (lambda (args) (apply 'nix-shell-command (nix-current-sandbox) args)))))
-
-  (add-hook 'flycheck-mode-hook
-            (lambda ()
-              (setq-local flycheck-command-wrapper-function
-                          (lambda (command) (apply 'nix-shell-command (nix-current-sandbox) command)))
-              (setq-local flycheck-executable-find
-                          (lambda (cmd) (nix-executable-find (nix-current-sandbox) cmd))))))
-
 
 (use-package yasnippet
   :after lsp-mode
@@ -587,27 +351,10 @@
   ;; install https://crates.io/crates/rustfmt-nightly
   (setq rust-format-on-save t)
   )
-(use-package racer
-  :hook (racer-mode . rust-mode)
-  :config
-  (add-hook 'racer-mode-hook #'eldoc-mode)
-  (add-hook 'racer-mode-hook #'company-mode)
-  )
 (use-package flycheck-rust
   :after rust-mode
   :config
   (add-hook 'flycheck-mode-hook #'flycheck-rust-setup)
-  )
-(use-package lsp-rust
-  :disabled ; doesn't work yet
-  :after lsp-ui
-  ;; install https://github.com/rust-lang-nursery/rls
-  :init
-  (setq lsp-rust-rls-command '("rustup" "run" "stable" "rls"))
-  :config
-  (add-hook 'lsp-mode-hook 'lsp-ui-mode)
-  (add-hook 'rust-mode-hook #'lsp-rust-enable)
-  (add-hook 'rust-mode-hook 'flycheck-mode)
   )
 ;; use emacs as mergetool
 (defvar ediff-after-quit-hooks nil
@@ -724,6 +471,7 @@ two prefix arguments, write out the day and month name."
 
 (use-package php-mode
   :config
+  :disabled
   ;; dante's xref doesn't work for mutli-project setups, we just use etags
   ;; (remove-hook 'xref-backend-functions 'dante--xref-backend)
   )
@@ -751,140 +499,7 @@ two prefix arguments, write out the day and month name."
 (use-package lua-mode)
 (use-package typescript-mode)
 
-(defun unicode-symbol (name)
-  "Translate a symbolic name for a Unicode character -- e.g., LEFT-ARROW
-   or GREATER-THAN into an actual Unicode character code. "
-  (decode-char 'ucs (case name
-                      ;; arrows
-                      ('left-arrow 8592)
-                      ('up-arrow 8593)
-                      ('right-arrow 8594)
-                      ('down-arrow 8595)
-                      ;; boxes
-                      ('double-vertical-bar #X2551)
-                      ;; relational operators
-                      ('equal #X003d)
-                      ('not-equal #X2260)
-                      ('identical #X2261)
-                      ('not-identical #X2262)
-                      ('less-than #X003c)
-                      ('greater-than #X003e)
-                      ('less-than-or-equal-to #X2264)
-                      ('greater-than-or-equal-to #X2265)
-                      ;; logical operators
-                      ('logical-and #X2227)
-                      ('logical-or #X2228)
-                      ('logical-neg #X00AC)
-                      ;; misc
-                      ('nil #X2205)
-                      ('horizontal-ellipsis #X2026)
-                      ('double-exclamation #X203C)
-                      ('prime #X2032)
-                      ('double-prime #X2033)
-                      ('for-all #X2200)
-                      ('there-exists #X2203)
-                      ('element-of #X2208)
-                      ;; mathematical operators
-                      ('square-root #X221A)
-                      ('squared #X00B2)
-                      ('cubed #X00B3)
-                      ;; letters
-                      ('lambda #X03BB)
-                      ('alpha #X03B1)
-                      ('beta #X03B2)
-                      ('gamma #X03B3)
-                      ('delta #X03B4))))
-
-(defun substitute-pattern-with-unicode (pattern symbol)
-  "Add a font lock hook to replace the matched part of PATTERN with the
-     Unicode symbol SYMBOL looked up with UNICODE-SYMBOL."
-  (interactive)
-  (font-lock-add-keywords
-   nil `((,pattern (0 (progn (compose-region (match-beginning 1) (match-end 1)
-                                             ,(unicode-symbol symbol))
-                             nil))))))
-
-(defun substitute-patterns-with-unicode (patterns)
-  "Call SUBSTITUTE-PATTERN-WITH-UNICODE repeatedly."
-  (mapcar #'(lambda (x)
-              (substitute-pattern-with-unicode (car x)
-
-                                               (defun haskell-unicode ()
-                                                 (interactive)
-                                                 (substitute-patterns-with-unicode
-                                                  (list (cons "\\(forall\\)" 'for-all))))
-
-                                               (add-hook 'haskell-mode-hook 'haskell-unicode)
-                                               (add-hook 'purescript-mode-hook 'haskell-unicode)))))
-
-(require 'cl)
-(defun unicode-symbol (name)
-  "Translate a symbolic name for a Unicode character -- e.g., LEFT-ARROW
-or GREATER-THAN into an actual Unicode character code. "
-  (decode-char 'ucs (case name
-                      ;; arrows
-                      ('left-arrow 8592)
-                      ('up-arrow 8593)
-                      ('right-arrow 8594)
-                      ('down-arrow 8595)
-                      ;; boxes
-                      ('double-vertical-bar #X2551)
-                      ;; relational operators
-                      ('equal #X003d)
-                      ('not-equal #X2260)
-                      ('identical #X2261)
-                      ('not-identical #X2262)
-                      ('less-than #X003c)
-                      ('greater-than #X003e)
-                      ('less-than-or-equal-to #X2264)
-                      ('greater-than-or-equal-to #X2265)
-                      ;; logical operators
-                      ('logical-and #X2227)
-                      ('logical-or #X2228)
-                      ('logical-neg #X00AC)
-                      ;; misc
-                      ('nil #X2205)
-                      ('horizontal-ellipsis #X2026)
-                      ('double-exclamation #X203C)
-                      ('prime #X2032)
-                      ('double-prime #X2033)
-                      ('for-all #X2200)
-                      ('there-exists #X2203)
-                      ('element-of #X2208)
-                      ;; mathematical operators
-                      ('square-root #X221A)
-                      ('squared #X00B2)
-                      ('cubed #X00B3)
-                      ;; letters
-                      ('lambda #X03BB)
-                      ('alpha #X03B1)
-                      ('beta #X03B2)
-                      ('gamma #X03B3)
-                      ('delta #X03B4))))
-
-(defun substitute-pattern-with-unicode (pattern symbol)
-  "Add a font lock hook to replace the matched part of PATTERN with the
-    Unicode symbol SYMBOL looked up with UNICODE-SYMBOL."
-  (interactive)
-  (font-lock-add-keywords
-   nil `((,pattern (0 (progn (compose-region (match-beginning 1) (match-end 1)
-                                             ,(unicode-symbol symbol))
-                             nil))))))
-
-(defun substitute-patterns-with-unicode (patterns)
-  "Call SUBSTITUTE-PATTERN-WITH-UNICODE repeatedly."
-  (mapcar #'(lambda (x)
-              (substitute-pattern-with-unicode (car x)
-                                               (cdr x)))
-          patterns))
-
-(defun haskell-unicode ()
-  (interactive)
-  (substitute-patterns-with-unicode
-   (list (cons "\\(forall\\)" 'for-all))))
-
-(add-hook 'purescript-mode-hook 'haskell-unicode)
-(add-hook 'haskell-mode-hook 'haskell-unicode)
+(use-package wgrep)
 
 (use-package ws-butler
   :init
@@ -896,11 +511,92 @@ or GREATER-THAN into an actual Unicode character code. "
   :init
   (add-hook 'sh-mode-hook 'flymake-shellcheck-load))
 
-(use-package wgrep)
-(use-package eglot)
+;;; this is an lsp client better then lsp-mode package
+(use-package eglot
+  :disabled
+  :defer t
+  :hook
+  (haskell-mode . eglot-ensure)
+  )
 
-(use-package direnv
- :config
- (direnv-mode))
+(use-package envrc
+  :hook (prog-mode . envrc-mode)
+  )
 
-(use-package agda2-mode)
+(use-package agda2-mode
+    :mode "\\.lagda\\.md\\'"
+          "\\.agda\\'"
+  )
+
+
+;; pulse frame completion
+(use-package corfu
+  :custom
+  (corfu-auto-delay 0.2)
+  (corfu-cycle t)
+  (corfu-auto t)
+  (corfu-commit-predicate nil)
+  (corfu-quit-at-boundary t)
+  (corfu-quit-no-match t)
+  (corfu-echo-documentation nil)
+  :init
+  (global-corfu-mode))
+
+;; actual completion backend... so this does the work?
+(use-package vertico
+  :init
+  (use-package orderless
+    :commands (orderless)
+    :custom (completion-styles '(orderless flex)))
+
+  (use-package consult
+    :init
+    (setq consult-preview-key nil)
+    :bind
+    ("C-c r" . consult-recent-file)
+    ("C-c f" . consult-ripgrep)
+    ("C-c l" . consult-line)
+    ("C-c i" . consult-imenu)
+    ("C-c t" . gtags-find-tag)
+    ("C-x b" . consult-buffer)
+    ("C-c x" . consult-complex-command)
+    (:map comint-mode-map
+      ("C-c C-l" . consult-history)))
+  :config
+  (recentf-mode t)
+  (vertico-mode t))
+
+(use-package embark
+  :ensure t
+
+  :bind
+  (("C-." . embark-act)         ;; pick some comfortable binding
+   ("C-o" . embark-export)
+   ("C-;" . embark-dwim)        ;; good alternative: M-.
+   ("C-h B" . embark-bindings)) ;; alternative for `describe-bindings'
+
+  :init
+
+  ;; Optionally replace the key help with a completing-read interface
+  (setq prefix-help-command #'embark-prefix-help-command)
+
+  :config
+
+  ;; Hide the mode line of the Embark live/completions buffers
+  (add-to-list 'display-buffer-alist
+               '("\\`\\*Embark Collect \\(Live\\|Completions\\)\\*"
+                 nil
+                 (window-parameters (mode-line-format . none)))))
+
+;; Consult users will also want the embark-consult package.
+(use-package embark-consult
+  :ensure t
+  :after (embark consult)
+  :demand t ; only necessary if you have the hook below
+  ;; if you want to have consult previews as you move around an
+  ;; auto-updating embark collect buffer
+  :hook
+  (embark-collect-mode . consult-preview-at-point-mode))
+
+(use-package elm-mode)
+(use-package dockerfile-mode)

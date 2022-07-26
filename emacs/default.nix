@@ -15,29 +15,32 @@ in {
 
         # TODO use counsel-rg-base-command instead, however bugged at the moment
         # emacs
-        (pkgs.writeShellScriptBin "rg" ''
-        ${pkgs.ripgrep}/bin/rg --with-filename -M 120 --glob '!*.min.js' --iglob '!**/static/**' --max-columns-preview "$@"
-        ''
-        ) # better silver searcher?
+        # (pkgs.writeShellScriptBin "rg" ''
+        # ${pkgs.ripgrep}/bin/rg --with-filename -M 120 --glob '!*.min.js' --iglob '!**/static/**' --max-columns-preview "$@"
+        # ''
+        # ) # better silver searcher?
+        pkgs.ripgrep
 
         # pkgs.ripgrep
         aspell_with_dict # I can't spell
-        pkgs.rustracer
         pkgs.haskellPackages.stylish-haskell
         pkgs.haskellPackages.brittany
         # pkgs.haskellPackages.hindent
         pkgs.haskellPackages.hlint
+        pkgs.haskellPackages.ormolu
         shfmt
         html-tidy
         pkgs.nodePackages.prettier
         pkgs.python37Packages.sqlparse # sqlforamt
         pkgs.shellcheck
         agsy
+
+        pgformatter
 	  ];
   };
 
   nixpkgs.overlays = [
-      (import (builtins.fetchTarball "https://github.com/nix-community/emacs-overlay/archive/25dd5297f613fd13971e4847e82d1097077eeb53.tar.gz"))
+      (import (builtins.fetchTarball "https://github.com/nix-community/emacs-overlay/archive/5eca6eb3f6bad6b8121c5f73a3ce403b3cb2be51.tar.gz"))
   ];
 
   services = {

@@ -6,6 +6,16 @@
 let
   devpackeges = import /home/jappie/projects/nixpkgs { };
 
+  rofiWithHoogle = let
+        rofi-hoogle-src = pkgs.fetchFromGitHub {
+          owner = "rebeccaskinner";
+          repo = "rofi-hoogle";
+          rev = "27c273ff67add68578052a13f560a08c12fa5767";
+          sha256 = "09vx9bc8s53c575haalcqkdwy44ys1j8v9k2aaly7lndr19spp8f";
+        };
+        rofi-hoogle = import "${rofi-hoogle-src}/release.nix";
+        in pkgs.rofi.override { plugins = [ rofi-hoogle.rofi-hoogle ]; };
+
   pkgsUnstable = import ./pin-unstable.nix {
     config.allowUnfree = true;
     overlays = [
@@ -24,6 +34,19 @@ let
   hostdir = pkgs.writeShellScriptBin "hostdir" ''
     ${pkgs.python3}/bin/python -m http.server
   '';
+
+  # phone makes pictures to big usually
+  # I need to track these often in a git repo and having it be bigger then 1meg is bad
+  resize-images = pkgs.writeShellScriptBin "resize-images" ''
+  set -xe
+  outfolder=/tmp/small
+  mkdir -p $outfolder
+  for i in `echo *.jpg`; do
+  ${pkgs.imagemagick}/bin/convert -resize 50% -quality 90 "$@" $i $outfolder/$i.small.jpg;
+  done
+  echo "wrote to "$outfolder
+  '';
+
 
   # Me to the max
   maxme = pkgs.writeShellScriptBin "maxme" ''emacsclient . &!'';
@@ -52,7 +75,7 @@ let
   '';
 in {
   imports = [ # Include the results of the hardware scan.
-    ./hardware/lenovo-amd.nix
+    ./hardware/work-machine.nix
     ./emacs
     ./cachix.nix
   ];
@@ -91,10 +114,17 @@ in {
     extraHosts = ''
       0.0.0.0 covid19info.live
       0.0.0.0 linkdedin.com
-      0.0.0.0 www.linkdedin.com
-      127.0.0.1 tealc-mint
-      127.0.0.1 baz.example.com
+      0.0.0.0 www.linkedin.com
+      0.0.0.0 linkedin.com
+      0.0.0.0 twitter.com
+      0.0.0.0 www.twitter.com
+      0.0.0.0 news.ycombinator.com
     '';
+    # interfaces."lo".ip4.addresses = [
+    #     { address = "192.168.0.172"; prefixLength = 32; }
+    # ];
+
+    firewall.allowedTCPPorts = [ 6868 4713 8081 3000 22 8000];
   };
 
   # Select internationalisation properties.
@@ -121,7 +151,6 @@ in {
       audacious
       xclip
       filezilla
-      obs-studio
       slop
       xorg.xhost
       unzip
@@ -130,6 +159,13 @@ in {
       blender
       mesa
       idris
+      pciutils
+      clang-tools # clang-format
+      lz4
+      rofiWithHoogle # dmenu replacement (fancy launcher)
+
+
+      fbreader
       # devpackeges.haskellPackages.cut-the-crap
       lsof
       ffmpeg
@@ -142,8 +178,7 @@ in {
       xss-lock
       i3lock
       i3status
-      skype
-      nixfmt
+      nixpkgs-fmt
       atom
       mpv # mplayer
       ark
@@ -155,16 +190,65 @@ in {
       cabal2nix
       maxme
       zip
-      jetbrains.idea-community # .. variance
+      # ib-tws
+      resize-images
       lz4
       mcomix3
 
-      torsocks
-      nixpkgs-fmt
+/*
+ ***
+ This nix expression requires that ibtws_9542.jar is already part of the store.
+ Download the TWS from
+ https://download2.interactivebrokers.com/download/unixmacosx_latest.jar,
+ rename the file to ibtws_9542.jar, and add it to the nix store with
+ "nix-prefetch-url file://$PWD/ibtws_9542.jar".
+
+ ***
+ ***
+ Unfortunately, we cannot download file jdk-8u281-linux-x64.tar.gz automatically.
+ Please go to http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html to download it yourself, and add it to the Nix store
+      NO HERE https://www.oracle.com/java/technologies/javase/javase8u211-later-archive-downloads.html#license-lightbox
+   nix-store --add-fixed sha256 jdk-8u281-linux-x64.tar.gz
+
+
+ ***
+
+ 🙂jappie at 🕙 2022-02-27 17:25:45 ~ took 30s
+ ❯ ib-tws
+ ERROR: "" is not a valid name of a profile.
+
+... FUCK YOU.
+
+🙂jappie at 🕙 2022-02-27 17:27:48 ~
+❯ ib-tws jappie
+realpath: /home/jappie/IB/jappie: No such file or directory
+cp: kan het normale bestand '/./jts.ini' niet aanmaken: Permission denied
+17:27:53:144 main: Usage: java -cp <required jar files> jclient.LoginFrame <srcDir>
+
+🙂jappie at 🕙 2022-02-27 17:27:53 ~
+❯ touch jts.ini
+
+🙂jappie at 🕙 2022-02-27 17:28:31 ~
+❯ mkdir -p IB/jappie
+
+🙂jappie at 🕙 2022-02-27 17:28:44 ~
+❯ ib-tws jappie
+WARNING: The version of libXrender.so cannot be detected.
+,The pipe line will be enabled, but note that versions less than 0.9.3
+may cause hangs and crashes
+	See the release notes for more details.
+XRender pipeline enabled
+17:28:48:675 JTS-Main: dayInit: new values: dayOfTheWeek: 1 (Sun), YYYYMMofToday: 202202, YYYYMMDDofToday: 20220227
+17:28:48:949 JTS-Main: getFileFromUrl: dest=/home/jappie/IB/jappie/locales.jar empty sourceSize=114646
+17:28:49:738 JTS-Main: Build 952.1e, Oct 27, 2015 2:21:22 PM
+
+That worked. Assholes.
+MAKE SURE TO TICK USE SSL
+I don't know why this is disabled by default.
+*/
 
       ormolu
 
-      burpsuite
 
       fsv # browse files like a chad
       hostdir
@@ -190,11 +274,11 @@ $ sudo ifconfig wlp2s0b1 up
       nmap
 
       # pkgsUnstable.ib-tws # intereactive brokers trader workstation
+      fcitx
       zoxide
 
       # lm-sensors
       fd # better find, 50% shorter command!
-      docker_compose
       pgcli # better postgres cli client
       unrar
       sshuttle
@@ -232,7 +316,6 @@ $ sudo ifconfig wlp2s0b1 up
       xfce.xfce4-fsguard-plugin
       xfce4-namebar-plugin
       xfce4-whiskermenu-plugin # xfce plugins
-      rofi # dmenu replacement (fancy launcher)
       xlibs.xmodmap # rebind capslock to escape
       xdotool # i3 auto type
 
@@ -241,8 +324,12 @@ $ sudo ifconfig wlp2s0b1 up
       lxappearance # theme, adwaita-dark works for gtk3, gtk2 and qt5.
       qt5ct
 
+
       glxinfo # glxgears
-      fasd # try zoxide in future, it's rust based and active (this one is dead)
+
+      zoxide # fasd # fasd died on me for some reason # try zoxide in future, it's rust based and active (this one is dead)
+      fzf # used by zoxide
+
       cowsay
       fortune
       thefuck # zsh stuff
@@ -253,10 +340,10 @@ $ sudo ifconfig wlp2s0b1 up
       gparted # partitiioning for dummies, like me
       thunderbird # some day I'll use emacs for this
       deluge # bittorrent
-      # the spell to make openvpn work:   nmcli connection modify jappie vpn.data "key = /home/jappie/openvpn/website/jappie.key, ca = /home/jappie/openvpn/website/ca.crt, dev = tun, cert = /home/jappie/openvpn/website/jappie.crt, ns-cert-type = server, cert-pass-flags = 0, comp-lzo = adaptive, remote = jappieklooster.nl:1194, connection-type = tls" 
+      # the spell to make openvpn work:   nmcli connection modify jappie vpn.data "key = /home/jappie/openvpn/website/jappie.key, ca = /home/jappie/openvpn/website/ca.crt, dev = tun, cert = /home/jappie/openvpn/website/jappie.crt, ns-cert-type = server, cert-pass-flags = 0, comp-lzo = adaptive, remote = jappieklooster.nl:1194, connection-type = tls"
       # from https://github.com/NixOS/nixpkgs/issues/30235
       openvpn # piratebay access
-      ksysguard # monitor my system.. with graphs! (so I don't need to learn real skills)
+      plasma-systemmonitor # monitor my system.. with graphs! (so I don't need to learn real skills)
       gnumake # handy for adhoc configs, https://github.com/NixOS/nixpkgs/issues/17293
       # fbreader # read books # TODO broken?
       libreoffice
@@ -273,7 +360,7 @@ $ sudo ifconfig wlp2s0b1 up
       espeak
       pandoc
       pidgin
-      wine
+      wine64
       winetricks
       teamviewer
       tmate
@@ -360,12 +447,6 @@ $ sudo ifconfig wlp2s0b1 up
       };
   };
 
-  # Open ports in the firewall.
-  networking.firewall.allowedTCPPorts = [ 6868 4713 8081 3000 22 ];
-  # networking.firewall.allowedUDPPorts = [ ... ];
-  # Or disable the firewall altogether.
-  # networking.firewall.enable = false;
-
   # Enable sound.
   sound.enable = true;
 
@@ -410,7 +491,6 @@ $ sudo ifconfig wlp2s0b1 up
               ctrlp
               neoformat
               gitgutter
-              "github:tomasr/molokai"
             ];
             opt = [ ];
           };
@@ -549,7 +629,7 @@ $ sudo ifconfig wlp2s0b1 up
           user = "jappie";
           enable = false;
         };
-        sddm = {
+        lightdm = {
           enable = true;
         };
         sessionCommands = ''
@@ -589,7 +669,7 @@ $ sudo ifconfig wlp2s0b1 up
   location.provider = "geoclue2";
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
-  users.extraUsers.jappie = {
+  users.users.jappie = {
     createHome = true;
     extraGroups = [
       "wheel"
@@ -607,9 +687,29 @@ $ sudo ifconfig wlp2s0b1 up
     isNormalUser = true;
     uid = 1000;
   };
+  users.users.streamer = {
+    createHome = true;
+    extraGroups = [
+      "video"
+      "audio"
+      "disk"
+      "networkmanager"
+    ];
+    # we only make obs available to the streamer so we don't accidently start it from another user
+    packages = [
+      pkgs.obs-studio
+    ];
+    # openssh.authorizedKeys.keys = (import ./encrypted/keys.nix); # TODO renable
+    group = "users";
+    home = "/home/streamer";
+    isNormalUser = true;
+  };
 
   system = {
     # to update:
+    # find it
+    # https://channels.nixos.org/
+    #
     # sudo nix-channel --update
     # sudo nix-channel --list
     # click nixos link, and in title copy over the hash
@@ -622,7 +722,7 @@ $ sudo ifconfig wlp2s0b1 up
     # to upgrade, add a channel:
     # $ sudo nix-channel --add https://nixos.org/channels/nixos-18.09 nixos
     # $ sudo nixos-rebuild switch --upgrade
-    stateVersion = "21.05"; # Did you read the comment?
+    stateVersion = "22.05"; # Did you read the comment?
 # 🕙 2021-06-13 19:59:36 in ~ took 14m27s
 # ✦ ❯ nixos-version
 # 20.09.4321.115dbbe82eb (Nightingale)
@@ -641,7 +741,7 @@ $ sudo ifconfig wlp2s0b1 up
     docker.enable = true;
     virtualbox.host = {
       enable = true;
-      enableExtensionPack = false;
+      enableExtensionPack = true;
     };
     libvirtd.enable = true;
   };
@@ -654,7 +754,7 @@ $ sudo ifconfig wlp2s0b1 up
     gc = {
         automatic = true;
         dates = "monthly"; # https://jlk.fjfi.cvut.cz/arch/manpages/man/systemd.time.7
-        options = "--delete-older-than 90d";
+        options = "--delete-older-than 120d";
     };
 
     trustedUsers = [ "jappie" "root" ];
@@ -681,4 +781,9 @@ $ sudo ifconfig wlp2s0b1 up
       "nix-cache.jappie.me:WjkKcvFtHih2i+n7bdsrJ3HuGboJiU2hA2CZbf9I9oc="
     ]; # ++ import ./encrypted/cachix.nix; TODO renable
   };
+  # disable sleep with these:
+  systemd.targets.sleep.enable = false;
+  systemd.targets.suspend.enable = false;
+  systemd.targets.hibernate.enable = false;
+  systemd.targets.hybrid-sleep.enable = false;
 }

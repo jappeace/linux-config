@@ -60,6 +60,8 @@ set $right l
 set $down j
 set $up k
 
+
+
 # change focus
 bindsym $mod+$left focus left
 bindsym $mod+$down focus down
@@ -214,9 +216,9 @@ bindsym --release $mod+i exec emacsclient -ce '(lambda () (interactive) previous
 
 assign [class="transmission" instance="transmission-qt" title="Transmission"] $w1
 assign [class="Deluge"] $w1
-# assign [class="Chromium"] $w8
-assign [class="ksysguard"] $w10
-assign [class="keepassxc"] $wf8
+# assign [class="Firefox"] $w8
+assign [class="plasma-systemmonitor"] $wf1
+assign [class="keepassxc"] $wf1
 
 # client.background \#000000
 # class					border	backgr. text	indicator
@@ -224,8 +226,7 @@ assign [class="keepassxc"] $wf8
 #bind brightness ctl
 bindsym XF86MonBrightnessDown exec light -A 1
 bindsym XF86MonBrightnessUp exec light -U 1
-bindsym $mod+Shift+s exec sudo sleep-memory
-# bindsym $mod+Shift+z exec --no-startup-id /home/jappie/bin/monitor
+bindsym $mod+Shift+z exec --no-startup-id /linux-config/scripts/monitor
 # bindsym $mod+Shift+a exec --no-startup-id /home/jappie/bin/monitor-2
 
 #bind browser to b, use new window otherwise it'l complain
@@ -242,11 +243,16 @@ bindsym $mod+Shift+b exec sudo hostblock -b
 exec dbus-launch nm-applet &
 exec fcitx
 
+set $MIDDLE_OUTPUT DisplayPort-2
+set $LEFT_OUTPUT DisplayPort-1
+set $RIGHT_OUTPUT DisplayPort-0
+set $BACK_OUTPUT HDMI-A-0
+
 # exec i3-msg 'workspace $wf1; exec thunderbird' #... disabled cuase its addicting
 exec i3-msg 'workspace $w9; exec firefox'
-exec i3-msg 'workspace $w10;exec ksysguard; exec konsole -e htop'
+exec i3-msg 'workspace $w10; exec firefox'
 # exec i3-msg 'workspace $w1; exec deluge'
-exec i3-msg 'workspace $wf8; exec keepassxc'
+exec i3-msg 'workspace $wf1; exec keepassxc; exec plasma-systemmonitor'
 # exec i3-msg 'workspace $w2;exec konsole'
 # exec i3-msg 'workspace $w3;exec dolphin'
 #exec i3-msg 'workspace $w1;exec steam'
@@ -263,7 +269,7 @@ exec --no-startup-id while true; do feh --bg-scale `files=(/home/jappie/docs/bac
 
 # exec_always xset s 900
 exec_always xset dpms 0 1800 0
-exec_always --no-startup-id xss-lock -- /linux-config/scripts/suspend.sh
-exec_always --no-startup-id polybar -c /linux-config/dotfiles/jappie/.config/polybar main
+# exec_always --no-startup-id xss-lock -- /linux-config/scripts/suspend.sh
+exec_always --no-startup-id pkill polybar; polybar -c /linux-config/dotfiles/jappie/.config/polybar main
 exec_always --no-startup-id greenclip daemon
-bindsym Mod4+s exec /linux-config/scripts/suspend.sh
+bindsym Mod4+s exec systemctl hybrid-sleep
