@@ -167,7 +167,7 @@ in {
       i3lock
       i3status
       skype
-      nixfmt
+      nixpkgs-fmt
       atom
       mpv # mplayer
       ark

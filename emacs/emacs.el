@@ -154,12 +154,13 @@
    "fl"  'consult-line
    "f/"   'consult-ripgrep
    "fc"  'dired-copy-filename-as-kill
+   "fp"  'consult-project-buffer
    "h"   '(:ignore t :which-key "hoogle/inspection")
    "hl"  'haskell-hoogle-lookup-from-local
    "hq"  'haskell-hoogle
    "hs"  'haskell-mode-stylish-buffer
    "s"  'save-some-buffers
-   "p"  'consult-project-buffer ;; or project-find-file
+   "p"  'project-find-file
    "o"  'project-switch-project
    "r"   'revert-buffer
    "q"   'kill-emacs
@@ -270,9 +271,7 @@
   )
 
 ;;; nix syntax highlighting
-(use-package nix-mode
-  :after company
-  )
+(use-package nix-mode)
 
 (use-package yaml-mode
   :mode "\\.yaml\\'")
@@ -600,3 +599,4 @@ two prefix arguments, write out the day and month name."
   (embark-collect-mode . consult-preview-at-point-mode))
 
 (use-package elm-mode)
+(use-package dockerfile-mode)

@@ -38,3 +38,4 @@ eval "$(starship init bash)"
 eval "$(direnv hook bash)"
 
 eval "$(zoxide init --hook pwd bash)"
+export PATH=$PATH:/home/jappie/.local/bin
