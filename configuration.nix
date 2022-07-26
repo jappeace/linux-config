@@ -294,7 +294,6 @@ $ sudo ifconfig wlp2s0b1 up
 
       git-crypt # pgp based encryption for git repos (the dream is real)
       jq # deal with json on commandline
-      wireguard # easier vpn
       sqlite-interactive # hack nixops
       litecli
       gimp # edit my screenshots
@@ -306,17 +305,7 @@ $ sudo ifconfig wlp2s0b1 up
       keepassxc # to open my passwords
       tree # sl
       # pkgsUnstable.obs-linuxbrowser # install instructions: https://github.com/NixOS/nixpkgs/blob/master/pkgs/applications/video/obs-studio/linuxbrowser.nix
-      xfce4-panel
-      xfce4-battery-plugin
-      xfce4-clipman-plugin
-      xfce4-datetime-plugin
-      # xfce4-dockbarx-plugin # insecure by Pillow
-      # xfce4-embed-plugin
-      xfce.xfce4-eyes-plugin
-      xfce.xfce4-fsguard-plugin
-      xfce4-namebar-plugin
-      xfce4-whiskermenu-plugin # xfce plugins
-      xlibs.xmodmap # rebind capslock to escape
+      xorg.xmodmap # rebind capslock to escape
       xdotool # i3 auto type
 
       # theme shit
@@ -633,7 +622,7 @@ $ sudo ifconfig wlp2s0b1 up
           enable = true;
         };
         sessionCommands = ''
-          ${pkgs.xlibs.xmodmap}/bin/xmodmap ~/.Xmodmap
+          ${pkgs.xorg.xmodmap}/bin/xmodmap ~/.Xmodmap
         '';
         defaultSession = "none+i3";
       };
