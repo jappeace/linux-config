@@ -526,7 +526,7 @@ I don't know why this is disabled by default.
       enable = true;
       nssmdns = true;
     };
-    redis = { enable = true; };
+    redis = { servers."x".enable = true; };
 
     postgresql = {
       enable = true; # postgres for local dev
