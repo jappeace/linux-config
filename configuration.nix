@@ -722,6 +722,9 @@ I don't know why this is disabled by default.
         options = "--delete-older-than 120d";
     };
 
+    extraOptions = ''
+    experimental-features = nix-command
+    '';
     trustedUsers = [ "jappie" "root" ];
     autoOptimiseStore = true;
     binaryCaches = [
