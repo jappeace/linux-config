@@ -16,20 +16,6 @@ let
         rofi-hoogle = import "${rofi-hoogle-src}/release.nix";
         in pkgs.rofi.override { plugins = [ rofi-hoogle.rofi-hoogle ]; };
 
-  pkgsUnstable = import ./pin-unstable.nix {
-    config.allowUnfree = true;
-    overlays = [
-      (import ./overlays/boomer)
-    ];
-
-    # permittedInsecurePackages = [
-    #   "openssl-1.0.2u"
-    # ];
-
-    config.allowBroken = true;
-    config.oraclejdk.accept_license = true;
-  };
-
 
   hostdir = pkgs.writeShellScriptBin "hostdir" ''
     ${pkgs.python3}/bin/python -m http.server
@@ -266,7 +252,7 @@ I don't know why this is disabled by default.
       fbreader
       gource
       p7zip
-      pkgsUnstable.steam
+      steam
       bc # random calcualtions
       thunar
       inkscape # gotta make that artwork for site etc
