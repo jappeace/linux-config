@@ -183,6 +183,8 @@ in {
       lz4
       mcomix3
 
+      hyperfine # better time command
+
 /*
  ***
  This nix expression requires that ibtws_9542.jar is already part of the store.
