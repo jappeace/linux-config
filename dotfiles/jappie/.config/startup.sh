@@ -33,9 +33,6 @@ if [ $? -eq 0 ]; then
 fi
 
 
-# work
-export WORKON_HOME=$HOME/.virtualenvs
-export PROJECT_HOME=$HOME/Devel
 # we'll use nix or shit
 # source /usr/bin/virtualenvwrapper.sh
 

@@ -16,20 +16,6 @@ let
         rofi-hoogle = import "${rofi-hoogle-src}/release.nix";
         in pkgs.rofi.override { plugins = [ rofi-hoogle.rofi-hoogle ]; };
 
-  pkgsUnstable = import ./pin-unstable.nix {
-    config.allowUnfree = true;
-    overlays = [
-      (import ./overlays/boomer)
-    ];
-
-    # permittedInsecurePackages = [
-    #   "openssl-1.0.2u"
-    # ];
-
-    config.allowBroken = true;
-    config.oraclejdk.accept_license = true;
-  };
-
 
   hostdir = pkgs.writeShellScriptBin "hostdir" ''
     ${pkgs.python3}/bin/python -m http.server
@@ -193,6 +179,8 @@ in {
       lz4
       mcomix3
 
+      hyperfine # better time command
+
 /*
  ***
  This nix expression requires that ibtws_9542.jar is already part of the store.
@@ -284,7 +272,7 @@ $ sudo ifconfig wlp2s0b1 up
       fbreader
       gource
       p7zip
-      pkgsUnstable.steam
+      steam
       bc # random calcualtions
       thunar
       inkscape # gotta make that artwork for site etc
@@ -548,7 +536,7 @@ $ sudo ifconfig wlp2s0b1 up
       enable = true;
       nssmdns = true;
     };
-    redis = { enable = true; };
+    redis = { servers."x".enable = true; };
 
     postgresql = {
       enable = true; # postgres for local dev
@@ -744,6 +732,9 @@ $ sudo ifconfig wlp2s0b1 up
         options = "--delete-older-than 120d";
     };
 
+    extraOptions = ''
+    experimental-features = nix-command
+    '';
     trustedUsers = [ "jappie" "root" ];
     autoOptimiseStore = true;
     binaryCaches = [

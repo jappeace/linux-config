@@ -88,6 +88,8 @@
   :init
   (setq evil-want-keybinding nil)
   (setq evil-want-integration t)
+  (setq evil-undo-system 'undo-redo)
+  (setq evil-shift-width 2)
   :config
   (evil-mode 1)
   )
