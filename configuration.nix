@@ -116,8 +116,6 @@ in {
       0.0.0.0 linkdedin.com
       0.0.0.0 www.linkedin.com
       0.0.0.0 linkedin.com
-      0.0.0.0 twitter.com
-      0.0.0.0 www.twitter.com
       0.0.0.0 news.ycombinator.com
     '';
     # interfaces."lo".ip4.addresses = [
