@@ -711,7 +711,7 @@ I don't know why this is disabled by default.
     };
 
     extraOptions = ''
-    experimental-features = nix-command
+    experimental-features = nix-command flakes
     '';
     trustedUsers = [ "jappie" "root" ];
     autoOptimiseStore = true;
@@ -722,7 +722,7 @@ I don't know why this is disabled by default.
       "https://jappie.cachix.org"
       "https://all-hies.cachix.org"
       "https://nix-community.cachix.org"
-      "https://iohk.cachix.org"
+      "https://cache.iog.io"
       # "https://static-haskell-nix.cachix.org"
     ];
     binaryCachePublicKeys = [
