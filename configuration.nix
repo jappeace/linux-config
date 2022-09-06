@@ -171,6 +171,8 @@ in {
 
       hyperfine # better time command
 
+      tldr # better man
+
 /*
  ***
  This nix expression requires that ibtws_9542.jar is already part of the store.
