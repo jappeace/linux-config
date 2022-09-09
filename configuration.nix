@@ -166,7 +166,7 @@ in {
       atom
       mpv # mplayer
       ark
-      pkgsUnstable.burpsuite
+      burpsuite
       starship
       openssl
       reload-emacs
