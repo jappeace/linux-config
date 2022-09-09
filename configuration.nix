@@ -124,8 +124,8 @@ in {
 
   # Set your time zone.
   # https://en.wikipedia.org/wiki/List_of_tz_database_time_zones
-  time.timeZone = "Europe/Amsterdam";
-  # time.timeZone = "America/Aruba";
+  # time.timeZone = "Europe/Amsterdam";
+  time.timeZone = "America/Aruba";
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
@@ -583,10 +583,12 @@ $ sudo ifconfig wlp2s0b1 up
     logind = {
       # https://www.freedesktop.org/software/systemd/man/logind.conf.html
       # https://man.archlinux.org/man/systemd-sleep.conf.5
+      # https://unix.stackexchange.com/questions/620202/how-to-redefine-action-for-power-button-on-nixos
       extraConfig = ''
         IdleAction=suspend-then-hibernate
         IdleActionSec=30min
         HibernateDelaySec=30min
+        HandlePowerKey=ignore
       '';
       lidSwitch = "hybrid-sleep";
     };
