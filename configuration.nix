@@ -98,10 +98,10 @@ in {
     # randomly checking them, even several times in a row.
     # Blocking them permenantly for a week or so gets rid of that behavior
     extraHosts = ''
-      0.0.0.0 covid19info.live
-      0.0.0.0 linkdedin.com
       0.0.0.0 www.linkedin.com
       0.0.0.0 linkedin.com
+
+      0.0.0.0 twitter.com
       0.0.0.0 news.ycombinator.com
     '';
     # interfaces."lo".ip4.addresses = [
@@ -148,6 +148,7 @@ in {
       lz4
       rofiWithHoogle # dmenu replacement (fancy launcher)
 
+      openttd
 
       fbreader
       # devpackeges.haskellPackages.cut-the-crap
