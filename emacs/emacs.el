@@ -165,7 +165,8 @@
    "p"  'project-find-file
    "o"  'project-switch-project
    "r"   'revert-buffer
-   "q"   'kill-emacs
+   "q"  '(:ignore t :which-key "quitting")
+   "qq"   'kill-emacs
    "g"   '(:ignore t :which-key "git")
    "gg"  'magit-status
    ;; "gf"  '(counsel-git :which-key "find file in git dir")
