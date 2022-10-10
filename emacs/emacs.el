@@ -83,15 +83,21 @@
   (load-theme 'monokai t)
   )
 
+(use-package undo-tree
+  :config
+  (setq undo-tree-history-directory-alist '(("." . "~/.emacs.d/undo")))
+  )
 ;; load packages
 (use-package evil
+  :after undo-tree
   :init
   (setq evil-want-keybinding nil)
   (setq evil-want-integration t)
-  (setq evil-undo-system 'undo-redo)
+  (setq evil-undo-system 'undo-tree)
   (setq evil-shift-width 2)
   :config
   (evil-mode 1)
+  (global-undo-tree-mode)
   )
 
 (use-package smartparens)
