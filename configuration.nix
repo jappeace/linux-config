@@ -149,6 +149,9 @@ in {
       rofiWithHoogle # dmenu replacement (fancy launcher)
 
       openttd
+      tldr
+      openra
+      wine
 
       fbreader
       # devpackeges.haskellPackages.cut-the-crap
