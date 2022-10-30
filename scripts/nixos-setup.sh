@@ -24,7 +24,7 @@ USER=$DOTFILES/jappie
 CONFIG=$USER/.config
 
 mkdir -p $HOME/.config
-mkdir -p $HOME/.i3
+mkdir -p $HOME/.config/i3
 mkdir -p $HOME/.config/keepassxc/
 
 for file in $(find $DOTFILES -regex "[./A-Za-z\-]+/\.[A-Za-z]+"); do
@@ -32,7 +32,7 @@ for file in $(find $DOTFILES -regex "[./A-Za-z\-]+/\.[A-Za-z]+"); do
 done
 
 
-ln -sf $USER/.i3/config $HOME/.i3/config
+ln -sf $USER/.i3/config $HOME/.config/i3/
 
 ln -sf $USER/vimrc.local $HOME/.vimrc
 

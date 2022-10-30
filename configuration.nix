@@ -6,17 +6,6 @@
 let
   devpackeges = import /home/jappie/projects/nixpkgs { };
 
-  rofiWithHoogle = let
-        rofi-hoogle-src = pkgs.fetchFromGitHub {
-          owner = "rebeccaskinner";
-          repo = "rofi-hoogle";
-          rev = "27c273ff67add68578052a13f560a08c12fa5767";
-          sha256 = "09vx9bc8s53c575haalcqkdwy44ys1j8v9k2aaly7lndr19spp8f";
-        };
-        rofi-hoogle = import "${rofi-hoogle-src}/release.nix";
-        in pkgs.rofi.override { plugins = [ rofi-hoogle.rofi-hoogle ]; };
-
-
   hostdir = pkgs.writeShellScriptBin "hostdir" ''
     ${pkgs.python3}/bin/python -m http.server
   '';
@@ -51,7 +40,7 @@ let
 in {
   imports = [ # Include the results of the hardware scan.
     ./hardware/samsung-pentium-ii.nix
-    # ./emacs
+    ./emacs
     ./cachix.nix
   ];
 
@@ -124,14 +113,13 @@ in {
   environment = {
     systemPackages = with pkgs.xfce // pkgs; [
 git
-/*
       blender
       mesa
       idris
       pciutils
       clang-tools # clang-format
       lz4
-      rofiWithHoogle # dmenu replacement (fancy launcher)
+      rofi # dmenu replacement (fancy launcher)
 
 
       fbreader
@@ -167,6 +155,7 @@ git
       hyperfine # better time command
       tldr # better man
 
+/*
  ***
  This nix expression requires that ibtws_9542.jar is already part of the store.
  Download the TWS from
@@ -216,6 +205,7 @@ XRender pipeline enabled
 That worked. Assholes.
 MAKE SURE TO TICK USE SSL
 I don't know why this is disabled by default.
+*/
 
 
 
@@ -246,7 +236,6 @@ I don't know why this is disabled by default.
       fbreader
       gource
       p7zip
-      steam
       bc # random calcualtions
       thunar
       inkscape # gotta make that artwork for site etc
@@ -330,7 +319,6 @@ I don't know why this is disabled by default.
 
       direnv # https://direnv.net/
       nix-direnv
-*/
     ];
     shellAliases = {
       vim = "nvim";
@@ -712,7 +700,7 @@ I don't know why this is disabled by default.
     autoOptimiseStore = true;
     binaryCaches = [
       "https://cache.nixos.org"
-      "https://hydra.iohk.io" # cardano
+      # "https://hydra.iohk.io" # cardano
       "https://nixcache.reflex-frp.org" # reflex
       "https://jappie.cachix.org"
       "https://all-hies.cachix.org"
