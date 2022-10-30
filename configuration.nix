@@ -50,7 +50,7 @@ let
   '';
 in {
   imports = [ # Include the results of the hardware scan.
-    ./hardware/work-machine.nix
+    ./hardware/samsung-pentium-ii.nix
     ./emacs
     ./cachix.nix
   ];
