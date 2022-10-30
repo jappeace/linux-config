@@ -14,7 +14,7 @@ in
   pkgs.emacsWithPackagesFromUsePackage {
         extraEmacsPackages = epkgs: with epkgs; [
           use-package
-          agsy
+#          agsy
           init
         ];
         alwaysEnsure = true;

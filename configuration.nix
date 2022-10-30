@@ -51,14 +51,16 @@ let
 in {
   imports = [ # Include the results of the hardware scan.
     ./hardware/samsung-pentium-ii.nix
-    ./emacs
+    # ./emacs
     ./cachix.nix
   ];
 
   # Use the systemd-boot EFI boot loader.
   boot = {
-    loader.systemd-boot.enable = true;
-    loader.efi.canTouchEfiVariables = true;
+    loader.grub.enable = true;
+    loader.grub.version = 2;
+    loader.grub.device = "/dev/sda";
+
     plymouth = {
       enable = true;
       theme = "spinfinity"; # spinfinity
@@ -121,15 +123,8 @@ in {
   # $ nix search wget
   environment = {
     systemPackages = with pkgs.xfce // pkgs; [
-      pkgs.haskellPackages.greenclip
-      audacious
-      xclip
-      filezilla
-      slop
-      xorg.xhost
-      unzip
-      krita
-      chatterino2 # TODO this doesn't work, missing xcb
+git
+/*
       blender
       mesa
       idris
@@ -170,10 +165,8 @@ in {
       mcomix3
 
       hyperfine # better time command
-
       tldr # better man
 
-/*
  ***
  This nix expression requires that ibtws_9542.jar is already part of the store.
  Download the TWS from
@@ -223,7 +216,6 @@ XRender pipeline enabled
 That worked. Assholes.
 MAKE SURE TO TICK USE SSL
 I don't know why this is disabled by default.
-*/
 
 
 
@@ -338,6 +330,7 @@ I don't know why this is disabled by default.
 
       direnv # https://direnv.net/
       nix-direnv
+*/
     ];
     shellAliases = {
       vim = "nvim";
@@ -695,10 +688,10 @@ I don't know why this is disabled by default.
   virtualisation = {
     docker.enable = true;
     virtualbox.host = {
-      enable = true;
+      # enable = true;
       enableExtensionPack = true;
     };
-    libvirtd.enable = true;
+    # libvirtd.enable = true;
   };
   powerManagement = {
     enable = true;
