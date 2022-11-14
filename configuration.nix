@@ -584,7 +584,7 @@ $ sudo ifconfig wlp2s0b1 up
       enable = true;
       user = "jappie";
       group = "users";
-      dataDir = "/home/jappie/public";
+      dataDir = "/home/jappie/.config/syncthing-private";
     };
 
     logind = {
