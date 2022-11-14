@@ -724,10 +724,10 @@ $ sudo ifconfig wlp2s0b1 up
   virtualisation = {
     docker.enable = true;
     virtualbox.host = {
-      enable = true;
+      enable = false;
       enableExtensionPack = true;
     };
-    libvirtd.enable = true;
+    libvirtd.enable = false;
   };
   powerManagement = {
     enable = true;
