@@ -94,7 +94,7 @@ in {
     }];
 
   networking = {
-    hostName = "lenovo-amd"; # Define your hostname.
+    hostName = "lenovo-amd-2022"; # Define your hostname.
     # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
     networkmanager.enable = true;
     # these are sites I've developed a 'mental hook' for, eg
