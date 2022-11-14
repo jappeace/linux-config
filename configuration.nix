@@ -61,7 +61,10 @@ let
   '';
 in {
   imports = [ # Include the results of the hardware scan.
-    ./hardware/lenovo-amd.nix
+     # note that this is a different device than the lenovo amd
+	 # the uuid's are different.
+	 # I accidently bought the same one
+    ./hardware/lenovo-amd-2022.nix
     ./emacs
     ./cachix.nix
   ];
