@@ -3,6 +3,7 @@
 echo "Basic nixos setup assuming this repository is used"
 echo "symlink to the configuration.nix in this repo, "
 echo "create symlink to dotfiles"
+echo "this should be run as the user you wish to install this for"
 read -p "Press enter to continue"
 set -e
 
@@ -13,7 +14,7 @@ read answer
 
 set -x
 if [ "$answer" != "${answer#[Yy]}" ] ;then
-	cp /etc/nixos/configuration.nix "/etc/nixos/configuration.$(date -Iminutes).old.nix"
+	sudo cp /etc/nixos/configuration.nix "/etc/nixos/configuration.$(date -Iminutes).old.nix"
 	sudo ln -fs $DIR/configuration.nix /etc/nixos/configuration.nix
 else
     echo "skipping"
