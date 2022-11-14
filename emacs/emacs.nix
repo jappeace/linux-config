@@ -19,5 +19,7 @@ in
         ];
         alwaysEnsure = true;
         config = configTxt;
-        package = pkgs.emacsNativeComp;
+        # this machien can't compile this (lol)
+        # package = pkgs.emacsNativeComp;
+
   }
