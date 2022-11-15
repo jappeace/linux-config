@@ -155,6 +155,7 @@ in {
       tldr
       openra
       wine
+      tdesktop # telegram, for senpaii))
 
       fbreader
       # devpackeges.haskellPackages.cut-the-crap
