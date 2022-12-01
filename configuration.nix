@@ -151,6 +151,8 @@ in {
       lz4
       rofiWithHoogle # dmenu replacement (fancy launcher)
 
+      postman
+
       openttd
       tldr
       openra
