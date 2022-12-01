@@ -751,18 +751,14 @@ $ sudo ifconfig wlp2s0b1 up
     autoOptimiseStore = true;
     binaryCaches = [
       "https://cache.nixos.org"
-      # "https://hydra.iohk.io" # cardano
       "https://nixcache.reflex-frp.org" # reflex
       "https://jappie.cachix.org"
       "https://all-hies.cachix.org"
       "https://nix-community.cachix.org"
-      "https://iohk.cachix.org"
       "https://nix-cache.jappie.me"
       # "https://static-haskell-nix.cachix.org"
     ];
     binaryCachePublicKeys = [
-      # "hydra.iohk.io:f/Ea+s+dFdN+3Y/G+FDgSq+a5NEWhJGzdjvKNGv0/EQ=" # cardano
-      "iohk.cachix.org-1:DpRUyj7h7V830dp/i6Nti+NEO2/nhblbov/8MW7Rqoo="
       "ryantrinkle.com-1:JJiAKaRv9mWgpVAz8dwewnZe0AzzEAzPkagE9SP5NWI=" # reflex
       "static-haskell-nix.cachix.org-1:Q17HawmAwaM1/BfIxaEDKAxwTOyRVhPG5Ji9K3+FvUU="
       "jappie.cachix.org-1:+5Liddfns0ytUSBtVQPUr/Wo6r855oNLgD4R8tm1AE4="
