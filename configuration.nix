@@ -594,11 +594,13 @@ $ sudo ifconfig wlp2s0b1 up
       # https://www.freedesktop.org/software/systemd/man/logind.conf.html
       # https://man.archlinux.org/man/systemd-sleep.conf.5
       # https://unix.stackexchange.com/questions/620202/how-to-redefine-action-for-power-button-on-nixos
+      # https://discourse.nixos.org/t/run-usr-id-is-too-small/4842
       extraConfig = ''
         IdleAction=suspend-then-hibernate
         IdleActionSec=30min
         HibernateDelaySec=30min
         HandlePowerKey=ignore
+        RuntimeDirectorySize=2G
       '';
       lidSwitch = "hybrid-sleep";
     };
