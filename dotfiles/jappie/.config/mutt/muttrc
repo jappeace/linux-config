@@ -1,0 +1,32 @@
+set folder=~/docs/email/mailboxes
+set preferred_languages="en,nl"
+
+set record=~/docs/email/outgoing
+
+set mail_check=90
+set timeout=15
+
+set real_name="Jappie Klooster"
+
+set ssl_starttls=yes
+set ssl_force_tls=yes
+
+set imap_user = 'jappieklooster@hotmail.com'
+set imap_pass = 'password_here'
+set from= $imap_user
+set use_from=yes
+set realname='Your_Name'
+set folder = imaps://imap-mail.outlook.com:993
+set spoolfile = "+INBOX"
+set postponed="+[hotmail]/Drafts"
+set mail_check = 100
+set header_cache = "~/.config/mutt/cache/headers"
+set message_cachedir = "~/.config/mutt/cache/bodies"
+set certificate_file = "~/.config/mutt/certificates"
+set smtp_url = "smtp://$imap_user@smtp-mail.outlook.com:587"
+set smtp_pass = $imap_pass
+set move = no
+set imap_keepalive = 900
+set record="+Sent"
+
+mailboxes $spoolfile

@@ -41,6 +41,7 @@ ln -sf $USER/vimrc.local $HOME/.vimrc
 ln -sf $CONFIG/shell-globals.sh $HOME/.config/
 ln -sf $CONFIG/startup.sh $HOME/.config/
 ln -sf $CONFIG/starship.toml $HOME/.config/
+ln -sf $CONFIG/mutt $HOME/.config/
 ln -sf $CONFIG/zsh-hacks.sh $HOME/.config/
 ln -sf $CONFIG/keepassxc/keepassxc.ini $HOME/.config/keepassxc/keepassxc.ini
 ln -sf $USER/.emacs.d/configuration.org $HOME/.config/emacsconfig.org

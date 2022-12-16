@@ -151,6 +151,8 @@ in {
       lz4
       rofiWithHoogle # dmenu replacement (fancy launcher)
 
+      neomutt
+
       postman
 
       openttd
