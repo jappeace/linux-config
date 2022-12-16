@@ -11,8 +11,10 @@ set real_name="Jappie Klooster"
 set ssl_starttls=yes
 set ssl_force_tls=yes
 
+source "gpg -dq ~/.mutt-pass.gpg|"
+
 set imap_user = 'jappieklooster@hotmail.com'
-set imap_pass = 'password_here'
+set imap_pass = $my_hotmail_pass
 set from= $imap_user
 set use_from=yes
 set realname='Your_Name'
