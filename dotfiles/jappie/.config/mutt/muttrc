@@ -32,3 +32,6 @@ set imap_keepalive = 900
 set record="+Sent"
 
 mailboxes $spoolfile
+
+set sort_aux = last-date-received                           
+set sort = reverse-threads
