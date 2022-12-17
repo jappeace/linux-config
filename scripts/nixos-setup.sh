@@ -13,6 +13,8 @@ read answer
 
 set -x
 if [ "$answer" != "${answer#[Yy]}" ] ;then
+    touch /etc/nixos/configuration.nix
+    cp /etc/nixos/configuration.nix "/etc/nixos/configuration.bak.$(date -Im).nix"
     sudo ln -fs $DIR/configuration.nix /etc/nixos/configuration.nix
 else
     echo "skipping"
