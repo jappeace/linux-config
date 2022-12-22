@@ -142,6 +142,7 @@
    "k"   '(project-kill-buffers :which-key "kill project buffers") ;; sometimes projectile gets confused about temp files, this fixes that
    "SPC" '(avy-goto-word-or-subword-1  :which-key "go to char")
    "b"  'consult-buffer  ; change buffer, chose using ivy
+   "e"  'epa-file-select-keys ; allows you to select encryption keys from gpg
 
    "u"  'undo-tree-visualize
    "!"  'shell
@@ -609,3 +610,5 @@ two prefix arguments, write out the day and month name."
 
 (use-package elm-mode)
 (use-package dockerfile-mode)
+
+(use-package not-much)

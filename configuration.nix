@@ -80,7 +80,63 @@ in {
     # kernelPackages = pkgs.linuxPackages_4_9; # fix supsend maybe?
   };
 
-    security.pam.loginLimits = [{
+  # set sudo timeout to 2 hours.
+  security.sudo.extraConfig = ''
+    Defaults        timestamp_timeout=120
+  '';
+  security.pam = {
+    # this doesn't work
+    # it's supposed to open my keys automatically with share my user
+    # name passphrase,
+    # it doesn't.
+
+    # ❯ journalctl --reverse --user -u gpg-agent
+    #  journalctl -u display-manager --reverse
+    # journalctl -p7 -g pam --reverse
+
+    # also all service names are listed in /etc/pam.d
+    # u just pick your display manager I guess
+    # read the readme https://github.com/cruegge/pam-gnupg
+    # I did that and it still doesn't work.
+    # I give up, pam sux
+
+    # services.jappie.enableGnomeKeyring = true;
+    # eg see /etc/pam.d/ to figure out service names
+    # use the enabled display service
+    services.sddm.gnupg.enable = true;
+    services.sddm.gnupg.storeOnly = true;
+    # services.sddm.gnupg.noAutostart = true;
+#     services.sddm.text = ''
+# # Account management.
+# account required pam_unix.so
+
+# # Authentication management.
+# auth required pam_unix.so nullok  likeauth
+# auth optional /nix/store/54iidsa6kf3wrywvmbn527227a9v63fw-kwallet-pam-5.24.5/lib/security/pam_kwallet5.so kwalletd=/nix/store/5njp31mynfl8jg599qs0gl7bfk11npqf-kwallet-5.93.0-bin/bin/kwalletd5
+# auth optional /nix/store/wlcgls5fk9ln73z2yhpvy1mlimlwl5jd-pam_gnupg-0.3/lib/security/pam_gnupg.so debug store-only
+# auth sufficient pam_unix.so nullok  likeauth try_first_pass
+# auth required pam_deny.so
+
+# # Password management.
+# password sufficient pam_unix.so nullok sha512
+
+# # Session management.
+# session required pam_env.so conffile=/etc/pam/environment readenv=0
+# session required pam_unix.so
+# session required pam_loginuid.so
+# session optional /nix/store/9fhmhbfkdcarrl1d75h1zbfsnbmwrw57-systemd-250.4/lib/security/pam_systemd.so
+# session required /nix/store/ih5kdlzypfnsxhpx0dka24yvcr0spqfh-linux-pam-1.5.2/lib/security/pam_limits.so conf=/nix/store/dhkw6agr8cw6n5m6qhqgk272g5yp85yz-limits.conf
+# session optional /nix/store/54iidsa6kf3wrywvmbn527227a9v63fw-kwallet-pam-5.24.5/lib/security/pam_kwallet5.so kwalletd=/nix/store/5njp31mynfl8jg599qs0gl7bfk11npqf-kwallet-5.93.0-bin/bin/kwalletd5
+
+# session optional /nix/store/wlcgls5fk9ln73z2yhpvy1mlimlwl5jd-pam_gnupg-0.3/lib/security/pam_gnupg.so  no-autostart debug
+#     '';
+
+    # services.systemd-user.gnupg.enable = true;
+    # services.systemd-user.gnupg.noAutostart = true;
+    # services.systemd-user.gnupg.storeOnly = true;
+    # # services.sddm.enableenableKwallet = false;
+
+    loginLimits = [{
         domain = "@users";
         type = "hard";
         item = "data";
@@ -91,7 +147,8 @@ in {
         type = "soft";
         item = "data";
         value = "8000000"; # notify process if it eats more than 8gig
-    }];
+    } ];
+                 };
 
   networking = {
     hostName = "lenovo-amd-2022"; # Define your hostname.
@@ -127,8 +184,8 @@ in {
 
   # Set your time zone.
   # https://en.wikipedia.org/wiki/List_of_tz_database_time_zones
-  # time.timeZone = "Europe/Amsterdam";
-  time.timeZone = "America/Aruba";
+  time.timeZone = "Europe/Amsterdam";
+  # time.timeZone = "America/Aruba";
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
@@ -523,6 +580,7 @@ $ sudo ifconfig wlp2s0b1 up
   # Enable the OpenSSH daemon.
   # services.openssh.enable = true;
   services = {
+    # gnome.gnome-keyring.enable = true;
     # free curl: sudo killall -HUP tor && curl --socks5-hostname 127.0.0.1:9050 https://ifconfig.me
     tor.enable = true;
     tor.client.enable = true;
@@ -620,7 +678,8 @@ $ sudo ifconfig wlp2s0b1 up
           user = "jappie";
           enable = false;
         };
-        lightdm = {
+        # I tried lightdm but id doesn't work with pam for some reason
+        sddm = {
           enable = true;
         };
         sessionCommands = ''
@@ -643,6 +702,7 @@ $ sudo ifconfig wlp2s0b1 up
       # desktopManager.gnome3.enable = true; # to get the themes working with gnome-tweak tool
       windowManager.i3.enable = true;
       windowManager.i3.extraPackages = [ pkgs.adwaita-qt ];
+
       desktopManager.plasma5 = {
         enable = true;
         phononBackend = "vlc";
