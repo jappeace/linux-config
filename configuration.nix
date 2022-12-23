@@ -66,6 +66,12 @@ in {
     # kernelPackages = pkgs.linuxPackages_4_9; # fix supsend maybe?
   };
 
+  security.sudo.extraRules = [
+    { groups = [ "sudo" ]; commands = [ { command = "${pkgs.systemd}/bin/poweroff"; options = ["NOPASSWD"]; }]; }
+  ];
+  security.sudo.extraConfig = ''
+    Defaults        timestamp_timeout=120
+  '';
     security.pam.loginLimits = [{
         domain = "@users";
         type = "hard";
@@ -641,6 +647,9 @@ I don't know why this is disabled by default.
     home = "/home/jappie";
     isNormalUser = true;
     uid = 1000;
+    packages = [
+      pkgs.obs-studio
+    ];
   };
   users.users.streamer = {
     createHome = true;
