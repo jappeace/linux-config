@@ -326,6 +326,8 @@ I don't know why this is disabled by default.
       wine64
       winetricks
       teamviewer
+      tdesktop # telegram, for senpaii))
+
       tmate
       cachix
       (pkgs.polybar.override {
