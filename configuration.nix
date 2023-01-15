@@ -6,6 +6,12 @@
 let
   devpackeges = import /home/jappie/projects/nixpkgs { };
 
+  blenderPin = import (builtins.fetchGit {
+          rev = "65b9918ea395e51f33bb15e67663b5f4307b139b";
+          ref = "master";
+          url = "https://github.com/NixOS/nixpkgs";
+  }) {};
+
   rofiWithHoogle = let
         rofi-hoogle-src = pkgs.fetchFromGitHub {
           owner = "rebeccaskinner";
@@ -136,7 +142,7 @@ in {
       unzip
       krita
       chatterino2 # TODO this doesn't work, missing xcb
-      blender
+      blenderPin.blender
       mesa
       idris
       pciutils
