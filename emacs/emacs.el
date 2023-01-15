@@ -161,7 +161,9 @@
    "hl"  'haskell-hoogle-lookup-from-local
    "hq"  'haskell-hoogle
    "hs"  'haskell-mode-stylish-buffer
-   "s"  'save-some-buffers
+   "s"  '(:ignore t :which-key "spell/save")
+   "ss"  'save-some-buffers
+   "sc"  'flyspell-correct-word-before-point
    "p"  'project-find-file
    "o"  'project-switch-project
    "r"   'revert-buffer
