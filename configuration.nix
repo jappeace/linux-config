@@ -213,6 +213,10 @@ in {
       rofiWithHoogle # dmenu replacement (fancy launcher)
 
       neomutt
+      miraclecast
+      gnome-network-displays
+
+      iw # fav around with wireless networks https://gitlab.gnome.org/GNOME/gnome-network-displays/-/issues/64
 
       postman
 
