@@ -212,12 +212,20 @@ in {
       lz4
       rofiWithHoogle # dmenu replacement (fancy launcher)
 
+      augustus
       neomutt
       miraclecast
       gnome-network-displays
 
       iw # fav around with wireless networks https://gitlab.gnome.org/GNOME/gnome-network-displays/-/issues/64
 
+      (retroarch.override { # https://nixos.wiki/wiki/RetroArch
+      cores = with libretro; [
+        # genesis-plus-gx
+        # snes9x
+        beetle-psx-hw
+      ];
+      })
       postman
 
       openttd
@@ -817,7 +825,7 @@ $ sudo ifconfig wlp2s0b1 up
     };
 
     extraOptions = ''
-    experimental-features = nix-command
+    experimental-features = nix-command flakes
     '';
     trustedUsers = [ "jappie" "root" ];
     autoOptimiseStore = true;
