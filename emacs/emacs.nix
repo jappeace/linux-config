@@ -11,13 +11,10 @@ let
       configTxt = builtins.readFile ./emacs.el;
       chatgptTxt = builtins.readFile ./chatgpt.el;
 
-  chatgpt = (import ./chatgpt.nix);
-
 in
   # https://sam217pa.github.io/2016/09/02/how-to-build-your-own-spacemacs/
   pkgs.emacsWithPackagesFromUsePackage {
         extraEmacsPackages = epkgs: with epkgs; [
-          chatgpt
           use-package
           agsy
           init
