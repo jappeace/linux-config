@@ -146,7 +146,7 @@
    "cpp" 'chatgpt-prompt
    "cpd" 'chatgpt-prompt-and-replace
    "cpr" 'chatgpt-prompt-region
-   "ct"  'chatgpt-gen-test-for-region
+   "ct"  'chatgpt-gen-tests-for-region
    "cf"  'chatgpt-fix-region
    "ce"  'chatgpt-explain-region
    "cr"  'chatgpt-refactor-region
@@ -624,7 +624,7 @@ two prefix arguments, write out the day and month name."
       chatgpt-prompt
       chatgpt-prompt-and-replace
       chatgpt-prompt-region
-      chatgpt-gen-test-for-region
+      chatgpt-gen-tests-for-region
       chatgpt-fix-region
       chatgpt-explain-region
       chatgpt-refactor-region
