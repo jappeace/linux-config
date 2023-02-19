@@ -266,6 +266,8 @@ in {
 
       hyperfine # better time command
 
+      tldr # better man
+
 /*
  ***
  This nix expression requires that ibtws_9542.jar is already part of the store.
@@ -836,6 +838,7 @@ $ sudo ifconfig wlp2s0b1 up
       "https://all-hies.cachix.org"
       "https://nix-community.cachix.org"
       "https://nix-cache.jappie.me"
+      "https://cache.iog.io"
       # "https://static-haskell-nix.cachix.org"
     ];
     binaryCachePublicKeys = [

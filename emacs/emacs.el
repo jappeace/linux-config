@@ -310,6 +310,10 @@
 ;;; Haskell
 (use-package haskell-mode
   :after evil
+  :custom
+  (haskell-tags-on-save t)
+  :hook
+  (haskell-mode . interactive-haskell-mode)
   :config
   (custom-set-variables
    ;; '(haskell-font-lock-symbols t)
