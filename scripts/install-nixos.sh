@@ -38,7 +38,7 @@ ln -sf $USER/.i3/config $HOME/.i3/config
 ln -sf $USER/vimrc.local $HOME/.vimrc
 
 
-
+mkdir -p $HOME/keys
 
 ln -sf $CONFIG/shell-globals.sh $HOME/.config/
 ln -sf $CONFIG/startup.sh $HOME/.config/

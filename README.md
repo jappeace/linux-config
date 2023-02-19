@@ -67,3 +67,19 @@ Seems a bit overkill to me. I run this on two to three machines,
 I understand what happens by simply making symlinks to config files
 of which the source is tracked in git,
 no need to also nixify that.
+
+## Keys
+
+we need to generate a new gpg key:
+
+```
+gpg --full-generate-key
+```
+
+use 4096 rsa&rsa
+expiry one year,
+expiry doesn't matter, just some gpg flag.
+
+now go  https://platform.openai.com/account/api-keys
+for example, generate a new secret,
+and save it as openapi.gpg in ~/keys
