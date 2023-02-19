@@ -3,11 +3,13 @@
 let
   agsy = (import ./agsy.nix).agda-mode;
 
-        init = pkgs.runCommand "default.el" {} ''
+  init = pkgs.runCommand "default.el" {} ''
         mkdir -p $out/share/emacs/site-lisp
         cp ${pkgs.writeText "default.el" configTxt} $out/share/emacs/site-lisp/default.el
+        cp ${pkgs.writeText "chatgpt.el" chatgptTxt} $out/share/emacs/site-lisp/chatgpt.el
       '';
       configTxt = builtins.readFile ./emacs.el;
+      chatgptTxt = builtins.readFile ./chatgpt.el;
 
 in
   # https://sam217pa.github.io/2016/09/02/how-to-build-your-own-spacemacs/

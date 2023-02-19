@@ -6,6 +6,12 @@
 let
   devpackeges = import /home/jappie/projects/nixpkgs { };
 
+  blenderPin = import (builtins.fetchGit {
+          rev = "65b9918ea395e51f33bb15e67663b5f4307b139b";
+          ref = "master";
+          url = "https://github.com/NixOS/nixpkgs";
+  }) {};
+
   rofiWithHoogle = let
         rofi-hoogle-src = pkgs.fetchFromGitHub {
           owner = "rebeccaskinner";
@@ -80,7 +86,9 @@ in {
     # kernelPackages = pkgs.linuxPackages_4_9; # fix supsend maybe?
   };
 
-  # set sudo timeout to 2 hours.
+  security.sudo.extraRules = [
+    { groups = [ "sudo" ]; commands = [ { command = "${pkgs.systemd}/bin/poweroff"; options = ["NOPASSWD"]; }]; }
+  ];
   security.sudo.extraConfig = ''
     Defaults        timestamp_timeout=120
   '';
@@ -204,7 +212,7 @@ in {
       unzip
       krita
       chatterino2 # TODO this doesn't work, missing xcb
-      blender
+      blenderPin.blender
       mesa
       idris
       pciutils
@@ -425,6 +433,8 @@ $ sudo ifconfig wlp2s0b1 up
       wine64
       winetricks
       teamviewer
+      tdesktop # telegram, for senpaii))
+
       tmate
       cachix
       (pkgs.polybar.override {
@@ -755,6 +765,9 @@ $ sudo ifconfig wlp2s0b1 up
     home = "/home/jappie";
     isNormalUser = true;
     uid = 1000;
+    packages = [
+      pkgs.obs-studio
+    ];
   };
   users.users.streamer = {
     createHome = true;

@@ -148,6 +148,15 @@
    "!"  'shell
    "j"  'xref-find-definitions ; lsp find definition
    "J"  '(:ignore t :which-key "jump")
+   "c"  '(:ignore t :which-key "chatgpt")
+   "cp" '(:ignore t :which-key "prompt")
+   "cpp" 'chatgpt-prompt
+   "cpd" 'chatgpt-prompt-and-replace
+   "cpr" 'chatgpt-prompt-region
+   "ct"  'chatgpt-gen-tests-for-region
+   "cf"  'chatgpt-fix-region
+   "ce"  'chatgpt-explain-region
+   "cr"  'chatgpt-refactor-region
    "Jx" 'xref-find-definitions
    "Jg" 'agda2-goto-definition-keyboard
    "x"  'xref-find-references ; find usages
@@ -168,7 +177,9 @@
    "hl"  'haskell-hoogle-lookup-from-local
    "hq"  'haskell-hoogle
    "hs"  'haskell-mode-stylish-buffer
-   "s"  'save-some-buffers
+   "s"  '(:ignore t :which-key "spell/save")
+   "ss"  'save-some-buffers
+   "sc"  'flyspell-correct-word-before-point
    "p"  'project-find-file
    "o"  'project-switch-project
    "r"   'revert-buffer
@@ -614,5 +625,22 @@ two prefix arguments, write out the day and month name."
 
 (use-package elm-mode)
 (use-package dockerfile-mode)
+(use-package not-much)
 
 (use-package not-much)
+
+(use-package chatgpt
+  :commands (
+      chatgpt-prompt
+      chatgpt-prompt-and-replace
+      chatgpt-prompt-region
+      chatgpt-gen-tests-for-region
+      chatgpt-fix-region
+      chatgpt-explain-region
+      chatgpt-refactor-region
+    )
+  :config
+  (setenv "OPENAI_API_KEY" (with-temp-buffer
+    (insert-file-contents "/home/jappie/keys/openai.gpg")
+    (buffer-string))) ; get the decrypted output as a string
+  )
