@@ -43,7 +43,7 @@
   :group 'convenience
   :prefix "chatgpt-")
 
-(defcustom chatgpt-max-tokens 300
+(defcustom chatgpt-max-tokens 500
   "Upper limit on the number of tokens the API will return."
   :type 'integer)
 
@@ -204,7 +204,7 @@ https://beta.openai.com/docs/introduction/key-concepts"
 			    `(("model" . "text-davinci-003")
 			      ("prompt" . ,prompt)
 			      ("max_tokens" . ,chatgpt-max-tokens)
-			      ("temperature" . 0)))))
+			      ("temperature" . 0.2)))))
     (cl-assert (not (string= "" api-key))
                t
                "Current contents of the environmental variable OPENAI_API_KEY
