@@ -88,7 +88,7 @@
   :init
   (setq evil-want-keybinding nil)
   (setq evil-want-integration t)
-  (setq evil-undo-system 'undo-redo)
+  (setq evil-undo-system 'undo-tree)
   (setq evil-shift-width 2)
   :config
   (evil-mode 1)
@@ -633,4 +633,11 @@ two prefix arguments, write out the day and month name."
   (setenv "OPENAI_API_KEY" (with-temp-buffer
     (insert-file-contents "/home/jappie/keys/openai.gpg")
     (buffer-string))) ; get the decrypted output as a string
+  )
+
+(use-package undo-tree
+  :commands (undo-tree-visualize)
+  :config
+    (setq undo-tree-history-directory-alist '(("." . "~/.emacs.d/undo")))
+    (global-undo-tree-mode)
   )
