@@ -43,7 +43,7 @@
   :group 'convenience
   :prefix "chatgpt-")
 
-(defcustom chatgpt-max-tokens 500
+(defcustom chatgpt-max-tokens 3500
   "Upper limit on the number of tokens the API will return."
   :type 'integer)
 
@@ -78,6 +78,7 @@ Returns buffer containing the text from this query"
                            (lambda (results)
                              (with-current-buffer (get-buffer-create chatgpt-buffer)
                                ;; Erase contents of buffer after receiving response
+                               (message results)
                                (read-only-mode -1)
                                (erase-buffer)
                                (insert results)
