@@ -15,6 +15,8 @@
 (setq create-lockfiles nil) ;; this clashes with projectile
 (setq tags-revert-without-query 1)
 (setq auto-save-default nil)
+(setq org-src-preserve-indentation t)
+
 (advice-add 'risky-local-variable-p :override #'ignore) ;; allow remembering of risky vars https://emacs.stackexchange.com/questions/10983/remember-permission-to-execute-risky-local-variables
 
 
@@ -86,6 +88,7 @@
 ;; load packages
 (use-package evil
   :init
+  (add-hook 'evil-local-mode-hook 'undo-tree-mode)
   (setq evil-want-keybinding nil)
   (setq evil-want-integration t)
   (setq evil-undo-system 'undo-tree)
