@@ -204,7 +204,7 @@ https://beta.openai.com/docs/introduction/key-concepts"
 			    `(("model" . "text-davinci-003")
 			      ("prompt" . ,prompt)
 			      ("max_tokens" . ,chatgpt-max-tokens)
-			      ("temperature" . 0.2)))))
+			      ("temperature" . 0.0)))))
     (cl-assert (not (string= "" api-key))
                t
                "Current contents of the environmental variable OPENAI_API_KEY
