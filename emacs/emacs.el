@@ -322,10 +322,13 @@
 ;;; Haskell
 (use-package haskell-mode
   :after evil
-  :custom
-  (haskell-tags-on-save t)
   :hook
   (haskell-mode . interactive-haskell-mode)
+  :custom
+  (haskell-font-lock-symbols t)
+  (haskell-process-auto-import-loaded-modules t)
+  (haskell-process-log t)
+  (haskell-tags-on-save nil)
   :config
   (custom-set-variables
    ;; '(haskell-font-lock-symbols t)
@@ -344,16 +347,6 @@
     (evil-append-line nil)
     (haskell-indentation-newline-and-indent))
 
-  (defun haskell-hoogle-start-server ()
-    "Start hoogle local server."
-    (interactive)
-    (unless (haskell-hoogle-server-live-p)
-      (set 'haskell-hoogle-server-process
-           (start-process
-            haskell-hoogle-server-process-name
-            (get-buffer-create haskell-hoogle-server-buffer-name)
-            haskell-hoogle-command "server" "-p" (number-to-string haskell-hoogle-port-number))))
-    )
   (evil-define-key 'normal haskell-mode-map
     "o" 'haskell-evil-open-below
     "O" 'haskell-evil-open-above)
@@ -626,7 +619,7 @@ two prefix arguments, write out the day and month name."
 
 (use-package elm-mode)
 (use-package dockerfile-mode)
-(use-package not-much)
+(use-package direnv)
 
 (use-package not-much)
 
