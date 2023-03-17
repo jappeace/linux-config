@@ -612,13 +612,6 @@ $ sudo ifconfig wlp2s0b1 up
     # free curl: sudo killall -HUP tor && curl --socks5-hostname 127.0.0.1:9050 https://ifconfig.me
     tor.enable = true;
     tor.client.enable = true;
-    compton = { # allows for fading of windows and transparancy
-      enable = true;
-      fade = true;
-      inactiveOpacity = 0.925;
-      fadeSteps = [ 0.04 0.04 ];
-      # extraOptions = "no-fading-openclose = true"; # don't fade on workspace shift, annoying: https://github.com/chjj/compton/issues/314
-    };
     openssh = {
       enable = true;
       forwardX11 = true;
