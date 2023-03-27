@@ -6,11 +6,20 @@
 let
   devpackeges = import /home/jappie/projects/nixpkgs { };
 
+
   blenderPin = import (builtins.fetchGit {
           rev = "65b9918ea395e51f33bb15e67663b5f4307b139b";
           ref = "master";
           url = "https://github.com/NixOS/nixpkgs";
-  }) {};
+  }) { };
+
+  # a client is on 12
+  teamViewerPin = import (builtins.fetchGit {
+          rev = "96fddac69122ab50fe04975cb4f85dff99d7b9f5";
+          ref = "master";
+          url = "https://github.com/NixOS/nixpkgs";
+  }) {config.allowUnfree = true;};
+
 
   rofiWithHoogle = let
         rofi-hoogle-src = pkgs.fetchFromGitHub {
@@ -170,8 +179,6 @@ in {
       0.0.0.0 linkedin.com
       0.0.0.0 reddit.com
       0.0.0.0 www.reddit.com
-      0.0.0.0 www.facebook.com
-      0.0.0.0 facebook.com
 
       0.0.0.0 twitter.com
       0.0.0.0 news.ycombinator.com
@@ -433,7 +440,7 @@ $ sudo ifconfig wlp2s0b1 up
       pidgin
       wine64
       winetricks
-      teamviewer
+      teamViewerPin.teamviewer
       tdesktop # telegram, for senpaii))
 
       tmate
@@ -739,6 +746,8 @@ $ sudo ifconfig wlp2s0b1 up
     earlyoom.enable = true; # kills big processes better then kernel
   };
 
+
+  services.teamviewer.enable = true;
   location.provider = "geoclue2";
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
