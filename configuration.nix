@@ -203,8 +203,8 @@ in {
 
   # Set your time zone.
   # https://en.wikipedia.org/wiki/List_of_tz_database_time_zones
-  time.timeZone = "Europe/Sofia";
-  # time.timeZone = "Europe/Amsterdam";
+  # time.timeZone = "Europe/Sofia";
+  time.timeZone = "Europe/Amsterdam";
   # time.timeZone = "America/Aruba";
 
   # List packages installed in system profile. To search, run:
@@ -232,6 +232,7 @@ in {
       neomutt
       miraclecast
       gnome-network-displays
+      anydesk
 
       iw # fav around with wireless networks https://gitlab.gnome.org/GNOME/gnome-network-displays/-/issues/64
 
@@ -440,7 +441,7 @@ $ sudo ifconfig wlp2s0b1 up
       pidgin
       wine64
       winetricks
-      teamViewerPin.teamviewer
+      teamviewer
       tdesktop # telegram, for senpaii))
 
       tmate
@@ -534,6 +535,7 @@ $ sudo ifconfig wlp2s0b1 up
     allowUnfree = true; # I'm horrible, nvidia sucks, TODO kill nvidia
     pulseaudio = true;
     packageOverrides = pkgs: {
+      teamviewer = teamViewerPin.teamviewer;
       neovim = pkgs.neovim.override {
         configure = {
           customRC = ''
@@ -747,7 +749,9 @@ $ sudo ifconfig wlp2s0b1 up
   };
 
 
-  services.teamviewer.enable = true;
+  services.teamviewer = {
+    enable = true;
+  };
   location.provider = "geoclue2";
 
   # Define a user account. Don't forget to set a password with ‘passwd’.

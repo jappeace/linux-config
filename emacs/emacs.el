@@ -532,7 +532,6 @@ two prefix arguments, write out the day and month name."
 
 ;;; this is an lsp client better then lsp-mode package
 (use-package eglot
-  :disabled
   :defer t
   :hook
   (haskell-mode . eglot-ensure)
