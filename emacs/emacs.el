@@ -143,7 +143,9 @@
    "k"   '(project-kill-buffers :which-key "kill project buffers") ;; sometimes projectile gets confused about temp files, this fixes that
    "SPC" '(avy-goto-word-or-subword-1  :which-key "go to char")
    "b"  'consult-buffer  ; change buffer, chose using ivy
-   "e"  'epa-file-select-keys ; allows you to select encryption keys from gpg
+   "e" '(:ignore t :which-key "eglot/gpg")
+   "eg"  'epa-file-select-keys ; allows you to select encryption keys from gpg
+   "ec"  'eglot-code-actions ; allows you to select encryption keys from gpg
 
    "u"  'undo-tree-visualize
    "!"  'shell
@@ -535,6 +537,16 @@ two prefix arguments, write out the day and month name."
   :defer t
   :hook
   (haskell-mode . eglot-ensure)
+  :config
+  (add-hook 'haskell-mode-hook 'eglot-ensure)
+  (setq-default eglot-workspace-configuration
+                '((haskell
+                   (plugin
+                    (stan
+                     (globalOn . :json-false))))))  ;; disable stan
+  :custom
+  (eglot-autoshutdown t)  ;; shutdown language server after closing last file
+  (eglot-confirm-server-initiated-edits nil)
   )
 
 (use-package envrc
