@@ -6,11 +6,20 @@
 let
   devpackeges = import /home/jappie/projects/nixpkgs { };
 
+
   blenderPin = import (builtins.fetchGit {
           rev = "65b9918ea395e51f33bb15e67663b5f4307b139b";
           ref = "master";
           url = "https://github.com/NixOS/nixpkgs";
-  }) {};
+  }) { };
+
+  # a client is on 12
+  teamViewerPin = import (builtins.fetchGit {
+          rev = "96fddac69122ab50fe04975cb4f85dff99d7b9f5";
+          ref = "master";
+          url = "https://github.com/NixOS/nixpkgs";
+  }) {config.allowUnfree = true;};
+
 
   rofiWithHoogle = let
         rofi-hoogle-src = pkgs.fetchFromGitHub {
@@ -54,9 +63,23 @@ let
     docker run --name=broker-client -d -v /tmp/.X11-unix:/tmp/.X11-unix -it ib bash
     docker exec -it broker-client tws
   '';
+
+
+  # for whenever people think mac is hardcoded in hardware.
+  # succers.
+  change-mac = pkgs.writeShellScriptBin "change-mac" ''
+  pkill NetworkManager
+  ifconfig wlp1s0 down
+  macchanger -r wlp1s0
+  ifconfig wlp1s0 up
+  NetworkManager
+  '';
 in {
   imports = [ # Include the results of the hardware scan.
-    ./hardware/work-machine.nix
+     # note that this is a different device than the lenovo amd
+	 # the uuid's are different.
+	 # I accidently bought the same one
+    ./hardware/lenovo-amd-2022.nix
     ./emacs
     ./cachix.nix
   ];
@@ -78,7 +101,59 @@ in {
   security.sudo.extraConfig = ''
     Defaults        timestamp_timeout=120
   '';
-    security.pam.loginLimits = [{
+  security.pam = {
+    # this doesn't work
+    # it's supposed to open my keys automatically with share my user
+    # name passphrase,
+    # it doesn't.
+
+    # ❯ journalctl --reverse --user -u gpg-agent
+    #  journalctl -u display-manager --reverse
+    # journalctl -p7 -g pam --reverse
+
+    # also all service names are listed in /etc/pam.d
+    # u just pick your display manager I guess
+    # read the readme https://github.com/cruegge/pam-gnupg
+    # I did that and it still doesn't work.
+    # I give up, pam sux
+
+    # services.jappie.enableGnomeKeyring = true;
+    # eg see /etc/pam.d/ to figure out service names
+    # use the enabled display service
+    services.sddm.gnupg.enable = true;
+    services.sddm.gnupg.storeOnly = true;
+    # services.sddm.gnupg.noAutostart = true;
+#     services.sddm.text = ''
+# # Account management.
+# account required pam_unix.so
+
+# # Authentication management.
+# auth required pam_unix.so nullok  likeauth
+# auth optional /nix/store/54iidsa6kf3wrywvmbn527227a9v63fw-kwallet-pam-5.24.5/lib/security/pam_kwallet5.so kwalletd=/nix/store/5njp31mynfl8jg599qs0gl7bfk11npqf-kwallet-5.93.0-bin/bin/kwalletd5
+# auth optional /nix/store/wlcgls5fk9ln73z2yhpvy1mlimlwl5jd-pam_gnupg-0.3/lib/security/pam_gnupg.so debug store-only
+# auth sufficient pam_unix.so nullok  likeauth try_first_pass
+# auth required pam_deny.so
+
+# # Password management.
+# password sufficient pam_unix.so nullok sha512
+
+# # Session management.
+# session required pam_env.so conffile=/etc/pam/environment readenv=0
+# session required pam_unix.so
+# session required pam_loginuid.so
+# session optional /nix/store/9fhmhbfkdcarrl1d75h1zbfsnbmwrw57-systemd-250.4/lib/security/pam_systemd.so
+# session required /nix/store/ih5kdlzypfnsxhpx0dka24yvcr0spqfh-linux-pam-1.5.2/lib/security/pam_limits.so conf=/nix/store/dhkw6agr8cw6n5m6qhqgk272g5yp85yz-limits.conf
+# session optional /nix/store/54iidsa6kf3wrywvmbn527227a9v63fw-kwallet-pam-5.24.5/lib/security/pam_kwallet5.so kwalletd=/nix/store/5njp31mynfl8jg599qs0gl7bfk11npqf-kwallet-5.93.0-bin/bin/kwalletd5
+
+# session optional /nix/store/wlcgls5fk9ln73z2yhpvy1mlimlwl5jd-pam_gnupg-0.3/lib/security/pam_gnupg.so  no-autostart debug
+#     '';
+
+    # services.systemd-user.gnupg.enable = true;
+    # services.systemd-user.gnupg.noAutostart = true;
+    # services.systemd-user.gnupg.storeOnly = true;
+    # # services.sddm.enableenableKwallet = false;
+
+    loginLimits = [{
         domain = "@users";
         type = "hard";
         item = "data";
@@ -89,22 +164,23 @@ in {
         type = "soft";
         item = "data";
         value = "8000000"; # notify process if it eats more than 8gig
-    }];
+    } ];
+                 };
 
   networking = {
-    hostName = "lenovo-amd"; # Define your hostname.
+    hostName = "lenovo-amd-2022"; # Define your hostname.
     # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
     networkmanager.enable = true;
     # these are sites I've developed a 'mental hook' for, eg
     # randomly checking them, even several times in a row.
     # Blocking them permenantly for a week or so gets rid of that behavior
     extraHosts = ''
-      0.0.0.0 covid19info.live
-      0.0.0.0 linkdedin.com
       0.0.0.0 www.linkedin.com
       0.0.0.0 linkedin.com
+      0.0.0.0 reddit.com
+      0.0.0.0 www.reddit.com
+
       0.0.0.0 twitter.com
-      0.0.0.0 www.twitter.com
       0.0.0.0 news.ycombinator.com
     '';
     # interfaces."lo".ip4.addresses = [
@@ -127,7 +203,9 @@ in {
 
   # Set your time zone.
   # https://en.wikipedia.org/wiki/List_of_tz_database_time_zones
+  # time.timeZone = "Europe/Sofia";
   time.timeZone = "Europe/Amsterdam";
+  # time.timeZone = "America/Aruba";
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
@@ -151,6 +229,28 @@ in {
       rofiWithHoogle # dmenu replacement (fancy launcher)
       skypeforlinux
 
+      augustus
+      neomutt
+      miraclecast
+      gnome-network-displays
+      anydesk
+
+      iw # fav around with wireless networks https://gitlab.gnome.org/GNOME/gnome-network-displays/-/issues/64
+
+      (retroarch.override { # https://nixos.wiki/wiki/RetroArch
+      cores = with libretro; [
+        # genesis-plus-gx
+        # snes9x
+        beetle-psx-hw
+      ];
+      })
+      postman
+
+      openttd
+      tldr
+      openra
+      wine
+      tdesktop # telegram, for senpaii))
 
       fbreader
       # devpackeges.haskellPackages.cut-the-crap
@@ -239,13 +339,23 @@ MAKE SURE TO TICK USE SSL
 I don't know why this is disabled by default.
 */
 
+      ormolu
 
 
       fsv # browse files like a chad
       hostdir
 
-      crawlTiles
-      electrum
+      crawlTiles mariadb
+
+      macchanger # change mac address
+      change-mac
+      /*
+$ sudo service network-manager stop
+$ ifconfig wlp2s0b1 down
+$ sudo macchanger -r wlp2s0b1
+$ sudo service network-manager start
+$ sudo ifconfig wlp2s0b1 up
+*/
 
       hardinfo # https://askubuntu.com/questions/179958/how-do-i-find-out-my-motherboard-model
       dmidecode
@@ -411,6 +521,8 @@ I don't know why this is disabled by default.
       corefonts
       font-awesome_4
       font-awesome_5 siji jetbrains-mono
+      noto-fonts-cjk
+      ipaexfont
     ];
     fontconfig = { defaultFonts = {
       # we need to set in in qt5ct as well.
@@ -425,6 +537,7 @@ I don't know why this is disabled by default.
     allowUnfree = true; # I'm horrible, nvidia sucks, TODO kill nvidia
     pulseaudio = true;
     packageOverrides = pkgs: {
+      teamviewer = teamViewerPin.teamviewer;
       neovim = pkgs.neovim.override {
         configure = {
           customRC = ''
@@ -507,6 +620,7 @@ I don't know why this is disabled by default.
   # Enable the OpenSSH daemon.
   # services.openssh.enable = true;
   services = {
+    # gnome.gnome-keyring.enable = true;
     # free curl: sudo killall -HUP tor && curl --socks5-hostname 127.0.0.1:9050 https://ifconfig.me
     tor.enable = true;
     tor.client.enable = true;
@@ -573,16 +687,20 @@ I don't know why this is disabled by default.
       enable = true;
       user = "jappie";
       group = "users";
-      dataDir = "/home/jappie/public";
+      dataDir = "/home/jappie/.config/syncthing-private";
     };
 
     logind = {
       # https://www.freedesktop.org/software/systemd/man/logind.conf.html
       # https://man.archlinux.org/man/systemd-sleep.conf.5
+      # https://unix.stackexchange.com/questions/620202/how-to-redefine-action-for-power-button-on-nixos
+      # https://discourse.nixos.org/t/run-usr-id-is-too-small/4842
       extraConfig = ''
         IdleAction=suspend-then-hibernate
         IdleActionSec=30min
         HibernateDelaySec=30min
+        HandlePowerKey=ignore
+        RuntimeDirectorySize=2G
       '';
       lidSwitch = "hybrid-sleep";
     };
@@ -600,7 +718,8 @@ I don't know why this is disabled by default.
           user = "jappie";
           enable = false;
         };
-        lightdm = {
+        # I tried lightdm but id doesn't work with pam for some reason
+        sddm = {
           enable = true;
         };
         sessionCommands = ''
@@ -623,6 +742,7 @@ I don't know why this is disabled by default.
       # desktopManager.gnome3.enable = true; # to get the themes working with gnome-tweak tool
       windowManager.i3.enable = true;
       windowManager.i3.extraPackages = [ pkgs.adwaita-qt ];
+
       desktopManager.plasma5 = {
         enable = true;
         phononBackend = "vlc";
@@ -637,6 +757,10 @@ I don't know why this is disabled by default.
     earlyoom.enable = true; # kills big processes better then kernel
   };
 
+
+  services.teamviewer = {
+    enable = true;
+  };
   location.provider = "geoclue2";
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
@@ -714,10 +838,10 @@ I don't know why this is disabled by default.
   virtualisation = {
     docker.enable = true;
     virtualbox.host = {
-      enable = true;
+      enable = false;
       enableExtensionPack = true;
     };
-    libvirtd.enable = true;
+    libvirtd.enable = false;
   };
   powerManagement = {
     enable = true;
@@ -738,27 +862,26 @@ I don't know why this is disabled by default.
     autoOptimiseStore = true;
     binaryCaches = [
       "https://cache.nixos.org"
-      "https://hydra.iohk.io" # cardano
       "https://nixcache.reflex-frp.org" # reflex
       "https://jappie.cachix.org"
       "https://all-hies.cachix.org"
       "https://nix-community.cachix.org"
+      "https://nix-cache.jappie.me"
       "https://cache.iog.io"
       # "https://static-haskell-nix.cachix.org"
     ];
     binaryCachePublicKeys = [
-      "hydra.iohk.io:f/Ea+s+dFdN+3Y/G+FDgSq+a5NEWhJGzdjvKNGv0/EQ=" # cardano
-      "iohk.cachix.org-1:DpRUyj7h7V830dp/i6Nti+NEO2/nhblbov/8MW7Rqoo="
       "ryantrinkle.com-1:JJiAKaRv9mWgpVAz8dwewnZe0AzzEAzPkagE9SP5NWI=" # reflex
       "static-haskell-nix.cachix.org-1:Q17HawmAwaM1/BfIxaEDKAxwTOyRVhPG5Ji9K3+FvUU="
       "jappie.cachix.org-1:+5Liddfns0ytUSBtVQPUr/Wo6r855oNLgD4R8tm1AE4="
       "all-hies.cachix.org-1:JjrzAOEUsD9ZMt8fdFbzo3jNAyEWlPAwdVuHw4RD43k="
       "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
+      "nix-cache.jappie.me:WjkKcvFtHih2i+n7bdsrJ3HuGboJiU2hA2CZbf9I9oc="
     ]; # ++ import ./encrypted/cachix.nix; TODO renable
   };
   # disable sleep with these:
   systemd.targets.sleep.enable = false;
   systemd.targets.suspend.enable = false;
   systemd.targets.hibernate.enable = false;
-  systemd.targets.hybrid-sleep.enable = false;
+  systemd.targets.hybrid-sleep.enable = true;
 }

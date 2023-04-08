@@ -2,7 +2,6 @@ format = """$username\
     $hostname\
     $time\
     $kubernetes\
-    $directory\
     $git_branch\
     $git_commit\
     $git_state\
@@ -38,6 +37,7 @@ format = """$username\
     $line_break\
     $jobs\
     $battery\
+    $directory\
     $character\
 """
 
@@ -49,12 +49,13 @@ symbol = "❄️ "
 
 [time]
 disabled = false
-time_format = "🕙 %F %T"
+time_format = "🕙%F %T"
+format = " [$time]($style)"
 
 [hostname]
-ssh_only = true
-format="⟪$hostname⟫"
+ssh_only = false
+format = "[$ssh_symbol$hostname]($style)"
 
 [username]
 show_always = true
-format="[🙂$user]($style) "
+format="[🙂$user]($style)@"

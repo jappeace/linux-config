@@ -16,7 +16,6 @@
 (setq tags-revert-without-query 1)
 (setq auto-save-default nil)
 (setq org-src-preserve-indentation t)
-
 (advice-add 'risky-local-variable-p :override #'ignore) ;; allow remembering of risky vars https://emacs.stackexchange.com/questions/10983/remember-permission-to-execute-risky-local-variables
 
 
@@ -85,8 +84,13 @@
   (load-theme 'monokai t)
   )
 
+(use-package undo-tree
+  :config
+  (setq undo-tree-history-directory-alist '(("." . "~/.emacs.d/undo")))
+  )
 ;; load packages
 (use-package evil
+  :after undo-tree
   :init
   (add-hook 'evil-local-mode-hook 'undo-tree-mode)
   (setq evil-want-keybinding nil)
@@ -95,6 +99,7 @@
   (setq evil-shift-width 2)
   :config
   (evil-mode 1)
+  (global-undo-tree-mode)
   )
 
 (use-package smartparens)
@@ -139,6 +144,9 @@
    "k"   '(project-kill-buffers :which-key "kill project buffers") ;; sometimes projectile gets confused about temp files, this fixes that
    "SPC" '(avy-goto-word-or-subword-1  :which-key "go to char")
    "b"  'consult-buffer  ; change buffer, chose using ivy
+   "e" '(:ignore t :which-key "eglot/gpg")
+   "eg"  'epa-file-select-keys ; allows you to select encryption keys from gpg
+   "ec"  'eglot-code-actions ; allows you to select encryption keys from gpg
 
    "u"  'undo-tree-visualize
    "!"  'shell
@@ -179,7 +187,8 @@
    "p"  'project-find-file
    "o"  'project-switch-project
    "r"   'revert-buffer
-   "q"   'kill-emacs
+   "q"  '(:ignore t :which-key "quitting")
+   "qq"   'kill-emacs
    "g"   '(:ignore t :which-key "git")
    "gg"  'magit-status
    ;; "gf"  '(counsel-git :which-key "find file in git dir")
@@ -316,10 +325,13 @@
 ;;; Haskell
 (use-package haskell-mode
   :after evil
-  :custom
-  (haskell-tags-on-save t)
   :hook
   (haskell-mode . interactive-haskell-mode)
+  :custom
+  (haskell-font-lock-symbols t)
+  (haskell-process-auto-import-loaded-modules t)
+  (haskell-process-log t)
+  (haskell-tags-on-save nil)
   :config
   (custom-set-variables
    ;; '(haskell-font-lock-symbols t)
@@ -338,16 +350,6 @@
     (evil-append-line nil)
     (haskell-indentation-newline-and-indent))
 
-  (defun haskell-hoogle-start-server ()
-    "Start hoogle local server."
-    (interactive)
-    (unless (haskell-hoogle-server-live-p)
-      (set 'haskell-hoogle-server-process
-           (start-process
-            haskell-hoogle-server-process-name
-            (get-buffer-create haskell-hoogle-server-buffer-name)
-            haskell-hoogle-command "server" "-p" (number-to-string haskell-hoogle-port-number))))
-    )
   (evil-define-key 'normal haskell-mode-map
     "o" 'haskell-evil-open-below
     "O" 'haskell-evil-open-above)
@@ -533,10 +535,19 @@ two prefix arguments, write out the day and month name."
 
 ;;; this is an lsp client better then lsp-mode package
 (use-package eglot
-  :disabled
   :defer t
   :hook
   (haskell-mode . eglot-ensure)
+  :config
+  (add-hook 'haskell-mode-hook 'eglot-ensure)
+  (setq-default eglot-workspace-configuration
+                '((haskell
+                   (plugin
+                    (stan
+                     (globalOn . :json-false))))))  ;; disable stan
+  :custom
+  (eglot-autoshutdown t)  ;; shutdown language server after closing last file
+  (eglot-confirm-server-initiated-edits nil)
   )
 
 (use-package envrc
@@ -620,7 +631,9 @@ two prefix arguments, write out the day and month name."
 
 (use-package elm-mode)
 (use-package dockerfile-mode)
+(use-package direnv)
 
+(use-package not-much)
 
 (use-package chatgpt
   :commands (
