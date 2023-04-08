@@ -149,6 +149,7 @@ in {
       clang-tools # clang-format
       lz4
       rofiWithHoogle # dmenu replacement (fancy launcher)
+      skypeforlinux
 
 
       fbreader
@@ -182,6 +183,7 @@ in {
       mcomix3
 
       hyperfine # better time command
+      tlaplusToolbox
 
       tldr # better man
 
