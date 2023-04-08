@@ -493,7 +493,6 @@ two prefix arguments, write out the day and month name."
 
 (use-package php-mode
   :config
-  :disabled
   ;; dante's xref doesn't work for mutli-project setups, we just use etags
   ;; (remove-hook 'xref-backend-functions 'dante--xref-backend)
   )
