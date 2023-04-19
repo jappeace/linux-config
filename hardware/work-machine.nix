@@ -14,11 +14,11 @@
   boot.extraModulePackages = [ ];
 
   fileSystems."/" =
-    { device = "/dev/disk/by-uuid/275ad7d4-1ed6-433a-88bd-aa1d7fb56db4";
+    { device = "/dev/mapper/nixenc";
       fsType = "ext4";
     };
 
-  boot.initrd.luks.devices."nixenc".device = "/dev/disk/by-uuid/ef300d1d-cf1f-4ba3-82da-d0ce90f831a7";
+  boot.initrd.luks.devices."nixenc".device = "/dev/nvme0n1p3";
 
   fileSystems."/nix/store" =
     { device = "/nix/store";
@@ -27,7 +27,7 @@
     };
 
   fileSystems."/boot" =
-    { device = "/dev/disk/by-uuid/8096-171C";
+    { device = "/dev/nvme0n1p1";
       fsType = "vfat";
     };
 
