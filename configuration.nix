@@ -6,20 +6,17 @@
 let
   devpackeges = import /home/jappie/projects/nixpkgs { };
 
+  unstable = import (builtins.fetchGit {
+          rev = "bb2009ca185d97813e75736c2b8d1d8bb81bde05";
+          ref = "master";
+          url = "https://github.com/NixOS/nixpkgs";
+  }) {};
 
   blenderPin = import (builtins.fetchGit {
           rev = "65b9918ea395e51f33bb15e67663b5f4307b139b";
           ref = "master";
           url = "https://github.com/NixOS/nixpkgs";
   }) { };
-
-  # a client is on 12
-  teamViewerPin = import (builtins.fetchGit {
-          rev = "96fddac69122ab50fe04975cb4f85dff99d7b9f5";
-          ref = "master";
-          url = "https://github.com/NixOS/nixpkgs";
-  }) {config.allowUnfree = true;};
-
 
   rofiWithHoogle = let
         rofi-hoogle-src = pkgs.fetchFromGitHub {
@@ -443,7 +440,6 @@ $ sudo ifconfig wlp2s0b1 up
       pidgin
       wine64
       winetricks
-      teamviewer
       tdesktop # telegram, for senpaii))
 
       tmate
@@ -537,7 +533,7 @@ $ sudo ifconfig wlp2s0b1 up
     allowUnfree = true; # I'm horrible, nvidia sucks, TODO kill nvidia
     pulseaudio = true;
     packageOverrides = pkgs: {
-      teamviewer = teamViewerPin.teamviewer;
+      nix = unstable.nix; # allow flake repl.. don't want to do a full system upgrade
       neovim = pkgs.neovim.override {
         configure = {
           customRC = ''
@@ -856,7 +852,7 @@ $ sudo ifconfig wlp2s0b1 up
     };
 
     extraOptions = ''
-    experimental-features = nix-command flakes
+    experimental-features = nix-command flakes repl-flake
     '';
     trustedUsers = [ "jappie" "root" ];
     autoOptimiseStore = true;
