@@ -632,7 +632,7 @@ two prefix arguments, write out the day and month name."
 (use-package dockerfile-mode)
 (use-package direnv)
 
-(use-package not-much)
+;; (use-package not-much)
 
 (use-package chatgpt
   :commands (
