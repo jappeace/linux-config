@@ -165,7 +165,7 @@ in {
                  };
 
   networking = {
-    hostName = "lenovo-amd-2022"; # Define your hostname.
+    hostName = "panorama-tower"; # previously known as work-machine, except I hardly ever did
     # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
     networkmanager.enable = true;
     # these are sites I've developed a 'mental hook' for, eg
