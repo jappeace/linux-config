@@ -690,6 +690,7 @@ $ sudo ifconfig wlp2s0b1 up
           id = "docs";
         };
       };
+      # self TRFG2TO-MFLXN2M-U56IH3L-WUOZSC5-7TOG5JF-RU7BUCK-XJ6TBEL-TYVITAF
       devices.phone = {
         id = "LXR3SCJ-3VNYE63-C5SPZUW-E3D4QRE-2X7UGLM-LFDM5XI-CH7CBFT-2RS3BAH";
         introducer = true;
