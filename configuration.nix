@@ -680,6 +680,24 @@ $ sudo ifconfig wlp2s0b1 up
     };
 
     syncthing = {
+      overrideDevices = true;
+      overrideFolders = true;
+      folders = {
+        "/home/jappie/phone" = {
+          id = "Phone";
+        };
+        "/home/jappie/docs" = {
+          id = "docs";
+        };
+      };
+      devices.phone = {
+        id = "LXR3SCJ-3VNYE63-C5SPZUW-E3D4QRE-2X7UGLM-LFDM5XI-CH7CBFT-2RS3BAH";
+        introducer = true;
+      };
+      devices.lenovo-amd-2022 = {
+        id = "4CEXJ25-KLOIS5N-7CBFEIU-D2JZ72G-GBYGUZS-W3JA7OU-YV4CCFT-CIBVCAX";
+        introducer = true;
+      };
       enable = true;
       user = "jappie";
       group = "users";
