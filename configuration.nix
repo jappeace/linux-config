@@ -187,7 +187,8 @@ in {
     #     { address = "192.168.0.172"; prefixLength = 32; }
     # ];
 
-    firewall.allowedTCPPorts = [ 6868 4713 8081 3000 22 8000];
+    # lmfao, why do I ope nall this?!
+    # firewall.allowedTCPPorts = [ 6868 4713 8081 3000 22 8000];
   };
 
   # Select internationalisation properties.
