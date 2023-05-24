@@ -840,7 +840,7 @@ $ sudo ifconfig wlp2s0b1 up
   virtualisation = {
     docker.enable = true;
     virtualbox.host = {
-      enable = false;
+      enable = true;
       enableExtensionPack = true;
     };
     libvirtd.enable = false;
