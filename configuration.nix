@@ -12,6 +12,11 @@ let
           ref = "master";
           url = "https://github.com/NixOS/nixpkgs";
   }) { };
+  latestPin = import (builtins.fetchGit {
+          rev = "e6d6399034be026ae4bc3d70ba7248feed2c0113";
+          ref = "master";
+          url = "https://github.com/NixOS/nixpkgs";
+  }) { };
 
   # a client is on 12
   teamViewerPin = import (builtins.fetchGit {
@@ -228,6 +233,11 @@ in {
       clang-tools # clang-format
       lz4
       rofiWithHoogle # dmenu replacement (fancy launcher)
+      latestPin.youtube-dl
+
+      # gtk-vnc # screen sharing for linux
+      x2vnc
+      hugin # panorama sticther
 
       augustus
       neomutt
