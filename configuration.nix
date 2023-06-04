@@ -247,6 +247,9 @@ in {
 
       iw # fav around with wireless networks https://gitlab.gnome.org/GNOME/gnome-network-displays/-/issues/64
 
+      # eg final fantasy 7 is in ~/ff7
+      # press f4 to laod state
+      # f2 to save
       (retroarch.override { # https://nixos.wiki/wiki/RetroArch
       cores = with libretro; [
         # genesis-plus-gx
