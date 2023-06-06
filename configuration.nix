@@ -230,6 +230,7 @@ in {
       mesa
       idris
       pciutils
+      gptfdisk # gdisk
       clang-tools # clang-format
       lz4
       rofiWithHoogle # dmenu replacement (fancy launcher)
