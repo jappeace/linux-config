@@ -184,7 +184,6 @@ in {
       0.0.0.0 linkedin.com
       0.0.0.0 reddit.com
       0.0.0.0 www.reddit.com
-
       0.0.0.0 twitter.com
       0.0.0.0 news.ycombinator.com
     '';
@@ -259,6 +258,8 @@ in {
       ];
       })
       postman
+
+      binutils # eg nm and other lowlevel cruft
 
       openttd
       tldr
