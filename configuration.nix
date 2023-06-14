@@ -260,6 +260,7 @@ in {
       postman
 
       binutils # eg nm and other lowlevel cruft
+      radare2
 
       openttd
       tldr
