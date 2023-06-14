@@ -21,6 +21,8 @@ in {
         # ) # better silver searcher?
         pkgs.ripgrep
 
+        pkgs.haskellPackages.cabal-fmt
+
         # pkgs.ripgrep
         aspell_with_dict # I can't spell
         pkgs.haskellPackages.stylish-haskell
