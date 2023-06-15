@@ -79,6 +79,7 @@ let
   ifconfig wlp1s0 up
   NetworkManager
   '';
+
 in {
   imports = [ # Include the results of the hardware scan.
      # note that this is a different device than the lenovo amd
@@ -481,6 +482,7 @@ $ sudo ifconfig wlp2s0b1 up
       nix-direnv
     ];
     shellAliases = {
+      nix = "nix -Lv --fallback"; # nix is retarded
       vim = "nvim";
       cp = "cp --reflink=auto"; # btrfs shine
       ssh = "ssh -C"; # why is this not default?
