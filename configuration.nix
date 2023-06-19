@@ -240,6 +240,10 @@ in {
       x2vnc
       hugin # panorama sticther
 
+      # arion, eg docker-compose for nix
+      arion
+      docker-client
+
       augustus
       neomutt
       miraclecast
@@ -785,6 +789,7 @@ $ sudo ifconfig wlp2s0b1 up
       "adbusers"
       "docker"
       "vboxusers"
+      "podman"
     ];
     # openssh.authorizedKeys.keys = (import ./encrypted/keys.nix); # TODO renable
     group = "users";
@@ -847,11 +852,17 @@ $ sudo ifconfig wlp2s0b1 up
   };
   virtualisation = {
     docker.enable = true;
+   podman = { # for arion
+      enable = true;
+      # dockerSocket.enable = true;
+      defaultNetwork.dnsname.enable = true;
+    };
     virtualbox.host = {
       enable = true;
       enableExtensionPack = true;
     };
     libvirtd.enable = false;
+
   };
   powerManagement = {
     enable = true;
