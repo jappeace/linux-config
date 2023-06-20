@@ -26,14 +26,13 @@ in {
         # pkgs.ripgrep
         aspell_with_dict # I can't spell
         pkgs.haskellPackages.stylish-haskell
-        pkgs.haskellPackages.brittany
         # pkgs.haskellPackages.hindent
         pkgs.haskellPackages.hlint
         pkgs.haskellPackages.ormolu
         shfmt
         html-tidy
         pkgs.nodePackages.prettier
-        pkgs.python37Packages.sqlparse # sqlforamt
+        pkgs.python3Packages.sqlparse # sqlforamt
         pkgs.shellcheck
         agsy
 

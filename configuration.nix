@@ -7,23 +7,6 @@ let
   devpackeges = import /home/jappie/projects/nixpkgs { };
 
 
-  blenderPin = import (builtins.fetchGit {
-          rev = "65b9918ea395e51f33bb15e67663b5f4307b139b";
-          ref = "master";
-          url = "https://github.com/NixOS/nixpkgs";
-  }) { };
-  latestPin = import (builtins.fetchGit {
-          rev = "e6d6399034be026ae4bc3d70ba7248feed2c0113";
-          ref = "master";
-          url = "https://github.com/NixOS/nixpkgs";
-  }) { };
-
-  # a client is on 12
-  teamViewerPin = import (builtins.fetchGit {
-          rev = "96fddac69122ab50fe04975cb4f85dff99d7b9f5";
-          ref = "master";
-          url = "https://github.com/NixOS/nixpkgs";
-  }) {config.allowUnfree = true;};
 
 
   rofiWithHoogle = let
@@ -87,7 +70,6 @@ in {
 	 # I accidently bought the same one
     ./hardware/lenovo-amd-2022.nix
     ./emacs
-    ./cachix.nix
   ];
 
   # Use the systemd-boot EFI boot loader.
@@ -183,10 +165,10 @@ in {
     extraHosts = ''
       0.0.0.0 www.linkedin.com
       0.0.0.0 linkedin.com
-      0.0.0.0 reddit.com
-      0.0.0.0 www.reddit.com
       0.0.0.0 twitter.com
       0.0.0.0 news.ycombinator.com
+      0.0.0.0 reddit.com
+      0.0.0.0 www.reddit.com
     '';
     # interfaces."lo".ip4.addresses = [
     #     { address = "192.168.0.172"; prefixLength = 32; }
@@ -226,7 +208,7 @@ in {
       unzip
       krita
       chatterino2 # TODO this doesn't work, missing xcb
-      blenderPin.blender
+      blender
       mesa
       idris
       pciutils
@@ -234,7 +216,7 @@ in {
       clang-tools # clang-format
       lz4
       rofiWithHoogle # dmenu replacement (fancy launcher)
-      latestPin.youtube-dl
+      youtube-dl
 
       # gtk-vnc # screen sharing for linux
       x2vnc
@@ -273,7 +255,6 @@ in {
       wine
       tdesktop # telegram, for senpaii))
 
-      fbreader
       # devpackeges.haskellPackages.cut-the-crap
       lsof
       ffmpeg
@@ -386,7 +367,7 @@ $ sudo ifconfig wlp2s0b1 up
       nmap
 
       # pkgsUnstable.ib-tws # intereactive brokers trader workstation
-      fcitx
+      fcitx5
       zoxide
 
       # lm-sensors
@@ -395,7 +376,6 @@ $ sudo ifconfig wlp2s0b1 up
       unrar
       sshuttle
       firmwareLinuxNonfree
-      fbreader
       gource
       p7zip
       steam
@@ -558,7 +538,6 @@ $ sudo ifconfig wlp2s0b1 up
     allowUnfree = true; # I'm horrible, nvidia sucks, TODO kill nvidia
     pulseaudio = true;
     packageOverrides = pkgs: {
-      teamviewer = teamViewerPin.teamviewer;
       neovim = pkgs.neovim.override {
         configure = {
           customRC = ''
@@ -647,7 +626,7 @@ $ sudo ifconfig wlp2s0b1 up
     tor.client.enable = true;
     openssh = {
       enable = true;
-      forwardX11 = true;
+      settings.X11Forwarding = true;
     };
     printing = {
       enable = true;
@@ -835,7 +814,7 @@ $ sudo ifconfig wlp2s0b1 up
     # to upgrade, add a channel:
     # $ sudo nix-channel --add https://nixos.org/channels/nixos-18.09 nixos
     # $ sudo nixos-rebuild switch --upgrade
-    stateVersion = "22.05"; # Did you read the comment?
+    stateVersion = "23.05"; # Did you read the comment?
 # 🕙 2021-06-13 19:59:36 in ~ took 14m27s
 # ✦ ❯ nixos-version
 # 20.09.4321.115dbbe82eb (Nightingale)
@@ -851,11 +830,12 @@ $ sudo ifconfig wlp2s0b1 up
 
   };
   virtualisation = {
-    docker.enable = true;
+    # docker.enable = true;
    podman = { # for arion
       enable = true;
-      # dockerSocket.enable = true;
-      defaultNetwork.dnsname.enable = true;
+      dockerSocket.enable = true;
+      dockerCompat = true;
+      defaultNetwork.settings.dns_enabled = true;
     };
     virtualbox.host = {
       enable = true;
@@ -879,26 +859,28 @@ $ sudo ifconfig wlp2s0b1 up
     extraOptions = ''
     experimental-features = nix-command flakes
     '';
-    trustedUsers = [ "jappie" "root" ];
-    autoOptimiseStore = true;
-    binaryCaches = [
-      "https://cache.nixos.org"
-      "https://nixcache.reflex-frp.org" # reflex
-      "https://jappie.cachix.org"
-      "https://all-hies.cachix.org"
-      "https://nix-community.cachix.org"
-      "https://nix-cache.jappie.me"
-      "https://cache.iog.io"
-      # "https://static-haskell-nix.cachix.org"
-    ];
-    binaryCachePublicKeys = [
-      "ryantrinkle.com-1:JJiAKaRv9mWgpVAz8dwewnZe0AzzEAzPkagE9SP5NWI=" # reflex
-      "static-haskell-nix.cachix.org-1:Q17HawmAwaM1/BfIxaEDKAxwTOyRVhPG5Ji9K3+FvUU="
-      "jappie.cachix.org-1:+5Liddfns0ytUSBtVQPUr/Wo6r855oNLgD4R8tm1AE4="
-      "all-hies.cachix.org-1:JjrzAOEUsD9ZMt8fdFbzo3jNAyEWlPAwdVuHw4RD43k="
-      "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
-      "nix-cache.jappie.me:WjkKcvFtHih2i+n7bdsrJ3HuGboJiU2hA2CZbf9I9oc="
-    ]; # ++ import ./encrypted/cachix.nix; TODO renable
+    settings = {
+      trusted-users = [ "jappie" "root" ];
+      substituters = [
+        "https://cache.nixos.org"
+        "https://nixcache.reflex-frp.org" # reflex
+        "https://jappie.cachix.org"
+        "https://all-hies.cachix.org"
+        "https://nix-community.cachix.org"
+        "https://nix-cache.jappie.me"
+        "https://cache.iog.io"
+        # "https://static-haskell-nix.cachix.org"
+      ];
+      trusted-public-keys = [
+        "ryantrinkle.com-1:JJiAKaRv9mWgpVAz8dwewnZe0AzzEAzPkagE9SP5NWI=" # reflex
+        "static-haskell-nix.cachix.org-1:Q17HawmAwaM1/BfIxaEDKAxwTOyRVhPG5Ji9K3+FvUU="
+        "jappie.cachix.org-1:+5Liddfns0ytUSBtVQPUr/Wo6r855oNLgD4R8tm1AE4="
+        "all-hies.cachix.org-1:JjrzAOEUsD9ZMt8fdFbzo3jNAyEWlPAwdVuHw4RD43k="
+        "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
+        "nix-cache.jappie.me:WjkKcvFtHih2i+n7bdsrJ3HuGboJiU2hA2CZbf9I9oc="
+      ];
+      auto-optimise-store = true;
+    };
   };
   # disable sleep with these:
   systemd.targets.sleep.enable = false;
