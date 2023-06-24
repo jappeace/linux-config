@@ -21,7 +21,13 @@ let
 
 
   hostdir = pkgs.writeShellScriptBin "hostdir" ''
-    ${pkgs.python3}/bin/python -m http.server
+    ${pkgs.lib.getExe pkgs.python3} -m http.server
+  '';
+
+  # fixes weird tz not set bug
+  # https://github.com/NixOS/nixpkgs/issues/238025
+  betterFirefox = pkgs.writeShellScriptBin "firefox" ''
+  TZ=:/etc/localtime ${pkgs.lib.getExe pkgs.firefox} "$@"
   '';
 
   # phone makes pictures to big usually
@@ -415,7 +421,7 @@ $ sudo ifconfig wlp2s0b1 up
       fortune
       thefuck # zsh stuff
       vlc
-      firefox
+      betterFirefox
       chromium
       pavucontrol
       gparted # partitiioning for dummies, like me
@@ -472,7 +478,9 @@ $ sudo ifconfig wlp2s0b1 up
       ssh = "ssh -C"; # why is this not default?
       bc = "bc -l"; # fix scale
     };
-    variables = { LESS = "-F -X -R"; };
+    variables = {
+      LESS = "-F -X -R";
+    };
     pathsToLink = [
         "/share/nix-direnv"
     ];
@@ -486,6 +494,8 @@ $ sudo ifconfig wlp2s0b1 up
     '';
 
     variables.QT_QPA_PLATFORMTHEME = "qt5ct";
+
+    variables.TZ=":/etc/localtime"; # https://github.com/NixOS/nixpkgs/issues/238025
     # variables.QT_STYLE_OVERRIDE = "adwaita-dark";
   };
 
