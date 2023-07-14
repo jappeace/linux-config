@@ -435,6 +435,7 @@ $ sudo ifconfig wlp2s0b1 up
       # fbreader # read books # TODO broken?
       libreoffice
       qpdfview
+      pidgin
       tcpdump
       ntfs3g
       qdirstat
