@@ -474,7 +474,7 @@ $ sudo ifconfig wlp2s0b1 up
       nix-direnv
     ];
     shellAliases = {
-      nix = "nix -Lv --fallback"; # nix is retarded
+      nix = "nix -Lv --fallback";
       vim = "nvim";
       cp = "cp --reflink=auto"; # btrfs shine
       ssh = "ssh -C"; # why is this not default?
