@@ -146,6 +146,7 @@
    "e" '(:ignore t :which-key "eglot/gpg")
    "eg"  'epa-file-select-keys ; allows you to select encryption keys from gpg
    "ec"  'eglot-code-actions ; allows you to select encryption keys from gpg
+   "c"  'eglot-code-actions ; allows you to select encryption keys from gpg
 
    "u"  'undo-tree-visualize
    "!"  'shell

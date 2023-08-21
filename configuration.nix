@@ -223,6 +223,7 @@ in {
       lz4
       rofiWithHoogle # dmenu replacement (fancy launcher)
       youtube-dl
+      pkgs.haskellPackages.fourmolu
 
       # gtk-vnc # screen sharing for linux
       x2vnc
@@ -676,14 +677,12 @@ $ sudo ifconfig wlp2s0b1 up
         archive_mode = "off";
         max_wal_senders = 0;
       };
+      package = pkgs.postgresql_12;
 
       initialScript = pkgs.writeText "backend-initScript" ''
         CREATE USER jappie WITH PASSWORD \'\';
         CREATE DATABASE jappie;
         ALTER USER jappie WITH SUPERUSER;
-
-        CREATE DATABASE riskbook;
-        CREATE DATABASE riskbook_test;
       '';
     };
 
@@ -841,13 +840,14 @@ $ sudo ifconfig wlp2s0b1 up
 
   };
   virtualisation = {
-    # docker.enable = true;
-   podman = { # for arion
-      enable = true;
-      dockerSocket.enable = true;
-      dockerCompat = true;
-      defaultNetwork.settings.dns_enabled = true;
-    };
+    # enable either podman or docker, not both
+    docker.enable = true;
+   # podman = { # for arion
+   #    enable = true;
+   #    dockerSocket.enable = true;
+   #    dockerCompat = true;
+   #    defaultNetwork.settings.dns_enabled = true;
+   #  };
     virtualbox.host = {
       enable = true;
       enableExtensionPack = true;
@@ -888,7 +888,7 @@ $ sudo ifconfig wlp2s0b1 up
         "jappie.cachix.org-1:+5Liddfns0ytUSBtVQPUr/Wo6r855oNLgD4R8tm1AE4="
         "all-hies.cachix.org-1:JjrzAOEUsD9ZMt8fdFbzo3jNAyEWlPAwdVuHw4RD43k="
         "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
-        "nix-cache.jappie.me:WjkKcvFtHih2i+n7bdsrJ3HuGboJiU2hA2CZbf9I9oc="
+        # "nix-cache.jappie.me:WjkKcvFtHih2i+n7bdsrJ3HuGboJiU2hA2CZbf9I9oc="
       ];
       auto-optimise-store = true;
     };

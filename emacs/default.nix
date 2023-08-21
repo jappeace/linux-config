@@ -36,12 +36,13 @@ in {
         pkgs.shellcheck
         agsy
 
+        pkgs.python3Packages.black
         pgformatter
 	  ];
   };
 
   nixpkgs.overlays = [
-      (import (builtins.fetchTarball "https://github.com/nix-community/emacs-overlay/archive/5eca6eb3f6bad6b8121c5f73a3ce403b3cb2be51.tar.gz"))
+      (import (builtins.fetchTarball "https://github.com/nix-community/emacs-overlay/archive/9e011822a39acb8d7d3501c361b3e59a1da90ffa.tar.gz"))
   ];
 
   services = {
