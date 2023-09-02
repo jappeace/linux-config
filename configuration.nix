@@ -175,6 +175,9 @@ in {
       0.0.0.0 news.ycombinator.com
       0.0.0.0 reddit.com
       0.0.0.0 www.reddit.com
+
+      0.0.0.0 discord.com
+      0.0.0.0 discourse.haskell.org
     '';
     # interfaces."lo".ip4.addresses = [
     #     { address = "192.168.0.172"; prefixLength = 32; }
