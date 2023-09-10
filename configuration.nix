@@ -227,6 +227,7 @@ in {
       rofiWithHoogle # dmenu replacement (fancy launcher)
       youtube-dl
       pkgs.haskellPackages.fourmolu
+      bluez
 
       # gtk-vnc # screen sharing for linux
       x2vnc
@@ -600,7 +601,9 @@ $ sudo ifconfig wlp2s0b1 up
   };
   # hardware.bumblebee.enable = true;
   # hardware.bumblebee.connectDisplay = true;
+  hardware.bluetooth.enable = true;
   hardware.pulseaudio = {
+
     enable = true;
     support32Bit = true;
     tcp = {
@@ -635,6 +638,8 @@ $ sudo ifconfig wlp2s0b1 up
   # Enable the OpenSSH daemon.
   # services.openssh.enable = true;
   services = {
+
+    blueman.enable = true;
     # gnome.gnome-keyring.enable = true;
     # free curl: sudo killall -HUP tor && curl --socks5-hostname 127.0.0.1:9050 https://ifconfig.me
     tor.enable = true;
