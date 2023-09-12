@@ -1,6 +1,6 @@
 #! /bin/sh
-MIDDLE_OUTPUT="DisplayPort-2"
-LEFT_OUTPUT="DisplayPort-1"
+MIDDLE_OUTPUT="DisplayPort-1"
+LEFT_OUTPUT="DisplayPort-2"
 RIGHT_OUTPUT="DisplayPort-0"
 BACK_OUTPUT="HDMI-A-0"
 

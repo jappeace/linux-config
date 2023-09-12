@@ -246,7 +246,7 @@ in {
       openttd
       tldr
       openra
-      wine
+      wineWowPackages.stable
       tdesktop # telegram, for senpaii))
 
       fbreader
