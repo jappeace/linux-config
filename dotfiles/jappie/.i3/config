@@ -224,8 +224,8 @@ assign [class="keepassxc"] $wf1
 # class					border	backgr. text	indicator
 
 #bind brightness ctl
-bindsym XF86MonBrightnessDown exec light -A 1
-bindsym XF86MonBrightnessUp exec light -U 1
+bindsym XF86MonBrightnessUp exec light -A 1
+bindsym XF86MonBrightnessDown exec light -U 1
 bindsym $mod+Shift+z exec --no-startup-id /linux-config/scripts/monitor
 # bindsym $mod+Shift+a exec --no-startup-id /home/jappie/bin/monitor-2
 
@@ -251,6 +251,7 @@ set $BACK_OUTPUT HDMI-A-0
 # exec i3-msg 'workspace $wf1; exec thunderbird' #... disabled cuase its addicting
 exec i3-msg 'workspace $w9; exec firefox'
 exec i3-msg 'workspace $w10; exec firefox'
+exec i3-msg 'workspace $w3; exec pidgin'
 # exec i3-msg 'workspace $w1; exec deluge'
 exec i3-msg 'workspace $wf1; exec keepassxc; exec plasma-systemmonitor'
 # exec i3-msg 'workspace $w2;exec konsole'
@@ -272,4 +273,5 @@ exec_always xset dpms 0 1800 0
 # exec_always --no-startup-id xss-lock -- /linux-config/scripts/suspend.sh
 exec_always --no-startup-id pkill polybar; /linux-config/scripts/polybar.sh
 exec_always --no-startup-id greenclip daemon
+
 bindsym Mod4+s exec systemctl hybrid-sleep

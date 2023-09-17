@@ -21,26 +21,28 @@ in {
         # ) # better silver searcher?
         pkgs.ripgrep
 
+        pkgs.haskellPackages.cabal-fmt
+
         # pkgs.ripgrep
         aspell_with_dict # I can't spell
         pkgs.haskellPackages.stylish-haskell
-        pkgs.haskellPackages.brittany
         # pkgs.haskellPackages.hindent
         pkgs.haskellPackages.hlint
         pkgs.haskellPackages.ormolu
         shfmt
         html-tidy
         pkgs.nodePackages.prettier
-        pkgs.python37Packages.sqlparse # sqlforamt
+        pkgs.python3Packages.sqlparse # sqlforamt
         pkgs.shellcheck
         agsy
 
+        pkgs.python3Packages.black
         pgformatter
 	  ];
   };
 
   nixpkgs.overlays = [
-      (import (builtins.fetchTarball "https://github.com/nix-community/emacs-overlay/archive/5eca6eb3f6bad6b8121c5f73a3ce403b3cb2be51.tar.gz"))
+      (import (builtins.fetchTarball "https://github.com/nix-community/emacs-overlay/archive/9e011822a39acb8d7d3501c361b3e59a1da90ffa.tar.gz"))
   ];
 
   services = {

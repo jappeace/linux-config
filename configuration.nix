@@ -12,11 +12,7 @@ let
           url = "https://github.com/NixOS/nixpkgs";
   }) {};
 
-  blenderPin = import (builtins.fetchGit {
-          rev = "65b9918ea395e51f33bb15e67663b5f4307b139b";
-          ref = "master";
-          url = "https://github.com/NixOS/nixpkgs";
-  }) { };
+
 
   rofiWithHoogle = let
         rofi-hoogle-src = pkgs.fetchFromGitHub {
@@ -30,7 +26,13 @@ let
 
 
   hostdir = pkgs.writeShellScriptBin "hostdir" ''
-    ${pkgs.python3}/bin/python -m http.server
+    ${pkgs.lib.getExe pkgs.python3} -m http.server
+  '';
+
+  # fixes weird tz not set bug
+  # https://github.com/NixOS/nixpkgs/issues/238025
+  betterFirefox = pkgs.writeShellScriptBin "firefox" ''
+  TZ=:/etc/localtime ${pkgs.lib.getExe pkgs.firefox} "$@"
   '';
 
   # phone makes pictures to big usually
@@ -71,6 +73,7 @@ let
   ifconfig wlp1s0 up
   NetworkManager
   '';
+
 in {
   imports = [ # Include the results of the hardware scan.
      # note that this is a different device than the lenovo amd
@@ -78,7 +81,6 @@ in {
 	 # I accidently bought the same one
     ./hardware/work-machine.nix
     ./emacs
-    ./cachix.nix
   ];
 
   # Use the systemd-boot EFI boot loader.
@@ -174,18 +176,20 @@ in {
     extraHosts = ''
       0.0.0.0 www.linkedin.com
       0.0.0.0 linkedin.com
+      0.0.0.0 twitter.com
+      0.0.0.0 news.ycombinator.com
       0.0.0.0 reddit.com
       0.0.0.0 www.reddit.com
 
       0.0.0.0 discord.com
-      0.0.0.0 twitter.com
-      0.0.0.0 news.ycombinator.com
+      0.0.0.0 discourse.haskell.org
     '';
     # interfaces."lo".ip4.addresses = [
     #     { address = "192.168.0.172"; prefixLength = 32; }
     # ];
 
-    firewall.allowedTCPPorts = [ 6868 4713 8081 3000 22 8000];
+    # lmfao, why do I ope nall this?!
+    # firewall.allowedTCPPorts = [ 6868 4713 8081 3000 22 8000];
   };
 
   # Select internationalisation properties.
@@ -218,14 +222,26 @@ in {
       unzip
       krita
       chatterino2 # TODO this doesn't work, missing xcb
-      blenderPin.blender
+      blender
       mesa
       idris
       pciutils
+      gptfdisk # gdisk
       clang-tools # clang-format
       lz4
       rofiWithHoogle # dmenu replacement (fancy launcher)
       skypeforlinux
+      youtube-dl
+      pkgs.haskellPackages.fourmolu
+      bluez
+
+      # gtk-vnc # screen sharing for linux
+      x2vnc
+      hugin # panorama sticther
+
+      # arion, eg docker-compose for nix
+      arion
+      docker-client
 
       augustus
       neomutt
@@ -235,6 +251,9 @@ in {
 
       iw # fav around with wireless networks https://gitlab.gnome.org/GNOME/gnome-network-displays/-/issues/64
 
+      # eg final fantasy 7 is in ~/ff7
+      # press f4 to laod state
+      # f2 to save
       (retroarch.override { # https://nixos.wiki/wiki/RetroArch
       cores = with libretro; [
         # genesis-plus-gx
@@ -244,13 +263,15 @@ in {
       })
       postman
 
+      binutils # eg nm and other lowlevel cruft
+      radare2
+
       openttd
       tldr
       openra
       wineWowPackages.stable
       tdesktop # telegram, for senpaii))
 
-      fbreader
       # devpackeges.haskellPackages.cut-the-crap
       lsof
       ffmpeg
@@ -364,7 +385,7 @@ $ sudo ifconfig wlp2s0b1 up
       nmap
 
       # pkgsUnstable.ib-tws # intereactive brokers trader workstation
-      fcitx
+      fcitx5
       zoxide
 
       # lm-sensors
@@ -373,7 +394,6 @@ $ sudo ifconfig wlp2s0b1 up
       unrar
       sshuttle
       firmwareLinuxNonfree
-      fbreader
       gource
       p7zip
       steam
@@ -413,7 +433,7 @@ $ sudo ifconfig wlp2s0b1 up
       fortune
       thefuck # zsh stuff
       vlc
-      firefox
+      betterFirefox
       chromium
       pavucontrol
       gparted # partitiioning for dummies, like me
@@ -427,6 +447,7 @@ $ sudo ifconfig wlp2s0b1 up
       # fbreader # read books # TODO broken?
       libreoffice
       qpdfview
+      pidgin
       tcpdump
       ntfs3g
       qdirstat
@@ -463,12 +484,15 @@ $ sudo ifconfig wlp2s0b1 up
       nix-direnv
     ];
     shellAliases = {
+      nix = "nix -Lv --fallback";
       vim = "nvim";
       cp = "cp --reflink=auto"; # btrfs shine
       ssh = "ssh -C"; # why is this not default?
       bc = "bc -l"; # fix scale
     };
-    variables = { LESS = "-F -X -R"; };
+    variables = {
+      LESS = "-F -X -R";
+    };
     pathsToLink = [
         "/share/nix-direnv"
     ];
@@ -482,6 +506,8 @@ $ sudo ifconfig wlp2s0b1 up
     '';
 
     variables.QT_QPA_PLATFORMTHEME = "qt5ct";
+
+    variables.TZ=":/etc/localtime"; # https://github.com/NixOS/nixpkgs/issues/238025
     # variables.QT_STYLE_OVERRIDE = "adwaita-dark";
   };
 
@@ -582,7 +608,9 @@ $ sudo ifconfig wlp2s0b1 up
   };
   # hardware.bumblebee.enable = true;
   # hardware.bumblebee.connectDisplay = true;
+  hardware.bluetooth.enable = true;
   hardware.pulseaudio = {
+
     enable = true;
     support32Bit = true;
     tcp = {
@@ -617,6 +645,8 @@ $ sudo ifconfig wlp2s0b1 up
   # Enable the OpenSSH daemon.
   # services.openssh.enable = true;
   services = {
+
+    blueman.enable = true;
     # gnome.gnome-keyring.enable = true;
     # free curl: sudo killall -HUP tor && curl --socks5-hostname 127.0.0.1:9050 https://ifconfig.me
     tor.enable = true;
@@ -630,7 +660,7 @@ $ sudo ifconfig wlp2s0b1 up
     };
     openssh = {
       enable = true;
-      forwardX11 = true;
+      settings.X11Forwarding = true;
     };
     printing = {
       enable = true;
@@ -669,14 +699,12 @@ $ sudo ifconfig wlp2s0b1 up
         archive_mode = "off";
         max_wal_senders = 0;
       };
+      package = pkgs.postgresql_12;
 
       initialScript = pkgs.writeText "backend-initScript" ''
         CREATE USER jappie WITH PASSWORD \'\';
         CREATE DATABASE jappie;
         ALTER USER jappie WITH SUPERUSER;
-
-        CREATE DATABASE riskbook;
-        CREATE DATABASE riskbook_test;
       '';
     };
 
@@ -791,6 +819,7 @@ $ sudo ifconfig wlp2s0b1 up
       "adbusers"
       "docker"
       "vboxusers"
+      "podman"
     ];
     # openssh.authorizedKeys.keys = (import ./encrypted/keys.nix); # TODO renable
     group = "users";
@@ -836,7 +865,7 @@ $ sudo ifconfig wlp2s0b1 up
     # to upgrade, add a channel:
     # $ sudo nix-channel --add https://nixos.org/channels/nixos-18.09 nixos
     # $ sudo nixos-rebuild switch --upgrade
-    stateVersion = "22.05"; # Did you read the comment?
+    stateVersion = "23.05"; # Did you read the comment?
 # 🕙 2021-06-13 19:59:36 in ~ took 14m27s
 # ✦ ❯ nixos-version
 # 20.09.4321.115dbbe82eb (Nightingale)
@@ -852,12 +881,20 @@ $ sudo ifconfig wlp2s0b1 up
 
   };
   virtualisation = {
+    # enable either podman or docker, not both
     docker.enable = true;
+   # podman = { # for arion
+   #    enable = true;
+   #    dockerSocket.enable = true;
+   #    dockerCompat = true;
+   #    defaultNetwork.settings.dns_enabled = true;
+   #  };
     virtualbox.host = {
       enable = true;
       enableExtensionPack = true;
     };
     libvirtd.enable = false;
+
   };
   powerManagement = {
     enable = true;
@@ -874,26 +911,28 @@ $ sudo ifconfig wlp2s0b1 up
     extraOptions = ''
     experimental-features = nix-command flakes repl-flake
     '';
-    trustedUsers = [ "jappie" "root" ];
-    autoOptimiseStore = true;
-    binaryCaches = [
-      "https://cache.nixos.org"
-      "https://nixcache.reflex-frp.org" # reflex
-      "https://jappie.cachix.org"
-      "https://all-hies.cachix.org"
-      "https://nix-community.cachix.org"
-      "https://nix-cache.jappie.me"
-      "https://cache.iog.io"
-      # "https://static-haskell-nix.cachix.org"
-    ];
-    binaryCachePublicKeys = [
-      "ryantrinkle.com-1:JJiAKaRv9mWgpVAz8dwewnZe0AzzEAzPkagE9SP5NWI=" # reflex
-      "static-haskell-nix.cachix.org-1:Q17HawmAwaM1/BfIxaEDKAxwTOyRVhPG5Ji9K3+FvUU="
-      "jappie.cachix.org-1:+5Liddfns0ytUSBtVQPUr/Wo6r855oNLgD4R8tm1AE4="
-      "all-hies.cachix.org-1:JjrzAOEUsD9ZMt8fdFbzo3jNAyEWlPAwdVuHw4RD43k="
-      "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
-      "nix-cache.jappie.me:WjkKcvFtHih2i+n7bdsrJ3HuGboJiU2hA2CZbf9I9oc="
-    ]; # ++ import ./encrypted/cachix.nix; TODO renable
+    settings = {
+      trusted-users = [ "jappie" "root" ];
+      substituters = [
+        "https://cache.nixos.org"
+        "https://nixcache.reflex-frp.org" # reflex
+        "https://jappie.cachix.org"
+        "https://all-hies.cachix.org"
+        "https://nix-community.cachix.org"
+        "https://nix-cache.jappie.me"
+        "https://cache.iog.io"
+        # "https://static-haskell-nix.cachix.org"
+      ];
+      trusted-public-keys = [
+        "ryantrinkle.com-1:JJiAKaRv9mWgpVAz8dwewnZe0AzzEAzPkagE9SP5NWI=" # reflex
+        "static-haskell-nix.cachix.org-1:Q17HawmAwaM1/BfIxaEDKAxwTOyRVhPG5Ji9K3+FvUU="
+        "jappie.cachix.org-1:+5Liddfns0ytUSBtVQPUr/Wo6r855oNLgD4R8tm1AE4="
+        "all-hies.cachix.org-1:JjrzAOEUsD9ZMt8fdFbzo3jNAyEWlPAwdVuHw4RD43k="
+        "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
+        # "nix-cache.jappie.me:WjkKcvFtHih2i+n7bdsrJ3HuGboJiU2hA2CZbf9I9oc="
+      ];
+      auto-optimise-store = true;
+    };
   };
   # disable sleep with these:
   systemd.targets.sleep.enable = false;
