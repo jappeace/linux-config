@@ -19,5 +19,5 @@ in
         ];
         alwaysEnsure = true;
         config = configTxt;
-        package = pkgs.emacsNativeComp;
+        package = pkgs.emacs-unstable;
   }

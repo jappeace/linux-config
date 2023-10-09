@@ -7,7 +7,7 @@ let
   devpackeges = import /home/jappie/projects/nixpkgs { };
 
   unstable = import (builtins.fetchGit {
-          rev = "bb2009ca185d97813e75736c2b8d1d8bb81bde05";
+          rev = "8544b0d65a0d1077ea260499f0cec0e4904a2aab";
           ref = "master";
           url = "https://github.com/NixOS/nixpkgs";
   }) {};
@@ -182,7 +182,6 @@ in {
       0.0.0.0 www.reddit.com
 
       0.0.0.0 discord.com
-      0.0.0.0 discourse.haskell.org
     '';
     # interfaces."lo".ip4.addresses = [
     #     { address = "192.168.0.172"; prefixLength = 32; }
@@ -213,6 +212,11 @@ in {
   # $ nix search wget
   environment = {
     systemPackages = with pkgs.xfce // pkgs; [
+      # for those sweet global installs
+      unstable.nodePackages.pnpm
+      nodejs
+
+      (import (fetchTarball "https://install.devenv.sh/latest")).default
       pkgs.haskellPackages.greenclip
       audacious
       xclip
@@ -560,7 +564,6 @@ $ sudo ifconfig wlp2s0b1 up
     allowUnfree = true; # I'm horrible, nvidia sucks, TODO kill nvidia
     pulseaudio = true;
     packageOverrides = pkgs: {
-      nix = unstable.nix; # allow flake repl.. don't want to do a full system upgrade
       neovim = pkgs.neovim.override {
         configure = {
           customRC = ''
