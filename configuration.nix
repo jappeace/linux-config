@@ -238,6 +238,7 @@ in {
       youtube-dl
       pkgs.haskellPackages.fourmolu
       bluez
+      awscli2
 
       # gtk-vnc # screen sharing for linux
       x2vnc
