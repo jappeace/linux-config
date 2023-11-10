@@ -196,6 +196,10 @@ in {
     # consoleFont = "Lat2-Terminus16";
     defaultLocale = "nl_NL.UTF-8";
     supportedLocales = [ "en_US.UTF-8/UTF-8" "nl_NL.UTF-8/UTF-8" ];
+    inputMethod = {
+      enabled = "ibus";
+      ibus.engines = [ pkgs.ibus-engines.libpinyin ];
+    };
   };
 
   # Set your time zone.
@@ -208,6 +212,7 @@ in {
   # $ nix search wget
   environment = {
     systemPackages = with pkgs.xfce // pkgs; [
+      (import (fetchTarball "https://install.devenv.sh/latest")).default
       pkgs.haskellPackages.greenclip
       audacious
       xclip
@@ -540,6 +545,7 @@ $ sudo ifconfig wlp2s0b1 up
       font-awesome_5 siji jetbrains-mono
       noto-fonts-cjk
       ipaexfont
+      helvetica-neue-lt-std
     ];
     fontconfig = { defaultFonts = {
       # we need to set in in qt5ct as well.

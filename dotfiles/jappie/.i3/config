@@ -235,6 +235,11 @@ bindsym $mod+b exec firefox --new-window
 #block hosts if I'm slacking to much
 bindsym $mod+Shift+b exec sudo hostblock -b
 
+
+# setup chinese input and english
+bindsym --release $mod+p exec ibus engine libpinyin
+bindsym --release $mod+o exec ibus engine xkb:us::eng && source /home/jappie/.xmodmaprc
+
 #invert colors
 #not necisary with kde
 #exec xcalib -i -a
@@ -273,5 +278,7 @@ exec_always xset dpms 0 1800 0
 # exec_always --no-startup-id xss-lock -- /linux-config/scripts/suspend.sh
 exec_always --no-startup-id pkill polybar; /linux-config/scripts/polybar.sh
 exec_always --no-startup-id greenclip daemon
+
+exec ibus start
 
 bindsym Mod4+s exec systemctl hybrid-sleep
