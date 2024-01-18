@@ -1,7 +1,7 @@
 { pkgs ? import <nixpkgs> { }}:
 
 let
-  agsy = (import ./agsy.nix).agda-mode;
+  agsy = (import ./agsy.nix);
 
   init = pkgs.runCommand "default.el" {} ''
         mkdir -p $out/share/emacs/site-lisp

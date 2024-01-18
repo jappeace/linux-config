@@ -6,7 +6,15 @@
 let
   devpackeges = import /home/jappie/projects/nixpkgs { };
 
-
+  bevel-production = (
+    import (
+      builtins.fetchGit {
+        url = "https://github.com/NorfairKing/bevel";
+        rev = "d93e707633c0f8fe50e8f7d523036c317105b3af"; # Put a recent commit hash here.
+        ref = "master";
+      } + "/nix/nixos-module.nix"
+    ) { bevel-api-server = null; } { envname = "production"; }
+  );
 
 
   rofiWithHoogle = let
@@ -19,6 +27,7 @@ let
         rofi-hoogle = import "${rofi-hoogle-src}/release.nix";
         in pkgs.rofi.override { plugins = [ rofi-hoogle.rofi-hoogle ]; };
 
+  unstable = (builtins.getFlake "github:nixos/nixpkgs/b263ab4b464169289c25f5ed417aea66ed24189f").legacyPackages.x86_64-linux;
 
   hostdir = pkgs.writeShellScriptBin "hostdir" ''
     ${pkgs.lib.getExe pkgs.python3} -m http.server
@@ -76,6 +85,7 @@ in {
 	 # I accidently bought the same one
     ./hardware/lenovo-amd-2022.nix
     ./emacs
+    bevel-production
   ];
 
   # Use the systemd-boot EFI boot loader.
@@ -169,17 +179,10 @@ in {
     # randomly checking them, even several times in a row.
     # Blocking them permenantly for a week or so gets rid of that behavior
     extraHosts = ''
-      0.0.0.0 www.linkedin.com
-      0.0.0.0 linkedin.com
-      0.0.0.0 twitter.com
-      0.0.0.0 news.ycombinator.com
-      0.0.0.0 reddit.com
-      0.0.0.0 www.reddit.com
-
-      0.0.0.0 discord.com
-      0.0.0.0 discourse.haskell.org
     '';
-    # interfaces."lo".ip4.addresses = [
+    #   0.0.0.0 www.linkedin.com
+    #   0.0.0.0 linkedin.com
+    # # interfaces."lo".ip4.addresses = [
     #     { address = "192.168.0.172"; prefixLength = 32; }
     # ];
 
@@ -205,7 +208,8 @@ in {
   # Set your time zone.
   # https://en.wikipedia.org/wiki/List_of_tz_database_time_zones
   # time.timeZone = "Europe/Sofia";
-  time.timeZone = "Europe/Amsterdam";
+  time.timeZone = "Europe/London";
+  # time.timeZone = "Europe/Amsterdam";
   # time.timeZone = "America/Aruba";
 
   # List packages installed in system profile. To search, run:
@@ -214,6 +218,8 @@ in {
     systemPackages = with pkgs.xfce // pkgs; [
       (import (fetchTarball "https://install.devenv.sh/latest")).default
       pkgs.haskellPackages.greenclip
+      unstable.nodejs_20 # the one in main is broken, segfautls
+      unstable.postgresql
       audacious
       xclip
       filezilla
@@ -268,7 +274,6 @@ in {
       openttd
       tldr
       openra
-      wine
       tdesktop # telegram, for senpaii))
 
       # devpackeges.haskellPackages.cut-the-crap
@@ -458,7 +463,7 @@ $ sudo ifconfig wlp2s0b1 up
       espeak
       pandoc
       pidgin
-      wine64
+      wineWowPackages.stable
       winetricks
       teamviewer
       tdesktop # telegram, for senpaii))
@@ -644,6 +649,19 @@ $ sudo ifconfig wlp2s0b1 up
   # Enable the OpenSSH daemon.
   # services.openssh.enable = true;
   services = {
+    bevel.production.api-server = {
+      enable = true;
+      api-server = {
+        enable = true;
+        log-level = "Warn";
+        hosts = [ "api.bevel.mydomain.com" ];
+        port = 8402;
+        local-backup = {
+          enable = true;
+        };
+      };
+    };
+
 
     blueman.enable = true;
     # gnome.gnome-keyring.enable = true;
@@ -896,6 +914,7 @@ $ sudo ifconfig wlp2s0b1 up
         "https://cache.iog.io"
         # "https://static-haskell-nix.cachix.org"
       ];
+
       trusted-public-keys = [
         "ryantrinkle.com-1:JJiAKaRv9mWgpVAz8dwewnZe0AzzEAzPkagE9SP5NWI=" # reflex
         "static-haskell-nix.cachix.org-1:Q17HawmAwaM1/BfIxaEDKAxwTOyRVhPG5Ji9K3+FvUU="

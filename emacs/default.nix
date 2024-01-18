@@ -6,7 +6,6 @@ let
 
   aspell_with_dict = pkgs.aspellWithDicts(ps: [ps.nl ps.en]);
 
-  agsy = (import ./agsy.nix).agsy;
 in {
   # List packages installed in system profile. To search, run:
   # $ nix search wget
@@ -34,7 +33,7 @@ in {
         pkgs.nodePackages.prettier
         pkgs.python3Packages.sqlparse # sqlforamt
         pkgs.shellcheck
-        agsy
+        (pkgs.agda.withPackages (p: [ p.standard-library ]))
 
         pkgs.python3Packages.black
         pgformatter
