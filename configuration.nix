@@ -5,12 +5,7 @@
 { config, pkgs, ... }:
 let
   devpackeges = import /home/jappie/projects/nixpkgs { };
-
-  unstable = import (builtins.fetchGit {
-          rev = "8544b0d65a0d1077ea260499f0cec0e4904a2aab";
-          ref = "master";
-          url = "https://github.com/NixOS/nixpkgs";
-  }) {};
+  unstable = (builtins.getFlake "github:nixos/nixpkgs/b263ab4b464169289c25f5ed417aea66ed24189f").legacyPackages.x86_64-linux;
 
 
 
@@ -214,10 +209,12 @@ in {
     systemPackages = with pkgs.xfce // pkgs; [
       # for those sweet global installs
       unstable.nodePackages.pnpm
+      unstable.postgresql
       nodejs
 
       (import (fetchTarball "https://install.devenv.sh/latest")).default
       pkgs.haskellPackages.greenclip
+      universal-ctags
       audacious
       xclip
       filezilla
@@ -687,6 +684,7 @@ $ sudo ifconfig wlp2s0b1 up
         host all all 0.0.0.0/0 md5
         host all all ::/0       md5
       '';
+      extraPlugins = [pkgs.postgresql_12.pkgs.postgis];
       settings = {
         log_connections = true;
         log_statement = "all";
