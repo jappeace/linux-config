@@ -4,8 +4,6 @@
 
 { config, pkgs, ... }:
 let
-  devpackeges = import /home/jappie/projects/nixpkgs { };
-
   bevel-production = (
     import (
       builtins.fetchGit {
@@ -15,17 +13,6 @@ let
       } + "/nix/nixos-module.nix"
     ) { bevel-api-server = null; } { envname = "production"; }
   );
-
-
-  rofiWithHoogle = let
-        rofi-hoogle-src = pkgs.fetchFromGitHub {
-          owner = "rebeccaskinner";
-          repo = "rofi-hoogle";
-          rev = "27c273ff67add68578052a13f560a08c12fa5767";
-          sha256 = "09vx9bc8s53c575haalcqkdwy44ys1j8v9k2aaly7lndr19spp8f";
-        };
-        rofi-hoogle = import "${rofi-hoogle-src}/release.nix";
-        in pkgs.rofi.override { plugins = [ rofi-hoogle.rofi-hoogle ]; };
 
   unstable = (builtins.getFlake "github:nixos/nixpkgs/b263ab4b464169289c25f5ed417aea66ed24189f").legacyPackages.x86_64-linux;
 
@@ -85,7 +72,7 @@ in {
 	 # I accidently bought the same one
     ./hardware/lenovo-amd-2022.nix
     ./emacs
-    bevel-production
+    # bevel-production
   ];
 
   # Use the systemd-boot EFI boot loader.
@@ -179,8 +166,18 @@ in {
     # randomly checking them, even several times in a row.
     # Blocking them permenantly for a week or so gets rid of that behavior
     extraHosts = ''
+      0.0.0.0 www.linkedin.com
+      0.0.0.0 linkedin.com
+      0.0.0.0 twitter.com
+      0.0.0.0 news.ycombinator.com
+      0.0.0.0 reddit.com
+      0.0.0.0 www.reddit.com
     '';
-    #   0.0.0.0 www.linkedin.com
+    #   0.0.0.0 discord.com
+    #   0.0.0.0 discourse.haskell.org
+
+
+    # #   0.0.0.0 www.linkedin.com
     #   0.0.0.0 linkedin.com
     # # interfaces."lo".ip4.addresses = [
     #     { address = "192.168.0.172"; prefixLength = 32; }
@@ -208,18 +205,20 @@ in {
   # Set your time zone.
   # https://en.wikipedia.org/wiki/List_of_tz_database_time_zones
   # time.timeZone = "Europe/Sofia";
-  time.timeZone = "Europe/London";
-  # time.timeZone = "Europe/Amsterdam";
+  # time.timeZone = "Europe/London";
+  time.timeZone = "Europe/Amsterdam";
   # time.timeZone = "America/Aruba";
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment = {
     systemPackages = with pkgs.xfce // pkgs; [
-      (import (fetchTarball "https://install.devenv.sh/latest")).default
+      # lmao this pulls in a full ghc build
+      # (import (fetchTarball "https://install.devenv.sh/latest")).default
       pkgs.haskellPackages.greenclip
       unstable.nodejs_20 # the one in main is broken, segfautls
       unstable.postgresql
+      calibre
       audacious
       xclip
       filezilla
@@ -235,7 +234,6 @@ in {
       gptfdisk # gdisk
       clang-tools # clang-format
       lz4
-      rofiWithHoogle # dmenu replacement (fancy launcher)
       youtube-dl
       pkgs.haskellPackages.fourmolu
       bluez
@@ -276,7 +274,6 @@ in {
       openra
       tdesktop # telegram, for senpaii))
 
-      # devpackeges.haskellPackages.cut-the-crap
       lsof
       ffmpeg
       gromit-mpx # draw on screen
@@ -649,18 +646,18 @@ $ sudo ifconfig wlp2s0b1 up
   # Enable the OpenSSH daemon.
   # services.openssh.enable = true;
   services = {
-    bevel.production.api-server = {
-      enable = true;
-      api-server = {
-        enable = true;
-        log-level = "Warn";
-        hosts = [ "api.bevel.mydomain.com" ];
-        port = 8402;
-        local-backup = {
-          enable = true;
-        };
-      };
-    };
+    # bevel.production.api-server = {
+    #   enable = true;
+    #   api-server = {
+    #     enable = true;
+    #     log-level = "Warn";
+    #     hosts = [ "api.bevel.mydomain.com" ];
+    #     port = 8402;
+    #     local-backup = {
+    #       enable = true;
+    #     };
+    #   };
+    # };
 
 
     blueman.enable = true;
@@ -709,7 +706,7 @@ $ sudo ifconfig wlp2s0b1 up
         archive_mode = "off";
         max_wal_senders = 0;
       };
-      package = pkgs.postgresql_12;
+      package = (pkgs.postgresql_12.withPackages (p: [ p.postgis ]));
 
       initialScript = pkgs.writeText "backend-initScript" ''
         CREATE USER jappie WITH PASSWORD \'\';
