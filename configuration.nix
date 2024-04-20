@@ -15,6 +15,7 @@ let
   );
 
   unstable = (builtins.getFlake "github:nixos/nixpkgs/b263ab4b464169289c25f5ed417aea66ed24189f").legacyPackages.x86_64-linux;
+  unstable2 = (builtins.getFlake "github:nixos/nixpkgs/34fccf8cbe5ff2107f58ca470d3d78725186c222").legacyPackages.x86_64-linux;
   rofiWithHoogle = let
         rofi-hoogle-src = pkgs.fetchFromGitHub {
           owner = "rebeccaskinner";
@@ -179,8 +180,6 @@ in {
       0.0.0.0 linkedin.com
       0.0.0.0 twitter.com
       0.0.0.0 news.ycombinator.com
-      0.0.0.0 reddit.com
-      0.0.0.0 www.reddit.com
     '';
     #   0.0.0.0 discord.com
     #   0.0.0.0 discourse.haskell.org
@@ -223,7 +222,7 @@ in {
   environment = {
     systemPackages = with pkgs.xfce // pkgs; [
       # lmao this pulls in a full ghc build
-      # (import (fetchTarball "https://install.devenv.sh/latest")).default
+      unstable2.devenv
       pkgs.haskellPackages.greenclip
       unstable.nodejs_20 # the one in main is broken, segfautls
       unstable.postgresql

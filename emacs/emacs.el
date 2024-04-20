@@ -84,6 +84,26 @@
   (load-theme 'monokai t)
   )
 
+(use-package modus-themes
+  :load-path "themes"
+;; modus-operandi
+  )
+
+
+(defun set-emacs-theme-light ()
+  (interactive)
+
+  (disable-theme "monokai")
+  (load-theme 'modus-operandi-tinted t)
+
+  (set-emacs-frames "light"))
+
+(defun set-emacs-theme-dark ()
+  (interactive)
+  (disable-theme "modus-operandi-tinted")
+  (load-theme 'monokai t)
+  (set-emacs-frames "dark"))
+
 (use-package undo-tree
   :config
   (setq undo-tree-history-directory-alist '(("." . "~/.emacs.d/undo")))
@@ -159,6 +179,8 @@
    "l"  'list-processes
    "t"  '(:ignore t :which-key "toggles")
    "tp"  'parinfer-toggle-mode
+   "tl"   'set-emacs-theme-light
+   "td"   'set-emacs-theme-dark
    "f"   '(:ignore t :which-key "find/format/file")
    "ff"  'format-all-buffer
    "fi"  'project-find-file
