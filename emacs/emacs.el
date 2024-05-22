@@ -624,4 +624,4 @@ two prefix arguments, write out the day and month name."
 (use-package elm-mode)
 (use-package dockerfile-mode)
 (use-package direnv)
-
+(use-package dart-mode)
