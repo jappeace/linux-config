@@ -7,6 +7,10 @@ let
   devpackeges = import /home/jappie/projects/nixpkgs { };
   unstable = (builtins.getFlake "github:nixos/nixpkgs/b263ab4b464169289c25f5ed417aea66ed24189f").legacyPackages.x86_64-linux;
 
+  unstable2 = import ((builtins.getFlake "github:nixos/nixpkgs/34fccf8cbe5ff2107f58ca470d3d78725186c222")) { sytem = "x86_64-linux"; config = {
+    allowUnfree = true; # zoom
+  }; };
+
 
 
   rofiWithHoogle = let
@@ -211,8 +215,9 @@ in {
       unstable.nodePackages.pnpm
       unstable.postgresql
       nodejs
+      terraform
 
-      (import (fetchTarball "https://install.devenv.sh/latest")).default
+      unstable2.devenv
       pkgs.haskellPackages.greenclip
       universal-ctags
       audacious
@@ -684,7 +689,7 @@ $ sudo ifconfig wlp2s0b1 up
         host all all 0.0.0.0/0 md5
         host all all ::/0       md5
       '';
-      extraPlugins = [pkgs.postgresql_12.pkgs.postgis];
+      extraPlugins = [pkgs.postgresql_15.pkgs.postgis];
       settings = {
         log_connections = true;
         log_statement = "all";
@@ -701,7 +706,7 @@ $ sudo ifconfig wlp2s0b1 up
         archive_mode = "off";
         max_wal_senders = 0;
       };
-      package = pkgs.postgresql_12;
+      package = pkgs.postgresql_15;
 
       initialScript = pkgs.writeText "backend-initScript" ''
         CREATE USER jappie WITH PASSWORD \'\';
