@@ -211,6 +211,7 @@ in {
   # $ nix search wget
   environment = {
     systemPackages = with pkgs.xfce // pkgs; [
+      qemu_full
       # for those sweet global installs
       unstable.nodePackages.pnpm
       unstable.postgresql
@@ -924,7 +925,6 @@ $ sudo ifconfig wlp2s0b1 up
         "https://cache.nixos.org"
         "https://nixcache.reflex-frp.org" # reflex
         "https://jappie.cachix.org"
-        "https://all-hies.cachix.org"
         "https://nix-community.cachix.org"
         "https://nix-cache.jappie.me"
         "https://cache.iog.io"
