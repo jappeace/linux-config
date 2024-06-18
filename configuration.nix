@@ -217,6 +217,7 @@ in {
       unstable.postgresql
       nodejs
       terraform
+      unstable2.openapi-generator-cli
 
       unstable2.devenv
       pkgs.haskellPackages.greenclip
@@ -255,7 +256,7 @@ in {
       neomutt
       miraclecast
       gnome-network-displays
-      anydesk
+      # anydesk
 
       iw # fav around with wireless networks https://gitlab.gnome.org/GNOME/gnome-network-displays/-/issues/64
 
@@ -281,6 +282,7 @@ in {
       tdesktop # telegram, for senpaii))
 
       # devpackeges.haskellPackages.cut-the-crap
+      # pkgs.haskellPackages.cut-the-crap
       lsof
       ffmpeg
       gromit-mpx # draw on screen
@@ -389,7 +391,6 @@ $ sudo ifconfig wlp2s0b1 up
 
       pv # cat with progress bar
 
-      anydesk
       nmap
 
       # pkgsUnstable.ib-tws # intereactive brokers trader workstation
