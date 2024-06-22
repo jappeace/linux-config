@@ -625,3 +625,8 @@ two prefix arguments, write out the day and month name."
 (use-package dockerfile-mode)
 (use-package direnv)
 (use-package dart-mode)
+(use-package age
+  :ensure t
+  :demand t
+  :config
+  (age-file-enable))
