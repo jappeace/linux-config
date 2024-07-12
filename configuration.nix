@@ -214,8 +214,8 @@ in {
   # https://en.wikipedia.org/wiki/List_of_tz_database_time_zones
   # time.timeZone = "Europe/Sofia";
   # time.timeZone = "Europe/London";
-  time.timeZone = "Europe/Amsterdam";
-  # time.timeZone = "America/Aruba";
+  # time.timeZone = "Europe/Amsterdam";
+  time.timeZone = "America/Aruba";
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
@@ -259,7 +259,6 @@ rofiWithHoogle
       neomutt
       miraclecast
       gnome-network-displays
-      anydesk
 
       iw # fav around with wireless networks https://gitlab.gnome.org/GNOME/gnome-network-displays/-/issues/64
 
@@ -390,7 +389,7 @@ $ sudo ifconfig wlp2s0b1 up
 
       pv # cat with progress bar
 
-      anydesk
+      # anydesk
       nmap
 
       # pkgsUnstable.ib-tws # intereactive brokers trader workstation
@@ -738,12 +737,14 @@ $ sudo ifconfig wlp2s0b1 up
       # https://discourse.nixos.org/t/run-usr-id-is-too-small/4842
       extraConfig = ''
         IdleAction=suspend-then-hibernate
-        IdleActionSec=30min
-        HibernateDelaySec=30min
+        IdleActionSec=5min
         HandlePowerKey=ignore
         RuntimeDirectorySize=2G
+
+        # logout after 10 minutes of inactivity
+        StopIdleSessionSec=600
       '';
-      lidSwitch = "hybrid-sleep";
+      lidSwitch = "suspend-then-hibernate";
     };
 
 
@@ -933,8 +934,4 @@ $ sudo ifconfig wlp2s0b1 up
     };
   };
   # disable sleep with these:
-  systemd.targets.sleep.enable = false;
-  systemd.targets.suspend.enable = false;
-  systemd.targets.hibernate.enable = false;
-  systemd.targets.hybrid-sleep.enable = true;
 }
