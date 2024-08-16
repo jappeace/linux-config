@@ -185,6 +185,20 @@ in
   };
 
 
+  services.grafana = {
+    enable = true;
+    settings = {
+      server = {
+        # Listening Address
+        http_addr = "127.0.0.1";
+        # and Port
+        http_port = 3000;
+        # Grafana needs to know on which domain and URL it's running
+        domain = "localhost";
+        serve_from_sub_path = true;
+      };
+    };
+  };
   networking = {
     hostName = "lenovo-amd-2022"; # Define your hostname.
     # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
