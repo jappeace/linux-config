@@ -5,26 +5,40 @@
 { config, pkgs, ... }:
 let
   bevel-production = (
-    import (
-      builtins.fetchGit {
-        url = "https://github.com/NorfairKing/bevel";
-        rev = "d93e707633c0f8fe50e8f7d523036c317105b3af"; # Put a recent commit hash here.
-        ref = "master";
-      } + "/nix/nixos-module.nix"
-    ) { bevel-api-server = null; } { envname = "production"; }
+    import
+      (
+        builtins.fetchGit
+          {
+            url = "https://github.com/NorfairKing/bevel";
+            rev = "d93e707633c0f8fe50e8f7d523036c317105b3af"; # Put a recent commit hash here.
+            ref = "master";
+          } + "/nix/nixos-module.nix"
+      )
+      { bevel-api-server = null; }
+      { envname = "production"; }
   );
+
 
   unstable = (builtins.getFlake "github:nixos/nixpkgs/b263ab4b464169289c25f5ed417aea66ed24189f").legacyPackages.x86_64-linux;
   unstable2 = (builtins.getFlake "github:nixos/nixpkgs/34fccf8cbe5ff2107f58ca470d3d78725186c222").legacyPackages.x86_64-linux;
-  rofiWithHoogle = let
-        rofi-hoogle-src = pkgs.fetchFromGitHub {
-          owner = "rebeccaskinner";
-          repo = "rofi-hoogle";
-          rev = "27c273ff67add68578052a13f560a08c12fa5767";
-          sha256 = "09vx9bc8s53c575haalcqkdwy44ys1j8v9k2aaly7lndr19spp8f";
-        };
-        rofi-hoogle = import "${rofi-hoogle-src}/release.nix";
-        in pkgs.rofi.override { plugins = [ rofi-hoogle.rofi-hoogle ]; };
+  unstable3 = import (builtins.getFlake "github:nixos/nixpkgs/6830a7fab03b5c029c8b84ca621695783d1bd0e8") {
+    system = "x86_64-linux";
+    config = {
+      allowUnfree = true;
+    };
+  };
+
+  rofiWithHoogle =
+    let
+      rofi-hoogle-src = pkgs.fetchFromGitHub {
+        owner = "rebeccaskinner";
+        repo = "rofi-hoogle";
+        rev = "27c273ff67add68578052a13f560a08c12fa5767";
+        sha256 = "09vx9bc8s53c575haalcqkdwy44ys1j8v9k2aaly7lndr19spp8f";
+      };
+      rofi-hoogle = import "${rofi-hoogle-src}/release.nix";
+    in
+    pkgs.rofi.override { plugins = [ rofi-hoogle.rofi-hoogle ]; };
 
   hostdir = pkgs.writeShellScriptBin "hostdir" ''
     ${pkgs.lib.getExe pkgs.python3} -m http.server
@@ -33,19 +47,19 @@ let
   # fixes weird tz not set bug
   # https://github.com/NixOS/nixpkgs/issues/238025
   betterFirefox = pkgs.writeShellScriptBin "firefox" ''
-  TZ=:/etc/localtime ${pkgs.lib.getExe pkgs.firefox} "$@"
+    TZ=:/etc/localtime ${pkgs.lib.getExe pkgs.firefox} "$@"
   '';
 
   # phone makes pictures to big usually
   # I need to track these often in a git repo and having it be bigger then 1meg is bad
   resize-images = pkgs.writeShellScriptBin "resize-images" ''
-  set -xe
-  outfolder=/tmp/small
-  mkdir -p $outfolder
-  for i in `echo *.jpg`; do
-  ${pkgs.imagemagick}/bin/convert -resize 50% -quality 90 "$@" $i $outfolder/$i.small.jpg;
-  done
-  echo "wrote to "$outfolder
+    set -xe
+    outfolder=/tmp/small
+    mkdir -p $outfolder
+    for i in `echo *.jpg`; do
+    ${pkgs.imagemagick}/bin/convert -resize 50% -quality 90 "$@" $i $outfolder/$i.small.jpg;
+    done
+    echo "wrote to "$outfolder
   '';
 
 
@@ -68,18 +82,20 @@ let
   # for whenever people think mac is hardcoded in hardware.
   # succers.
   change-mac = pkgs.writeShellScriptBin "change-mac" ''
-  pkill NetworkManager
-  ifconfig wlp1s0 down
-  macchanger -r wlp1s0
-  ifconfig wlp1s0 up
-  NetworkManager
+    pkill NetworkManager
+    ifconfig wlp1s0 down
+    macchanger -r wlp1s0
+    ifconfig wlp1s0 up
+    NetworkManager
   '';
 
-in {
-  imports = [ # Include the results of the hardware scan.
-     # note that this is a different device than the lenovo amd
-	 # the uuid's are different.
-	 # I accidently bought the same one
+in
+{
+  imports = [
+    # Include the results of the hardware scan.
+    # note that this is a different device than the lenovo amd
+    # the uuid's are different.
+    # I accidently bought the same one
     ./hardware/lenovo-amd-2022.nix
     ./emacs
     # bevel-production
@@ -97,7 +113,7 @@ in {
   };
 
   security.sudo.extraRules = [
-    { groups = [ "sudo" ]; commands = [ { command = "${pkgs.systemd}/bin/poweroff"; options = ["NOPASSWD"]; }]; }
+    { groups = [ "sudo" ]; commands = [{ command = "${pkgs.systemd}/bin/poweroff"; options = [ "NOPASSWD" ]; }]; }
   ];
   security.sudo.extraConfig = ''
     Defaults        timestamp_timeout=120
@@ -124,30 +140,30 @@ in {
     services.sddm.gnupg.enable = true;
     services.sddm.gnupg.storeOnly = true;
     # services.sddm.gnupg.noAutostart = true;
-#     services.sddm.text = ''
-# # Account management.
-# account required pam_unix.so
+    #     services.sddm.text = ''
+    # # Account management.
+    # account required pam_unix.so
 
-# # Authentication management.
-# auth required pam_unix.so nullok  likeauth
-# auth optional /nix/store/54iidsa6kf3wrywvmbn527227a9v63fw-kwallet-pam-5.24.5/lib/security/pam_kwallet5.so kwalletd=/nix/store/5njp31mynfl8jg599qs0gl7bfk11npqf-kwallet-5.93.0-bin/bin/kwalletd5
-# auth optional /nix/store/wlcgls5fk9ln73z2yhpvy1mlimlwl5jd-pam_gnupg-0.3/lib/security/pam_gnupg.so debug store-only
-# auth sufficient pam_unix.so nullok  likeauth try_first_pass
-# auth required pam_deny.so
+    # # Authentication management.
+    # auth required pam_unix.so nullok  likeauth
+    # auth optional /nix/store/54iidsa6kf3wrywvmbn527227a9v63fw-kwallet-pam-5.24.5/lib/security/pam_kwallet5.so kwalletd=/nix/store/5njp31mynfl8jg599qs0gl7bfk11npqf-kwallet-5.93.0-bin/bin/kwalletd5
+    # auth optional /nix/store/wlcgls5fk9ln73z2yhpvy1mlimlwl5jd-pam_gnupg-0.3/lib/security/pam_gnupg.so debug store-only
+    # auth sufficient pam_unix.so nullok  likeauth try_first_pass
+    # auth required pam_deny.so
 
-# # Password management.
-# password sufficient pam_unix.so nullok sha512
+    # # Password management.
+    # password sufficient pam_unix.so nullok sha512
 
-# # Session management.
-# session required pam_env.so conffile=/etc/pam/environment readenv=0
-# session required pam_unix.so
-# session required pam_loginuid.so
-# session optional /nix/store/9fhmhbfkdcarrl1d75h1zbfsnbmwrw57-systemd-250.4/lib/security/pam_systemd.so
-# session required /nix/store/ih5kdlzypfnsxhpx0dka24yvcr0spqfh-linux-pam-1.5.2/lib/security/pam_limits.so conf=/nix/store/dhkw6agr8cw6n5m6qhqgk272g5yp85yz-limits.conf
-# session optional /nix/store/54iidsa6kf3wrywvmbn527227a9v63fw-kwallet-pam-5.24.5/lib/security/pam_kwallet5.so kwalletd=/nix/store/5njp31mynfl8jg599qs0gl7bfk11npqf-kwallet-5.93.0-bin/bin/kwalletd5
+    # # Session management.
+    # session required pam_env.so conffile=/etc/pam/environment readenv=0
+    # session required pam_unix.so
+    # session required pam_loginuid.so
+    # session optional /nix/store/9fhmhbfkdcarrl1d75h1zbfsnbmwrw57-systemd-250.4/lib/security/pam_systemd.so
+    # session required /nix/store/ih5kdlzypfnsxhpx0dka24yvcr0spqfh-linux-pam-1.5.2/lib/security/pam_limits.so conf=/nix/store/dhkw6agr8cw6n5m6qhqgk272g5yp85yz-limits.conf
+    # session optional /nix/store/54iidsa6kf3wrywvmbn527227a9v63fw-kwallet-pam-5.24.5/lib/security/pam_kwallet5.so kwalletd=/nix/store/5njp31mynfl8jg599qs0gl7bfk11npqf-kwallet-5.93.0-bin/bin/kwalletd5
 
-# session optional /nix/store/wlcgls5fk9ln73z2yhpvy1mlimlwl5jd-pam_gnupg-0.3/lib/security/pam_gnupg.so  no-autostart debug
-#     '';
+    # session optional /nix/store/wlcgls5fk9ln73z2yhpvy1mlimlwl5jd-pam_gnupg-0.3/lib/security/pam_gnupg.so  no-autostart debug
+    #     '';
 
     # services.systemd-user.gnupg.enable = true;
     # services.systemd-user.gnupg.noAutostart = true;
@@ -155,18 +171,19 @@ in {
     # # services.sddm.enableenableKwallet = false;
 
     loginLimits = [{
-        domain = "@users";
-        type = "hard";
-        item = "data";
-        value = "16000000"; # kill process if it goes over this
+      domain = "@users";
+      type = "hard";
+      item = "data";
+      value = "16000000"; # kill process if it goes over this
     }
-    {
+      {
         domain = "@users";
         type = "soft";
         item = "data";
         value = "8000000"; # notify process if it eats more than 8gig
-    } ];
-                 };
+      }];
+  };
+
 
   networking = {
     hostName = "lenovo-amd-2022"; # Define your hostname.
@@ -178,7 +195,6 @@ in {
     extraHosts = ''
       0.0.0.0 www.linkedin.com
       0.0.0.0 linkedin.com
-      0.0.0.0 twitter.com
       0.0.0.0 news.ycombinator.com
     '';
     #   0.0.0.0 discord.com
@@ -222,11 +238,12 @@ in {
   environment = {
     systemPackages = with pkgs.xfce // pkgs; [
       # lmao this pulls in a full ghc build
+      kdenlive
       unstable2.devenv
       pkgs.haskellPackages.greenclip
       unstable.nodejs_20 # the one in main is broken, segfautls
       unstable.postgresql
-rofiWithHoogle
+      rofiWithHoogle
       calibre
       audacious
       xclip
@@ -265,12 +282,13 @@ rofiWithHoogle
       # eg final fantasy 7 is in ~/ff7
       # press f4 to laod state
       # f2 to save
-      (retroarch.override { # https://nixos.wiki/wiki/RetroArch
-      cores = with libretro; [
-        # genesis-plus-gx
-        # snes9x
-        beetle-psx-hw
-      ];
+      (retroarch.override {
+        # https://nixos.wiki/wiki/RetroArch
+        cores = with libretro; [
+          # genesis-plus-gx
+          # snes9x
+          beetle-psx-hw
+        ];
       })
       postman
 
@@ -294,7 +312,6 @@ rofiWithHoogle
       i3lock
       i3status
       nixpkgs-fmt
-      atom
       mpv # mplayer
       ark
       burpsuite
@@ -314,57 +331,57 @@ rofiWithHoogle
 
       tldr # better man
 
-/*
- ***
- This nix expression requires that ibtws_9542.jar is already part of the store.
- Download the TWS from
- https://download2.interactivebrokers.com/download/unixmacosx_latest.jar,
- rename the file to ibtws_9542.jar, and add it to the nix store with
- "nix-prefetch-url file://$PWD/ibtws_9542.jar".
+      /*
+       ***
+         This nix expression requires that ibtws_9542.jar is already part of the store.
+         Download the TWS from
+         https://download2.interactivebrokers.com/download/unixmacosx_latest.jar,
+         rename the file to ibtws_9542.jar, and add it to the nix store with
+         "nix-prefetch-url file://$PWD/ibtws_9542.jar".
 
- ***
- ***
- Unfortunately, we cannot download file jdk-8u281-linux-x64.tar.gz automatically.
- Please go to http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html to download it yourself, and add it to the Nix store
+       ***
+       ***
+         Unfortunately, we cannot download file jdk-8u281-linux-x64.tar.gz automatically.
+         Please go to http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html to download it yourself, and add it to the Nix store
       NO HERE https://www.oracle.com/java/technologies/javase/javase8u211-later-archive-downloads.html#license-lightbox
-   nix-store --add-fixed sha256 jdk-8u281-linux-x64.tar.gz
+         nix-store --add-fixed sha256 jdk-8u281-linux-x64.tar.gz
 
 
- ***
+       ***
 
- 🙂jappie at 🕙 2022-02-27 17:25:45 ~ took 30s
- ❯ ib-tws
- ERROR: "" is not a valid name of a profile.
+         🙂jappie at 🕙 2022-02-27 17:25:45 ~ took 30s
+         ❯ ib-tws
+         ERROR: "" is not a valid name of a profile.
 
-... FUCK YOU.
+        ... FUCK YOU.
 
-🙂jappie at 🕙 2022-02-27 17:27:48 ~
-❯ ib-tws jappie
-realpath: /home/jappie/IB/jappie: No such file or directory
-cp: kan het normale bestand '/./jts.ini' niet aanmaken: Permission denied
-17:27:53:144 main: Usage: java -cp <required jar files> jclient.LoginFrame <srcDir>
+        🙂jappie at 🕙 2022-02-27 17:27:48 ~
+        ❯ ib-tws jappie
+        realpath: /home/jappie/IB/jappie: No such file or directory
+        cp: kan het normale bestand '/./jts.ini' niet aanmaken: Permission denied
+        17:27:53:144 main: Usage: java -cp <required jar files> jclient.LoginFrame <srcDir>
 
-🙂jappie at 🕙 2022-02-27 17:27:53 ~
-❯ touch jts.ini
+        🙂jappie at 🕙 2022-02-27 17:27:53 ~
+        ❯ touch jts.ini
 
-🙂jappie at 🕙 2022-02-27 17:28:31 ~
-❯ mkdir -p IB/jappie
+        🙂jappie at 🕙 2022-02-27 17:28:31 ~
+        ❯ mkdir -p IB/jappie
 
-🙂jappie at 🕙 2022-02-27 17:28:44 ~
-❯ ib-tws jappie
-WARNING: The version of libXrender.so cannot be detected.
-,The pipe line will be enabled, but note that versions less than 0.9.3
-may cause hangs and crashes
-	See the release notes for more details.
-XRender pipeline enabled
-17:28:48:675 JTS-Main: dayInit: new values: dayOfTheWeek: 1 (Sun), YYYYMMofToday: 202202, YYYYMMDDofToday: 20220227
-17:28:48:949 JTS-Main: getFileFromUrl: dest=/home/jappie/IB/jappie/locales.jar empty sourceSize=114646
-17:28:49:738 JTS-Main: Build 952.1e, Oct 27, 2015 2:21:22 PM
+        🙂jappie at 🕙 2022-02-27 17:28:44 ~
+        ❯ ib-tws jappie
+        WARNING: The version of libXrender.so cannot be detected.
+        ,The pipe line will be enabled, but note that versions less than 0.9.3
+        may cause hangs and crashes
+         	See the release notes for more details.
+        XRender pipeline enabled
+        17:28:48:675 JTS-Main: dayInit: new values: dayOfTheWeek: 1 (Sun), YYYYMMofToday: 202202, YYYYMMDDofToday: 20220227
+        17:28:48:949 JTS-Main: getFileFromUrl: dest=/home/jappie/IB/jappie/locales.jar empty sourceSize=114646
+        17:28:49:738 JTS-Main: Build 952.1e, Oct 27, 2015 2:21:22 PM
 
-That worked. Assholes.
-MAKE SURE TO TICK USE SSL
-I don't know why this is disabled by default.
-*/
+        That worked. Assholes.
+        MAKE SURE TO TICK USE SSL
+        I don't know why this is disabled by default.
+      */
 
       ormolu
 
@@ -372,23 +389,25 @@ I don't know why this is disabled by default.
       fsv # browse files like a chad
       hostdir
 
-      crawlTiles mariadb
+      crawlTiles
+      mariadb
 
       macchanger # change mac address
       change-mac
       /*
-$ sudo service network-manager stop
-$ ifconfig wlp2s0b1 down
-$ sudo macchanger -r wlp2s0b1
-$ sudo service network-manager start
-$ sudo ifconfig wlp2s0b1 up
-*/
+        $ sudo service network-manager stop
+        $ ifconfig wlp2s0b1 down
+        $ sudo macchanger -r wlp2s0b1
+        $ sudo service network-manager start
+        $ sudo ifconfig wlp2s0b1 up
+      */
 
       hardinfo # https://askubuntu.com/questions/179958/how-do-i-find-out-my-motherboard-model
       dmidecode
 
       pv # cat with progress bar
 
+      unstable3.anydesk
       # anydesk
       nmap
 
@@ -503,20 +522,20 @@ $ sudo ifconfig wlp2s0b1 up
       LESS = "-F -X -R";
     };
     pathsToLink = [
-        "/share/nix-direnv"
+      "/share/nix-direnv"
     ];
 
     etc."xdg/gtk-2.0/gtkrc".text = ''
-        gtk-theme-name="Adwaita-dark"
+      gtk-theme-name="Adwaita"
     '';
     etc."xdg/gtk-3.0/settings.ini".text = ''
-        [Settings]
-        gtk-theme-name=Adwaita-dark
+      [Settings]
+      gtk-theme-name=Adwaita
     '';
 
     variables.QT_QPA_PLATFORMTHEME = "qt5ct";
 
-    variables.TZ=":/etc/localtime"; # https://github.com/NixOS/nixpkgs/issues/238025
+    variables.TZ = ":/etc/localtime"; # https://github.com/NixOS/nixpkgs/issues/238025
     # variables.QT_STYLE_OVERRIDE = "adwaita-dark";
   };
 
@@ -552,15 +571,19 @@ $ sudo ifconfig wlp2s0b1 up
       ubuntu_font_family
       corefonts
       font-awesome_4
-      font-awesome_5 siji jetbrains-mono
+      font-awesome_5
+      siji
+      jetbrains-mono
       noto-fonts-cjk
       ipaexfont
       helvetica-neue-lt-std
     ];
-    fontconfig = { defaultFonts = {
-      # we need to set in in qt5ct as well.
-      monospace = [ "Fira Code" ]; };
+    fontconfig = {
+      defaultFonts = {
+        # we need to set in in qt5ct as well.
+        monospace = [ "Fira Code" ];
       };
+    };
   };
 
   # Enable sound.
@@ -633,7 +656,7 @@ $ sudo ifconfig wlp2s0b1 up
     driSupport32Bit = true;
     setLdLibraryPath = true;
     extraPackages = with pkgs; [
-       libGL
+      libGL
     ];
   };
   # TODO figure this out, the fans are just running wild but I should be able to software control them
@@ -772,11 +795,11 @@ $ sudo ifconfig wlp2s0b1 up
       libinput = {
         enable = true;
         touchpad = {
-            tapping = true;
-            disableWhileTyping = true;
+          tapping = true;
+          disableWhileTyping = true;
         };
       };
-      videoDrivers = [ "amdgpu" "radeon" "cirrus" "vesa" "modesetting" "intel"];
+      videoDrivers = [ "amdgpu" "radeon" "cirrus" "vesa" "modesetting" "intel" ];
       desktopManager.xfce.enable = true; # for the xfce-panel in i3
       desktopManager.xfce.noDesktop = true;
       desktopManager.xfce.enableXfwm =
@@ -864,29 +887,29 @@ $ sudo ifconfig wlp2s0b1 up
     # $ sudo nix-channel --add https://nixos.org/channels/nixos-18.09 nixos
     # $ sudo nixos-rebuild switch --upgrade
     stateVersion = "23.05"; # Did you read the comment?
-# 🕙 2021-06-13 19:59:36 in ~ took 14m27s
-# ✦ ❯ nixos-version
-# 20.09.4321.115dbbe82eb (Nightingale)
+    # 🕙 2021-06-13 19:59:36 in ~ took 14m27s
+    # ✦ ❯ nixos-version
+    # 20.09.4321.115dbbe82eb (Nightingale)
 
-# 🕙 2021-06-13 22:09:54 in ~
-# ✦ ❯ sudo reboot
-# [sudo] wachtwoord voor jappie:
-# sudo: een wachtwoord is verplicht
+    # 🕙 2021-06-13 22:09:54 in ~
+    # ✦ ❯ sudo reboot
+    # [sudo] wachtwoord voor jappie:
+    # sudo: een wachtwoord is verplicht
 
-# 🕙 2021-06-13 22:09:58 in ~
-# ✦ ❯ uname -a
-# Linux work-machine 5.4.72 #1-NixOS SMP Sat Oct 17 08:11:24 UTC 2020 x86_64 GNU/Linux
+    # 🕙 2021-06-13 22:09:58 in ~
+    # ✦ ❯ uname -a
+    # Linux work-machine 5.4.72 #1-NixOS SMP Sat Oct 17 08:11:24 UTC 2020 x86_64 GNU/Linux
 
   };
   virtualisation = {
     # enable either podman or docker, not both
     docker.enable = true;
-   # podman = { # for arion
-   #    enable = true;
-   #    dockerSocket.enable = true;
-   #    dockerCompat = true;
-   #    defaultNetwork.settings.dns_enabled = true;
-   #  };
+    # podman = { # for arion
+    #    enable = true;
+    #    dockerSocket.enable = true;
+    #    dockerCompat = true;
+    #    defaultNetwork.settings.dns_enabled = true;
+    #  };
     virtualbox.host = {
       enable = true;
       enableExtensionPack = true;
@@ -901,13 +924,13 @@ $ sudo ifconfig wlp2s0b1 up
 
   nix = {
     gc = {
-        automatic = true;
-        dates = "monthly"; # https://jlk.fjfi.cvut.cz/arch/manpages/man/systemd.time.7
-        options = "--delete-older-than 120d";
+      automatic = true;
+      dates = "monthly"; # https://jlk.fjfi.cvut.cz/arch/manpages/man/systemd.time.7
+      options = "--delete-older-than 120d";
     };
 
     extraOptions = ''
-    experimental-features = nix-command flakes
+      experimental-features = nix-command flakes
     '';
     settings = {
       trusted-users = [ "jappie" "root" ];
