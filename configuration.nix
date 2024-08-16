@@ -192,7 +192,7 @@ in
         # Listening Address
         http_addr = "127.0.0.1";
         # and Port
-        http_port = 3000;
+        http_port = 2999;
         # Grafana needs to know on which domain and URL it's running
         domain = "localhost";
         serve_from_sub_path = true;
