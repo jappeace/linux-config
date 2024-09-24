@@ -239,7 +239,6 @@ in {
       lz4
       # rofiWithHoogle # dmenu replacement (fancy launcher)
       skypeforlinux
-      youtube-dl
       pkgs.haskellPackages.fourmolu
       bluez
       awscli2
@@ -776,7 +775,6 @@ $ sudo ifconfig wlp2s0b1 up
     # services.xserver.enable = true;
     # services.xserver.layout = "us";
     # services.xserver.xkbOptions = "eurosign:e";
-    xserver = {
    displayManager = {
         # I tried lightdm but id doesn't work with pam for some reason
         sddm = {
@@ -790,6 +788,7 @@ $ sudo ifconfig wlp2s0b1 up
 
         # https://github.com/NixOS/nixpkgs/issues/206630#issuecomment-1518696676
    };
+    xserver = {
       autorun = true; # disable on troubles
       displayManager = {
         sessionCommands = ''
