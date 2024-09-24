@@ -237,7 +237,7 @@ in {
       gptfdisk # gdisk
       clang-tools # clang-format
       lz4
-      rofiWithHoogle # dmenu replacement (fancy launcher)
+      # rofiWithHoogle # dmenu replacement (fancy launcher)
       skypeforlinux
       youtube-dl
       pkgs.haskellPackages.fourmolu
@@ -295,7 +295,6 @@ in {
       i3lock
       i3status
       nixpkgs-fmt
-      atom
       mpv # mplayer
       ark
       burpsuite
@@ -520,6 +519,7 @@ $ sudo ifconfig wlp2s0b1 up
     # variables.QT_STYLE_OVERRIDE = "adwaita-dark";
   };
 
+  xdg.portal.enable = true;
   # # https://github.com/NixOS/nixpkgs/blob/master/nixos/modules/config/qt5.nix
   # qt5 = {
   #   enable = true;
@@ -533,7 +533,7 @@ $ sudo ifconfig wlp2s0b1 up
   # programs.mtr.enable = true;
   programs = {
     gnupg.agent = {
-      enable = true;
+      enable = false; # this makes it double defined (by plasma as well??)
       enableSSHSupport = true;
     };
     vim.defaultEditor = true;
@@ -544,8 +544,8 @@ $ sudo ifconfig wlp2s0b1 up
   };
 
   fonts = {
-    enableDefaultFonts = true;
-    fonts = with pkgs; [
+    enableDefaultPackages = true;
+    packages = with pkgs; [
       fira-code
       fira-code-symbols
       inconsolata
@@ -679,7 +679,7 @@ $ sudo ifconfig wlp2s0b1 up
     };
     avahi = {
       enable = true;
-      nssmdns = true;
+      nssmdns4 = true;
     };
     redis = { servers."x".enable = true; };
 
@@ -720,7 +720,7 @@ $ sudo ifconfig wlp2s0b1 up
     syncthing = {
       overrideDevices = true;
       overrideFolders = true;
-      folders = {
+      settings.folders = {
         "/home/jappie/phone" = {
           id = "Phone";
         };
@@ -729,13 +729,19 @@ $ sudo ifconfig wlp2s0b1 up
         };
       };
       # self TRFG2TO-MFLXN2M-U56IH3L-WUOZSC5-7TOG5JF-RU7BUCK-XJ6TBEL-TYVITAF
-      devices.phone = {
-        id = "LXR3SCJ-3VNYE63-C5SPZUW-E3D4QRE-2X7UGLM-LFDM5XI-CH7CBFT-2RS3BAH";
-        introducer = true;
-      };
-      devices.lenovo-amd-2022 = {
-        id = "4CEXJ25-KLOIS5N-7CBFEIU-D2JZ72G-GBYGUZS-W3JA7OU-YV4CCFT-CIBVCAX";
-        introducer = true;
+      settings.devices = {
+        phone = {
+          id = "LXR3SCJ-3VNYE63-C5SPZUW-E3D4QRE-2X7UGLM-LFDM5XI-CH7CBFT-2RS3BAH";
+          introducer = true;
+        };
+        lenovo-amd-2022 = {
+          id = "4CEXJ25-KLOIS5N-7CBFEIU-D2JZ72G-GBYGUZS-W3JA7OU-YV4CCFT-CIBVCAX";
+          introducer = true;
+        };
+        pixel = {
+          id = "3NP65RT-WV2VIQA-SZKIZQN-LOOJ542-PQ6WSIV-YHGJVPH-HMBOUGL-WTYTDAP";
+          introducer = true;
+        };
       };
       enable = true;
       user = "jappie";
@@ -758,34 +764,37 @@ $ sudo ifconfig wlp2s0b1 up
       lidSwitch = "hybrid-sleep";
     };
 
-
+   libinput = {
+     enable = true;
+     touchpad = {
+         tapping = true;
+         disableWhileTyping = true;
+     };
+   };
 
     # Enable the X11 windowing system.
     # services.xserver.enable = true;
     # services.xserver.layout = "us";
     # services.xserver.xkbOptions = "eurosign:e";
     xserver = {
-      autorun = true; # disable on troubles
-      displayManager = {
-        autoLogin = {
-          user = "jappie";
-          enable = false;
-        };
+   displayManager = {
         # I tried lightdm but id doesn't work with pam for some reason
         sddm = {
           enable = true;
         };
+        defaultSession = "none+i3";
+        autoLogin = {
+          user = "jappie";
+          enable = false;
+        };
+
+        # https://github.com/NixOS/nixpkgs/issues/206630#issuecomment-1518696676
+   };
+      autorun = true; # disable on troubles
+      displayManager = {
         sessionCommands = ''
           ${pkgs.xorg.xmodmap}/bin/xmodmap ~/.Xmodmap
         '';
-        defaultSession = "none+i3";
-      };
-      libinput = {
-        enable = true;
-        touchpad = {
-            tapping = true;
-            disableWhileTyping = true;
-        };
       };
       videoDrivers = [ "amdgpu" "radeon" "cirrus" "vesa" "modesetting" "intel"];
       desktopManager.xfce.enable = true; # for the xfce-panel in i3
@@ -795,13 +804,12 @@ $ sudo ifconfig wlp2s0b1 up
       # desktopManager.gnome3.enable = true; # to get the themes working with gnome-tweak tool
       windowManager.i3.enable = true;
       windowManager.i3.extraPackages = [ pkgs.adwaita-qt ];
-
       desktopManager.plasma5 = {
         enable = true;
         phononBackend = "vlc";
       };
+
       enable = true;
-      layout = "us";
     };
 
     redshift = { enable = true; };
@@ -874,7 +882,7 @@ $ sudo ifconfig wlp2s0b1 up
     # to upgrade, add a channel:
     # $ sudo nix-channel --add https://nixos.org/channels/nixos-18.09 nixos
     # $ sudo nixos-rebuild switch --upgrade
-    stateVersion = "23.05"; # Did you read the comment?
+    stateVersion = "24.05"; # Did you read the comment?
 # 🕙 2021-06-13 19:59:36 in ~ took 14m27s
 # ✦ ❯ nixos-version
 # 20.09.4321.115dbbe82eb (Nightingale)
@@ -899,7 +907,7 @@ $ sudo ifconfig wlp2s0b1 up
    #    defaultNetwork.settings.dns_enabled = true;
    #  };
     virtualbox.host = {
-      enable = true;
+      enable = false;
       enableExtensionPack = true;
     };
     libvirtd.enable = false;
