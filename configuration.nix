@@ -19,6 +19,7 @@ let
   );
 
 
+  agenix = builtins.getFlake "github:ryantm/agenix/f6291c5935fdc4e0bef208cfc0dcab7e3f7a1c41";
   unstable = (builtins.getFlake "github:nixos/nixpkgs/b263ab4b464169289c25f5ed417aea66ed24189f").legacyPackages.x86_64-linux;
   unstable2 = (builtins.getFlake "github:nixos/nixpkgs/34fccf8cbe5ff2107f58ca470d3d78725186c222").legacyPackages.x86_64-linux;
   unstable3 = import (builtins.getFlake "github:nixos/nixpkgs/6830a7fab03b5c029c8b84ca621695783d1bd0e8") {
@@ -27,6 +28,7 @@ let
       allowUnfree = true;
     };
   };
+  unstable4 = (builtins.getFlake "github:nixos/nixpkgs/5f1a3f80472719aa14ddf6c7d0956f9b76430502").legacyPackages.x86_64-linux;
 
   rofiWithHoogle =
     let
@@ -199,6 +201,27 @@ in
       };
     };
   };
+# https://nixos.org/manual/nixos/stable/#module-services-prometheus-exporters
+  services.prometheus.exporters.node = {
+    enable = true;
+    port = 9001;
+    # https://github.com/NixOS/nixpkgs/blob/nixos-24.05/nixos/modules/services/monitoring/prometheus/exporters.nix
+    enabledCollectors = [ "systemd" ];
+    # /nix/store/zgsw0yx18v10xa58psanfabmg95nl2bb-node_exporter-1.8.1/bin/node_exporter  --help
+    extraFlags = [ "--collector.cpu" "--collector.ethtool" "--collector.tcpstat" "--collector.wifi" ];
+  };
+  services.prometheus = {
+    enable = true;
+    globalConfig.scrape_interval = "10s"; # "1m"
+    scrapeConfigs = [
+    {
+      job_name = "node";
+      static_configs = [{
+        targets = [ "localhost:${toString config.services.prometheus.exporters.node.port}" ];
+      }];
+    }
+    ];
+  };
   networking = {
     hostName = "lenovo-amd-2022"; # Define your hostname.
     # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
@@ -244,14 +267,15 @@ in
   # https://en.wikipedia.org/wiki/List_of_tz_database_time_zones
   # time.timeZone = "Europe/Sofia";
   # time.timeZone = "Europe/London";
-  # time.timeZone = "Europe/Amsterdam";
-  time.timeZone = "America/Aruba";
+  time.timeZone = "Europe/Amsterdam";
+  # time.timeZone = "America/Aruba";
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment = {
     systemPackages = with pkgs.xfce // pkgs; [
-      # lmao this pulls in a full ghc build
+
+      unstable4.tor-browser
       kdenlive
       unstable2.devenv
       pkgs.haskellPackages.greenclip
@@ -274,13 +298,15 @@ in
       gptfdisk # gdisk
       clang-tools # clang-format
       lz4
-      youtube-dl
+      unstable4.yt-dlp
       pkgs.haskellPackages.fourmolu
       bluez
 
       # gtk-vnc # screen sharing for linux
       x2vnc
       hugin # panorama sticther
+
+      agenix.packages.x86_64-linux.agenix
 
       # arion, eg docker-compose for nix
       arion
