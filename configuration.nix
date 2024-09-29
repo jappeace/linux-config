@@ -90,7 +90,7 @@ in {
       enable = true;
       theme = "spinfinity"; # spinfinity
     };
-    # kernelPackages = pkgs.linuxPackages_4_9; # fix supsend maybe?
+    # kernelPackages = pkgs.linuxKernel.packages.linux_6_1; #  6.6 don't boot?
   };
 
   security.sudo.extraRules = [
@@ -118,8 +118,8 @@ in {
     # services.jappie.enableGnomeKeyring = true;
     # eg see /etc/pam.d/ to figure out service names
     # use the enabled display service
-    services.sddm.gnupg.enable = true;
-    services.sddm.gnupg.storeOnly = true;
+    # services.sddm.gnupg.enable = true;
+    # services.sddm.gnupg.storeOnly = true;
     # services.sddm.gnupg.noAutostart = true;
 #     services.sddm.text = ''
 # # Account management.
@@ -180,7 +180,6 @@ in {
       0.0.0.0 reddit.com
       0.0.0.0 www.reddit.com
 
-      0.0.0.0 discord.com
     '';
     # interfaces."lo".ip4.addresses = [
     #     { address = "192.168.0.172"; prefixLength = 32; }
@@ -307,7 +306,6 @@ in {
       # ib-tws
       resize-images
       lz4
-      mcomix3
 
       hyperfine # better time command
       tlaplusToolbox
@@ -536,6 +534,7 @@ $ sudo ifconfig wlp2s0b1 up
       enableSSHSupport = true;
     };
     vim.defaultEditor = true;
+    vim.enable = true;
     adb.enable = true;
     light.enable = true;
     gnome-terminal.enable = true;
@@ -560,9 +559,6 @@ $ sudo ifconfig wlp2s0b1 up
       monospace = [ "Fira Code" ]; };
       };
   };
-
-  # Enable sound.
-  sound.enable = true;
 
   nixpkgs.config = {
     allowUnfree = true; # I'm horrible, nvidia sucks, TODO kill nvidia
@@ -618,18 +614,15 @@ $ sudo ifconfig wlp2s0b1 up
   hardware.bluetooth.enable = true;
   hardware.pulseaudio = {
 
-    enable = true;
+    enable = false;
     support32Bit = true;
     tcp = {
       enable = true;
       anonymousClients.allowAll = true; # bite me
     };
   };
-  hardware.opengl = {
+  hardware.graphics = {
     enable = true;
-    driSupport = true;
-    driSupport32Bit = true;
-    setLdLibraryPath = true;
     extraPackages = with pkgs; [
        libGL
     ];
@@ -776,6 +769,7 @@ $ sudo ifconfig wlp2s0b1 up
     # services.xserver.layout = "us";
     # services.xserver.xkbOptions = "eurosign:e";
    displayManager = {
+        enable = true;
         # I tried lightdm but id doesn't work with pam for some reason
         sddm = {
           enable = true;
@@ -789,13 +783,14 @@ $ sudo ifconfig wlp2s0b1 up
         # https://github.com/NixOS/nixpkgs/issues/206630#issuecomment-1518696676
    };
     xserver = {
-      autorun = true; # disable on troubles
+      enable = true;
+      autorun = false; # disable on troubles
       displayManager = {
         sessionCommands = ''
           ${pkgs.xorg.xmodmap}/bin/xmodmap ~/.Xmodmap
         '';
       };
-      videoDrivers = [ "amdgpu" "radeon" "cirrus" "vesa" "modesetting" "intel"];
+      videoDrivers = [ "amdgpu" "modesetting" ];
       desktopManager.xfce.enable = true; # for the xfce-panel in i3
       desktopManager.xfce.noDesktop = true;
       desktopManager.xfce.enableXfwm =
@@ -808,7 +803,6 @@ $ sudo ifconfig wlp2s0b1 up
         phononBackend = "vlc";
       };
 
-      enable = true;
     };
 
     redshift = { enable = true; };
@@ -881,7 +875,7 @@ $ sudo ifconfig wlp2s0b1 up
     # to upgrade, add a channel:
     # $ sudo nix-channel --add https://nixos.org/channels/nixos-18.09 nixos
     # $ sudo nixos-rebuild switch --upgrade
-    stateVersion = "24.05"; # Did you read the comment?
+    stateVersion = "24.11"; # Did you read the comment?
 # 🕙 2021-06-13 19:59:36 in ~ took 14m27s
 # ✦ ❯ nixos-version
 # 20.09.4321.115dbbe82eb (Nightingale)
