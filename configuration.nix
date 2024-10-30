@@ -13,16 +13,6 @@ let
 
 
 
-  rofiWithHoogle = let
-        rofi-hoogle-src = pkgs.fetchFromGitHub {
-          owner = "rebeccaskinner";
-          repo = "rofi-hoogle";
-          rev = "27c273ff67add68578052a13f560a08c12fa5767";
-          sha256 = "09vx9bc8s53c575haalcqkdwy44ys1j8v9k2aaly7lndr19spp8f";
-        };
-        rofi-hoogle = import "${rofi-hoogle-src}/release.nix";
-        in pkgs.rofi.override { plugins = [ rofi-hoogle.rofi-hoogle ]; };
-
 
   hostdir = pkgs.writeShellScriptBin "hostdir" ''
     ${pkgs.lib.getExe pkgs.python3} -m http.server
@@ -211,6 +201,7 @@ in {
   environment = {
     systemPackages = with pkgs.xfce // pkgs; [
       qemu_full
+      kdenlive
       # for those sweet global installs
       unstable.nodePackages.pnpm
       unstable.postgresql
@@ -236,11 +227,14 @@ in {
       gptfdisk # gdisk
       clang-tools # clang-format
       lz4
-      # rofiWithHoogle # dmenu replacement (fancy launcher)
+      rofi
       skypeforlinux
       pkgs.haskellPackages.fourmolu
       bluez
       awscli2
+
+      # https://superuser.com/questions/171195/how-to-check-the-health-of-a-hard-drive
+      smartmontools
 
       # gtk-vnc # screen sharing for linux
       x2vnc
@@ -384,6 +378,7 @@ $ sudo ifconfig wlp2s0b1 up
 
       hardinfo # https://askubuntu.com/questions/179958/how-do-i-find-out-my-motherboard-model
       dmidecode
+      vscode
 
       pv # cat with progress bar
 
@@ -659,7 +654,7 @@ $ sudo ifconfig wlp2s0b1 up
       # extraOptions = "no-fading-openclose = true"; # don't fade on workspace shift, annoying: https://github.com/chjj/compton/issues/314
     };
     openssh = {
-      enable = true;
+      enable = false;
       settings.X11Forwarding = true;
     };
     printing = {
@@ -900,7 +895,7 @@ $ sudo ifconfig wlp2s0b1 up
    #    defaultNetwork.settings.dns_enabled = true;
    #  };
     virtualbox.host = {
-      enable = false;
+      enable = true;
       enableExtensionPack = true;
     };
     libvirtd.enable = false;
