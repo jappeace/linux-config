@@ -167,8 +167,6 @@ in {
       0.0.0.0 linkedin.com
       0.0.0.0 twitter.com
       0.0.0.0 news.ycombinator.com
-      0.0.0.0 reddit.com
-      0.0.0.0 www.reddit.com
 
     '';
     # interfaces."lo".ip4.addresses = [
@@ -200,6 +198,7 @@ in {
   # $ nix search wget
   environment = {
     systemPackages = with pkgs.xfce // pkgs; [
+      protobuf
       qemu_full
       kdenlive
       # for those sweet global installs
@@ -209,6 +208,7 @@ in {
       terraform
       unstable2.openapi-generator-cli
 
+      yt-dlp
       unstable2.devenv
       pkgs.haskellPackages.greenclip
       universal-ctags
@@ -713,6 +713,12 @@ $ sudo ifconfig wlp2s0b1 up
         };
         "/home/jappie/docs" = {
           id = "docs";
+        };
+        "/home/jappie/pixel_8_fmnx-photos" = {
+          id = "pixel_8_fmnx-photos";
+        };
+        "/home/jappie/sm-a515f_nca9-foto's" = {
+          id = "sm-a515f_nca9-foto's";
         };
       };
       # self TRFG2TO-MFLXN2M-U56IH3L-WUOZSC5-7TOG5JF-RU7BUCK-XJ6TBEL-TYVITAF
