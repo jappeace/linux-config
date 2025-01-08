@@ -190,6 +190,7 @@
    "gp"  'magit-push-popup ;; these days I often have to choose
    "gb"  'magit-blame
    "gl"  'magit-log-popup
+   "gL"  'magit-log-buffer-file
    "gM"  'magit-remote-popup
    "gr"  'magit-rebase
    "gy"  'magit-show-refs
