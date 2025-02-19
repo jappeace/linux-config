@@ -22,13 +22,13 @@ let
   agenix = builtins.getFlake "github:ryantm/agenix/f6291c5935fdc4e0bef208cfc0dcab7e3f7a1c41";
   unstable = (builtins.getFlake "github:nixos/nixpkgs/b263ab4b464169289c25f5ed417aea66ed24189f").legacyPackages.x86_64-linux;
   unstable2 = (builtins.getFlake "github:nixos/nixpkgs/34fccf8cbe5ff2107f58ca470d3d78725186c222").legacyPackages.x86_64-linux;
-  unstable3 = import (builtins.getFlake "github:nixos/nixpkgs/6830a7fab03b5c029c8b84ca621695783d1bd0e8") {
+  unstable3 = import (builtins.getFlake "github:nixos/nixpkgs/df4f2989a8f89e14bb94d73d93d159756c7766fe") {
     system = "x86_64-linux";
     config = {
       allowUnfree = true;
     };
   };
-  unstable4 = (builtins.getFlake "github:nixos/nixpkgs/5f1a3f80472719aa14ddf6c7d0956f9b76430502").legacyPackages.x86_64-linux;
+  unstable4 = (builtins.getFlake "github:nixos/nixpkgs/14739ba70c491ed29239bca9c041c2b954950b29").legacyPackages.x86_64-linux;
 
   rofiWithHoogle =
     let
@@ -274,6 +274,8 @@ in
   # $ nix search wget
   environment = {
     systemPackages = with pkgs.xfce // pkgs; [
+      unstable4.openrct2
+      unstable4.freetube
 
       unstable4.tor-browser
       kdenlive
@@ -566,12 +568,13 @@ in
     ];
 
     etc."xdg/gtk-2.0/gtkrc".text = ''
-      gtk-theme-name="Adwaita"
+      gtk-theme-name="Adwaita-dark"
     '';
     etc."xdg/gtk-3.0/settings.ini".text = ''
       [Settings]
-      gtk-theme-name=Adwaita
+      gtk-theme-name=Adwaita-dark
     '';
+
 
     variables.QT_QPA_PLATFORMTHEME = "qt5ct";
 
