@@ -167,6 +167,8 @@ in {
       0.0.0.0 linkedin.com
       0.0.0.0 twitter.com
       0.0.0.0 news.ycombinator.com
+      0.0.0.0 facebook.com
+      0.0.0.0 www.facebook.com
 
     '';
     # interfaces."lo".ip4.addresses = [
@@ -207,6 +209,8 @@ in {
       nodejs
       terraform
       unstable2.openapi-generator-cli
+      tor-browser
+      qrencode
 
       yt-dlp
       unstable2.devenv
@@ -233,6 +237,12 @@ in {
       bluez
       awscli2
 
+      electrum # peeps ask me to buy crypto for them :s
+
+      # eg use it to explore dependencies on flakes,
+      # for example: --derivation '.#trilateration'
+      nix-tree
+
       # https://superuser.com/questions/171195/how-to-check-the-health-of-a-hard-drive
       smartmontools
 
@@ -248,7 +258,7 @@ in {
       neomutt
       miraclecast
       gnome-network-displays
-      # anydesk
+      anydesk
 
       iw # fav around with wireless networks https://gitlab.gnome.org/GNOME/gnome-network-displays/-/issues/64
 
@@ -271,6 +281,9 @@ in {
       tldr
       openra
       wineWowPackages.stable
+      dxvk_2
+
+
       tdesktop # telegram, for senpaii))
 
       # devpackeges.haskellPackages.cut-the-crap
@@ -618,6 +631,7 @@ $ sudo ifconfig wlp2s0b1 up
   };
   hardware.graphics = {
     enable = true;
+    enable32Bit = true;
     extraPackages = with pkgs; [
        libGL
     ];
@@ -719,6 +733,9 @@ $ sudo ifconfig wlp2s0b1 up
         };
         "/home/jappie/sm-a515f_nca9-foto's" = {
           id = "sm-a515f_nca9-foto's";
+        };
+        "/home/jappie/yt-trash" = {
+          id = "uiyvz-makk2";
         };
       };
       # self TRFG2TO-MFLXN2M-U56IH3L-WUOZSC5-7TOG5JF-RU7BUCK-XJ6TBEL-TYVITAF
