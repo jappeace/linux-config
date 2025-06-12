@@ -4,6 +4,8 @@
 
 { config, pkgs, ... }:
 let
+  privateKey     = "/home/jappie/.ssh/nix_flakes_id_rsa";
+  publicKeyPath  = "/home/jappie/.ssh/nix_flakes_id_rsa.pub";
   bevel-production = (
     import
       (
@@ -28,19 +30,7 @@ let
       allowUnfree = true;
     };
   };
-  unstable4 = (builtins.getFlake "github:nixos/nixpkgs/14739ba70c491ed29239bca9c041c2b954950b29").legacyPackages.x86_64-linux;
-
-  rofiWithHoogle =
-    let
-      rofi-hoogle-src = pkgs.fetchFromGitHub {
-        owner = "rebeccaskinner";
-        repo = "rofi-hoogle";
-        rev = "27c273ff67add68578052a13f560a08c12fa5767";
-        sha256 = "09vx9bc8s53c575haalcqkdwy44ys1j8v9k2aaly7lndr19spp8f";
-      };
-      rofi-hoogle = import "${rofi-hoogle-src}/release.nix";
-    in
-    pkgs.rofi.override { plugins = [ rofi-hoogle.rofi-hoogle ]; };
+  unstable4 = (builtins.getFlake "github:ryand56/nixpkgs/d1a8eb518fc8c0a553cf784a0d911ef0916aea4b").legacyPackages.x86_64-linux;
 
   hostdir = pkgs.writeShellScriptBin "hostdir" ''
     ${pkgs.lib.getExe pkgs.python3} -m http.server
@@ -49,7 +39,7 @@ let
   # fixes weird tz not set bug
   # https://github.com/NixOS/nixpkgs/issues/238025
   betterFirefox = pkgs.writeShellScriptBin "firefox" ''
-    TZ=:/etc/localtime ${pkgs.lib.getExe pkgs.firefox} "$@"
+    TZ=:/etc/localtime ${pkgs.lib.getExe unstable4.firefox} "$@"
   '';
 
   # phone makes pictures to big usually
@@ -67,6 +57,8 @@ let
 
   # Me to the max
   maxme = pkgs.writeShellScriptBin "maxme" ''emacsclient . &!'';
+
+  fuckdirenv = pkgs.writeShellScriptBin "fuckdirenv" ''fd -t d -IH direnv --exec rm -r'';
 
   reload-emacs = pkgs.writeShellScriptBin "reload-emacs" ''
     sudo nixos-rebuild switch && systemctl daemon-reload --user &&    systemctl restart emacs --user
@@ -93,6 +85,14 @@ let
 
 in
 {
+
+  # give nix access to private keys
+  systemd.services."nix-daemon".serviceConfig = {
+    # force git to always use our new key:
+    Environment = ''
+      GIT_SSH_COMMAND=ssh -i /etc/ssh/nix_flakes_id_rsa -o IdentitiesOnly=yes
+    '';
+  };
   imports = [
     # Include the results of the hardware scan.
     # note that this is a different device than the lenovo amd
@@ -187,41 +187,6 @@ in
   };
 
 
-  services.grafana = {
-    enable = true;
-    settings = {
-      server = {
-        # Listening Address
-        http_addr = "127.0.0.1";
-        # and Port
-        http_port = 2999;
-        # Grafana needs to know on which domain and URL it's running
-        domain = "localhost";
-        serve_from_sub_path = true;
-      };
-    };
-  };
-# https://nixos.org/manual/nixos/stable/#module-services-prometheus-exporters
-  services.prometheus.exporters.node = {
-    enable = true;
-    port = 9001;
-    # https://github.com/NixOS/nixpkgs/blob/nixos-24.05/nixos/modules/services/monitoring/prometheus/exporters.nix
-    enabledCollectors = [ "systemd" ];
-    # /nix/store/zgsw0yx18v10xa58psanfabmg95nl2bb-node_exporter-1.8.1/bin/node_exporter  --help
-    extraFlags = [ "--collector.cpu" "--collector.ethtool" "--collector.tcpstat" "--collector.wifi" ];
-  };
-  services.prometheus = {
-    enable = true;
-    globalConfig.scrape_interval = "10s"; # "1m"
-    scrapeConfigs = [
-    {
-      job_name = "node";
-      static_configs = [{
-        targets = [ "localhost:${toString config.services.prometheus.exporters.node.port}" ];
-      }];
-    }
-    ];
-  };
   networking = {
     hostName = "lenovo-amd-2022"; # Define your hostname.
     # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
@@ -230,9 +195,10 @@ in
     # randomly checking them, even several times in a row.
     # Blocking them permenantly for a week or so gets rid of that behavior
     extraHosts = ''
-      0.0.0.0 www.linkedin.com
-      0.0.0.0 linkedin.com
       0.0.0.0 news.ycombinator.com
+      0.0.0.0 www.linkedin.com
+      0.0.0.0 www.facebook.com
+      0.0.0.0 www.understandingwar.org
     '';
     #   0.0.0.0 discord.com
     #   0.0.0.0 discourse.haskell.org
@@ -268,6 +234,7 @@ in
   # time.timeZone = "Europe/Sofia";
   # time.timeZone = "Europe/London";
   time.timeZone = "Europe/Amsterdam";
+  # time.timeZone = "Europe/Reykjavik";
   # time.timeZone = "America/Aruba";
 
   # List packages installed in system profile. To search, run:
@@ -276,14 +243,18 @@ in
     systemPackages = with pkgs.xfce // pkgs; [
       unstable4.openrct2
       unstable4.freetube
+      fuckdirenv
 
       unstable4.tor-browser
-      kdenlive
+      kdePackages.kdenlive
+      kdePackages.konsole
+      xfce4-terminal
+
+      rofi
       unstable2.devenv
       pkgs.haskellPackages.greenclip
       unstable.nodejs_20 # the one in main is broken, segfautls
       unstable.postgresql
-      rofiWithHoogle
       calibre
       audacious
       xclip
@@ -303,6 +274,7 @@ in
       unstable4.yt-dlp
       pkgs.haskellPackages.fourmolu
       bluez
+
 
       # gtk-vnc # screen sharing for linux
       x2vnc
@@ -324,14 +296,11 @@ in
       # eg final fantasy 7 is in ~/ff7
       # press f4 to laod state
       # f2 to save
-      (retroarch.override {
-        # https://nixos.wiki/wiki/RetroArch
-        cores = with libretro; [
+      (retroarch.withCores (libretro: [
           # genesis-plus-gx
           # snes9x
-          beetle-psx-hw
-        ];
-      })
+          libretro.beetle-psx-hw
+      ]))
       postman
 
       binutils # eg nm and other lowlevel cruft
@@ -355,7 +324,7 @@ in
       i3status
       nixpkgs-fmt
       mpv # mplayer
-      ark
+      kdePackages.ark
       burpsuite
       starship
       openssl
@@ -444,7 +413,7 @@ in
         $ sudo ifconfig wlp2s0b1 up
       */
 
-      hardinfo # https://askubuntu.com/questions/179958/how-do-i-find-out-my-motherboard-model
+      hardinfo2 # https://askubuntu.com/questions/179958/how-do-i-find-out-my-motherboard-model
       dmidecode
 
       pv # cat with progress bar
@@ -490,7 +459,7 @@ in
       # theme shit
       blackbird
       lxappearance # theme, adwaita-dark works for gtk3, gtk2 and qt5.
-      qt5ct
+      libsForQt5.qt5ct
 
 
       glxinfo # glxgears
@@ -511,7 +480,7 @@ in
       # the spell to make openvpn work:   nmcli connection modify jappie vpn.data "key = /home/jappie/openvpn/website/jappie.key, ca = /home/jappie/openvpn/website/ca.crt, dev = tun, cert = /home/jappie/openvpn/website/jappie.crt, ns-cert-type = server, cert-pass-flags = 0, comp-lzo = adaptive, remote = jappieklooster.nl:1194, connection-type = tls"
       # from https://github.com/NixOS/nixpkgs/issues/30235
       openvpn # piratebay access
-      plasma-systemmonitor # monitor my system.. with graphs! (so I don't need to learn real skills)
+      kdePackages.plasma-systemmonitor # monitor my system.. with graphs! (so I don't need to learn real skills)
       gnumake # handy for adhoc configs, https://github.com/NixOS/nixpkgs/issues/17293
       # fbreader # read books # TODO broken?
       libreoffice
@@ -524,7 +493,6 @@ in
       htop
       feh
       dnsutils
-      konsole
       zoom-us
       espeak
       pandoc
@@ -575,6 +543,11 @@ in
       gtk-theme-name=Adwaita-dark
     '';
 
+    # ggive flake access to private repo's...
+    etc."ssh/nix_flakes_id_rsa".source = privateKey;
+    etc."ssh/nix_flakes_id_rsa".mode   = "0600";
+    etc."ssh/nix_flakes_id_rsa.pub".source = publicKeyPath;
+
 
     variables.QT_QPA_PLATFORMTHEME = "qt5ct";
 
@@ -606,8 +579,8 @@ in
   };
 
   fonts = {
-    enableDefaultFonts = true;
-    fonts = with pkgs; [
+    enableDefaultPackages = true;
+    packages = with pkgs; [
       fira-code
       fira-code-symbols
       inconsolata
@@ -617,7 +590,7 @@ in
       font-awesome_5
       siji
       jetbrains-mono
-      noto-fonts-cjk
+      noto-fonts-cjk-sans
       ipaexfont
       helvetica-neue-lt-std
     ];
@@ -629,13 +602,16 @@ in
     };
   };
 
-  # Enable sound.
-  sound.enable = true;
-
   nixpkgs.config = {
+    # TODO where the hell are these comming from??
+    permittedInsecurePackages = [
+                "dotnet-sdk-6.0.428"
+                "dotnet-runtime-6.0.36"
+
+              ];
     allowUnfree = true; # I'm horrible, nvidia sucks, TODO kill nvidia
     pulseaudio = true;
-    packageOverrides = pkgs: {
+    packageeverrides = pkgs: {
       neovim = pkgs.neovim.override {
         configure = {
           customRC = ''
@@ -684,7 +660,8 @@ in
   # hardware.bumblebee.enable = true;
   # hardware.bumblebee.connectDisplay = true;
   hardware.bluetooth.enable = true;
-  hardware.pulseaudio = {
+  services.pipewire.enable = false;
+  services.pulseaudio = {
 
     enable = true;
     support32Bit = true;
@@ -693,11 +670,9 @@ in
       anonymousClients.allowAll = true; # bite me
     };
   };
-  hardware.opengl = {
+  hardware.graphics = {
     enable = true;
-    driSupport = true;
-    driSupport32Bit = true;
-    setLdLibraryPath = true;
+    enable32Bit = true;
     extraPackages = with pkgs; [
       libGL
     ];
@@ -719,6 +694,7 @@ in
 
   # Enable the OpenSSH daemon.
   # services.openssh.enable = true;
+  # console.useXkbConfig = true;
   services = {
     # bevel.production.api-server = {
     #   enable = true;
@@ -780,7 +756,7 @@ in
         archive_mode = "off";
         max_wal_senders = 0;
       };
-      package = (pkgs.postgresql_12.withPackages (p: [ p.postgis ]));
+      package = (pkgs.postgresql.withPackages (p: [ p.postgis ]));
 
       initialScript = pkgs.writeText "backend-initScript" ''
         CREATE USER jappie WITH PASSWORD \'\';
@@ -790,6 +766,7 @@ in
     };
 
     syncthing = {
+      package = unstable4.syncthing;
       enable = true;
       user = "jappie";
       group = "users";
@@ -819,8 +796,7 @@ in
     # services.xserver.enable = true;
     # services.xserver.layout = "us";
     # services.xserver.xkbOptions = "eurosign:e";
-    xserver = {
-      autorun = true; # disable on troubles
+
       displayManager = {
         autoLogin = {
           user = "jappie";
@@ -830,9 +806,6 @@ in
         sddm = {
           enable = true;
         };
-        sessionCommands = ''
-          ${pkgs.xorg.xmodmap}/bin/xmodmap ~/.Xmodmap
-        '';
         defaultSession = "none+i3";
       };
       libinput = {
@@ -842,14 +815,16 @@ in
           disableWhileTyping = true;
         };
       };
+    xserver = {
+      xkb.options = "caps:swapescape";
+      autorun = true; # disable on troubles
       videoDrivers = [ "amdgpu" "radeon" "cirrus" "vesa" "modesetting" "intel" ];
-      desktopManager.xfce.enable = true; # for the xfce-panel in i3
-      desktopManager.xfce.noDesktop = true;
-      desktopManager.xfce.enableXfwm =
-        false; # try disabling xfce popping over i3
-      # desktopManager.gnome3.enable = true; # to get the themes working with gnome-tweak tool
       windowManager.i3.enable = true;
       windowManager.i3.extraPackages = [ pkgs.adwaita-qt ];
+      windowManager.i3.extraSessionCommands = ''
+          sleep 1;
+          ${pkgs.xorg.xmodmap}/bin/xmodmap ~/.Xmodmap
+        '';
 
       desktopManager.plasma5 = {
         enable = true;
@@ -925,11 +900,11 @@ in
     # This value determines the NixOS release with which your system is to be
     # compatible, in order to avoid breaking some software such as database
     # servers. You should change this only after NixOS release notes say you
-    # should.
+    # should.sudo nixos-rebuild switch --upgradesudo nixos-rebuild switch --upgrade
     # to upgrade, add a channel:
     # $ sudo nix-channel --add https://nixos.org/channels/nixos-18.09 nixos
     # $ sudo nixos-rebuild switch --upgrade
-    stateVersion = "23.05"; # Did you read the comment?
+    stateVersion = "25.05"; # Did you read the comment?
     # 🕙 2021-06-13 19:59:36 in ~ took 14m27s
     # ✦ ❯ nixos-version
     # 20.09.4321.115dbbe82eb (Nightingale)
@@ -946,13 +921,13 @@ in
   };
   virtualisation = {
     # enable either podman or docker, not both
-    docker.enable = true;
-    # podman = { # for arion
-    #    enable = true;
-    #    dockerSocket.enable = true;
-    #    dockerCompat = true;
-    #    defaultNetwork.settings.dns_enabled = true;
-    #  };
+    # docker.enable = true;
+    podman = { # for arion
+       enable = true;
+       dockerSocket.enable = true;
+       dockerCompat = true;
+       defaultNetwork.settings.dns_enabled = true;
+     };
     virtualbox.host = {
       enable = true;
       enableExtensionPack = true;
@@ -981,10 +956,9 @@ in
         "https://cache.nixos.org"
         "https://nixcache.reflex-frp.org" # reflex
         "https://jappie.cachix.org"
-        "https://all-hies.cachix.org"
         "https://nix-community.cachix.org"
         "https://nix-cache.jappie.me"
-        "https://cache.iog.io"
+        # "https://cache.iog.io"
         # "https://static-haskell-nix.cachix.org"
       ];
 
@@ -992,7 +966,6 @@ in
         "ryantrinkle.com-1:JJiAKaRv9mWgpVAz8dwewnZe0AzzEAzPkagE9SP5NWI=" # reflex
         "static-haskell-nix.cachix.org-1:Q17HawmAwaM1/BfIxaEDKAxwTOyRVhPG5Ji9K3+FvUU="
         "jappie.cachix.org-1:+5Liddfns0ytUSBtVQPUr/Wo6r855oNLgD4R8tm1AE4="
-        "all-hies.cachix.org-1:JjrzAOEUsD9ZMt8fdFbzo3jNAyEWlPAwdVuHw4RD43k="
         "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
         # "nix-cache.jappie.me:WjkKcvFtHih2i+n7bdsrJ3HuGboJiU2hA2CZbf9I9oc="
       ];

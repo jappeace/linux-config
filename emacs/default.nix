@@ -41,7 +41,7 @@ in {
   };
 
   nixpkgs.overlays = [
-      (import (builtins.fetchTarball "https://github.com/nix-community/emacs-overlay/archive/9e011822a39acb8d7d3501c361b3e59a1da90ffa.tar.gz"))
+      (import (builtins.fetchTarball "https://github.com/nix-community/emacs-overlay/archive/f6850858f78e2b6328f6e8bb7bf9df10dd0b7973.tar.gz"))
   ];
 
   services = {
