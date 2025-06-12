@@ -48,6 +48,7 @@ in {
 		emacs = {
 			enable = true; # deamon mode
 			package = (import ./emacs.nix { inherit pkgs; });
+      startWithGraphical = true;
 		};
   };
 }
