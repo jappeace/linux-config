@@ -196,7 +196,6 @@ in
     # Blocking them permenantly for a week or so gets rid of that behavior
     extraHosts = ''
       0.0.0.0 news.ycombinator.com
-      0.0.0.0 www.linkedin.com
       0.0.0.0 www.facebook.com
       0.0.0.0 www.understandingwar.org
     '';
@@ -244,6 +243,8 @@ in
       unstable4.openrct2
       unstable4.freetube
       fuckdirenv
+
+      nix-output-monitor # pretty nix graph
 
       unstable4.tor-browser
       kdePackages.kdenlive
