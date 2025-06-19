@@ -253,6 +253,7 @@ in {
       # arion, eg docker-compose for nix
       arion
       docker-client
+      docker-compose
 
       augustus
       neomutt
@@ -910,13 +911,13 @@ $ sudo ifconfig wlp2s0b1 up
   };
   virtualisation = {
     # enable either podman or docker, not both
-    docker.enable = true;
-   # podman = { # for arion
-   #    enable = true;
-   #    dockerSocket.enable = true;
-   #    dockerCompat = true;
-   #    defaultNetwork.settings.dns_enabled = true;
-   #  };
+    # docker.enable = true;
+   podman = { # for arion
+      enable = true;
+      dockerSocket.enable = true;
+      dockerCompat = true;
+      defaultNetwork.settings.dns_enabled = true;
+    };
     virtualbox.host = {
       enable = true;
       enableExtensionPack = true;
