@@ -139,8 +139,8 @@ in
     # services.jappie.enableGnomeKeyring = true;
     # eg see /etc/pam.d/ to figure out service names
     # use the enabled display service
-    services.sddm.gnupg.enable = true;
-    services.sddm.gnupg.storeOnly = true;
+    # services.sddm.gnupg.enable = true;
+    # services.sddm.gnupg.storeOnly = true;
     # services.sddm.gnupg.noAutostart = true;
     #     services.sddm.text = ''
     # # Account management.
