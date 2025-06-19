@@ -804,7 +804,7 @@ in
           enable = false;
         };
         # I tried lightdm but id doesn't work with pam for some reason
-        sddm = {
+        lightdm = {
           enable = true;
         };
         defaultSession = "none+i3";
