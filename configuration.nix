@@ -814,7 +814,11 @@ in
       };
     };
     xserver = {
-      xkb.options = "caps:swapescape";
+      xkb = {
+        layout = "us";
+        options = "caps:swapescape";
+      };
+
       autorun = true; # disable on troubles
       videoDrivers = [ "amdgpu" "radeon" "cirrus" "vesa" "modesetting" "intel" ];
       windowManager.i3.enable = true;
@@ -836,7 +840,6 @@ in
         phononBackend = "vlc";
       };
       enable = true;
-      layout = "us";
     };
 
     redshift = { enable = true; };
