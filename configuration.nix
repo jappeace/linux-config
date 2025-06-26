@@ -798,17 +798,6 @@ in
     # services.xserver.layout = "us";
     # services.xserver.xkbOptions = "eurosign:e";
 
-      displayManager = {
-        autoLogin = {
-          user = "jappie";
-          enable = false;
-        };
-        # I tried lightdm but id doesn't work with pam for some reason
-        lightdm = {
-          enable = true;
-        };
-        defaultSession = "none+i3";
-      };
       libinput = {
         enable = true;
         touchpad = {
@@ -816,6 +805,14 @@ in
           disableWhileTyping = true;
         };
       };
+
+    displayManager = {
+      defaultSession = "none+i3";
+      autoLogin = {
+        user = "jappie";
+        enable = false;
+      };
+    };
     xserver = {
       xkb.options = "caps:swapescape";
       autorun = true; # disable on troubles
@@ -826,6 +823,13 @@ in
           sleep 1;
           ${pkgs.xorg.xmodmap}/bin/xmodmap ~/.Xmodmap
         '';
+
+      displayManager = {
+        # I tried lightdm but id doesn't work with pam for some reason
+        lightdm = {
+          enable = true;
+        };
+      };
 
       desktopManager.plasma5 = {
         enable = true;
