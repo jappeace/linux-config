@@ -223,7 +223,8 @@ in
     defaultLocale = "nl_NL.UTF-8";
     supportedLocales = [ "en_US.UTF-8/UTF-8" "nl_NL.UTF-8/UTF-8" ];
     inputMethod = {
-      enabled = "ibus";
+      enable = true;
+      type = "ibus";
       ibus.engines = [ pkgs.ibus-engines.libpinyin ];
     };
   };
