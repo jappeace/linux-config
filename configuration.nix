@@ -223,7 +223,8 @@ in
     defaultLocale = "nl_NL.UTF-8";
     supportedLocales = [ "en_US.UTF-8/UTF-8" "nl_NL.UTF-8/UTF-8" ];
     inputMethod = {
-      enabled = "ibus";
+      enable = true;
+      type = "ibus";
       ibus.engines = [ pkgs.ibus-engines.libpinyin ];
     };
   };
@@ -729,7 +730,7 @@ in
     };
     avahi = {
       enable = true;
-      nssmdns = true;
+      nssmdns4 = true;
     };
     redis = { servers."x".enable = true; };
 
@@ -798,17 +799,6 @@ in
     # services.xserver.layout = "us";
     # services.xserver.xkbOptions = "eurosign:e";
 
-      displayManager = {
-        autoLogin = {
-          user = "jappie";
-          enable = false;
-        };
-        # I tried lightdm but id doesn't work with pam for some reason
-        lightdm = {
-          enable = true;
-        };
-        defaultSession = "none+i3";
-      };
       libinput = {
         enable = true;
         touchpad = {
@@ -816,8 +806,20 @@ in
           disableWhileTyping = true;
         };
       };
+
+    displayManager = {
+      defaultSession = "none+i3";
+      autoLogin = {
+        user = "jappie";
+        enable = false;
+      };
+    };
     xserver = {
-      xkb.options = "caps:swapescape";
+      xkb = {
+        layout = "us";
+        options = "caps:swapescape";
+      };
+
       autorun = true; # disable on troubles
       videoDrivers = [ "amdgpu" "radeon" "cirrus" "vesa" "modesetting" "intel" ];
       windowManager.i3.enable = true;
@@ -827,12 +829,18 @@ in
           ${pkgs.xorg.xmodmap}/bin/xmodmap ~/.Xmodmap
         '';
 
+      displayManager = {
+        # I tried lightdm but id doesn't work with pam for some reason
+        lightdm = {
+          enable = true;
+        };
+      };
+
       desktopManager.plasma5 = {
         enable = true;
         phononBackend = "vlc";
       };
       enable = true;
-      layout = "us";
     };
 
     redshift = { enable = true; };
