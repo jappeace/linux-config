@@ -108,7 +108,7 @@ in
     loader.systemd-boot.enable = true;
     loader.efi.canTouchEfiVariables = true;
     plymouth = {
-      enable = true;
+      enable = false;
       theme = "spinfinity"; # spinfinity
     };
     # kernelPackages = pkgs.linuxPackages_4_9; # fix supsend maybe?
@@ -198,6 +198,8 @@ in
       0.0.0.0 news.ycombinator.com
       0.0.0.0 www.facebook.com
       0.0.0.0 www.understandingwar.org
+      0.0.0.0 www.reddit.com
+      0.0.0.0 www.linkedin.com
     '';
     #   0.0.0.0 discord.com
     #   0.0.0.0 discourse.haskell.org
@@ -241,8 +243,8 @@ in
   # $ nix search wget
   environment = {
     systemPackages = with pkgs.xfce // pkgs; [
-      unstable4.openrct2
-      unstable4.freetube
+      openrct2
+      freetube
       fuckdirenv
 
       nix-output-monitor # pretty nix graph
@@ -729,10 +731,10 @@ in
       ];
     };
     avahi = {
-      enable = true;
+      enable = false;
       nssmdns4 = true;
     };
-    redis = { servers."x".enable = true; };
+    redis = { servers."x".enable = false; };
 
     postgresql = {
       enable = true; # postgres for local dev
