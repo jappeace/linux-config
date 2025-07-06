@@ -551,12 +551,19 @@ in
       "/share/nix-direnv"
     ];
 
+    # set theme, make font also bigger by default as we've
+    # high res screen
     etc."xdg/gtk-2.0/gtkrc".text = ''
+      [Settings]
       gtk-theme-name="Adwaita-dark"
+      gtk-font-name = Noto Sans 18
     '';
+
     etc."xdg/gtk-3.0/settings.ini".text = ''
       [Settings]
       gtk-theme-name=Adwaita-dark
+      gtk-font-name = Noto Sans 18
+      gtk-monofont-name = Fira Code 18
     '';
 
     # ggive flake access to private repo's...
