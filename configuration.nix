@@ -566,7 +566,7 @@ in
       gtk-monofont-name = Fira Code 18
     '';
 
-    # ggive flake access to private repo's...
+    # give flake access to private repo's...
     etc."ssh/nix_flakes_id_rsa".source = privateKey;
     etc."ssh/nix_flakes_id_rsa".mode   = "0600";
     etc."ssh/nix_flakes_id_rsa.pub".source = publicKeyPath;
@@ -590,6 +590,19 @@ in
   # programs.bash.enableCompletion = true;
   # programs.mtr.enable = true;
   programs = {
+    xfconf.enable = true; # allow configuring thunar
+    # can find them here
+    # https://github.com/NixOS/nixpkgs/tree/master/pkgs/desktops/xfce/thunar-plugins
+    # some aren't packaged yet:
+    # https://docs.xfce.org/xfce/thunar/start#thunar_plugins
+    # I think samba would be rad.
+    thunar.plugins = with pkgs.xfce; [
+      thunar-archive-plugin
+      thunar-volman
+      thunar-vcs-plugin
+      thunar-media-tags-plugin
+    ];
+
     gnupg.agent = {
       enable = true;
       enableSSHSupport = true;
@@ -620,6 +633,7 @@ in
     fontconfig = {
       defaultFonts = {
         # we need to set in in qt5ct as well.
+        sansSerif = [ "Noto Sans" ];
         monospace = [ "Fira Code" ];
       };
     };
@@ -686,6 +700,7 @@ in
   services.pipewire.enable = false;
   services.pulseaudio = {
 
+
     enable = true;
     support32Bit = true;
     tcp = {
@@ -693,6 +708,11 @@ in
       anonymousClients.allowAll = true; # bite me
     };
   };
+
+  # thunar stuff
+  services.gvfs.enable = true; # Mount, trash, and other functionalities
+  services.tumbler.enable = true; # Thumbnail support for images
+
   hardware.graphics = {
     enable = true;
     enable32Bit = true;
