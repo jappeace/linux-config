@@ -855,6 +855,10 @@ in
         enable = false;
       };
     };
+
+    desktopManager.plasma6 = {
+      enable = true;
+    };
     xserver = {
       xkb = {
         layout = "us";
@@ -877,10 +881,6 @@ in
         };
       };
 
-      desktopManager.plasma5 = {
-        enable = true;
-        phononBackend = "vlc";
-      };
       enable = true;
     };
 
