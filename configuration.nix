@@ -555,13 +555,13 @@ in
     # high res screen
     etc."xdg/gtk-2.0/gtkrc".text = ''
       [Settings]
-      gtk-theme-name="Adwaita-dark"
+      gtk-theme-name="Adwaita"
       gtk-font-name = Noto Sans 18
     '';
 
     etc."xdg/gtk-3.0/settings.ini".text = ''
       [Settings]
-      gtk-theme-name=Adwaita-dark
+      gtk-theme-name=Adwaita
       gtk-font-name = Noto Sans 18
       gtk-monofont-name = Fira Code 18
     '';

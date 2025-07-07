@@ -81,13 +81,13 @@
 (use-package monokai-theme
   :load-path "themes"
   :config
-  (load-theme 'monokai t)
+  ;; (load-theme 'monokai t)
   )
 
 (use-package modus-themes
   :load-path "themes"
   :config
-  ;; (load-theme 'modus-operandi-tinted t)
+  (load-theme 'modus-operandi-tinted t)
   )
 
 
