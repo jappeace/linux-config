@@ -539,7 +539,8 @@ in
       nix-direnv
     ];
     shellAliases = {
-      nix = "nix -Lv --fallback";
+      nix = "nom";
+      niix = "nix -Lv --fallback";
       vim = "nvim";
       cp = "cp --reflink=auto"; # btrfs shine
       ssh = "ssh -C"; # why is this not default?
