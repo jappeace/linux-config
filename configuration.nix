@@ -255,6 +255,7 @@ in
   # $ nix search wget
   environment = {
     systemPackages = with pkgs.xfce // pkgs; [
+      atuin
       openrct2
       freetube
       fuckdirenv
@@ -712,6 +713,9 @@ in
   # thunar stuff
   services.gvfs.enable = true; # Mount, trash, and other functionalities
   services.tumbler.enable = true; # Thumbnail support for images
+
+  # # reverse search sync
+  # services.atuin.enable = true;
 
   hardware.graphics = {
     enable = true;
