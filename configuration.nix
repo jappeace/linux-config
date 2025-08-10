@@ -271,7 +271,7 @@ in
       unstable2.devenv
       pkgs.haskellPackages.greenclip
       unstable.nodejs_20 # the one in main is broken, segfautls
-      unstable.postgresql
+      postgresql
       calibre
       audacious
       xclip
