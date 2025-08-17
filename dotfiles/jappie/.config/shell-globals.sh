@@ -43,3 +43,5 @@ export YESOD_ENV="development"
 # https://eshlox.net/2017/08/01/bash-increase-command-history-size
 export HISTSIZE=20000
 export HISTFILESIZE=20000
+
+export ATUIN_CONFIG_DIR="/linux-config/atuin"
