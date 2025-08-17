@@ -552,7 +552,9 @@ two prefix arguments, write out the day and month name."
   :defer t
   :hook
   (haskell-mode . eglot-ensure)
+  (nix-mode . eglot-ensure)
   :config
+  (add-to-list 'eglot-server-programs '(nix-mode . ("nil")))
   (add-hook 'haskell-mode-hook 'eglot-ensure)
   (setq-default eglot-workspace-configuration
                 '((haskell

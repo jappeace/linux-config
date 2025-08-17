@@ -37,6 +37,10 @@ in {
 
         pkgs.python3Packages.black
         pgformatter
+
+
+        # nix language server
+        pkgs.nil
 	  ];
   };
 
