@@ -40,4 +40,8 @@ eval "$(direnv hook bash)"
 eval "$(zoxide init --hook pwd bash)"
 export PATH=$PATH:/home/jappie/.local/bin
 
+source -- "$(blesh-share)"/ble.sh --attach=none # attach does not work currently
+[[ ! ${BLE_VERSION-} ]] || ble-attach
+
+
 eval "$(atuin init bash)"

@@ -255,6 +255,7 @@ in
   # $ nix search wget
   environment = {
     systemPackages = with pkgs.xfce // pkgs; [
+      blesh
       atuin
       openrct2
       freetube
