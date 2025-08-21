@@ -40,6 +40,8 @@ eval "$(direnv hook bash)"
 eval "$(zoxide init --hook pwd bash)"
 export PATH=$PATH:/home/jappie/.local/bin
 
+eval "$(fzf --bash)" # we do fzf first, so atuin overrides ctrl-r
+
 source -- "$(blesh-share)"/ble.sh --attach=none # attach does not work currently
 [[ ! ${BLE_VERSION-} ]] || ble-attach
 
