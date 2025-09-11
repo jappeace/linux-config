@@ -258,6 +258,7 @@ in
       blesh
       atuin
       openrct2
+      starsector
       freetube
       fuckdirenv
 
@@ -420,6 +421,7 @@ in
 
       crawlTiles
       mariadb
+      browsh # better browser
 
       macchanger # change mac address
       change-mac
