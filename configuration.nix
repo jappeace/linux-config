@@ -542,7 +542,7 @@ in
     ];
     shellAliases = {
       nix = "nom";
-      niix = "nix -Lv --fallback";
+      niix = "${pkgs.nix}/bin/nix -Lv --fallback";
       vim = "nvim";
       cp = "cp --reflink=auto"; # btrfs shine
       ssh = "ssh -C"; # why is this not default?
