@@ -247,9 +247,10 @@ in
   # https://en.wikipedia.org/wiki/List_of_tz_database_time_zones
   # time.timeZone = "Europe/Sofia";
   # time.timeZone = "Europe/London";
-  # time.timeZone = "Europe/Amsterdam";
+  time.timeZone = "Europe/Amsterdam";
   # time.timeZone = "Europe/Reykjavik";
-  time.timeZone = "America/Aruba";
+  # time.timeZone = "America/Aruba";
+  # time.timeZone = "US/Central"; # houston
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
@@ -261,6 +262,7 @@ in
       starsector
       freetube
       fuckdirenv
+      mosquitto
 
       nix-output-monitor # pretty nix graph
 
@@ -506,7 +508,6 @@ in
       # fbreader # read books # TODO broken?
       libreoffice
       qpdfview
-      pidgin
       tcpdump
       ntfs3g
       qdirstat
@@ -517,7 +518,6 @@ in
       zoom-us
       espeak
       pandoc
-      pidgin
       wineWowPackages.stable
       winetricks
       teamviewer
