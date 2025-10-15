@@ -237,6 +237,8 @@ in {
       bluez
       awscli2
 
+      ed # ed is the standard editor!
+
       electrum # peeps ask me to buy crypto for them :s
 
       # eg use it to explore dependencies on flakes,
