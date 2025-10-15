@@ -39,3 +39,6 @@ eval "$(direnv hook bash)"
 
 eval "$(zoxide init --hook pwd bash)"
 export PATH=$PATH:/home/jappie/.local/bin
+
+# fix slow ass mouse
+xinput set-prop 11 "libinput Accel Speed" 10

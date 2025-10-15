@@ -11,8 +11,11 @@
 # to create a single pdf out of result:
 # 1. right order: `for i in $(seq 1 9); do mv uea-print-$i.jpg uea-print-0$i.jpg; done`
 #    note that this doesn't work in zsh
-# 2. to pdf: convert-print-* uea-print.pdf
+# 2. to pdf: convert print-* uea-print.pdf
 
+# nb you can use image magick to create a bunch of jpg files from
+# a pdf
+# magick -density 300 input.pdf output-%d.jpg
 
 set -xe
 

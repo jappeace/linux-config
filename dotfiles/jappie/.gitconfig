@@ -12,6 +12,7 @@
 	co = commit
 	co = commit
 	cm = commit
+	gud = commit
 [merge]
 	tool = ediff
 [mergetool "ediff"]

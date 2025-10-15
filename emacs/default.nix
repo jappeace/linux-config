@@ -6,7 +6,6 @@ let
 
   aspell_with_dict = pkgs.aspellWithDicts(ps: [ps.nl ps.en]);
 
-  agsy = (import ./agsy.nix).agsy;
 in {
   # List packages installed in system profile. To search, run:
   # $ nix search wget
@@ -34,7 +33,7 @@ in {
         pkgs.nodePackages.prettier
         pkgs.python3Packages.sqlparse # sqlforamt
         pkgs.shellcheck
-        agsy
+        (pkgs.agda.withPackages (p: [ p.standard-library ]))
 
         pkgs.python3Packages.black
         pgformatter
@@ -42,13 +41,14 @@ in {
   };
 
   nixpkgs.overlays = [
-      (import (builtins.fetchTarball "https://github.com/nix-community/emacs-overlay/archive/9e011822a39acb8d7d3501c361b3e59a1da90ffa.tar.gz"))
+      (import (builtins.fetchTarball "https://github.com/nix-community/emacs-overlay/archive/f6850858f78e2b6328f6e8bb7bf9df10dd0b7973.tar.gz"))
   ];
 
   services = {
 		emacs = {
 			enable = true; # deamon mode
 			package = (import ./emacs.nix { inherit pkgs; });
+      startWithGraphical = true;
 		};
   };
 }
