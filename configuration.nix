@@ -88,7 +88,7 @@ in {
     loader.systemd-boot.enable = true;
     loader.efi.canTouchEfiVariables = true;
     plymouth = {
-      enable = true;
+      enable = false;
       theme = "spinfinity"; # spinfinity
     };
     # kernelPackages = pkgs.linuxKernel.packages.linux_6_1; #  6.6 don't boot?
@@ -223,7 +223,7 @@ in {
     systemPackages = with pkgs.xfce // pkgs; [
       protobuf
       qemu_full
-      kdenlive
+      kdePackages.kdenlive
       # for those sweet global installs
       unstable.nodePackages.pnpm
       unstable.postgresql
@@ -301,11 +301,11 @@ in {
       # eg final fantasy 7 is in ~/ff7
       # press f4 to laod state
       # f2 to save
-      (retroarch.withCores (libretro: [
-          # genesis-plus-gx
-          # snes9x
-          libretro.beetle-psx-hw
-      ]))
+      # (retroarch.withCores (libretro: [
+      #     # genesis-plus-gx
+      #     # snes9x
+      #     libretro.beetle-psx-hw
+      # ]))
       postman
 
       binutils # eg nm and other lowlevel cruft
@@ -434,7 +434,7 @@ in {
 
       # lm-sensors
       fd # better find, 50% shorter command!
-      pgcli # better postgres cli client
+      # pgcli # better postgres cli client
       unrar
       sshuttle
       firmwareLinuxNonfree
@@ -617,7 +617,7 @@ in {
 
               ];
     allowUnfree = true; # I'm horrible, nvidia sucks, TODO kill nvidia
-    pulseaudio = true;
+    pulseaudio = false;
     packageeverrides = pkgs: {
       neovim = pkgs.neovim.override {
         configure = {
@@ -670,7 +670,7 @@ in {
   services.pipewire.enable = false;
   services.pulseaudio = {
 
-    enable = false;
+    enable = true;
     support32Bit = true;
     tcp = {
       enable = true;
@@ -754,7 +754,6 @@ in {
         host all all 0.0.0.0/0 md5
         host all all ::/0       md5
       '';
-      extraPlugins = [pkgs.postgresql_15.pkgs.postgis];
       settings = {
         log_connections = true;
         log_statement = "all";
@@ -772,6 +771,7 @@ in {
         max_wal_senders = 0;
       };
       package = pkgs.postgresql_15;
+        # .withPackages (p: [ p.postgis ]);
 
       initialScript = pkgs.writeText "backend-initScript" ''
         CREATE USER jappie WITH PASSWORD \'\';
@@ -856,22 +856,12 @@ in {
           user = "jappie";
           enable = false;
         };
-        # I tried lightdm but id doesn't work with pam for some reason
-        lightdm = {
-          enable = true;
-        };
         defaultSession = "none+i3";
       };
-      libinput = {
-        enable = true;
-        touchpad = {
-          tapping = true;
-          disableWhileTyping = true;
-        };
 
         # https://github.com/NixOS/nixpkgs/issues/206630#issuecomment-1518696676
    };
-    xserver = {
+  services.xserver = {
       enable = true;
       autorun = false; # disable on troubles
       displayManager = {
@@ -888,19 +878,20 @@ in {
       # desktopManager.gnome3.enable = true; # to get the themes working with gnome-tweak tool
       windowManager.i3.enable = true;
       windowManager.i3.extraPackages = [ pkgs.adwaita-qt ];
-      desktopManager.plasma5 = {
-        enable = true;
-        phononBackend = "vlc";
+      displayManager = {
+        # I tried lightdm but id doesn't work with pam for some reason
+        lightdm = {
+          enable = true;
+        };
       };
 
-    };
-
-    redshift = { enable = true; };
-
     # https://github.com/rfjakob/earlyoom
-    earlyoom.enable = true; # kills big processes better then kernel
-  };
 
+
+
+    };
+  services.earlyoom.enable = true; # kills big processes better then kernel
+  services.redshift = { enable = true; };
 
   services.teamviewer = {
     enable = true;
@@ -965,7 +956,7 @@ in {
     # to upgrade, add a channel:
     # $ sudo nix-channel --add https://nixos.org/channels/nixos-18.09 nixos
     # $ sudo nixos-rebuild switch --upgrade
-    stateVersion = "24.11"; # Did you read the comment?
+    stateVersion = "25.05"; # Did you read the comment?
 # 🕙 2021-06-13 19:59:36 in ~ took 14m27s
 # ✦ ❯ nixos-version
 # 20.09.4321.115dbbe82eb (Nightingale)
@@ -1009,7 +1000,7 @@ in {
     };
 
     extraOptions = ''
-    experimental-features = nix-command flakes repl-flake
+    experimental-features = nix-command flakes
     '';
     settings = {
       trusted-users = [ "jappie" "root" ];
