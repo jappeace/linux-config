@@ -14,13 +14,6 @@ let
   agenix = builtins.getFlake "github:ryantm/agenix/f6291c5935fdc4e0bef208cfc0dcab7e3f7a1c41";
   unstable = (builtins.getFlake "github:nixos/nixpkgs/b263ab4b464169289c25f5ed417aea66ed24189f").legacyPackages.x86_64-linux;
   unstable2 = (builtins.getFlake "github:nixos/nixpkgs/34fccf8cbe5ff2107f58ca470d3d78725186c222").legacyPackages.x86_64-linux;
-  unstable3 = import (builtins.getFlake "github:nixos/nixpkgs/df4f2989a8f89e14bb94d73d93d159756c7766fe") {
-    system = "x86_64-linux";
-    config = {
-      allowUnfree = true;
-    };
-  };
-  unstable4 = (builtins.getFlake "github:ryand56/nixpkgs/d1a8eb518fc8c0a553cf784a0d911ef0916aea4b").legacyPackages.x86_64-linux;
 
   hostdir = pkgs.writeShellScriptBin "hostdir" ''
     ${pkgs.lib.getExe pkgs.python3} -m http.server
@@ -29,7 +22,7 @@ let
   # fixes weird tz not set bug
   # https://github.com/NixOS/nixpkgs/issues/238025
   betterFirefox = pkgs.writeShellScriptBin "firefox" ''
-    TZ=:/etc/localtime ${pkgs.lib.getExe unstable4.firefox} "$@"
+    TZ=:/etc/localtime ${pkgs.lib.getExe pkgs.firefox} "$@"
   '';
 
   # phone makes pictures to big usually
@@ -226,7 +219,6 @@ in {
       kdePackages.kdenlive
       # for those sweet global installs
       unstable.nodePackages.pnpm
-      unstable.postgresql
       nodejs
       terraform
       unstable2.openapi-generator-cli
@@ -236,7 +228,7 @@ in {
 
       nix-output-monitor # pretty nix graph
 
-      unstable4.tor-browser
+      tor-browser
       kdePackages.kdenlive
       kdePackages.konsole
       xfce4-terminal
@@ -248,7 +240,6 @@ in {
       universal-ctags
       unstable.nodejs_20 # the one in main is broken, segfautls
       unstable.postgresql
-      calibre
       audacious
       xclip
       filezilla
@@ -437,7 +428,6 @@ in {
       # pgcli # better postgres cli client
       unrar
       sshuttle
-      firmwareLinuxNonfree
       gource
       p7zip
       steam
@@ -478,7 +468,7 @@ in {
       thefuck # zsh stuff
       vlc
       betterFirefox
-      chromium
+      # chromium # disabled cuz it wants to build it, doesn't hit cache
       pavucontrol
       gparted # partitiioning for dummies, like me
       thunderbird # some day I'll use emacs for this
@@ -486,7 +476,8 @@ in {
       # the spell to make openvpn work:   nmcli connection modify jappie vpn.data "key = /home/jappie/openvpn/website/jappie.key, ca = /home/jappie/openvpn/website/ca.crt, dev = tun, cert = /home/jappie/openvpn/website/jappie.crt, ns-cert-type = server, cert-pass-flags = 0, comp-lzo = adaptive, remote = jappieklooster.nl:1194, connection-type = tls"
       # from https://github.com/NixOS/nixpkgs/issues/30235
       openvpn # piratebay access
-      kdePackages.plasma-systemmonitor # monitor my system.. with graphs! (so I don't need to learn real skills)
+
+      # kdePackages.plasma-systemmonitor # monitor my system.. with graphs! (so I don't need to learn real skills) # disabled cuz it wants to build it, doesn't hit cache
       gnumake # handy for adhoc configs, https://github.com/NixOS/nixpkgs/issues/17293
       # fbreader # read books # TODO broken?
       libreoffice
@@ -515,8 +506,6 @@ in {
         mpdSupport = true;
         i3Support = true;
       })
-
-      anki
 
       sloccount
       cloc
@@ -677,6 +666,8 @@ in {
       anonymousClients.allowAll = true; # bite me
     };
   };
+  services.gvfs.enable = true;
+  services.tumbler.enable = true;
   hardware.graphics = {
     enable = true;
     enable32Bit = true;
@@ -870,7 +861,7 @@ in {
         '';
       };
       videoDrivers = [ "amdgpu" "modesetting" ];
-      desktopManager.xfce.enable = true; # for the xfce-panel in i3
+      desktopManager.xfce.enable = false; # for the xfce-panel in i3
       desktopManager.xfce.noDesktop = true;
       desktopManager.xfce.enableXfwm =
         false; # try disabling xfce popping over i3
