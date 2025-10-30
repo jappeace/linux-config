@@ -24,13 +24,6 @@ let
   agenix = builtins.getFlake "github:ryantm/agenix/f6291c5935fdc4e0bef208cfc0dcab7e3f7a1c41";
   unstable = (builtins.getFlake "github:nixos/nixpkgs/b263ab4b464169289c25f5ed417aea66ed24189f").legacyPackages.x86_64-linux;
   unstable2 = (builtins.getFlake "github:nixos/nixpkgs/34fccf8cbe5ff2107f58ca470d3d78725186c222").legacyPackages.x86_64-linux;
-  unstable3 = import (builtins.getFlake "github:nixos/nixpkgs/df4f2989a8f89e14bb94d73d93d159756c7766fe") {
-    system = "x86_64-linux";
-    config = {
-      allowUnfree = true;
-    };
-  };
-  unstable4 = (builtins.getFlake "github:ryand56/nixpkgs/d1a8eb518fc8c0a553cf784a0d911ef0916aea4b").legacyPackages.x86_64-linux;
 
   hostdir = pkgs.writeShellScriptBin "hostdir" ''
     ${pkgs.lib.getExe pkgs.python3} -m http.server
@@ -39,7 +32,7 @@ let
   # fixes weird tz not set bug
   # https://github.com/NixOS/nixpkgs/issues/238025
   betterFirefox = pkgs.writeShellScriptBin "firefox" ''
-    TZ=:/etc/localtime ${pkgs.lib.getExe unstable4.firefox} "$@"
+    TZ=:/etc/localtime ${pkgs.lib.getExe pkgs.firefox} "$@"
   '';
 
   # phone makes pictures to big usually
@@ -266,7 +259,7 @@ in
 
       nix-output-monitor # pretty nix graph
 
-      unstable4.tor-browser
+      tor-browser
       kdePackages.kdenlive
       kdePackages.konsole
       xfce4-terminal
@@ -292,7 +285,7 @@ in
       gptfdisk # gdisk
       clang-tools # clang-format
       lz4
-      unstable4.yt-dlp
+      yt-dlp
       pkgs.haskellPackages.fourmolu
       bluez
 
@@ -440,8 +433,6 @@ in
 
       pv # cat with progress bar
 
-      unstable3.anydesk
-      # anydesk
       nmap
 
       # pkgsUnstable.ib-tws # intereactive brokers trader workstation
@@ -583,6 +574,8 @@ in
     variables.TZ = ":/etc/localtime"; # https://github.com/NixOS/nixpkgs/issues/238025
     # variables.QT_STYLE_OVERRIDE = "adwaita-dark";
   };
+
+  hardware.cpu.amd.updateMicrocode = true;
 
   # # https://github.com/NixOS/nixpkgs/blob/master/nixos/modules/config/qt5.nix
   # qt5 = {
@@ -818,7 +811,6 @@ in
     };
 
     syncthing = {
-      package = unstable4.syncthing;
       enable = true;
       user = "jappie";
       group = "users";
