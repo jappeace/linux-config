@@ -4,8 +4,6 @@
 
 { config, pkgs, ... }:
 let
-  privateKey     = "/home/jappie/.ssh/nix_flakes_id_rsa";
-  publicKeyPath  = "/home/jappie/.ssh/nix_flakes_id_rsa.pub";
   bevel-production = (
     import
       (
@@ -562,12 +560,6 @@ in
       gtk-font-name = Noto Sans 18
       gtk-monofont-name = Fira Code 18
     '';
-
-    # give flake access to private repo's...
-    etc."ssh/nix_flakes_id_rsa".source = privateKey;
-    etc."ssh/nix_flakes_id_rsa".mode   = "0600";
-    etc."ssh/nix_flakes_id_rsa.pub".source = publicKeyPath;
-
 
     variables.QT_QPA_PLATFORMTHEME = "qt5ct";
 
