@@ -77,6 +77,10 @@ let
 in
 {
 
+  # my son, this is the magic spell that gives you rasberry pi and other aarch
+  # buildng magic. use it wisely.
+boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
+
   # give nix access to private keys
   systemd.services."nix-daemon".serviceConfig = {
     # force git to always use our new key:
