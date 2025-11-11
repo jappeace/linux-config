@@ -254,6 +254,7 @@ in
       freetube
       fuckdirenv
       mosquitto
+      npins
 
       nix-output-monitor # pretty nix graph
 
