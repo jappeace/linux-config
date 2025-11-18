@@ -249,8 +249,8 @@ bindsym --release $mod+o exec ibus engine xkb:us::eng && source /home/jappie/.xm
 exec dbus-launch nm-applet &
 exec fcitx
 
-set $MIDDLE_OUTPUT DisplayPort-2
-set $LEFT_OUTPUT DisplayPort-1
+set $MIDDLE_OUTPUT DisplayPort-1
+set $LEFT_OUTPUT DisplayPort-2
 set $RIGHT_OUTPUT DisplayPort-0
 set $BACK_OUTPUT HDMI-A-0
 
