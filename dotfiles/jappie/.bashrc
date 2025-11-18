@@ -40,5 +40,20 @@ eval "$(direnv hook bash)"
 eval "$(zoxide init --hook pwd bash)"
 export PATH=$PATH:/home/jappie/.local/bin
 
-# fix slow ass mouse
-xinput set-prop 11 "libinput Accel Speed" 10
+eval "$(fzf --bash)" # we do fzf first, so atuin overrides ctrl-r
+
+source -- "$(blesh-share)"/ble.sh --attach=none # attach does not work currently
+[[ ! ${BLE_VERSION-} ]] || ble-attach
+
+
+eval "$(atuin init bash)"
+
+# --- called when bash can't find a command ---
+command_not_found_handle() {
+  local cmd="$1"
+  shift
+  echo "⚠️  Command not found: $cmd" >&2
+  echo "running fuck" >&2
+
+  fuck
+}

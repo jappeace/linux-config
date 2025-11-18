@@ -176,6 +176,8 @@ bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'Should I close this session 
 
 # screenshot
 bindsym --release $mod+Shift+x exec convert screenshot:[0] /tmp/file.png && xclip -selection clipboard -t image/png /tmp/file.png
+bindsym --release $mod+x exec sh -c 'import -window root png:- | xclip -selection clipboard -t image/png'
+
 
 # resize window (you can also use the mouse for that)
 mode "resize" {

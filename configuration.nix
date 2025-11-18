@@ -7,10 +7,6 @@ let
   devpackeges = import /home/jappie/projects/nixpkgs { };
 
 
-
-  privateKey     = "/home/jappie/.ssh/nix_flakes_id_rsa";
-  publicKeyPath  = "/home/jappie/.ssh/nix_flakes_id_rsa.pub";
-
   agenix = builtins.getFlake "github:ryantm/agenix/f6291c5935fdc4e0bef208cfc0dcab7e3f7a1c41";
   unstable = (builtins.getFlake "github:nixos/nixpkgs/b263ab4b464169289c25f5ed417aea66ed24189f").legacyPackages.x86_64-linux;
   unstable2 = (builtins.getFlake "github:nixos/nixpkgs/34fccf8cbe5ff2107f58ca470d3d78725186c222").legacyPackages.x86_64-linux;
@@ -78,6 +74,18 @@ in {
 
   # Use the systemd-boot EFI boot loader.
   boot = {
+    /*
+   solves:
+
+    VirtualBox can't enable the AMD-V extension. Please disable the KVM kernel extension, recompile your kernel and reboot (VERR_SVM_IN_USE).
+    Result Code:
+    NS_ERROR_FAILURE (0x80004005)
+    Component:
+    ConsoleWrap
+    Interface:
+    IConsole {6ac83d89-6ee7-4e33-8ae6-b257b2e81be8}
+    */
+    blacklistedKernelModules = [ "kvm_amd" "kvm" ];
     loader.systemd-boot.enable = true;
     loader.efi.canTouchEfiVariables = true;
     plymouth = {
@@ -171,6 +179,8 @@ in {
     extraHosts = ''
       0.0.0.0 news.ycombinator.com
       0.0.0.0 www.understandingwar.org
+      0.0.0.0 www.reddit.com
+      0.0.0.0 www.linkedin.com
     '';
     #   0.0.0.0 discord.com
     #   0.0.0.0 discourse.haskell.org
@@ -196,7 +206,8 @@ in {
     defaultLocale = "nl_NL.UTF-8";
     supportedLocales = [ "en_US.UTF-8/UTF-8" "nl_NL.UTF-8/UTF-8" ];
     inputMethod = {
-      enabled = "ibus";
+      enable = true;
+      type = "ibus";
       ibus.engines = [ pkgs.ibus-engines.libpinyin ];
     };
   };
@@ -208,6 +219,7 @@ in {
   time.timeZone = "Europe/Amsterdam";
   # time.timeZone = "Europe/Reykjavik";
   # time.timeZone = "America/Aruba";
+  # time.timeZone = "US/Central"; # houston
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
@@ -221,9 +233,13 @@ in {
       nodejs
       terraform
       unstable2.openapi-generator-cli
-      tor-browser
       qrencode
+
+      blesh
+      atuin
       fuckdirenv
+      mosquitto
+      npins
 
       nix-output-monitor # pretty nix graph
 
@@ -254,6 +270,7 @@ in {
       gptfdisk # gdisk
       clang-tools # clang-format
       lz4
+      yt-dlp
       pkgs.haskellPackages.fourmolu
       bluez
       awscli2
@@ -399,6 +416,7 @@ in {
 
       crawlTiles
       mariadb
+      browsh # better browser
 
       macchanger # change mac address
       change-mac
@@ -458,6 +476,7 @@ in {
 
 
       glxinfo # glxgears
+      btop
 
       zoxide # fasd # fasd died on me for some reason # try zoxide in future, it's rust based and active (this one is dead)
       fzf # used by zoxide
@@ -481,7 +500,6 @@ in {
       # fbreader # read books # TODO broken?
       libreoffice
       qpdfview
-      pidgin
       tcpdump
       ntfs3g
       qdirstat
@@ -492,7 +510,6 @@ in {
       zoom-us
       espeak
       pandoc
-      pidgin
       wineWowPackages.stable
       winetricks
       tdesktop # telegram, for senpaii))
@@ -515,7 +532,8 @@ in {
       nix-direnv
     ];
     shellAliases = {
-      nix = "nix -Lv --fallback";
+      nix = "nom";
+      niix = "${pkgs.nix}/bin/nix -Lv --fallback";
       vim = "nvim";
       cp = "cp --reflink=auto"; # btrfs shine
       ssh = "ssh -C"; # why is this not default?
@@ -528,19 +546,20 @@ in {
       "/share/nix-direnv"
     ];
 
+    # set theme, make font also bigger by default as we've
+    # high res screen
     etc."xdg/gtk-2.0/gtkrc".text = ''
-      gtk-theme-name="Adwaita-dark"
+      [Settings]
+      gtk-theme-name="Adwaita"
+      gtk-font-name = Noto Sans 18
     '';
+
     etc."xdg/gtk-3.0/settings.ini".text = ''
       [Settings]
-      gtk-theme-name=Adwaita-dark
+      gtk-theme-name=Adwaita
+      gtk-font-name = Noto Sans 18
+      gtk-monofont-name = Fira Code 18
     '';
-
-    # ggive flake access to private repo's...
-    etc."ssh/nix_flakes_id_rsa".source = privateKey;
-    etc."ssh/nix_flakes_id_rsa".mode   = "0600";
-    etc."ssh/nix_flakes_id_rsa.pub".source = publicKeyPath;
-
 
     variables.QT_QPA_PLATFORMTHEME = "qt5ct";
 
@@ -561,6 +580,19 @@ in {
   # programs.bash.enableCompletion = true;
   # programs.mtr.enable = true;
   programs = {
+    xfconf.enable = true; # allow configuring thunar
+    # can find them here
+    # https://github.com/NixOS/nixpkgs/tree/master/pkgs/desktops/xfce/thunar-plugins
+    # some aren't packaged yet:
+    # https://docs.xfce.org/xfce/thunar/start#thunar_plugins
+    # I think samba would be rad.
+    thunar.plugins = with pkgs.xfce; [
+      thunar-archive-plugin
+      thunar-volman
+      thunar-vcs-plugin
+      thunar-media-tags-plugin
+    ];
+
     gnupg.agent = {
       enable = false; # this makes it double defined (by plasma as well??)
       enableSSHSupport = true;
@@ -592,6 +624,7 @@ in {
     fontconfig = {
       defaultFonts = {
         # we need to set in in qt5ct as well.
+        sansSerif = [ "Noto Sans" ];
         monospace = [ "Fira Code" ];
       };
     };
@@ -657,6 +690,7 @@ in {
   hardware.bluetooth.enable = true;
   services.pipewire.enable = false;
   services.pulseaudio = {
+
 
     enable = true;
     support32Bit = true;
@@ -734,7 +768,7 @@ in {
       enable = true;
       nssmdns4 = true;
     };
-    redis = { servers."x".enable = true; };
+    redis = { servers."x".enable = false; };
 
     postgresql = {
       enable = true; # postgres for local dev
