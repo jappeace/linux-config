@@ -84,6 +84,7 @@ in {
       enable = false;
       theme = "spinfinity"; # spinfinity
     };
+    kernelParams = [ "kvm.enable_virt_at_load=0" ];
     # kernelPackages = pkgs.linuxKernel.packages.linux_6_1; #  6.6 don't boot?
   };
 
@@ -169,8 +170,6 @@ in {
     # Blocking them permenantly for a week or so gets rid of that behavior
     extraHosts = ''
       0.0.0.0 news.ycombinator.com
-      0.0.0.0 facebook.com
-      0.0.0.0 www.facebook.com
       0.0.0.0 www.understandingwar.org
     '';
     #   0.0.0.0 discord.com
@@ -962,7 +961,7 @@ in {
     # Linux work-machine 5.4.72 #1-NixOS SMP Sat Oct 17 08:11:24 UTC 2020 x86_64 GNU/Linux
 
   };
-  virtualisation = {
+virtualisation = {
     # enable either podman or docker, not both
     # docker.enable = true;
     podman = { # for arion

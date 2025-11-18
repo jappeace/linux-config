@@ -649,7 +649,7 @@ two prefix arguments, write out the day and month name."
 (use-package dockerfile-mode)
 (use-package direnv)
 
-(use-package not-much)
+(use-package go-mode)
 (use-package dart-mode)
 (use-package kotlin-mode)
 (use-package protobuf-mode)
