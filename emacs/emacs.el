@@ -306,11 +306,12 @@
   (setq ispell-dictionary "american")
   )
 
+;; TODO this broke??
 ;;; more info
-(use-package powerline
-  :config
-  (powerline-default-theme)
-  )
+;; (use-package powerline
+;;   :config
+;;   (powerline-default-theme)
+;;   )
 
 ;;; nix syntax highlighting
 (use-package nix-mode)
