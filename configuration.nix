@@ -492,7 +492,6 @@ boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
       wineWowPackages.stable
       winetricks
       teamviewer
-      tdesktop # telegram, for senpaii))
 
       tmate
       cachix
