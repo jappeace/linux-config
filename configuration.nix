@@ -457,7 +457,6 @@ boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
       libsForQt5.qt5ct
 
 
-      glxinfo # glxgears
       btop
 
       zoxide # fasd # fasd died on me for some reason # try zoxide in future, it's rust based and active (this one is dead)
