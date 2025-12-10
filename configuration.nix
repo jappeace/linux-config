@@ -251,6 +251,9 @@ boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
   # $ nix search wget
   environment = {
     systemPackages = with pkgs.xfce // pkgs; [
+
+    libcanberra
+    libcanberra-gtk3
       blesh
       atuin
       openrct2
@@ -538,7 +541,11 @@ boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
     ];
     shellAliases = {
       nix = "nom";
+      nix-shell = "nom-shell";
+      nix-build = "nom-build";
       niix = "${pkgs.nix}/bin/nix -Lv --fallback";
+      niix-shell = "${pkgs.nix}/bin/nix-shell -Lv --fallback";
+      niix-build = "${pkgs.nix}/bin/nix-build -Lv --fallback";
       vim = "nvim";
       cp = "cp --reflink=auto"; # btrfs shine
       ssh = "ssh -C"; # why is this not default?
@@ -563,7 +570,6 @@ boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
       [Settings]
       gtk-theme-name=Adwaita
       gtk-font-name = Noto Sans 18
-      gtk-monofont-name = Fira Code 18
     '';
 
     variables.QT_QPA_PLATFORMTHEME = "qt5ct";
@@ -983,6 +989,11 @@ boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
     libvirtd.enable = false;
 
   };
+# Enable XDG sound themes
+  xdg = {
+    sounds.enable = true;
+  };
+
   powerManagement = {
     enable = true;
     cpuFreqGovernor = "ondemand";
@@ -1020,5 +1031,5 @@ boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
       auto-optimise-store = true;
     };
   };
-  # disable sleep with these:
+
 }
