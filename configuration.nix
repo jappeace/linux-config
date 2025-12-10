@@ -504,8 +504,6 @@ boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
 
       anki
 
-      sloccount
-      cloc
       lshw # list hardware
       pkgs.xorg.xev # monitor x events
 
