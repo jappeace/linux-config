@@ -594,7 +594,7 @@ boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
       fira-code
       fira-code-symbols
       inconsolata
-      ubuntu_font_family
+      ubuntu-classic
       corefonts
       font-awesome_4
       font-awesome_5
