@@ -4,9 +4,7 @@
 
 { config, pkgs, ... }:
 let
-  agenix = builtins.getFlake "github:ryantm/agenix/f6291c5935fdc4e0bef208cfc0dcab7e3f7a1c41";
-  unstable = (builtins.getFlake "github:nixos/nixpkgs/b263ab4b464169289c25f5ed417aea66ed24189f").legacyPackages.x86_64-linux;
-  unstable2 = (builtins.getFlake "github:nixos/nixpkgs/34fccf8cbe5ff2107f58ca470d3d78725186c222").legacyPackages.x86_64-linux;
+  # agenix = builtins.getFlake "github:ryantm/agenix/f6291c5935fdc4e0bef208cfc0dcab7e3f7a1c41";
 
   hostdir = pkgs.writeShellScriptBin "hostdir" ''
     ${pkgs.lib.getExe pkgs.python3} -m http.server
@@ -255,9 +253,7 @@ boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
       xfce4-terminal
 
       rofi
-      unstable2.devenv
       pkgs.haskellPackages.greenclip
-      unstable.nodejs_20 # the one in main is broken, segfautls
       postgresql
       calibre
       audacious
@@ -284,7 +280,6 @@ boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
       x2vnc
       hugin # panorama sticther
 
-      agenix.packages.x86_64-linux.agenix
 
       # arion, eg docker-compose for nix
       arion
