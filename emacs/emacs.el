@@ -537,11 +537,6 @@ two prefix arguments, write out the day and month name."
 
 (use-package wgrep)
 
-(use-package ws-butler
-  :init
-  (add-hook 'prog-mode-hook #'ws-butler-mode)
-  )
-
 (use-package flymake-shellcheck
   :commands flymake-shellcheck-load
   :init
