@@ -899,8 +899,8 @@ boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
 
       displayManager = {
         gdm.enable = true;
-        gnome.enable = true;
       };
+      desktopManager.gnome.enable = true;
 
       enable = true;
     };
