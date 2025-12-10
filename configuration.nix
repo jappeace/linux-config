@@ -334,7 +334,6 @@ boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
       # ib-tws
       resize-images
       lz4
-      mcomix3
 
       hyperfine # better time command
 
