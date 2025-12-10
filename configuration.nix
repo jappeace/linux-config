@@ -855,7 +855,7 @@ boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
     };
 
     desktopManager.plasma6 = {
-      enable = true;
+      enable = false;
     };
     xserver = {
       xkb = {
