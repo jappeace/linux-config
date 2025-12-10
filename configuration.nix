@@ -593,6 +593,7 @@ boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
       enable = true;
       enableSSHSupport = true;
     };
+    vim.enable = true;
     vim.defaultEditor = true;
     adb.enable = true;
     light.enable = true;
@@ -684,7 +685,7 @@ boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
   # hardware.bumblebee.connectDisplay = true;
   hardware.bluetooth.enable = true;
   services.pulseaudio = {
-    enable = true;
+    enable = false;
   };
 
   security.rtkit.enable = true;
@@ -845,19 +846,6 @@ boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
     };
 
     logind = {
-      # https://www.freedesktop.org/software/systemd/man/logind.conf.html
-      # https://man.archlinux.org/man/systemd-sleep.conf.5
-      # https://unix.stackexchange.com/questions/620202/how-to-redefine-action-for-power-button-on-nixos
-      # https://discourse.nixos.org/t/run-usr-id-is-too-small/4842
-      extraConfig = ''
-        IdleAction=suspend-then-hibernate
-        IdleActionSec=5min
-        HandlePowerKey=ignore
-        RuntimeDirectorySize=2G
-
-        # logout after 10 minutes of inactivity
-        StopIdleSessionSec=600
-      '';
       lidSwitch = "suspend-then-hibernate";
     };
 
