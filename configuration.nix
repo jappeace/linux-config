@@ -464,7 +464,6 @@ boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
 
       cowsay
       fortune
-      thefuck # zsh stuff
       vlc
       betterFirefox
       chromium
