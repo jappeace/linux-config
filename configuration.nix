@@ -4,21 +4,6 @@
 
 { config, pkgs, ... }:
 let
-  bevel-production = (
-    import
-      (
-        builtins.fetchGit
-          {
-            url = "https://github.com/NorfairKing/bevel";
-            rev = "d93e707633c0f8fe50e8f7d523036c317105b3af"; # Put a recent commit hash here.
-            ref = "master";
-          } + "/nix/nixos-module.nix"
-      )
-      { bevel-api-server = null; }
-      { envname = "production"; }
-  );
-
-
   agenix = builtins.getFlake "github:ryantm/agenix/f6291c5935fdc4e0bef208cfc0dcab7e3f7a1c41";
   unstable = (builtins.getFlake "github:nixos/nixpkgs/b263ab4b464169289c25f5ed417aea66ed24189f").legacyPackages.x86_64-linux;
   unstable2 = (builtins.getFlake "github:nixos/nixpkgs/34fccf8cbe5ff2107f58ca470d3d78725186c222").legacyPackages.x86_64-linux;
@@ -93,9 +78,8 @@ boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
     # note that this is a different device than the lenovo amd
     # the uuid's are different.
     # I accidently bought the same one
-    ./hardware/lenovo-amd-2022.nix
+    ./hardware/lenovo-tablet.nix
     ./emacs
-    # bevel-production
   ];
 
   # Use the systemd-boot EFI boot loader.
@@ -195,7 +179,7 @@ boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
 
 
   networking = {
-    hostName = "lenovo-amd-2022"; # Define your hostname.
+    hostName = "lenovo-tablet"; # Define your hostname.
     # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
     networkmanager.enable = true;
     # these are sites I've developed a 'mental hook' for, eg
@@ -699,16 +683,22 @@ boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
   # hardware.bumblebee.enable = true;
   # hardware.bumblebee.connectDisplay = true;
   hardware.bluetooth.enable = true;
-  services.pipewire.enable = false;
   services.pulseaudio = {
-
-
     enable = true;
-    support32Bit = true;
-    tcp = {
-      enable = true;
-      anonymousClients.allowAll = true; # bite me
-    };
+  };
+
+  security.rtkit.enable = true;
+  services.pipewire = {
+    enable = true;
+    alsa.enable = true;
+    alsa.support32Bit = true;
+    pulse.enable = true;
+    # If you want to use JACK applications, uncomment this
+    #jack.enable = true;
+
+    # use the example session manager (no others are packaged yet so this is enabled by default,
+    # no need to redefine it in your config for now)
+    #media-session.enable = true;
   };
 
   # thunar stuff
@@ -839,11 +829,6 @@ boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
 
 
 
-    # Enable the X11 windowing system.
-    # services.xserver.enable = true;
-    # services.xserver.layout = "us";
-    # services.xserver.xkbOptions = "eurosign:e";
-
       libinput = {
         enable = true;
         touchpad = {
@@ -879,10 +864,8 @@ boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
         '';
 
       displayManager = {
-        # I tried lightdm but id doesn't work with pam for some reason
-        lightdm = {
-          enable = true;
-        };
+        gdm.enable = true;
+        gnome.enable = true;
       };
 
       enable = true;
