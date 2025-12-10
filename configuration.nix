@@ -308,7 +308,6 @@ boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
       openttd
       tldr
       openra
-      tdesktop # telegram, for senpaii))
 
       lsof
       ffmpeg
