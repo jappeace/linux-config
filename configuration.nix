@@ -427,7 +427,6 @@ boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
       pgcli # better postgres cli client
       unrar
       sshuttle
-      firmwareLinuxNonfree
       gource
       p7zip
       steam
