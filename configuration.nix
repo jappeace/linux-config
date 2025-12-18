@@ -834,6 +834,9 @@ boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
 
     logind = {
       lidSwitch = "suspend-then-hibernate";
+
+  powerKey = "ignore";
+  powerKeyLongPress = "poweroff";
     };
 
 
