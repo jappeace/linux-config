@@ -7,6 +7,12 @@ echo "this should be run as the user you wish to install this for"
 read -p "Press enter to continue"
 set -e
 
+# experimental used pinned nixpkgs
+nixpkgs=$(nix-instantiate --eval -E "let sources = import ../npins; in sources.nixpkgs.outPath" | jq -r .)
+nixos-install \
+        -I nixpkgs=${nixpkgs} \
+        -I nixos-config=/etc/nixos/configuration.nix
+
 DIR=/linux-config
 
 echo "Install /etc/nixos/configuration.nix (requires root) (y/n)?"
