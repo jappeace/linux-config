@@ -1,5 +1,19 @@
 {
   "pins": {
+    "leana-dotfiles": {
+      "type": "Git",
+      "repository": {
+        "type": "Forgejo",
+        "server": "https://codeberg.org/",
+        "owner": "leana8959",
+        "repo": ".files"
+      },
+      "branch": "trunk",
+      "submodules": false,
+      "revision": "5f665b4f556a6bb1edef57b2a98ce8b745469fb4",
+      "url": "https://codeberg.org/leana8959/.files/archive/5f665b4f556a6bb1edef57b2a98ce8b745469fb4.tar.gz",
+      "hash": "0zs8x70f10rjil0dk8zzbcpaw06bqi8x0djxdqcnkmik3fjp24bg"
+    },
     "agenix": {
       "type": "Git",
       "repository": {
