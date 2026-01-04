@@ -4,6 +4,7 @@
 
 { config, pkgs, ... }:
 let
+  # agenix = builtins.getFlake "github:ryantm/agenix/f6291c5935fdc4e0bef208cfc0dcab7e3f7a1c41";
 
   hostdir = pkgs.writeShellScriptBin "hostdir" ''
     ${pkgs.lib.getExe pkgs.python3} -m http.server
@@ -233,6 +234,11 @@ boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
   # $ nix search wget
   environment = {
     systemPackages = with pkgs.xfce // pkgs; [
+    #   (rxvt-unicode.override {
+    # configure = { availablePlugins, ... }: {
+    #   plugins = with availablePlugins; [ perls resize-font vtwheel ]r;
+    # };
+    #   })
 
     libcanberra
     libcanberra-gtk3
@@ -603,6 +609,9 @@ boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
       noto-fonts-cjk-sans
       ipaexfont
       helvetica-neue-lt-std
+    nerd-fonts.jetbrains-mono
+    nerd-fonts.fira-code
+    nerd-fonts.ubuntu-mono
     ];
     fontconfig = {
       defaultFonts = {
@@ -834,6 +843,9 @@ boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
 
     logind = {
       lidSwitch = "suspend-then-hibernate";
+
+  powerKey = "ignore";
+  powerKeyLongPress = "poweroff";
     };
 
 
@@ -988,7 +1000,9 @@ boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
 
   powerManagement = {
     enable = true;
-    cpuFreqGovernor = "ondemand";
+    cpuFreqGovernor = "powersafe";
+  };
+
   };
 
 }
