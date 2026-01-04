@@ -1,4 +1,73 @@
 {
-  "pins": {},
+  "pins": {
+    "agenix": {
+      "type": "Git",
+      "repository": {
+        "type": "GitHub",
+        "owner": "ryantm",
+        "repo": "agenix"
+      },
+      "branch": "main",
+      "submodules": false,
+      "revision": "f6291c5935fdc4e0bef208cfc0dcab7e3f7a1c41",
+      "url": "https://github.com/ryantm/agenix/archive/f6291c5935fdc4e0bef208cfc0dcab7e3f7a1c41.tar.gz",
+      "hash": "1x8nd8hvsq6mvzig122vprwigsr3z2skanig65haqswn7z7amsvg"
+    },
+    "emacs-overlay": {
+      "type": "Git",
+      "repository": {
+        "type": "GitHub",
+        "owner": "nix-community",
+        "repo": "emacs-overlay"
+      },
+      "branch": "master",
+      "submodules": false,
+      "revision": "f6850858f78e2b6328f6e8bb7bf9df10dd0b7973",
+      "url": "https://github.com/nix-community/emacs-overlay/archive/f6850858f78e2b6328f6e8bb7bf9df10dd0b7973.tar.gz",
+      "hash": "0iiir5gkh5pfkbgdpph38wzqhc00b8nq95pvc0l7k85a5gwh5sd5"
+    },
+    "flake-compat": {
+      "type": "GitRelease",
+      "repository": {
+        "type": "GitHub",
+        "owner": "nixos",
+        "repo": "flake-compat"
+      },
+      "pre_releases": false,
+      "version_upper_bound": null,
+      "release_prefix": null,
+      "submodules": false,
+      "version": "v1.1.0",
+      "revision": "ff81ac966bb2cae68946d5ed5fc4994f96d0ffec",
+      "url": "https://api.github.com/repos/nixos/flake-compat/tarball/v1.1.0",
+      "hash": "19d2z6xsvpxm184m41qrpi1bplilwipgnzv9jy17fgw421785q1m"
+    },
+    "unstable": {
+      "type": "Git",
+      "repository": {
+        "type": "GitHub",
+        "owner": "nixos",
+        "repo": "nixpkgs"
+      },
+      "branch": "master",
+      "submodules": false,
+      "revision": "b263ab4b464169289c25f5ed417aea66ed24189f",
+      "url": "https://github.com/nixos/nixpkgs/archive/b263ab4b464169289c25f5ed417aea66ed24189f.tar.gz",
+      "hash": "1hr7dpk5ghrnxjrb70vm6gbz239n4p9ywc91hd48022iqvl7n48x"
+    },
+    "unstable2": {
+      "type": "Git",
+      "repository": {
+        "type": "GitHub",
+        "owner": "nixos",
+        "repo": "nixpkgs"
+      },
+      "branch": "master",
+      "submodules": false,
+      "revision": "34fccf8cbe5ff2107f58ca470d3d78725186c222",
+      "url": "https://github.com/nixos/nixpkgs/archive/34fccf8cbe5ff2107f58ca470d3d78725186c222.tar.gz",
+      "hash": "11s1va5arxh0d3cqn57bczpsl267w52v97d5qpiq3069x7wpm7wa"
+    }
+  },
   "version": 5
 }

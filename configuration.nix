@@ -2,26 +2,18 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{ config, pkgs, ... }:
+{  config, pkgs, ... }:
 let
-  bevel-production = (
-    import
-      (
-        builtins.fetchGit
-          {
-            url = "https://github.com/NorfairKing/bevel";
-            rev = "d93e707633c0f8fe50e8f7d523036c317105b3af"; # Put a recent commit hash here.
-            ref = "master";
-          } + "/nix/nixos-module.nix"
-      )
-      { bevel-api-server = null; }
-      { envname = "production"; }
-  );
+  sources = import ./npins;
 
 
-  agenix = builtins.getFlake "github:ryantm/agenix/f6291c5935fdc4e0bef208cfc0dcab7e3f7a1c41";
-  unstable = (builtins.getFlake "github:nixos/nixpkgs/b263ab4b464169289c25f5ed417aea66ed24189f").legacyPackages.x86_64-linux;
-  unstable2 = (builtins.getFlake "github:nixos/nixpkgs/34fccf8cbe5ff2107f58ca470d3d78725186c222").legacyPackages.x86_64-linux;
+  # unfuck the flake, unsubscribe from the mental health workshop.
+  fuckingFlake = outPath: (import sources.flake-compat { src = outPath; }).outputs;
+
+  agenix = fuckingFlake sources.agenix.outPath;
+
+  unstable = import sources.unstable {};
+  unstable2 = import sources.unstable2 {};
 
   hostdir = pkgs.writeShellScriptBin "hostdir" ''
     ${pkgs.lib.getExe pkgs.python3} -m http.server
@@ -81,6 +73,7 @@ in
     (final: _: {
       nix = final.lixPackageSets.stable.lix;
     })
+    (import sources.emacs-overlay)
   ];
 
   # my son, this is the magic spell that gives you rasberry pi and other aarch
@@ -101,7 +94,6 @@ boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
     # I accidently bought the same one
     ./hardware/lenovo-amd-2022.nix
     ./emacs
-    # bevel-production
   ];
 
   # Use the systemd-boot EFI boot loader.
