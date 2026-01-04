@@ -233,6 +233,11 @@ boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
   # $ nix search wget
   environment = {
     systemPackages = with pkgs.xfce // pkgs; [
+    #   (rxvt-unicode.override {
+    # configure = { availablePlugins, ... }: {
+    #   plugins = with availablePlugins; [ perls resize-font vtwheel ]r;
+    # };
+    #   })
 
     libcanberra
     libcanberra-gtk3
@@ -603,6 +608,9 @@ boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
       noto-fonts-cjk-sans
       ipaexfont
       helvetica-neue-lt-std
+    nerd-fonts.jetbrains-mono
+    nerd-fonts.fira-code
+    nerd-fonts.ubuntu-mono
     ];
     fontconfig = {
       defaultFonts = {
@@ -991,7 +999,7 @@ boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
 
   powerManagement = {
     enable = true;
-    cpuFreqGovernor = "ondemand";
+    cpuFreqGovernor = "powersafe";
   };
 
   nix = {
