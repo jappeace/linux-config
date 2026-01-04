@@ -11,7 +11,7 @@ in
     })
     (import sources.emacs-overlay)
 
-    (import (sources.leana-dotfiles + "/nix/overlays/nix-monitored.nix"))
+    # (import (sources.leana-dotfiles + "/nix/overlays/nix-monitored.nix"))
   ];
 
   # make sure the nix daemon uses all memory
