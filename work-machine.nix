@@ -509,8 +509,6 @@ in {
       zoom-us
       espeak
       pandoc
-      wineWowPackages.stable
-      winetricks
 
       tmate
       cachix
@@ -983,7 +981,7 @@ virtualisation = {
        defaultNetwork.settings.dns_enabled = true;
      };
     virtualbox.host = {
-      enable = true;
+      enable = false;
       enableExtensionPack = true;
     };
     libvirtd.enable = false;
