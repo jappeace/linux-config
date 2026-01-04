@@ -42,7 +42,7 @@ bindsym $mod+Shift+a exec boomer
 
 # start a terminal
 # bindsym $mod+Return exec konsole
-bindsym $mod+Return exec xfce4-terminal
+bindsym $mod+Return exec gnome-terminal
 
 # kill focused window
 bindsym $mod+Shift+q kill
