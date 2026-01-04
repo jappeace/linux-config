@@ -48,12 +48,12 @@ source -- "$(blesh-share)"/ble.sh --attach=none # attach does not work currently
 
 eval "$(atuin init bash)"
 
-# --- called when bash can't find a command ---
-command_not_found_handle() {
-  local cmd="$1"
-  shift
-  echo "⚠️  Command not found: $cmd" >&2
-  echo "running fuck" >&2
+# # --- called when bash can't find a command ---
+# command_not_found_handle() {
+#   local cmd="$1"
+#   shift
+#   echo "⚠️  Command not found: $cmd" >&2
+#   echo "running fuck" >&2
 
-  fuck
-}
+#   fuck
+# }

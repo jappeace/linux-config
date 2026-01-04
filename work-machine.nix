@@ -4,25 +4,21 @@
 
 { config, pkgs, ... }:
 let
+  sources = import ./npins;
+
   devpackeges = import /home/jappie/projects/nixpkgs { };
 
+  # unfuck the flake, unsubscribe from the mental health workshop.
+  fuckingFlake = outPath: (import sources.flake-compat { src = outPath; }).outputs;
 
-  agenix = builtins.getFlake "github:ryantm/agenix/f6291c5935fdc4e0bef208cfc0dcab7e3f7a1c41";
-  unstable = (builtins.getFlake "github:nixos/nixpkgs/b263ab4b464169289c25f5ed417aea66ed24189f").legacyPackages.x86_64-linux;
-  unstable2 = (builtins.getFlake "github:nixos/nixpkgs/34fccf8cbe5ff2107f58ca470d3d78725186c222").legacyPackages.x86_64-linux;
+  agenix = fuckingFlake sources.agenix.outPath;
 
-  unstable3 = (builtins.getFlake "github:nixos/nixpkgs/b235b9ea104d976ce0cb27b80e23b128208653e7").legacyPackages.x86_64-linux;
-
-
+  unstable = import sources.unstable {};
+  unstable2 = import sources.unstable2 {};
+  unstable3 = import sources.unstable3 {};
 
   hostdir = pkgs.writeShellScriptBin "hostdir" ''
     ${pkgs.lib.getExe pkgs.python3} -m http.server
-  '';
-
-  # fixes weird tz not set bug
-  # https://github.com/NixOS/nixpkgs/issues/238025
-  betterFirefox = pkgs.writeShellScriptBin "firefox" ''
-    TZ=:/etc/localtime ${pkgs.lib.getExe pkgs.firefox} "$@"
   '';
 
   # phone makes pictures to big usually
@@ -326,7 +322,6 @@ in {
       openttd
       tldr
       openra
-      tdesktop # telegram, for senpaii))
 
       # devpackeges.haskellPackages.cut-the-crap
       # pkgs.haskellPackages.cut-the-crap
@@ -480,7 +475,7 @@ in {
       libsForQt5.qt5ct
 
 
-      glxinfo # glxgears
+      mesa-demos # glxgears
       btop
 
       zoxide # fasd # fasd died on me for some reason # try zoxide in future, it's rust based and active (this one is dead)
@@ -488,9 +483,8 @@ in {
 
       cowsay
       fortune
-      thefuck # zsh stuff
       vlc
-      betterFirefox
+      firefox
       # chromium # disabled cuz it wants to build it, doesn't hit cache
       pavucontrol
       gparted # partitiioning for dummies, like me
@@ -517,7 +511,6 @@ in {
       pandoc
       wineWowPackages.stable
       winetricks
-      tdesktop # telegram, for senpaii))
 
       tmate
       cachix
@@ -528,7 +521,6 @@ in {
         i3Support = true;
       })
 
-      sloccount
       cloc
       lshw # list hardware
       pkgs.xorg.xev # monitor x events
@@ -572,7 +564,6 @@ in {
     # variables.QT_STYLE_OVERRIDE = "adwaita-dark";
   };
 
-  xdg.portal.enable = true;
   # # https://github.com/NixOS/nixpkgs/blob/master/nixos/modules/config/qt5.nix
   # qt5 = {
   #   enable = true;
@@ -616,7 +607,7 @@ in {
       fira-code
       fira-code-symbols
       inconsolata
-      ubuntu_font_family
+      ubuntu-classic
       corefonts
       font-awesome_4
       font-awesome_5
@@ -847,23 +838,6 @@ in {
       user = "jappie";
       group = "users";
       dataDir = "/home/jappie/.config/syncthing-private";
-    };
-
-    logind = {
-      # https://www.freedesktop.org/software/systemd/man/logind.conf.html
-      # https://man.archlinux.org/man/systemd-sleep.conf.5
-      # https://unix.stackexchange.com/questions/620202/how-to-redefine-action-for-power-button-on-nixos
-      # https://discourse.nixos.org/t/run-usr-id-is-too-small/4842
-      extraConfig = ''
-        IdleAction=suspend-then-hibernate
-        IdleActionSec=5min
-        HandlePowerKey=ignore
-        RuntimeDirectorySize=2G
-
-        # logout after 10 minutes of inactivity
-        StopIdleSessionSec=600
-      '';
-      lidSwitch = "suspend-then-hibernate";
     };
 
    libinput = {

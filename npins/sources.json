@@ -80,6 +80,19 @@
       "revision": "34fccf8cbe5ff2107f58ca470d3d78725186c222",
       "url": "https://github.com/nixos/nixpkgs/archive/34fccf8cbe5ff2107f58ca470d3d78725186c222.tar.gz",
       "hash": "11s1va5arxh0d3cqn57bczpsl267w52v97d5qpiq3069x7wpm7wa"
+    },
+    "unstable3": {
+      "type": "Git",
+      "repository": {
+        "type": "GitHub",
+        "owner": "nixos",
+        "repo": "nixpkgs"
+      },
+      "branch": "master",
+      "submodules": false,
+      "revision": "b235b9ea104d976ce0cb27b80e23b128208653e7",
+      "url": "https://github.com/nixos/nixpkgs/archive/b235b9ea104d976ce0cb27b80e23b128208653e7.tar.gz",
+      "hash": "0k43jqyci70aqj6nr5gjajaqnd8f26d6wq3b2hmd6y0lnaw1dw65"
     }
   },
   "version": 5

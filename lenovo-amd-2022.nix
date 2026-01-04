@@ -19,11 +19,6 @@ let
     ${pkgs.lib.getExe pkgs.python3} -m http.server
   '';
 
-  # fixes weird tz not set bug
-  # https://github.com/NixOS/nixpkgs/issues/238025
-  betterFirefox = pkgs.writeShellScriptBin "firefox" ''
-    TZ=:/etc/localtime ${pkgs.lib.getExe pkgs.firefox} "$@"
-  '';
 
   # phone makes pictures to big usually
   # I need to track these often in a git repo and having it be bigger then 1meg is bad
@@ -480,7 +475,7 @@ boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
       cowsay
       fortune
       vlc
-      betterFirefox
+      firefox
       chromium
       pavucontrol
       gparted # partitiioning for dummies, like me
