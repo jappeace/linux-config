@@ -1,4 +1,5 @@
 # config for just nix
+{pkgs, ... }:
 let
   sources = import ../npins;
 in
@@ -47,4 +48,12 @@ in
     };
   };
 
+  system.nixos =
+        let
+          rev = pkgs.lib.substring 0 8 sources.nixpkgs.revision;
+        in
+        {
+          versionSuffix = "-git:${rev}";
+          revision = rev;
+        };
 }
