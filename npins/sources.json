@@ -42,6 +42,19 @@
       "url": "https://api.github.com/repos/nixos/flake-compat/tarball/v1.1.0",
       "hash": "19d2z6xsvpxm184m41qrpi1bplilwipgnzv9jy17fgw421785q1m"
     },
+    "nixpkgs": {
+      "type": "Git",
+      "repository": {
+        "type": "GitHub",
+        "owner": "nixos",
+        "repo": "nixpkgs"
+      },
+      "branch": "master",
+      "submodules": false,
+      "revision": "b2485d56967598da068b5a6946dadda8bfcbcd37",
+      "url": "https://github.com/nixos/nixpkgs/archive/b2485d56967598da068b5a6946dadda8bfcbcd37.tar.gz",
+      "hash": "1q0m25p83mk0zz42yyi0avyvm77x09ydgrlkkfpzwf22ghb27yfy"
+    },
     "unstable": {
       "type": "Git",
       "repository": {

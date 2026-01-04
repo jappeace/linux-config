@@ -940,31 +940,20 @@ boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
   };
 
   system = {
-    # to update:
-    # find it
-    # https://channels.nixos.org/
-    #
-    # sudo nix-channel --update
-    # sudo nix-channel --list
-    # click nixos link, and in title copy over the hash
-    # nixos.version = "19.09.2032.2de9367299f";
+
+    # we use NPINS now to upgrade!!
+    # we can upgrade per release via
+    # npins add github nixos nixpkgs --branch nixos-25.05
 
     # This value determines the NixOS release with which your system is to be
     # compatible, in order to avoid breaking some software such as database
     # servers. You should change this only after NixOS release notes say you
-    # should.sudo nixos-rebuild switch --upgradesudo nixos-rebuild switch --upgrade
-    # to upgrade, add a channel:
-    # $ sudo nix-channel --add https://nixos.org/channels/nixos-18.09 nixos
-    # $ sudo nixos-rebuild switch --upgrade
+    # should. # (I never read the comment)
     stateVersion = "25.05"; # Did you read the comment?
+
     # 🕙 2021-06-13 19:59:36 in ~ took 14m27s
     # ✦ ❯ nixos-version
     # 20.09.4321.115dbbe82eb (Nightingale)
-
-    # 🕙 2021-06-13 22:09:54 in ~
-    # ✦ ❯ sudo reboot
-    # [sudo] wachtwoord voor jappie:
-    # sudo: een wachtwoord is verplicht
 
     # 🕙 2021-06-13 22:09:58 in ~
     # ✦ ❯ uname -a
@@ -1003,6 +992,8 @@ boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
       dates = "monthly"; # https://jlk.fjfi.cvut.cz/arch/manpages/man/systemd.time.7
       options = "--delete-older-than 120d";
     };
+
+    nixPath = ["nixpkgs=${sources.nixpkgs}"];
 
     extraOptions = ''
       experimental-features = nix-command flakes
