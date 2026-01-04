@@ -321,7 +321,6 @@ boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
       openttd
       tldr
       openra
-      tdesktop # telegram, for senpaii))
 
       lsof
       ffmpeg
@@ -348,7 +347,6 @@ boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
       # ib-tws
       resize-images
       lz4
-      mcomix3
 
       hyperfine # better time command
 
@@ -442,7 +440,7 @@ boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
       pgcli # better postgres cli client
       unrar
       sshuttle
-      firmwareLinuxNonfree
+      linux-firmware
       gource
       p7zip
       steam
@@ -473,7 +471,7 @@ boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
       libsForQt5.qt5ct
 
 
-      glxinfo # glxgears
+      mesa-demos # glxgears
       btop
 
       zoxide # fasd # fasd died on me for some reason # try zoxide in future, it's rust based and active (this one is dead)
@@ -481,7 +479,6 @@ boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
 
       cowsay
       fortune
-      thefuck # zsh stuff
       vlc
       betterFirefox
       chromium
@@ -510,7 +507,6 @@ boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
       wineWowPackages.stable
       winetricks
       teamviewer
-      tdesktop # telegram, for senpaii))
 
       tmate
       cachix
@@ -523,7 +519,6 @@ boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
 
       anki
 
-      sloccount
       cloc
       lshw # list hardware
       pkgs.xorg.xev # monitor x events
@@ -603,6 +598,7 @@ boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
       enable = true;
       enableSSHSupport = true;
     };
+    vim.enable = true;
     vim.defaultEditor = true;
     adb.enable = true;
     light.enable = true;
@@ -616,7 +612,7 @@ boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
       fira-code
       fira-code-symbols
       inconsolata
-      ubuntu_font_family
+      ubuntu-classic
       corefonts
       font-awesome_4
       font-awesome_5
@@ -819,16 +815,16 @@ boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
       # https://man.archlinux.org/man/systemd-sleep.conf.5
       # https://unix.stackexchange.com/questions/620202/how-to-redefine-action-for-power-button-on-nixos
       # https://discourse.nixos.org/t/run-usr-id-is-too-small/4842
-      extraConfig = ''
-        IdleAction=suspend-then-hibernate
-        IdleActionSec=5min
-        HandlePowerKey=ignore
-        RuntimeDirectorySize=2G
+      settings.Login = {
+        IdleAction = "suspend-then-hibernate";
+        IdleActionSec= "5min";
+        HandlePowerKey= "ignore";
+        RuntimeDirectorySize= "2G";
 
         # logout after 10 minutes of inactivity
-        StopIdleSessionSec=600
-      '';
-      lidSwitch = "suspend-then-hibernate";
+        StopIdleSessionSec = 600;
+        HandleLidSwitch = "suspend-then-hibernate";
+      };
     };
 
 

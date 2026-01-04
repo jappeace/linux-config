@@ -843,6 +843,15 @@ boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
 
     logind = {
       lidSwitch = "suspend-then-hibernate";
+      settings.Login = ''
+        IdleAction=suspend-then-hibernate
+        IdleActionSec=5min
+        HandlePowerKey=ignore
+        RuntimeDirectorySize=2G
+
+        # logout after 10 minutes of inactivity
+        StopIdleSessionSec=600
+      '';
 
   powerKey = "ignore";
   powerKeyLongPress = "poweroff";
