@@ -993,7 +993,9 @@ boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
       options = "--delete-older-than 120d";
     };
 
-    nixPath = ["nixpkgs=${sources.nixpkgs}"];
+    nixPath = ["nixos-config=/etc/nixos/configuration.nix"
+               "nixpkgs=${sources.nixpkgs}"
+               "bloob=/home/jappie/projects/cut-the-crap"];
 
     extraOptions = ''
       experimental-features = nix-command flakes
