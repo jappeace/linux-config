@@ -11,6 +11,14 @@ in
     })
     (import sources.emacs-overlay)
   ];
+
+  # make sure the nix daemon uses all memory
+  systemd.services.nix-daemon.serviceConfig = {
+    MemoryAccounting = true;
+    MemoryMax = "90%";
+    OOMScoreAdjust = 500;
+  };
+
   nix = {
     gc = {
       automatic = true;
@@ -26,6 +34,10 @@ in
       experimental-features = nix-command flakes
     '';
     settings = {
+
+      # starts the gc when there is less then 50GB in storage
+      min-free = 20 * 1024 * 1024 * 1024;
+
       trusted-users = [ "jappie" "root" ];
       substituters = [
         "https://cache.nixos.org"
