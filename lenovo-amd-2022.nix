@@ -68,13 +68,6 @@ let
 
 in
 {
-  nixpkgs.overlays = [
-    # adds --delete-closure to nix-store --delete, so you can delete a build
-    (final: _: {
-      nix = final.lixPackageSets.stable.lix;
-    })
-    (import sources.emacs-overlay)
-  ];
 
   # my son, this is the magic spell that gives you rasberry pi and other aarch
   # buildng magic. use it wisely.

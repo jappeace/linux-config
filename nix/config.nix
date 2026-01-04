@@ -3,6 +3,13 @@ let
   sources = import ../npins;
 in
 {
+  nixpkgs.overlays = [
+    # adds --delete-closure to nix-store --delete, so you can delete a build
+    (final: _: {
+      nix = final.lixPackageSets.stable.lix;
+    })
+    (import sources.emacs-overlay)
+  ];
   nix = {
     gc = {
       automatic = true;

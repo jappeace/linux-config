@@ -22,9 +22,9 @@
       },
       "branch": "master",
       "submodules": false,
-      "revision": "f6850858f78e2b6328f6e8bb7bf9df10dd0b7973",
-      "url": "https://github.com/nix-community/emacs-overlay/archive/f6850858f78e2b6328f6e8bb7bf9df10dd0b7973.tar.gz",
-      "hash": "0iiir5gkh5pfkbgdpph38wzqhc00b8nq95pvc0l7k85a5gwh5sd5"
+      "revision": "7c4082038dd9185abc5221c7bbe2edb6b3980a88",
+      "url": "https://github.com/nix-community/emacs-overlay/archive/7c4082038dd9185abc5221c7bbe2edb6b3980a88.tar.gz",
+      "hash": "12fidvagihg3fc4mafddclwss1crj91g3spyw12vxf96zbnra6hx"
     },
     "flake-compat": {
       "type": "GitRelease",
@@ -49,11 +49,11 @@
         "owner": "nixos",
         "repo": "nixpkgs"
       },
-      "branch": "master",
+      "branch": "nixos-25.11",
       "submodules": false,
-      "revision": "b2485d56967598da068b5a6946dadda8bfcbcd37",
-      "url": "https://github.com/nixos/nixpkgs/archive/b2485d56967598da068b5a6946dadda8bfcbcd37.tar.gz",
-      "hash": "1q0m25p83mk0zz42yyi0avyvm77x09ydgrlkkfpzwf22ghb27yfy"
+      "revision": "09eb77e94fa25202af8f3e81ddc7353d9970ac1b",
+      "url": "https://github.com/nixos/nixpkgs/archive/09eb77e94fa25202af8f3e81ddc7353d9970ac1b.tar.gz",
+      "hash": "02hdh4r0cc5h78cmymndb8clfhkn6phbrkrv6s8kvyfspqwzj84r"
     },
     "unstable": {
       "type": "Git",
