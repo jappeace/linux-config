@@ -94,6 +94,7 @@ boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
     # I accidently bought the same one
     ./hardware/lenovo-amd-2022.nix
     ./emacs
+    ./nix/config.nix
   ];
 
   # Use the systemd-boot EFI boot loader.
@@ -986,43 +987,6 @@ boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
   powerManagement = {
     enable = true;
     cpuFreqGovernor = "ondemand";
-  };
-
-  nix = {
-    gc = {
-      automatic = true;
-      dates = "monthly"; # https://jlk.fjfi.cvut.cz/arch/manpages/man/systemd.time.7
-      options = "--delete-older-than 120d";
-    };
-
-    nixPath = ["nixos-config=/etc/nixos/configuration.nix"
-               "nixpkgs=${sources.nixpkgs}"
-               "bloob=/home/jappie/projects/cut-the-crap"];
-
-    extraOptions = ''
-      experimental-features = nix-command flakes
-    '';
-    settings = {
-      trusted-users = [ "jappie" "root" ];
-      substituters = [
-        "https://cache.nixos.org"
-        "https://nixcache.reflex-frp.org" # reflex
-        "https://jappie.cachix.org"
-        "https://nix-community.cachix.org"
-        "https://nix-cache.jappie.me"
-        # "https://cache.iog.io"
-        # "https://static-haskell-nix.cachix.org"
-      ];
-
-      trusted-public-keys = [
-        "ryantrinkle.com-1:JJiAKaRv9mWgpVAz8dwewnZe0AzzEAzPkagE9SP5NWI=" # reflex
-        "static-haskell-nix.cachix.org-1:Q17HawmAwaM1/BfIxaEDKAxwTOyRVhPG5Ji9K3+FvUU="
-        "jappie.cachix.org-1:+5Liddfns0ytUSBtVQPUr/Wo6r855oNLgD4R8tm1AE4="
-        "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
-        # "nix-cache.jappie.me:WjkKcvFtHih2i+n7bdsrJ3HuGboJiU2hA2CZbf9I9oc="
-      ];
-      auto-optimise-store = true;
-    };
   };
 
 }
