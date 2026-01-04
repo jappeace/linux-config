@@ -11,6 +11,10 @@ let
   unstable = (builtins.getFlake "github:nixos/nixpkgs/b263ab4b464169289c25f5ed417aea66ed24189f").legacyPackages.x86_64-linux;
   unstable2 = (builtins.getFlake "github:nixos/nixpkgs/34fccf8cbe5ff2107f58ca470d3d78725186c222").legacyPackages.x86_64-linux;
 
+  unstable3 = (builtins.getFlake "github:nixos/nixpkgs/b235b9ea104d976ce0cb27b80e23b128208653e7").legacyPackages.x86_64-linux;
+
+
+
   hostdir = pkgs.writeShellScriptBin "hostdir" ''
     ${pkgs.lib.getExe pkgs.python3} -m http.server
   '';
@@ -254,7 +258,7 @@ in {
       pkgs.haskellPackages.greenclip
       universal-ctags
       unstable.nodejs_20 # the one in main is broken, segfautls
-      unstable.postgresql
+      unstable3.postgresql
       audacious
       xclip
       filezilla
@@ -794,8 +798,7 @@ in {
         archive_mode = "off";
         max_wal_senders = 0;
       };
-      package = pkgs.postgresql_15;
-        # .withPackages (p: [ p.postgis ]);
+      package = unstable3.postgresql_15.withPackages (p: [ p.postgis ]);
 
       initialScript = pkgs.writeText "backend-initScript" ''
         CREATE USER jappie WITH PASSWORD \'\';
