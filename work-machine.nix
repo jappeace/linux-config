@@ -632,7 +632,7 @@ in {
 
               ];
     allowUnfree = true; # I'm horrible, nvidia sucks, TODO kill nvidia
-    pulseaudio = false;
+    # pulseaudio = false;
     packageeverrides = pkgs: {
       neovim = pkgs.neovim.override {
         configure = {
