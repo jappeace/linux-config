@@ -632,7 +632,7 @@ in {
 
               ];
     allowUnfree = true; # I'm horrible, nvidia sucks, TODO kill nvidia
-    # pulseaudio = false;
+    # pulseaudio = false; # uncommenting this causes nix to miss all caches, fun for frens and family.
     packageeverrides = pkgs: {
       neovim = pkgs.neovim.override {
         configure = {
