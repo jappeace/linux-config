@@ -41,7 +41,7 @@ in
       min-free = 20 * 1024 * 1024 * 1024;
 
       trusted-users = [ "jappie" "root" ];
-      substituters = [
+      extra-substituters = [
         "https://cache.nixos.org"
         "https://nixcache.reflex-frp.org" # reflex
         "https://jappie.cachix.org"
@@ -51,7 +51,7 @@ in
         # "https://static-haskell-nix.cachix.org"
       ];
 
-      trusted-public-keys = [
+      extra-trusted-public-keys = [
         "ryantrinkle.com-1:JJiAKaRv9mWgpVAz8dwewnZe0AzzEAzPkagE9SP5NWI=" # reflex
         "static-haskell-nix.cachix.org-1:Q17HawmAwaM1/BfIxaEDKAxwTOyRVhPG5Ji9K3+FvUU="
         "jappie.cachix.org-1:+5Liddfns0ytUSBtVQPUr/Wo6r855oNLgD4R8tm1AE4="
