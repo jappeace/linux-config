@@ -1,0 +1,40 @@
+#! /bin/sh
+MIDDLE_OUTPUT="DisplayPort-1"
+LEFT_OUTPUT="DisplayPort-2"
+RIGHT_OUTPUT="DisplayPort-0"
+BACK_OUTPUT="HDMI-A-0"
+
+DAT_FILE="/tmp/monitor_mode_${USER}.dat"
+
+# if we don't have a file, start at zero
+if [ ! -f "$DAT_FILE" ] ; then
+  monitor_mode="all"
+
+# otherwise read the value from the file
+else
+  monitor_mode=$(cat "$DAT_FILE")
+fi
+
+if [ "$monitor_mode" = "all" ]; then
+        monitor_mode="EXTERNAL"
+        xrandr --output $MIDDLE_OUTPUT --off --output $LEFT_OUTPUT --auto --output $RIGHT_OUTPUT --off --output $BACK_OUTPUT --off
+elif [ $monitor_mode = "EXTERNAL" ]; then
+        monitor_mode="MIDDLE"
+        xrandr --output $MIDDLE_OUTPUT --auto --output $LEFT_OUTPUT --off --output $RIGHT_OUTPUT --off --output $BACK_OUTPUT --off
+elif [ $monitor_mode = "MIDDLE" ]; then
+        monitor_mode="CLONES"
+        xrandr --output $MIDDLE_OUTPUT --auto \
+               --output $LEFT_OUTPUT --auto --same-as $MIDDLE_OUTPUT \
+               --output $RIGHT_OUTPUT --auto --same-as $MIDDLE_OUTPUT \
+               --output $BACK_OUTPUT --auto --same-as $MIDDLE_OUTPUT \
+else
+        monitor_mode="all"
+        xrandr --output $MIDDLE_OUTPUT --auto \
+               --output $LEFT_OUTPUT   --auto --left-of  $MIDDLE_OUTPUT \
+               --output $RIGHT_OUTPUT  --auto --right-of $MIDDLE_OUTPUT \
+               --output $BACK_OUTPUT   --auto --right-of $RIGHT_OUTPUT --left-of $LEFT_OUTPUT
+fi
+
+echo "${monitor_mode}"
+(i3-nagbar -t warning -m "switching to ${monitor_mode}")&
+echo "${monitor_mode}" > "$DAT_FILE"
