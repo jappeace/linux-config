@@ -33,6 +33,9 @@ let
     echo "wrote to "$outfolder
   '';
 
+  monitor-script = pkgs.writeShellScriptBin "monitor" ./scripts/work-machine-monitor.sh;
+
+  nixos = pkgs.writeShellScriptBin "nixos" "${./scripts/rebuild.sh} $@";
 
   # Me to the max
   maxme = pkgs.writeShellScriptBin "maxme" ''emacsclient . &!'';
@@ -235,6 +238,8 @@ in {
       terraform
       unstable2.openapi-generator-cli
       qrencode
+      monitor-script
+      nixos
 
       blesh
       atuin
