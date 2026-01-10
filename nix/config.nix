@@ -73,6 +73,7 @@ in
     in
     {
       versionSuffix = "-git:${rev}";
+      distroName = "JappieOS"; # lmao, how many autism points? hmm?
       revision = rev;
     };
 }
