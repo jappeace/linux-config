@@ -1,7 +1,3 @@
-# Edit this configuration file to define what should be installed on
-# your system.  Help is available in the configuration.nix(5) man page
-# and in the NixOS manual (accessible by running ‘nixos-help’).
-
 { config, pkgs, ... }:
 let
   # agenix = builtins.getFlake "github:ryantm/agenix/f6291c5935fdc4e0bef208cfc0dcab7e3f7a1c41";
