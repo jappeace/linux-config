@@ -240,6 +240,36 @@ boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
 
     blueman.enable = true;
 
+    syncthing.settings.folders = {
+        "/home/jappie/phone" = {
+          id = "Phone";
+          devices = [
+            "lenovo-tablet"
+            "macbook-2024"
+            "work-machine"
+            "phone"
+            "pixel"
+            "lenovo-amd-2022"
+          ];
+        };
+        "/home/jappie/docs" = {
+          id = "docs";
+          devices = [
+            "lenovo-tablet"
+            "macbook-2024"
+            "work-machine"
+            "lenovo-amd-2022"
+          ];
+        };
+        "/home/jappie/yt-trash" = {
+          id = "uiyvz-makk2";
+          devices = [
+            "work-machine"
+            "lenovo-amd-2022"
+          ];
+        };
+      };
+
     logind = {
       # https://www.freedesktop.org/software/systemd/man/logind.conf.html
       # https://man.archlinux.org/man/systemd-sleep.conf.5

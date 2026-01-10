@@ -9,51 +9,6 @@
     syncthing = {
       overrideDevices = true;
       overrideFolders = true;
-      settings.folders = {
-        "/home/jappie/phone" = {
-          id = "Phone";
-          devices = [
-            "lenovo-tablet"
-            "macbook-2024"
-            "work-machine"
-            "phone"
-            "pixel"
-            "lenovo-amd-2022"
-          ];
-        };
-        "/home/jappie/docs" = {
-          id = "docs";
-          devices = [
-            "lenovo-tablet"
-            "macbook-2024"
-            "work-machine"
-            "lenovo-amd-2022"
-          ];
-        };
-        "/home/jappie/pixel_8_fmnx-photos" = {
-          id = "pixel_8_fmnx-photos";
-          devices = [
-            "work-machine"
-            "pixel"
-            "lenovo-tablet"
-          ];
-        };
-        "/home/jappie/sm-a515f_nca9-foto's" = {
-          id = "sm-a515f_nca9-foto's";
-          devices = [
-            "work-machine"
-            "phone"
-            "lenovo-tablet"
-          ];
-        };
-        "/home/jappie/yt-trash" = {
-          id = "uiyvz-makk2";
-          devices = [
-            "work-machine"
-            "lenovo-amd-2022"
-          ];
-        };
-      };
       # nb you can add your own id from the UI.
       # it doesn't seem to impact anything
       settings.devices = {
