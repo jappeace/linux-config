@@ -196,75 +196,9 @@ in {
     };
   };
 
-  nixpkgs.config = {
-    # TODO where the hell are these comming from??
-    permittedInsecurePackages = [
-                "dotnet-sdk-6.0.428"
-                "dotnet-runtime-6.0.36"
-
-              ];
-    allowUnfree = true; # I'm horrible, nvidia sucks, TODO kill nvidia
-    # pulseaudio = false; # uncommenting this causes nix to miss all caches, fun for frens and family.
-    packageeverrides = pkgs: {
-      neovim = pkgs.neovim.override {
-        configure = {
-          customRC = ''
-            set syntax=on
-            set autoindent
-            set autowrite
-            set smartcase
-            set showmode
-            set nowrap
-            set number
-            set nocompatible
-            set tw=80
-            set smarttab
-            set smartindent
-            set incsearch
-            set mouse=a
-            set history=10000
-            set completeopt=menuone,menu,longest
-            set wildignore+=*\\tmp\\*,*.swp,*.swo,*.git
-            set wildmode=longest,list,full
-            set wildmenu
-            set t_Co=512
-            set cmdheight=1
-            set expandtab
-            set clipboard=unnamedplus
-            autocmd FileType haskell setlocal sw=4 sts=4 et
-          '';
-          packages.neovim2 = with pkgs.vimPlugins; {
-
-            start = [
-              tabular
-              syntastic
-              vim-nix
-              neomake
-              ctrlp
-              neoformat
-              gitgutter
-            ];
-            opt = [ ];
-          };
-        };
-      };
-
-    };
-  };
   # hardware.bumblebee.enable = true;
   # hardware.bumblebee.connectDisplay = true;
   hardware.bluetooth.enable = true;
-  services.pipewire.enable = false;
-  services.pulseaudio = {
-
-
-    enable = true;
-    support32Bit = true;
-    tcp = {
-      enable = true;
-      anonymousClients.allowAll = true; # bite me
-    };
-  };
   services.gvfs.enable = true;
   services.tumbler.enable = true;
   hardware.graphics = {
@@ -416,7 +350,6 @@ in {
         };
       };
 
-    # https://github.com/rfjakob/earlyoom
 
 
 

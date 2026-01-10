@@ -1,4 +1,5 @@
 # shared services between machines
+{pkgs, ...}:
 
 {
   services = {
@@ -8,23 +9,46 @@
       settings.folders = {
         "/home/jappie/phone" = {
           id = "Phone";
-          devices = ["lenovo-tablet" "macbook-2024" "work-machine" "phone" "pixel" "lenovo-amd-2022"];
+          devices = [
+            "lenovo-tablet"
+            "macbook-2024"
+            "work-machine"
+            "phone"
+            "pixel"
+            "lenovo-amd-2022"
+          ];
         };
         "/home/jappie/docs" = {
           id = "docs";
-          devices = ["lenovo-tablet" "macbook-2024" "work-machine" "lenovo-amd-2022"];
+          devices = [
+            "lenovo-tablet"
+            "macbook-2024"
+            "work-machine"
+            "lenovo-amd-2022"
+          ];
         };
         "/home/jappie/pixel_8_fmnx-photos" = {
           id = "pixel_8_fmnx-photos";
-          devices = ["work-machine" "pixel" "lenovo-tablet" ];
+          devices = [
+            "work-machine"
+            "pixel"
+            "lenovo-tablet"
+          ];
         };
         "/home/jappie/sm-a515f_nca9-foto's" = {
           id = "sm-a515f_nca9-foto's";
-          devices = ["work-machine" "phone" "lenovo-tablet" ];
+          devices = [
+            "work-machine"
+            "phone"
+            "lenovo-tablet"
+          ];
         };
         "/home/jappie/yt-trash" = {
           id = "uiyvz-makk2";
-          devices = ["work-machine" "lenovo-amd-2022" ];
+          devices = [
+            "work-machine"
+            "lenovo-amd-2022"
+          ];
         };
       };
       # nb you can add your own id from the UI.
@@ -54,5 +78,109 @@
       group = "users";
       dataDir = "/home/jappie/.config/syncthing-private";
     };
+
+    pulseaudio = {
+      enable = true;
+      support32Bit = true;
+      tcp = {
+        enable = true;
+        anonymousClients.allowAll = true; # bite me
+      };
+    };
+
+    pipewire.enable = false;
+
+    journald.extraConfig = ''
+      SystemMaxUse=50M
+      RuntimeMaxUse=50M
+    '';
+    gvfs.enable = true; # Mount, trash, and other functionalities
+    tumbler.enable = true; # Thumbnail support for images
+    tor.enable = true;
+    tor.client.enable = true;
+
+    postgresql = {
+      enable = true; # postgres for local dev
+      authentication = pkgs.lib.mkOverride 10 ''
+        local all all trust
+        host all all ::1/128 trust
+        host all all 0.0.0.0/0 md5
+        host all all ::/0       md5
+      '';
+      settings = {
+        log_connections = true;
+        log_statement = "all";
+        log_disconnections = true;
+
+        logging_collector = false;
+        shared_buffers = "512MB";
+        fsync = false;
+        synchronous_commit = false;
+        full_page_writes = false;
+        client_min_messages = "ERROR";
+        commit_delay = 100000;
+        wal_level = "minimal";
+        archive_mode = "off";
+        max_wal_senders = 0;
+      };
+      package = (pkgs.postgresql.withPackages (p: [ p.postgis ]));
+
+      initialScript = pkgs.writeText "backend-initScript" ''
+        CREATE USER jappie WITH PASSWORD \'\';
+        CREATE DATABASE jappie;
+        ALTER USER jappie WITH SUPERUSER;
+      '';
+    };
+
+
+      libinput = {
+        enable = true;
+        touchpad = {
+          tapping = true;
+          disableWhileTyping = true;
+        };
+      };
+
+    displayManager = {
+      defaultSession = "none+i3";
+      autoLogin = {
+        user = "jappie";
+        enable = false;
+      };
+    };
+
+    desktopManager.plasma6 = {
+      enable = true;
+    };
+    xserver = {
+      xkb = {
+        layout = "us";
+        options = "caps:swapescape";
+      };
+
+      autorun = true; # disable on troubles
+      # videoDrivers = [ "amdgpu" "radeon" "cirrus" "vesa" "modesetting" "intel" ];
+      videoDrivers = [ "amdgpu" "modesetting" ];
+      windowManager.i3.enable = true;
+      windowManager.i3.extraPackages = [ pkgs.adwaita-qt ];
+      windowManager.i3.extraSessionCommands = ''
+          sleep 1;
+          ${pkgs.xorg.xmodmap}/bin/xmodmap ~/.Xmodmap
+        '';
+
+      displayManager = {
+        # I tried lightdm but id doesn't work with pam for some reason
+        lightdm = {
+          enable = true;
+        };
+      };
+
+      enable = true;
+    };
+
+    redshift = { enable = true; };
+
+    # https://github.com/rfjakob/earlyoom
+    earlyoom.enable = true; # kills big processes better then kernel
   };
 }

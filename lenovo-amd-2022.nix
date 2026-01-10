@@ -223,82 +223,8 @@ boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
     };
   };
 
-  nixpkgs.config = {
-    # TODO where the hell are these comming from??
-    permittedInsecurePackages = [
-                "dotnet-sdk-6.0.428"
-                "dotnet-runtime-6.0.36"
-
-              ];
-    allowUnfree = true; # I'm horrible, nvidia sucks, TODO kill nvidia
-    pulseaudio = true;
-    packageeverrides = pkgs: {
-      neovim = pkgs.neovim.override {
-        configure = {
-          customRC = ''
-            set syntax=on
-            set autoindent
-            set autowrite
-            set smartcase
-            set showmode
-            set nowrap
-            set number
-            set nocompatible
-            set tw=80
-            set smarttab
-            set smartindent
-            set incsearch
-            set mouse=a
-            set history=10000
-            set completeopt=menuone,menu,longest
-            set wildignore+=*\\tmp\\*,*.swp,*.swo,*.git
-            set wildmode=longest,list,full
-            set wildmenu
-            set t_Co=512
-            set cmdheight=1
-            set expandtab
-            set clipboard=unnamedplus
-            autocmd FileType haskell setlocal sw=4 sts=4 et
-          '';
-          packages.neovim2 = with pkgs.vimPlugins; {
-
-            start = [
-              tabular
-              syntastic
-              vim-nix
-              neomake
-              ctrlp
-              neoformat
-              gitgutter
-            ];
-            opt = [ ];
-          };
-        };
-      };
-
-    };
-  };
-
   hardware.bluetooth.enable = true;
   services.pipewire.enable = false;
-  services.journald.extraConfig = ''
-      SystemMaxUse=50M
-      RuntimeMaxUse=50M
-  '';
-  services.pulseaudio = {
-
-
-    enable = true;
-    support32Bit = true;
-    tcp = {
-      enable = true;
-      anonymousClients.allowAll = true; # bite me
-    };
-  };
-
-  # thunar stuff
-  services.gvfs.enable = true; # Mount, trash, and other functionalities
-  services.tumbler.enable = true; # Thumbnail support for images
 
   # # reverse search sync
   # services.atuin.enable = true;
@@ -310,93 +236,9 @@ boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
       libGL
     ];
   };
-  # TODO figure this out, the fans are just running wild but I should be able to software control them
-  # systemd.services.fancontrol = let configFile = pkgs.writeText "fancontrol.conf" ""; in {
-  #   unitConfig.Documentation = "man:fancontrol(8)";
-  #   description = "software fan control";
-  #   wantedBy = [ "multi-user.target" ];
-  #   after = [ "lm_sensors.service" ];
-
-  #   serviceConfig = {
-  #     Type = "simple";
-  #     ExecStart = "${pkgs.lm_sensors}/sbin/fancontrol ${configFile}";
-  #   };
-  # };
-
-  # List services that you want to enable:
-
-  # Enable the OpenSSH daemon.
-  # services.openssh.enable = true;
-  # console.useXkbConfig = true;
   services = {
-    # bevel.production.api-server = {
-    #   enable = true;
-    #   api-server = {
-    #     enable = true;
-    #     log-level = "Warn";
-    #     hosts = [ "api.bevel.mydomain.com" ];
-    #     port = 8402;
-    #     local-backup = {
-    #       enable = true;
-    #     };
-    #   };
-    # };
-
 
     blueman.enable = true;
-    # gnome.gnome-keyring.enable = true;
-    # free curl: sudo killall -HUP tor && curl --socks5-hostname 127.0.0.1:9050 https://ifconfig.me
-    tor.enable = true;
-    tor.client.enable = true;
-    openssh = {
-      enable = true;
-      settings.X11Forwarding = true;
-    };
-    printing = {
-      enable = true;
-      drivers = [
-        pkgs.hplip
-        pkgs.epson-escpr # jappie hutje
-      ];
-    };
-    avahi = {
-      enable = false;
-      nssmdns4 = true;
-    };
-    redis = { servers."x".enable = false; };
-
-    postgresql = {
-      enable = true; # postgres for local dev
-      authentication = pkgs.lib.mkOverride 10 ''
-        local all all trust
-        host all all ::1/128 trust
-        host all all 0.0.0.0/0 md5
-        host all all ::/0       md5
-      '';
-      settings = {
-        log_connections = true;
-        log_statement = "all";
-        log_disconnections = true;
-
-        logging_collector = false;
-        shared_buffers = "512MB";
-        fsync = false;
-        synchronous_commit = false;
-        full_page_writes = false;
-        client_min_messages = "ERROR";
-        commit_delay = 100000;
-        wal_level = "minimal";
-        archive_mode = "off";
-        max_wal_senders = 0;
-      };
-      package = (pkgs.postgresql.withPackages (p: [ p.postgis ]));
-
-      initialScript = pkgs.writeText "backend-initScript" ''
-        CREATE USER jappie WITH PASSWORD \'\';
-        CREATE DATABASE jappie;
-        ALTER USER jappie WITH SUPERUSER;
-      '';
-    };
 
     logind = {
       # https://www.freedesktop.org/software/systemd/man/logind.conf.html
@@ -417,59 +259,7 @@ boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
 
 
 
-    # Enable the X11 windowing system.
-    # services.xserver.enable = true;
-    # services.xserver.layout = "us";
-    # services.xserver.xkbOptions = "eurosign:e";
 
-      libinput = {
-        enable = true;
-        touchpad = {
-          tapping = true;
-          disableWhileTyping = true;
-        };
-      };
-
-    displayManager = {
-      defaultSession = "none+i3";
-      autoLogin = {
-        user = "jappie";
-        enable = false;
-      };
-    };
-
-    desktopManager.plasma6 = {
-      enable = true;
-    };
-    xserver = {
-      xkb = {
-        layout = "us";
-        options = "caps:swapescape";
-      };
-
-      autorun = true; # disable on troubles
-      videoDrivers = [ "amdgpu" "radeon" "cirrus" "vesa" "modesetting" "intel" ];
-      windowManager.i3.enable = true;
-      windowManager.i3.extraPackages = [ pkgs.adwaita-qt ];
-      windowManager.i3.extraSessionCommands = ''
-          sleep 1;
-          ${pkgs.xorg.xmodmap}/bin/xmodmap ~/.Xmodmap
-        '';
-
-      displayManager = {
-        # I tried lightdm but id doesn't work with pam for some reason
-        lightdm = {
-          enable = true;
-        };
-      };
-
-      enable = true;
-    };
-
-    redshift = { enable = true; };
-
-    # https://github.com/rfjakob/earlyoom
-    earlyoom.enable = true; # kills big processes better then kernel
   };
 
 
