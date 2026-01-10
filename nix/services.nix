@@ -3,6 +3,7 @@
 # lot more configuration than programs invoked by a user, so
 # that's why it's split (I guess)
 
+{pkgs, ...}:
 {
   services = {
     syncthing = {
