@@ -76,6 +76,8 @@ in {
 
       blesh
       atuin
+      openrct2
+      starsector
       fuckdirenv
       mosquitto
       npins
@@ -91,7 +93,6 @@ in {
       rofi
       unstable2.devenv
       pkgs.haskellPackages.greenclip
-      universal-ctags
       unstable.nodejs_20 # the one in main is broken, segfautls
       unstable3.postgresql
       audacious
@@ -147,11 +148,11 @@ in {
       # eg final fantasy 7 is in ~/ff7
       # press f4 to laod state
       # f2 to save
-      # (retroarch.withCores (libretro: [
-      #     # genesis-plus-gx
-      #     # snes9x
-      #     libretro.beetle-psx-hw
-      # ]))
+      (retroarch.withCores (libretro: [
+          # genesis-plus-gx
+          # snes9x
+          libretro.beetle-psx-hw
+      ]))
       postman
 
       binutils # eg nm and other lowlevel cruft
@@ -190,7 +191,6 @@ in {
       lz4
 
       hyperfine # better time command
-      tlaplusToolbox
 
       tldr # better man
 
@@ -216,7 +216,6 @@ in {
 
       hardinfo2 # https://askubuntu.com/questions/179958/how-do-i-find-out-my-motherboard-model
       dmidecode
-      vscode
 
       pv # cat with progress bar
 
@@ -229,8 +228,10 @@ in {
       # lm-sensors
       fd # better find, 50% shorter command!
       # pgcli # better postgres cli client
+      pgcli # better postgres cli client
       unrar
       sshuttle
+      linux-firmware
       gource
       p7zip
       steam
@@ -272,6 +273,7 @@ in {
       vlc
       firefox
       # chromium # disabled cuz it wants to build it, doesn't hit cache
+      chromium
       pavucontrol
       gparted # partitiioning for dummies, like me
       thunderbird # some day I'll use emacs for this
@@ -281,6 +283,7 @@ in {
       openvpn # piratebay access
 
       # kdePackages.plasma-systemmonitor # monitor my system.. with graphs! (so I don't need to learn real skills) # disabled cuz it wants to build it, doesn't hit cache
+      kdePackages.plasma-systemmonitor # monitor my system.. with graphs! (so I don't need to learn real skills)
       gnumake # handy for adhoc configs, https://github.com/NixOS/nixpkgs/issues/17293
       # fbreader # read books # TODO broken?
       libreoffice
@@ -295,6 +298,9 @@ in {
       zoom-us
       espeak
       pandoc
+      wineWowPackages.stable
+      winetricks
+      teamviewer
 
       tmate
       cachix
@@ -305,6 +311,7 @@ in {
         i3Support = true;
       })
 
+      anki
       cloc
       lshw # list hardware
       pkgs.xorg.xev # monitor x events
@@ -314,7 +321,13 @@ in {
     ];
     shellAliases = {
       nix = "nom";
+      nix-shell = "nom-shell";
+      niixos-rebuild = "nixos-rebuild";
+      nixos-rebuild = "nixos-rebuild --no-reexec";
+      nix-build = "nom-build";
       niix = "${pkgs.nix}/bin/nix -Lv --fallback";
+      niix-shell = "${pkgs.nix}/bin/nix-shell -Lv --fallback";
+      niix-build = "${pkgs.nix}/bin/nix-build -Lv --fallback";
       vim = "nvim";
       cp = "cp --reflink=auto"; # btrfs shine
       ssh = "ssh -C"; # why is this not default?
@@ -363,7 +376,7 @@ in {
     ];
 
     gnupg.agent = {
-      enable = false; # this makes it double defined (by plasma as well??)
+      enable = true;
       enableSSHSupport = true;
     };
     vim.defaultEditor = true;
