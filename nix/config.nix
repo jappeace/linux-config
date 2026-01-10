@@ -1,5 +1,5 @@
 # config for just nix
-{pkgs, ... }:
+{ pkgs, ... }:
 let
   sources = import ../npins;
 in
@@ -28,9 +28,11 @@ in
       options = "--delete-older-than 120d";
     };
 
-    nixPath = ["nixos-config=/etc/nixos/configuration.nix"
-               "nixpkgs=${sources.nixpkgs}"
-               "bloob=/home/jappie/projects/cut-the-crap"];
+    nixPath = [
+      "nixos-config=/etc/nixos/configuration.nix"
+      "nixpkgs=${sources.nixpkgs}"
+      "bloob=/home/jappie/projects/cut-the-crap"
+    ];
 
     extraOptions = ''
       experimental-features = nix-command flakes
@@ -40,8 +42,11 @@ in
       # starts the gc when there is less then 50GB in storage
       min-free = 20 * 1024 * 1024 * 1024;
 
-      trusted-users = [ "jappie" "root" ];
-      substituters = [
+      trusted-users = [
+        "jappie"
+        "root"
+      ];
+      extra-substituters = [
         "https://cache.nixos.org"
         "https://nixcache.reflex-frp.org" # reflex
         "https://jappie.cachix.org"
@@ -51,7 +56,7 @@ in
         # "https://static-haskell-nix.cachix.org"
       ];
 
-      trusted-public-keys = [
+      extra-trusted-public-keys = [
         "ryantrinkle.com-1:JJiAKaRv9mWgpVAz8dwewnZe0AzzEAzPkagE9SP5NWI=" # reflex
         "static-haskell-nix.cachix.org-1:Q17HawmAwaM1/BfIxaEDKAxwTOyRVhPG5Ji9K3+FvUU="
         "jappie.cachix.org-1:+5Liddfns0ytUSBtVQPUr/Wo6r855oNLgD4R8tm1AE4="
@@ -63,11 +68,12 @@ in
   };
 
   system.nixos =
-        let
-          rev = pkgs.lib.substring 0 8 sources.nixpkgs.revision;
-        in
-        {
-          versionSuffix = "-git:${rev}";
-          revision = rev;
-        };
+    let
+      rev = pkgs.lib.substring 0 8 sources.nixpkgs.revision;
+    in
+    {
+      versionSuffix = "-git:${rev}";
+      distroName = "JappieOS"; # lmao, how many autism points? hmm?
+      revision = rev;
+    };
 }

@@ -81,13 +81,13 @@
 (use-package monokai-theme
   :load-path "themes"
   :config
-  ;; (load-theme 'monokai t)
+  (load-theme 'monokai t)
   )
 
 (use-package modus-themes
   :load-path "themes"
   :config
-  (load-theme 'modus-operandi-tinted t)
+  ;; (load-theme 'modus-operandi-tinted t)
   )
 
 
@@ -649,7 +649,6 @@ two prefix arguments, write out the day and month name."
 (use-package dockerfile-mode)
 (use-package direnv)
 
-(use-package not-much)
 (use-package dart-mode)
 
 (use-package agenix)

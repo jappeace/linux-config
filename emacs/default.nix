@@ -42,6 +42,7 @@ in {
 
         # nix language server
         pkgs.nil
+        pkgs.nixfmt-rfc-style
 	  ];
   };
 

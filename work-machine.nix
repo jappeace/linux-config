@@ -5,72 +5,17 @@
 { config, pkgs, ... }:
 let
   sources = import ./npins;
-
-  devpackeges = import /home/jappie/projects/nixpkgs { };
-
-  # unfuck the flake, unsubscribe from the mental health workshop.
-  fuckingFlake = outPath: (import sources.flake-compat { src = outPath; }).outputs;
-
-  agenix = fuckingFlake sources.agenix.outPath;
-
-  unstable = import sources.unstable {};
-  unstable2 = import sources.unstable2 {};
   unstable3 = import sources.unstable3 {};
 
-  hostdir = pkgs.writeShellScriptBin "hostdir" ''
-    ${pkgs.lib.getExe pkgs.python3} -m http.server
-  '';
-
-  # phone makes pictures to big usually
-  # I need to track these often in a git repo and having it be bigger then 1meg is bad
-  resize-images = pkgs.writeShellScriptBin "resize-images" ''
-    set -xe
-    outfolder=/tmp/small
-    mkdir -p $outfolder
-    for i in `echo *.jpg`; do
-    ${pkgs.imagemagick}/bin/convert -resize 50% -quality 90 "$@" $i $outfolder/$i.small.jpg;
-    done
-    echo "wrote to "$outfolder
-  '';
-
-
-  # Me to the max
-  maxme = pkgs.writeShellScriptBin "maxme" ''emacsclient . &!'';
-
-  fuckdirenv = pkgs.writeShellScriptBin "fuckdirenv" ''fd -t d -IH direnv --exec rm -r'';
-
-  reload-emacs = pkgs.writeShellScriptBin "reload-emacs" ''
-    sudo nixos-rebuild switch && systemctl daemon-reload --user &&    systemctl restart emacs --user
-  '';
-
-  /* a good workaround is worth a thousand poor fixes */
-  start-ib = pkgs.writeShellScriptBin "start-ib" ''
-    xhost +
-    docker rm broker-client
-    docker run --name=broker-client -d -v /tmp/.X11-unix:/tmp/.X11-unix -it ib bash
-    docker exec -it broker-client tws
-  '';
-
-
-  # for whenever people think mac is hardcoded in hardware.
-  # succers.
-  change-mac = pkgs.writeShellScriptBin "change-mac" ''
-    pkill NetworkManager
-    ifconfig wlp1s0 down
-    macchanger -r wlp1s0
-    ifconfig wlp1s0 up
-    NetworkManager
-  '';
+  monitor-script = pkgs.writeShellScriptBin "monitor" ./scripts/work-machine-monitor.sh;
 
 in {
-  imports = [ # Include the results of the hardware scan.
-     # note that this is a different device than the lenovo amd
-	 # the uuid's are different.
-	 # I accidently bought the same one
+  imports = [
     ./hardware/work-machine.nix
     ./emacs
     ./nix/config.nix
-    # bevel-production
+    ./nix/environment.nix
+    ./nix/services.nix
   ];
 
   # Use the systemd-boot EFI boot loader.
@@ -213,6 +158,7 @@ in {
     };
   };
 
+  environment.systemPackages = [monitor-script];
   # Set your time zone.
   # https://en.wikipedia.org/wiki/List_of_tz_database_time_zones
   # time.timeZone = "Europe/Sofia";
@@ -224,382 +170,6 @@ in {
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
-  environment = {
-    systemPackages = with pkgs.xfce // pkgs; [
-      protobuf
-      qemu_full
-      kdePackages.kdenlive
-      # for those sweet global installs
-      unstable.nodePackages.pnpm
-      nodejs
-      terraform
-      unstable2.openapi-generator-cli
-      qrencode
-
-      blesh
-      atuin
-      fuckdirenv
-      mosquitto
-      npins
-
-      nix-output-monitor # pretty nix graph
-
-      tor-browser
-      kdePackages.kdenlive
-      kdePackages.konsole
-      xfce4-terminal
-
-      yt-dlp
-      rofi
-      unstable2.devenv
-      pkgs.haskellPackages.greenclip
-      universal-ctags
-      unstable.nodejs_20 # the one in main is broken, segfautls
-      unstable3.postgresql
-      audacious
-      xclip
-      filezilla
-      slop
-      xorg.xhost
-      unzip
-      krita
-      chatterino2 # TODO this doesn't work, missing xcb
-      blender
-      mesa
-      idris
-      pciutils
-      gptfdisk # gdisk
-      clang-tools # clang-format
-      lz4
-      yt-dlp
-      pkgs.haskellPackages.fourmolu
-      bluez
-      awscli2
-
-      ed # ed is the standard editor!
-
-      electrum # peeps ask me to buy crypto for them :s
-
-      # eg use it to explore dependencies on flakes,
-      # for example: --derivation '.#trilateration'
-      nix-tree
-
-      # https://superuser.com/questions/171195/how-to-check-the-health-of-a-hard-drive
-      smartmontools
-
-
-      # gtk-vnc # screen sharing for linux
-      x2vnc
-      hugin # panorama sticther
-
-      agenix.packages.x86_64-linux.agenix
-
-      # arion, eg docker-compose for nix
-      arion
-      docker-client
-      docker-compose
-
-      augustus
-      neomutt
-      miraclecast
-      gnome-network-displays
-
-      iw # fav around with wireless networks https://gitlab.gnome.org/GNOME/gnome-network-displays/-/issues/64
-
-      # eg final fantasy 7 is in ~/ff7
-      # press f4 to laod state
-      # f2 to save
-      # (retroarch.withCores (libretro: [
-      #     # genesis-plus-gx
-      #     # snes9x
-      #     libretro.beetle-psx-hw
-      # ]))
-      postman
-
-      binutils # eg nm and other lowlevel cruft
-      radare2
-
-      openttd
-      tldr
-      openra
-
-      # devpackeges.haskellPackages.cut-the-crap
-      # pkgs.haskellPackages.cut-the-crap
-      lsof
-      ffmpeg
-      gromit-mpx # draw on screen
-      usbutils
-      # pkgsUnstable.boomer
-      gcc
-      scrcpy
-      audacity
-      xss-lock
-      i3lock
-      i3status
-      nixpkgs-fmt
-      mpv # mplayer
-      kdePackages.ark
-      burpsuite
-      starship
-      openssl
-      reload-emacs
-      start-ib
-      cabal2nix
-      maxme
-      zip
-      # ib-tws
-      resize-images
-      lz4
-
-      hyperfine # better time command
-      tlaplusToolbox
-
-      tldr # better man
-
-      /*
-       ***
-         This nix expression requires that ibtws_9542.jar is already part of the store.
-         Download the TWS from
-         https://download2.interactivebrokers.com/download/unixmacosx_latest.jar,
-         rename the file to ibtws_9542.jar, and add it to the nix store with
-         "nix-prefetch-url file://$PWD/ibtws_9542.jar".
-
-       ***
-       ***
-         Unfortunately, we cannot download file jdk-8u281-linux-x64.tar.gz automatically.
-         Please go to http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html to download it yourself, and add it to the Nix store
-      NO HERE https://www.oracle.com/java/technologies/javase/javase8u211-later-archive-downloads.html#license-lightbox
-         nix-store --add-fixed sha256 jdk-8u281-linux-x64.tar.gz
-
-
-       ***
-
-         🙂jappie at 🕙 2022-02-27 17:25:45 ~ took 30s
-         ❯ ib-tws
-         ERROR: "" is not a valid name of a profile.
-
-        ... FUCK YOU.
-
-        🙂jappie at 🕙 2022-02-27 17:27:48 ~
-        ❯ ib-tws jappie
-        realpath: /home/jappie/IB/jappie: No such file or directory
-        cp: kan het normale bestand '/./jts.ini' niet aanmaken: Permission denied
-        17:27:53:144 main: Usage: java -cp <required jar files> jclient.LoginFrame <srcDir>
-
-        🙂jappie at 🕙 2022-02-27 17:27:53 ~
-        ❯ touch jts.ini
-
-        🙂jappie at 🕙 2022-02-27 17:28:31 ~
-        ❯ mkdir -p IB/jappie
-
-        🙂jappie at 🕙 2022-02-27 17:28:44 ~
-        ❯ ib-tws jappie
-        WARNING: The version of libXrender.so cannot be detected.
-        ,The pipe line will be enabled, but note that versions less than 0.9.3
-        may cause hangs and crashes
-         	See the release notes for more details.
-        XRender pipeline enabled
-        17:28:48:675 JTS-Main: dayInit: new values: dayOfTheWeek: 1 (Sun), YYYYMMofToday: 202202, YYYYMMDDofToday: 20220227
-        17:28:48:949 JTS-Main: getFileFromUrl: dest=/home/jappie/IB/jappie/locales.jar empty sourceSize=114646
-        17:28:49:738 JTS-Main: Build 952.1e, Oct 27, 2015 2:21:22 PM
-
-        That worked. Assholes.
-        MAKE SURE TO TICK USE SSL
-        I don't know why this is disabled by default.
-      */
-
-      ormolu
-
-
-      fsv # browse files like a chad
-      hostdir
-
-      crawlTiles
-      mariadb
-      browsh # better browser
-
-      macchanger # change mac address
-      change-mac
-      /*
-        $ sudo service network-manager stop
-        $ ifconfig wlp2s0b1 down
-        $ sudo macchanger -r wlp2s0b1
-        $ sudo service network-manager start
-        $ sudo ifconfig wlp2s0b1 up
-      */
-
-      hardinfo2 # https://askubuntu.com/questions/179958/how-do-i-find-out-my-motherboard-model
-      dmidecode
-      vscode
-
-      pv # cat with progress bar
-
-      nmap
-
-      # pkgsUnstable.ib-tws # intereactive brokers trader workstation
-      fcitx5
-      zoxide
-
-      # lm-sensors
-      fd # better find, 50% shorter command!
-      # pgcli # better postgres cli client
-      unrar
-      sshuttle
-      gource
-      p7zip
-      steam
-      bc # random calcualtions
-      thunar
-      inkscape # gotta make that artwork for site etc
-      gnupg # for private keys
-
-      git-crypt # pgp based encryption for git repos (the dream is real)
-      jq # deal with json on commandline
-      sqlite-interactive # hack nixops
-      litecli
-      gimp # edit my screenshots
-      curl
-      neovim # because emacs never breaks
-      networkmanagerapplet # make wifi clickable
-      git
-      imagemagick
-      keepassxc # to open my passwords
-      tree # sl
-      # pkgsUnstable.obs-linuxbrowser # install instructions: https://github.com/NixOS/nixpkgs/blob/master/pkgs/applications/video/obs-studio/linuxbrowser.nix
-      xorg.xmodmap # rebind capslock to escape
-      xdotool # i3 auto type
-
-      # theme shit
-      blackbird
-      lxappearance # theme, adwaita-dark works for gtk3, gtk2 and qt5.
-      libsForQt5.qt5ct
-
-
-      mesa-demos # glxgears
-      btop
-
-      zoxide # fasd # fasd died on me for some reason # try zoxide in future, it's rust based and active (this one is dead)
-      fzf # used by zoxide
-
-      cowsay
-      fortune
-      vlc
-      firefox
-      # chromium # disabled cuz it wants to build it, doesn't hit cache
-      pavucontrol
-      gparted # partitiioning for dummies, like me
-      thunderbird # some day I'll use emacs for this
-      deluge # bittorrent
-      # the spell to make openvpn work:   nmcli connection modify jappie vpn.data "key = /home/jappie/openvpn/website/jappie.key, ca = /home/jappie/openvpn/website/ca.crt, dev = tun, cert = /home/jappie/openvpn/website/jappie.crt, ns-cert-type = server, cert-pass-flags = 0, comp-lzo = adaptive, remote = jappieklooster.nl:1194, connection-type = tls"
-      # from https://github.com/NixOS/nixpkgs/issues/30235
-      openvpn # piratebay access
-
-      # kdePackages.plasma-systemmonitor # monitor my system.. with graphs! (so I don't need to learn real skills) # disabled cuz it wants to build it, doesn't hit cache
-      gnumake # handy for adhoc configs, https://github.com/NixOS/nixpkgs/issues/17293
-      # fbreader # read books # TODO broken?
-      libreoffice
-      qpdfview
-      tcpdump
-      ntfs3g
-      qdirstat
-      google-cloud-sdk
-      htop
-      feh
-      dnsutils
-      zoom-us
-      espeak
-      pandoc
-      wineWowPackages.stable
-      winetricks
-
-      tmate
-      cachix
-      (pkgs.polybar.override {
-        alsaSupport = true;
-        pulseSupport = true;
-        mpdSupport = true;
-        i3Support = true;
-      })
-
-      cloc
-      lshw # list hardware
-      pkgs.xorg.xev # monitor x events
-
-      direnv # https://direnv.net/
-      nix-direnv
-    ];
-    shellAliases = {
-      nix = "nom";
-      niix = "${pkgs.nix}/bin/nix -Lv --fallback";
-      vim = "nvim";
-      cp = "cp --reflink=auto"; # btrfs shine
-      ssh = "ssh -C"; # why is this not default?
-      bc = "bc -l"; # fix scale
-    };
-    variables = {
-      LESS = "-F -X -R";
-    };
-    pathsToLink = [
-      "/share/nix-direnv"
-    ];
-
-    # set theme, make font also bigger by default as we've
-    # high res screen
-    etc."xdg/gtk-2.0/gtkrc".text = ''
-      [Settings]
-      gtk-theme-name="Adwaita"
-      gtk-font-name = Noto Sans 18
-    '';
-
-    etc."xdg/gtk-3.0/settings.ini".text = ''
-      [Settings]
-      gtk-theme-name=Adwaita
-      gtk-font-name = Noto Sans 18
-      gtk-monofont-name = Fira Code 18
-    '';
-
-    variables.QT_QPA_PLATFORMTHEME = "qt5ct";
-
-    variables.TZ = ":/etc/localtime"; # https://github.com/NixOS/nixpkgs/issues/238025
-    # variables.QT_STYLE_OVERRIDE = "adwaita-dark";
-  };
-
-  # # https://github.com/NixOS/nixpkgs/blob/master/nixos/modules/config/qt5.nix
-  # qt5 = {
-  #   enable = true;
-  #   platformTheme = "gnome";
-  #   style = "adwaita-dark";
-  # };
-
-  # Some programs need SUID wrappers, can be configured further or are
-  # started in user sessions.
-  # programs.bash.enableCompletion = true;
-  # programs.mtr.enable = true;
-  programs = {
-    xfconf.enable = true; # allow configuring thunar
-    # can find them here
-    # https://github.com/NixOS/nixpkgs/tree/master/pkgs/desktops/xfce/thunar-plugins
-    # some aren't packaged yet:
-    # https://docs.xfce.org/xfce/thunar/start#thunar_plugins
-    # I think samba would be rad.
-    thunar.plugins = with pkgs.xfce; [
-      thunar-archive-plugin
-      thunar-volman
-      thunar-vcs-plugin
-      thunar-media-tags-plugin
-    ];
-
-    gnupg.agent = {
-      enable = false; # this makes it double defined (by plasma as well??)
-      enableSSHSupport = true;
-    };
-    vim.defaultEditor = true;
-    vim.enable = true;
-    adb.enable = true;
-    light.enable = true;
-    gnome-terminal.enable = true;
-
-  };
 
   fonts = {
     enableDefaultPackages = true;
@@ -626,77 +196,7 @@ in {
     };
   };
 
-  nixpkgs.config = {
-    # TODO where the hell are these comming from??
-    permittedInsecurePackages = [
-                "dotnet-sdk-6.0.428"
-                "dotnet-runtime-6.0.36"
-
-              ];
-    allowUnfree = true; # I'm horrible, nvidia sucks, TODO kill nvidia
-    pulseaudio = false;
-    packageeverrides = pkgs: {
-      neovim = pkgs.neovim.override {
-        configure = {
-          customRC = ''
-            set syntax=on
-            set autoindent
-            set autowrite
-            set smartcase
-            set showmode
-            set nowrap
-            set number
-            set nocompatible
-            set tw=80
-            set smarttab
-            set smartindent
-            set incsearch
-            set mouse=a
-            set history=10000
-            set completeopt=menuone,menu,longest
-            set wildignore+=*\\tmp\\*,*.swp,*.swo,*.git
-            set wildmode=longest,list,full
-            set wildmenu
-            set t_Co=512
-            set cmdheight=1
-            set expandtab
-            set clipboard=unnamedplus
-            autocmd FileType haskell setlocal sw=4 sts=4 et
-          '';
-          packages.neovim2 = with pkgs.vimPlugins; {
-
-            start = [
-              tabular
-              syntastic
-              vim-nix
-              neomake
-              ctrlp
-              neoformat
-              gitgutter
-            ];
-            opt = [ ];
-          };
-        };
-      };
-
-    };
-  };
-  # hardware.bumblebee.enable = true;
-  # hardware.bumblebee.connectDisplay = true;
-  hardware.bluetooth.enable = true;
-  services.pipewire.enable = false;
-  services.pulseaudio = {
-
-
-    enable = true;
-    support32Bit = true;
-    tcp = {
-      enable = true;
-      anonymousClients.allowAll = true; # bite me
-    };
-  };
-  services.gvfs.enable = true;
-  services.tumbler.enable = true;
+  hardware.bluetooth.enable = false;
   hardware.graphics = {
     enable = true;
     enable32Bit = true;
@@ -704,201 +204,54 @@ in {
       libGL
     ];
   };
-  # TODO figure this out, the fans are just running wild but I should be able to software control them
-  # systemd.services.fancontrol = let configFile = pkgs.writeText "fancontrol.conf" ""; in {
-  #   unitConfig.Documentation = "man:fancontrol(8)";
-  #   description = "software fan control";
-  #   wantedBy = [ "multi-user.target" ];
-  #   after = [ "lm_sensors.service" ];
 
-  #   serviceConfig = {
-  #     Type = "simple";
-  #     ExecStart = "${pkgs.lm_sensors}/sbin/fancontrol ${configFile}";
-  #   };
-  # };
-
-  # List services that you want to enable:
-
-  # Enable the OpenSSH daemon.
-  # services.openssh.enable = true;
-  # console.useXkbConfig = true;
-  services = {
-    # bevel.production.api-server = {
-    #   enable = true;
-    #   api-server = {
-    #     enable = true;
-    #     log-level = "Warn";
-    #     hosts = [ "api.bevel.mydomain.com" ];
-    #     port = 8402;
-    #     local-backup = {
-    #       enable = true;
-    #     };
-    #   };
-    # };
-
-
-    blueman.enable = true;
-    # gnome.gnome-keyring.enable = true;
-    # free curl: sudo killall -HUP tor && curl --socks5-hostname 127.0.0.1:9050 https://ifconfig.me
-    tor.enable = true;
-    tor.client.enable = true;
-    compton = { # allows for fading of windows and transparancy
-      enable = true;
-      fade = true;
-      inactiveOpacity = 0.925;
-      fadeSteps = [ 0.04 0.04 ];
-      # extraOptions = "no-fading-openclose = true"; # don't fade on workspace shift, annoying: https://github.com/chjj/compton/issues/314
-    };
-    openssh = {
-      enable = false;
-      settings.X11Forwarding = true;
-    };
-    printing = {
-      enable = true;
-      drivers = [
-        pkgs.hplip
-        pkgs.epson-escpr # jappie hutje
-      ];
-    };
-    avahi = {
-      enable = true;
-      nssmdns4 = true;
-    };
-    redis = { servers."x".enable = false; };
-
-    postgresql = {
-      enable = true; # postgres for local dev
-      authentication = pkgs.lib.mkOverride 10 ''
-        local all all trust
-        host all all ::1/128 trust
-        host all all 0.0.0.0/0 md5
-        host all all ::/0       md5
-      '';
-      settings = {
-        log_connections = true;
-        log_statement = "all";
-        log_disconnections = true;
-
-        logging_collector = false;
-        shared_buffers = "512MB";
-        fsync = false;
-        synchronous_commit = false;
-        full_page_writes = false;
-        client_min_messages = "ERROR";
-        commit_delay = 100000;
-        wal_level = "minimal";
-        archive_mode = "off";
-        max_wal_senders = 0;
-      };
-      package = unstable3.postgresql_15.withPackages (p: [ p.postgis ]);
-
-      initialScript = pkgs.writeText "backend-initScript" ''
-        CREATE USER jappie WITH PASSWORD \'\';
-        CREATE DATABASE jappie;
-        ALTER USER jappie WITH SUPERUSER;
-      '';
-    };
-
-    syncthing = {
-      overrideDevices = true;
-      overrideFolders = true;
-      settings.folders = {
+  # factored out because instead of a full graph we describe devices
+  # we're conecting with from this device perspective
+  services.syncthing.settings.folders = {
         "/home/jappie/phone" = {
           id = "Phone";
+          devices = [
+            "work-machine"
+            "lenovo-tablet"
+            "macbook-2024"
+            "phone"
+            "pixel"
+            "lenovo-amd-2022"
+          ];
         };
         "/home/jappie/docs" = {
           id = "docs";
+          devices = [
+            "work-machine"
+            "lenovo-tablet"
+            "macbook-2024"
+            "lenovo-amd-2022"
+          ];
         };
         "/home/jappie/pixel_8_fmnx-photos" = {
           id = "pixel_8_fmnx-photos";
+          devices = [
+            "work-machine"
+            "pixel"
+            "lenovo-tablet"
+          ];
         };
         "/home/jappie/sm-a515f_nca9-foto's" = {
           id = "sm-a515f_nca9-foto's";
+          devices = [
+            "work-machine"
+            "phone"
+            "lenovo-tablet"
+          ];
         };
         "/home/jappie/yt-trash" = {
           id = "uiyvz-makk2";
+          devices = [
+            "work-machine"
+            "lenovo-amd-2022"
+          ];
         };
-      };
-      # self TRFG2TO-MFLXN2M-U56IH3L-WUOZSC5-7TOG5JF-RU7BUCK-XJ6TBEL-TYVITAF
-      settings.devices = {
-        phone = {
-          id = "LXR3SCJ-3VNYE63-C5SPZUW-E3D4QRE-2X7UGLM-LFDM5XI-CH7CBFT-2RS3BAH";
-          introducer = true;
-        };
-        lenovo-amd-2022 = {
-          id = "4CEXJ25-KLOIS5N-7CBFEIU-D2JZ72G-GBYGUZS-W3JA7OU-YV4CCFT-CIBVCAX";
-          introducer = true;
-        };
-        pixel = {
-          id = "3NP65RT-WV2VIQA-SZKIZQN-LOOJ542-PQ6WSIV-YHGJVPH-HMBOUGL-WTYTDAP";
-          introducer = true;
-        };
-      };
-      enable = true;
-      user = "jappie";
-      group = "users";
-      dataDir = "/home/jappie/.config/syncthing-private";
     };
-
-   libinput = {
-     enable = true;
-     touchpad = {
-         tapping = true;
-         disableWhileTyping = true;
-     };
-   };
-
-    # Enable the X11 windowing system.
-    # services.xserver.enable = true;
-    # services.xserver.layout = "us";
-    # services.xserver.xkbOptions = "eurosign:e";
-
-      displayManager = {
-        autoLogin = {
-          user = "jappie";
-          enable = false;
-        };
-        defaultSession = "none+i3";
-      };
-
-        # https://github.com/NixOS/nixpkgs/issues/206630#issuecomment-1518696676
-   };
-  services.xserver = {
-      enable = true;
-      autorun = false; # disable on troubles
-      displayManager = {
-        sessionCommands = ''
-          ${pkgs.xorg.xmodmap}/bin/xmodmap ~/.Xmodmap
-        '';
-      };
-      videoDrivers = [ "amdgpu" "modesetting" ];
-      desktopManager.xfce.enable = false; # for the xfce-panel in i3
-      desktopManager.xfce.noDesktop = true;
-      desktopManager.xfce.enableXfwm =
-        false; # try disabling xfce popping over i3
-      xkb.options = "caps:swapescape";
-      # desktopManager.gnome3.enable = true; # to get the themes working with gnome-tweak tool
-      windowManager.i3.enable = true;
-      windowManager.i3.extraPackages = [ pkgs.adwaita-qt ];
-      displayManager = {
-        # I tried lightdm but id doesn't work with pam for some reason
-        lightdm = {
-          enable = true;
-        };
-      };
-
-    # https://github.com/rfjakob/earlyoom
-
-
-
-    };
-  services.earlyoom.enable = true; # kills big processes better then kernel
-  services.redshift = { enable = true; };
-
-  services.teamviewer = {
-    enable = true;
-  };
-  location.provider = "geoclue2";
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.jappie = {
@@ -983,7 +336,7 @@ virtualisation = {
        defaultNetwork.settings.dns_enabled = true;
      };
     virtualbox.host = {
-      enable = true;
+      enable = false;
       enableExtensionPack = true;
     };
     libvirtd.enable = false;

@@ -229,7 +229,7 @@ assign [class="keepassxc"] $wf1
 #bind brightness ctl
 bindsym XF86MonBrightnessUp exec light -A 1
 bindsym XF86MonBrightnessDown exec light -U 1
-bindsym $mod+Shift+z exec --no-startup-id /linux-config/scripts/monitor
+bindsym $mod+Shift+z exec --no-startup-id monitor
 # bindsym $mod+Shift+a exec --no-startup-id /home/jappie/bin/monitor-2
 
 #bind browser to b, use new window otherwise it'l complain
