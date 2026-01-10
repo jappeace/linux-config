@@ -257,16 +257,7 @@ boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
       };
     };
 
-
-
-
   };
-
-
-  services.teamviewer = {
-    enable = true;
-  };
-  location.provider = "geoclue2";
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.jappie = {
