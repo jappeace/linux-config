@@ -41,14 +41,12 @@
         };
         phone = {
           id = "LXR3SCJ-3VNYE63-C5SPZUW-E3D4QRE-2X7UGLM-LFDM5XI-CH7CBFT-2RS3BAH";
-          introducer = true; # phones don't use nix (yet) so this works, can only be one way
         };
         lenovo-amd-2022 = {
           id = "4CEXJ25-KLOIS5N-7CBFEIU-D2JZ72G-GBYGUZS-W3JA7OU-YV4CCFT-CIBVCAX";
         };
         pixel = {
           id = "3NP65RT-WV2VIQA-SZKIZQN-LOOJ542-PQ6WSIV-YHGJVPH-HMBOUGL-WTYTDAP";
-          introducer = true;
         };
       };
       enable = true;
