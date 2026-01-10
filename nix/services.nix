@@ -27,7 +27,8 @@
           devices = ["work-machine" "lenovo-amd-2022" ];
         };
       };
-      # self TRFG2TO-MFLXN2M-U56IH3L-WUOZSC5-7TOG5JF-RU7BUCK-XJ6TBEL-TYVITAF
+      # nb you can add your own id from the UI.
+      # it doesn't seem to impact anything
       settings.devices = {
         lenovo-tablet = {
           id = "ZMD43PD-V6PG3JK-SEXC6JH-36REYED-4JXHIAB-CD6EZ7K-GNX4FYT-QPGBUAB";
@@ -40,7 +41,7 @@
         };
         phone = {
           id = "LXR3SCJ-3VNYE63-C5SPZUW-E3D4QRE-2X7UGLM-LFDM5XI-CH7CBFT-2RS3BAH";
-          introducer = true;
+          introducer = true; # phones don't use nix (yet) so this works, can only be one way
         };
         lenovo-amd-2022 = {
           id = "4CEXJ25-KLOIS5N-7CBFEIU-D2JZ72G-GBYGUZS-W3JA7OU-YV4CCFT-CIBVCAX";
