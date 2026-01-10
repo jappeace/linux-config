@@ -1,5 +1,5 @@
 # config for just nix
-{pkgs, ... }:
+{ pkgs, ... }:
 let
   sources = import ../npins;
 in
@@ -28,9 +28,11 @@ in
       options = "--delete-older-than 120d";
     };
 
-    nixPath = ["nixos-config=/etc/nixos/configuration.nix"
-               "nixpkgs=${sources.nixpkgs}"
-               "bloob=/home/jappie/projects/cut-the-crap"];
+    nixPath = [
+      "nixos-config=/etc/nixos/configuration.nix"
+      "nixpkgs=${sources.nixpkgs}"
+      "bloob=/home/jappie/projects/cut-the-crap"
+    ];
 
     extraOptions = ''
       experimental-features = nix-command flakes
@@ -40,7 +42,10 @@ in
       # starts the gc when there is less then 50GB in storage
       min-free = 20 * 1024 * 1024 * 1024;
 
-      trusted-users = [ "jappie" "root" ];
+      trusted-users = [
+        "jappie"
+        "root"
+      ];
       extra-substituters = [
         "https://cache.nixos.org"
         "https://nixcache.reflex-frp.org" # reflex
@@ -63,11 +68,11 @@ in
   };
 
   system.nixos =
-        let
-          rev = pkgs.lib.substring 0 8 sources.nixpkgs.revision;
-        in
-        {
-          versionSuffix = "-git:${rev}";
-          revision = rev;
-        };
+    let
+      rev = pkgs.lib.substring 0 8 sources.nixpkgs.revision;
+    in
+    {
+      versionSuffix = "-git:${rev}";
+      revision = rev;
+    };
 }

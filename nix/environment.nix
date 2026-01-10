@@ -1,4 +1,7 @@
 # shared environment between machines
+# this basically tells what programs are available, acknowledging
+# I want the same programs on all machine, although it'll be a
+# little wasteful, saves me having to find and install stuff
 
 { config, pkgs, ... }:
 let
@@ -9,9 +12,9 @@ let
 
   agenix = fuckingFlake sources.agenix.outPath;
 
-  unstable = import sources.unstable {};
-  unstable2 = import sources.unstable2 {};
-  unstable3 = import sources.unstable3 {};
+  unstable = import sources.unstable { };
+  unstable2 = import sources.unstable2 { };
+  unstable3 = import sources.unstable3 { };
 
   hostdir = pkgs.writeShellScriptBin "hostdir" ''
     ${pkgs.lib.getExe pkgs.python3} -m http.server
@@ -40,14 +43,13 @@ let
     sudo nixos-rebuild switch && systemctl daemon-reload --user &&    systemctl restart emacs --user
   '';
 
-  /* a good workaround is worth a thousand poor fixes */
+  # a good workaround is worth a thousand poor fixes
   start-ib = pkgs.writeShellScriptBin "start-ib" ''
     xhost +
     docker rm broker-client
     docker run --name=broker-client -d -v /tmp/.X11-unix:/tmp/.X11-unix -it ib bash
     docker exec -it broker-client tws
   '';
-
 
   # for whenever people think mac is hardcoded in hardware.
   # succers.
@@ -59,7 +61,8 @@ let
     NetworkManager
   '';
 
-in {
+in
+{
 
   environment = {
     systemPackages = with pkgs.xfce // pkgs; [
@@ -126,7 +129,6 @@ in {
       # https://superuser.com/questions/171195/how-to-check-the-health-of-a-hard-drive
       smartmontools
 
-
       # gtk-vnc # screen sharing for linux
       x2vnc
       hugin # panorama sticther
@@ -149,9 +151,9 @@ in {
       # press f4 to laod state
       # f2 to save
       (retroarch.withCores (libretro: [
-          # genesis-plus-gx
-          # snes9x
-          libretro.beetle-psx-hw
+        # genesis-plus-gx
+        # snes9x
+        libretro.beetle-psx-hw
       ]))
       postman
 
@@ -195,7 +197,6 @@ in {
       tldr # better man
 
       ormolu
-
 
       fsv # browse files like a chad
       hostdir
@@ -260,7 +261,6 @@ in {
       blackbird
       lxappearance # theme, adwaita-dark works for gtk3, gtk2 and qt5.
       libsForQt5.qt5ct
-
 
       mesa-demos # glxgears
       btop
@@ -390,10 +390,10 @@ in {
   nixpkgs.config = {
     # TODO where the hell are these comming from??
     permittedInsecurePackages = [
-                "dotnet-sdk-6.0.428"
-                "dotnet-runtime-6.0.36"
+      "dotnet-sdk-6.0.428"
+      "dotnet-runtime-6.0.36"
 
-              ];
+    ];
     allowUnfree = true; # I'm horrible, nvidia sucks, TODO kill nvidia
     packageeverrides = pkgs: {
       neovim = pkgs.neovim.override {
