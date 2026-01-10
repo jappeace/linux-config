@@ -31,6 +31,7 @@ boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
     ./emacs
     ./nix/config.nix
     ./nix/environment.nix
+    ./nix/services.nix
   ];
 
   # Use the systemd-boot EFI boot loader.
@@ -395,13 +396,6 @@ boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
         CREATE DATABASE jappie;
         ALTER USER jappie WITH SUPERUSER;
       '';
-    };
-
-    syncthing = {
-      enable = true;
-      user = "jappie";
-      group = "users";
-      dataDir = "/home/jappie/.config/syncthing-private";
     };
 
     logind = {
