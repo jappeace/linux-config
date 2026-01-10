@@ -277,10 +277,13 @@ boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
 
     };
   };
-  # hardware.bumblebee.enable = true;
-  # hardware.bumblebee.connectDisplay = true;
+
   hardware.bluetooth.enable = true;
   services.pipewire.enable = false;
+  services.journald.extraConfig = ''
+      SystemMaxUse=50M
+      RuntimeMaxUse=50M
+  '';
   services.pulseaudio = {
 
 
