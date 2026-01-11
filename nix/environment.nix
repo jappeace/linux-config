@@ -388,7 +388,17 @@ in
   };
 
   nixpkgs.config = {
-    # TODO where the hell are these comming from??
+    /* Leana helped me find where these are coming from:
+
+"dotnet-sdk-6.0.428"
+      "dotnet-runtime-6.0.36" these two are coming from openra
+in insecure packages
+nix-tree "$(nix-instantiate -A work-machine.config.system.build.toplevel)"
+and then `/` to search by pasting in the exact package name
+
+    */
+    # TODO fix the error message in upstream so it tells you how to
+    # find where these are coming from
     permittedInsecurePackages = [
       "dotnet-sdk-6.0.428"
       "dotnet-runtime-6.0.36"
