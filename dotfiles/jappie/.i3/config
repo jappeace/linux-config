@@ -287,3 +287,5 @@ exec ibus start
 bindsym Mod4+s exec systemctl hybrid-sleep
 
 exec_always xinput set-prop 14 "libinput Accel Speed" 1
+
+exec --no-startup-id systemctl --user import-environment PATH && systemctl --user restart graphical-session.target

@@ -5,7 +5,24 @@
 
 {pkgs, ...}:
 {
+    # stops ff and thnderbird from freezing on notifications with i3
+  systemd.user.services.dunst = {
+    description = "Dunst notification daemon";
+    after = [ "graphical-session-pre.target" ];
+    partOf = [ "graphical-session.target" ];
+    wantedBy = [ "graphical-session.target" ];
+    serviceConfig = {
+      Type = "dbus";
+      BusName = "org.freedesktop.Notifications";
+      ExecStart = "${pkgs.dunst}/bin/dunst -config /etc/dunst/dunstrc";
+      Restart = "always";
+      RestartSec = 2;
+    };
+  };
+
   services = {
+
+
     syncthing = {
       overrideDevices = true;
       overrideFolders = true;

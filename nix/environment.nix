@@ -318,6 +318,10 @@ in
 
       direnv # https://direnv.net/
       nix-direnv
+
+      # deal with slow notifications
+      dunst
+      libnotify
     ];
     shellAliases = {
       nix = "nom";
@@ -359,6 +363,40 @@ in
 
     variables.TZ = ":/etc/localtime"; # https://github.com/NixOS/nixpkgs/issues/238025
     # variables.QT_STYLE_OVERRIDE = "adwaita-dark";
+
+    # make dunst less ug ug
+    etc."dunst/dunstrc".text = ''
+  [global]
+      format = "<b>%s</b>\n%b"
+      font = Monospace 24
+      width = 600
+      height = 300
+      offset = 30x50
+      origin = top-right
+      padding = 16
+      horizontal_padding = 16
+      frame_width = 3
+      frame_color = "#F92672"
+      progress_bar = true
+
+  [urgency_low]
+      background = "#1B1D1E"
+      foreground = "#F8F8F2"
+      frame_color = "#A6E22E"
+      timeout = 10
+
+  [urgency_normal]
+      background = "#1B1D1E"
+      foreground = "#F8F8F2"
+      frame_color = "#F92672"
+      timeout = 15
+
+  [urgency_critical]
+      background = "#1B1D1E"
+      foreground = "#F8F8F2"
+      frame_color = "#FD971F"
+      timeout = 0
+'';
   };
 
   programs = {
