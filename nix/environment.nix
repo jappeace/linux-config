@@ -445,14 +445,6 @@ in
     };
   };
 
-  hardware.bluetooth.enable = false;
-  hardware.graphics = {
-    enable = true;
-    enable32Bit = true;
-    extraPackages = with pkgs; [
-      libGL
-    ];
-  };
 
 
   services.dbus.packages = [ pkgs.dconf ]; # Ensure dconf has dbus access

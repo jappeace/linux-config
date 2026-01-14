@@ -164,6 +164,14 @@ in {
   # time.timeZone = "America/Aruba";
   # time.timeZone = "US/Central"; # houston
 
+  hardware.graphics = {
+    enable = true;
+    enable32Bit = true;
+    extraPackages = with pkgs; [
+      libGL
+    ];
+  };
+
   # List packages installed in system profile. To search, run:
   # $ nix search wget
 

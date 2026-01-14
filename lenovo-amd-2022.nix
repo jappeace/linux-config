@@ -194,31 +194,6 @@ boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
   # };
 
 
-  fonts = {
-    enableDefaultPackages = true;
-    packages = with pkgs; [
-      fira-code
-      fira-code-symbols
-      inconsolata
-      ubuntu-classic
-      corefonts
-      font-awesome_4
-      font-awesome_5
-      siji
-      jetbrains-mono
-      noto-fonts-cjk-sans
-      ipaexfont
-      helvetica-neue-lt-std
-    ];
-    fontconfig = {
-      defaultFonts = {
-        # we need to set in in qt5ct as well.
-        sansSerif = [ "Noto Sans" ];
-        monospace = [ "Fira Code" ];
-      };
-    };
-  };
-
   hardware.bluetooth.enable = true;
   services.pipewire.enable = false;
 
