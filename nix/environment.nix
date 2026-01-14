@@ -77,6 +77,10 @@ in
       qrencode
       nixos
 
+      # gnome settings
+      glib
+      dconf
+
       blesh
       atuin
       openrct2
@@ -365,10 +369,14 @@ in
     # variables.QT_STYLE_OVERRIDE = "adwaita-dark";
 
     # make dunst less ug ug
-    etc."dunst/dunstrc".text = ''
+  etc."dunst/dunstrc".text = ''
   [global]
+      ### Serif Style ###
+      # 'Georgia' is high-legibility. If you want a more
+      # classic look, you can use 'Times New Roman'.
+      font = Georgia 24
+
       format = "<b>%s</b>\n%b"
-      font = Monospace 24
       width = 600
       height = 300
       offset = 30x50
@@ -376,30 +384,82 @@ in
       padding = 16
       horizontal_padding = 16
       frame_width = 3
-      frame_color = "#F92672"
+      frame_color = "#F92672" # Molokai Pink
+      separator_color = frame
+
+      # Progress bar
       progress_bar = true
+      progress_bar_height = 10
+      progress_bar_frame_width = 1
 
   [urgency_low]
       background = "#1B1D1E"
       foreground = "#F8F8F2"
-      frame_color = "#A6E22E"
+      frame_color = "#A6E22E" # Molokai Green
       timeout = 10
 
   [urgency_normal]
       background = "#1B1D1E"
       foreground = "#F8F8F2"
-      frame_color = "#F92672"
+      frame_color = "#F92672" # Molokai Pink
       timeout = 15
 
   [urgency_critical]
       background = "#1B1D1E"
       foreground = "#F8F8F2"
-      frame_color = "#FD971F"
+      frame_color = "#FD971F" # Molokai Orange
       timeout = 0
 '';
+
   };
 
+
+  # fix gnome termianl fonts
+  services.xserver.displayManager.sessionCommands = ''
+    ${pkgs.glib}/bin/gsettings set org.gnome.Terminal.Legacy.Profile:/org/gnome/terminal/legacy/profiles:/:b1dcc9dd-5262-4d8d-a863-c897e6d979b9/ use-system-font false
+    ${pkgs.glib}/bin/gsettings set org.gnome.Terminal.Legacy.Profile:/org/gnome/terminal/legacy/profiles:/:b1dcc9dd-5262-4d8d-a863-c897e6d979b9/ font 'Fira Code 18'
+  '';
+
+  fonts = {
+    enableDefaultPackages = true;
+    packages = with pkgs; [
+      fira-code
+      fira-code-symbols
+      inconsolata
+      ubuntu-classic
+      corefonts
+      font-awesome_4
+      font-awesome_5
+      siji
+      jetbrains-mono
+      noto-fonts-cjk-sans
+      ipaexfont
+      helvetica-neue-lt-std
+    ];
+    fontconfig = {
+      defaultFonts = {
+        # we need to set in in qt5ct as well.
+        sansSerif = [ "Noto Sans" ];
+        monospace = [ "Fira Code" ];
+      };
+    };
+  };
+
+  hardware.bluetooth.enable = false;
+  hardware.graphics = {
+    enable = true;
+    enable32Bit = true;
+    extraPackages = with pkgs; [
+      libGL
+    ];
+  };
+
+
+  services.dbus.packages = [ pkgs.dconf ]; # Ensure dconf has dbus access
   programs = {
+    # Force GNOME Terminal to use Fira Code 12
+    dconf.enable = true;
+
     xfconf.enable = true; # allow configuring thunar
     # can find them here
     # https://github.com/NixOS/nixpkgs/tree/master/pkgs/desktops/xfce/thunar-plugins
