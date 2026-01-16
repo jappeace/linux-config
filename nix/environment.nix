@@ -10,6 +10,14 @@ let
   # unfuck the flake, unsubscribe from the mental health workshop.
   fuckingFlake = outPath: (import sources.flake-compat { src = outPath; }).outputs;
 
+  # MOZ_X11_EGL disable EGL on firefox which may cause issues with syncing on amd
+  # see about:support, should be x11 for the old tried and ttrusted way
+  #
+  # MOZ_USE_XINPUT2 = better trouch screen support
+  betterFirefox = pkgs.writeShellScriptBin "firefox" ''
+    MOZ_X11_EGL=0 MOZ_USE_XINPUT2=1 ${pkgs.lib.getExe pkgs.firefox} "$@"
+  '';
+
   agenix = fuckingFlake sources.agenix.outPath;
 
   unstable = import sources.unstable { };
@@ -286,7 +294,7 @@ in
       cowsay
       fortune
       vlc
-      firefox
+      betterFirefox
       # chromium # disabled cuz it wants to build it, doesn't hit cache
       chromium
       pavucontrol
