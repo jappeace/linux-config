@@ -13,10 +13,6 @@
   boot.kernelModules = [ "kvm-amd" ];
   boot.extraModulePackages = [ ];
 
-  # scatter gather bug for amd machines
-  # https://gitlab.freedesktop.org/drm/amd/-/issues/2354
-  boot.kernelParams = [ "amdgpu.sg_display=0" ];
-
   fileSystems."/" =
     { device = "/dev/mapper/luks-31f0cdf0-a13f-410b-94f9-e23436579dd4";
       fsType = "btrfs";
