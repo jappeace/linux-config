@@ -43,6 +43,15 @@ let
     sudo nixos-rebuild switch && systemctl daemon-reload --user &&    systemctl restart emacs --user
   '';
 
+  # cleans the stale sockets for emacs in case the emacs client isn't
+  # working with the window manager
+  clean-emacs = pkgs.writeShellScriptBin "clean-emacs" ''
+    systemctl --user stop emacs
+    rm -rf /tmp/emacs$(id -u)
+    rm -rf $XDG_RUNTIME_DIR/emacs
+    systemctl --user start emacs
+  '';
+
   # a good workaround is worth a thousand poor fixes
   start-ib = pkgs.writeShellScriptBin "start-ib" ''
     xhost +
@@ -66,6 +75,8 @@ in
 
   environment = {
     systemPackages = with pkgs.xfce // pkgs; [
+      clean-emacs
+
       protobuf
       qemu_full
       kdePackages.kdenlive
