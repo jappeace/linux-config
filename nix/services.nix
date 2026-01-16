@@ -161,16 +161,17 @@
     # https://github.com/rfjakob/earlyoom
     earlyoom.enable = true; # kills big processes better then kernel
 
-    compton = {
-      # allows for fading of windows and transparancy
+    # the new compoton
+    # https://forum.mxlinux.org/viewtopic.php?p=549425
+    picom = {
       enable = true;
-      fade = true;
+      vSync = true;
+      backend = "glx"; # Or "xr_glx_hybrid" if glx freezes
       inactiveOpacity = 0.925;
       fadeSteps = [
         0.04
         0.04
       ];
-      # extraOptions = "no-fading-openclose = true"; # don't fade on workspace shift, annoying: https://github.com/chjj/compton/issues/314
     };
 
   };
