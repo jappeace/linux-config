@@ -1,9 +1,6 @@
-{  config, pkgs, ... }:
+{  pkgs, ... }:
 let
-  sources = import ./npins;
-
   monitor-script = pkgs.writeShellScriptBin "monitor" ./scripts/laptop-monitor.sh;
-
 in
 {
 
