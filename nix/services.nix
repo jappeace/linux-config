@@ -3,9 +3,9 @@
 # lot more configuration than programs invoked by a user, so
 # that's why it's split (I guess)
 
-{pkgs, ...}:
+{ pkgs, ... }:
 {
-    # stops ff and thnderbird from freezing on notifications with i3
+  # stops ff and thnderbird from freezing on notifications with i3
   systemd.user.services.dunst = {
     description = "Dunst notification daemon";
     after = [ "graphical-session-pre.target" ];
@@ -21,7 +21,6 @@
   };
 
   services = {
-
 
     syncthing = {
       overrideDevices = true;
@@ -135,7 +134,7 @@
       # videoDrivers = [ "amdgpu" "radeon" "cirrus" "vesa" "modesetting" "intel" ];
       videoDrivers = [
         "amdgpu"
-        "modesetting"
+        # "modesetting" # generic driver that may intervfere with the "real" one, so disabled for now
       ];
       windowManager.i3.enable = true;
       windowManager.i3.extraPackages = [ pkgs.adwaita-qt ];
@@ -172,6 +171,11 @@
         0.04
         0.04
       ];
+      settings = {
+        # Crucial for preventing the "freeze" on AMD mobile
+        use-damage = false;
+        xrender-sync-fence = true;
+      };
     };
 
   };
