@@ -15,7 +15,12 @@ let
   #
   # MOZ_USE_XINPUT2 = better trouch screen support
   betterFirefox = pkgs.writeShellScriptBin "firefox" ''
-    MOZ_X11_EGL=0 MOZ_USE_XINPUT2=1 ${pkgs.lib.getExe pkgs.firefox} "$@"
+    export LIBVA_DRIVER_NAME=none
+
+    export MOZ_X11_EGL=0
+    export MOZ_USE_XINPUT2=1
+
+    ${pkgs.lib.getExe pkgs.firefox} "$@"
   '';
 
   agenix = fuckingFlake sources.agenix.outPath;

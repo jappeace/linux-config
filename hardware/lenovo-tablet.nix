@@ -14,7 +14,9 @@
   boot.extraModulePackages = [ ];
 
   # experimental feature, try disabling it maybe that solves firefox freezes
-  boot.kernelParams = [ "amdgpu.vpe_enable=0" ];
+  boot.kernelParams = [ "amdgpu.vpe_enable=0"
+  "amdgpu.mes=0"
+                      ];
 
   fileSystems."/" =
     { device = "/dev/mapper/luks-31f0cdf0-a13f-410b-94f9-e23436579dd4";
