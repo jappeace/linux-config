@@ -10,26 +10,25 @@ let
   # unfuck the flake, unsubscribe from the mental health workshop.
   fuckingFlake = outPath: (import sources.flake-compat { src = outPath; }).outputs;
 
-  # MOZ_X11_EGL disable EGL on firefox which may cause issues with syncing on amd
-  # see about:support, should be x11 for the old tried and ttrusted way
+  # Unfucks firefox and frens from freezing randomly by not using
+  # EGL. Apparantly this uses some better hardware freezes, but
+  # in practice it makes my system freeze (except the mouse).
+  # I just do it for all machiens because there seems little downside
+  # asside using a bit more cpu.
   #
-  # MOZ_USE_XINPUT2 = better trouch screen support
-  betterFirefox = pkgs.writeShellScriptBin "firefox" ''
-    export LIBVA_DRIVER_NAME=none
-
-    export MOZ_X11_EGL=0
-    export MOZ_USE_XINPUT2=1
-
-    ${pkgs.lib.getExe pkgs.firefox} "$@"
-  '';
-  betterThunderbird = pkgs.writeShellScriptBin "thunderbird" ''
-    export MOZ_X11_EGL=0
-
-    export MOZ_USE_XINPUT2=1
-    export LIBVA_DRIVER_NAME=none
-
-    ${pkgs.lib.getExe pkgs.thunderbird} "$@"
-  '';
+  # also enables touch support
+  tabletSafe = pkg: pkgs.symlinkJoin {
+    name = "${pkg.pname or "app"}-tablet-safe";
+    paths = [ pkg ];
+    buildInputs = [ pkgs.makeWrapper ];
+    postBuild = ''
+      # We find the main binary and wrap it with our safety flags
+      wrapProgram $out/bin/${pkg.pname or (builtins.parseDrvName pkg.name).name} \
+        --set MOZ_X11_EGL "0" \
+        --set MOZ_USE_XINPUT2 "1" \
+        --set LIBVA_DRIVER_NAME "none"
+    '';
+  };
 
   agenix = fuckingFlake sources.agenix.outPath;
 
@@ -123,7 +122,7 @@ in
 
       nix-output-monitor # pretty nix graph
 
-      tor-browser
+      (tabletSafe tor-browser)
       kdePackages.kdenlive
       kdePackages.konsole
       xfce4-terminal
@@ -239,7 +238,7 @@ in
 
       crawlTiles
       mariadb
-      browsh # better browser
+      browsh # better browser # NB: may also need to be wrapped by tabletSafe
 
       macchanger # change mac address
       change-mac
@@ -307,12 +306,13 @@ in
       cowsay
       fortune
       vlc
-      betterFirefox
-      # chromium # disabled cuz it wants to build it, doesn't hit cache
-      chromium
+      (tabletSafe firefox)
+
+      chromium # NB: may also need to be wrapped by tablet safe
       pavucontrol
       gparted # partitiioning for dummies, like me
-      betterThunderbird # some day I'll use emacs for this
+
+      (tabletSafe thunderbird) # some day I'll use emacs for this
       deluge # bittorrent
       # the spell to make openvpn work:   nmcli connection modify jappie vpn.data "key = /home/jappie/openvpn/website/jappie.key, ca = /home/jappie/openvpn/website/ca.crt, dev = tun, cert = /home/jappie/openvpn/website/jappie.crt, ns-cert-type = server, cert-pass-flags = 0, comp-lzo = adaptive, remote = jappieklooster.nl:1194, connection-type = tls"
       # from https://github.com/NixOS/nixpkgs/issues/30235
