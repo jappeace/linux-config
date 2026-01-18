@@ -22,6 +22,14 @@ let
 
     ${pkgs.lib.getExe pkgs.firefox} "$@"
   '';
+  betterThunderbird = pkgs.writeShellScriptBin "thunderbird" ''
+    export MOZ_X11_EGL=0
+
+    export MOZ_USE_XINPUT2=1
+    export LIBVA_DRIVER_NAME=none
+
+    ${pkgs.lib.getExe pkgs.thunderbird} "$@"
+  '';
 
   agenix = fuckingFlake sources.agenix.outPath;
 
@@ -304,7 +312,7 @@ in
       chromium
       pavucontrol
       gparted # partitiioning for dummies, like me
-      thunderbird # some day I'll use emacs for this
+      betterThunderbird # some day I'll use emacs for this
       deluge # bittorrent
       # the spell to make openvpn work:   nmcli connection modify jappie vpn.data "key = /home/jappie/openvpn/website/jappie.key, ca = /home/jappie/openvpn/website/ca.crt, dev = tun, cert = /home/jappie/openvpn/website/jappie.crt, ns-cert-type = server, cert-pass-flags = 0, comp-lzo = adaptive, remote = jappieklooster.nl:1194, connection-type = tls"
       # from https://github.com/NixOS/nixpkgs/issues/30235
