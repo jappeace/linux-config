@@ -170,7 +170,7 @@ bindsym $mod+Shift+c reload
 # restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
 bindsym $mod+Shift+r restart
 # exit i3 (logs you out of your X session)
-bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'Should I close this session sir?' -b 'Yes..' 'swaymsg exit'"
+bindsym $mod+Shift+e exec "i3-nag bar -t warning -m 'Should I close this session sir?' -b 'Yes..' 'swaymsg exit'"
 
 # screenshot
 bindsym --release $mod+c exec gnome-screenshot -c
@@ -266,3 +266,5 @@ client.unfocused #222222 #222222 #888888 #292d2e
 client.urgent #2f343a #900000 #ffffff #900000
 
 exec --no-startup-id while true; do feh --bg-scale `files=(Afbeeldingen/wallpapers/*); printf "%s\n" "${files[RANDOM % ${#files[@]}]}"`; sleep 600; done
+
+exec_always waybar

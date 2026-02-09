@@ -1,0 +1,59 @@
+* {
+    border: none;
+    border-radius: 0;
+    font-family: "JetBrains Mono", "Font Awesome 5 Brands", Roboto, Helvetica, Arial, sans-serif;
+    font-size: 13px;
+    min-height: 0;
+}
+
+window#waybar {
+    background-color: #0a0d10; /* Your background */
+    border-bottom: 2px solid #181a23; /* Your border-bottom */
+    color: #e6e8ee; /* Your foreground (white) */
+}
+
+/* Modules Left/Right Spacing */
+#cpu, #memory, #network, #pulseaudio, #battery, #clock {
+    padding: 0 10px;
+    color: #e6e8ee;
+}
+
+/* Specific Module Colors based on your config */
+#cpu, #memory, #network {
+    /* You had purple prefixes, simpler to color the whole text or use span in format */
+}
+
+/* Workspaces (The i3 replacement) */
+#workspaces button {
+    padding: 0 5px;
+    background-color: transparent;
+    color: #bd93f9; /* Your purple */
+}
+
+#workspaces button.focused {
+    background-color: #181a23; /* Your bg-dark */
+    color: #ebdbb2; /* Your foreground */
+}
+
+#workspaces button.urgent {
+    color: #ddb566; /* Your yellow/alert */
+}
+
+/* Network Up/Down Arrows */
+#network {
+    color: #e6e8ee;
+}
+
+/* Battery */
+#battery.charging, #battery.plugged {
+    color: #e6e8ee;
+}
+
+#battery.critical:not(.charging) {
+    color: #ddb566; /* Alert yellow */
+    animation-name: blink;
+    animation-duration: 0.5s;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+    animation-direction: alternate;
+}

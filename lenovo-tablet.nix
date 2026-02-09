@@ -57,8 +57,6 @@ boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
   # modern touch events instead of legacy mouse clicks.
   GDK_CORE_DEVICE_EVENTS = "1";
 
-  # Ensure the terminal uses the X11 backend properly
-  GDK_BACKEND = "x11";
 };
   };
 

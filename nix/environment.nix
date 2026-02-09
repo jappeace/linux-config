@@ -17,19 +17,21 @@ let
   # asside using a bit more cpu.
   #
   # also enables touch support
-  tabletSafe = pkg: pkgs.symlinkJoin {
-    name = "${pkg.pname or "app"}-tablet-safe";
-    paths = [ pkg ];
-    buildInputs = [ pkgs.makeWrapper ];
-    postBuild = ''
-      # We find the main binary and wrap it with our safety flags
-      wrapProgram $out/bin/${pkg.pname or (builtins.parseDrvName pkg.name).name} \
-        --set MOZ_X11_EGL "0" \
-        --set MOZ_USE_XINPUT2 "1" \
-        --set MOZ_ENABLE_WAYLAND "1" \
-        --set LIBVA_DRIVER_NAME "none"
-    '';
-  };
+  tabletSafe =
+    pkg:
+    pkgs.symlinkJoin {
+      name = "${pkg.pname or "app"}-tablet-safe";
+      paths = [ pkg ];
+      buildInputs = [ pkgs.makeWrapper ];
+      postBuild = ''
+        # We find the main binary and wrap it with our safety flags
+        wrapProgram $out/bin/${pkg.pname or (builtins.parseDrvName pkg.name).name} \
+          --set MOZ_X11_EGL "0" \
+          --set MOZ_USE_XINPUT2 "1" \
+          --set MOZ_ENABLE_WAYLAND "1" \
+          --set LIBVA_DRIVER_NAME "none"
+      '';
+    };
 
   agenix = fuckingFlake sources.agenix.outPath;
 
@@ -403,50 +405,49 @@ in
     # variables.QT_STYLE_OVERRIDE = "adwaita-dark";
 
     # make dunst less ug ug
-  etc."dunst/dunstrc".text = ''
-  [global]
-      ### Serif Style ###
-      # 'Georgia' is high-legibility. If you want a more
-      # classic look, you can use 'Times New Roman'.
-      font = Georgia 24
+    etc."dunst/dunstrc".text = ''
+      [global]
+          ### Serif Style ###
+          # 'Georgia' is high-legibility. If you want a more
+          # classic look, you can use 'Times New Roman'.
+          font = Georgia 24
 
-      format = "<b>%s</b>\n%b"
-      width = 600
-      height = 300
-      offset = 30x50
-      origin = top-right
-      padding = 16
-      horizontal_padding = 16
-      frame_width = 3
-      frame_color = "#F92672" # Molokai Pink
-      separator_color = frame
+          format = "<b>%s</b>\n%b"
+          width = 600
+          height = 300
+          offset = 30x50
+          origin = top-right
+          padding = 16
+          horizontal_padding = 16
+          frame_width = 3
+          frame_color = "#F92672" # Molokai Pink
+          separator_color = frame
 
-      # Progress bar
-      progress_bar = true
-      progress_bar_height = 10
-      progress_bar_frame_width = 1
+          # Progress bar
+          progress_bar = true
+          progress_bar_height = 10
+          progress_bar_frame_width = 1
 
-  [urgency_low]
-      background = "#1B1D1E"
-      foreground = "#F8F8F2"
-      frame_color = "#A6E22E" # Molokai Green
-      timeout = 10
+      [urgency_low]
+          background = "#1B1D1E"
+          foreground = "#F8F8F2"
+          frame_color = "#A6E22E" # Molokai Green
+          timeout = 10
 
-  [urgency_normal]
-      background = "#1B1D1E"
-      foreground = "#F8F8F2"
-      frame_color = "#F92672" # Molokai Pink
-      timeout = 15
+      [urgency_normal]
+          background = "#1B1D1E"
+          foreground = "#F8F8F2"
+          frame_color = "#F92672" # Molokai Pink
+          timeout = 15
 
-  [urgency_critical]
-      background = "#1B1D1E"
-      foreground = "#F8F8F2"
-      frame_color = "#FD971F" # Molokai Orange
-      timeout = 0
-'';
+      [urgency_critical]
+          background = "#1B1D1E"
+          foreground = "#F8F8F2"
+          frame_color = "#FD971F" # Molokai Orange
+          timeout = 0
+    '';
 
   };
-
 
   # fix gnome termianl fonts
   services.xserver.displayManager.sessionCommands = ''
@@ -479,8 +480,6 @@ in
     };
   };
 
-
-
   services.dbus.packages = [ pkgs.dconf ]; # Ensure dconf has dbus access
   programs = {
     # Force GNOME Terminal to use Fira Code 12
@@ -512,26 +511,27 @@ in
       theme = "molokai"; # Or any base16 theme
       settings = {
         scrollback = {
-        lines = 100000;
+          lines = 100000;
+        };
+        key-bindings = {
+          "clipboard-paste" = "Control+v";
+        };
       };
-key-bindings = {
-    "clipboard-paste" = "Control+v";
-  };
-      };
-
     };
+
+    waybar.enable = true;
 
   };
 
   nixpkgs.config = {
-    /* Leana helped me find where these are coming from:
+    /*
+      Leana helped me find where these are coming from:
 
-"dotnet-sdk-6.0.428"
-      "dotnet-runtime-6.0.36" these two are coming from openra
-in insecure packages
-nix-tree "$(nix-instantiate -A work-machine.config.system.build.toplevel)"
-and then `/` to search by pasting in the exact package name
-
+      "dotnet-sdk-6.0.428"
+            "dotnet-runtime-6.0.36" these two are coming from openra
+      in insecure packages
+      nix-tree "$(nix-instantiate -A work-machine.config.system.build.toplevel)"
+      and then `/` to search by pasting in the exact package name
     */
     # TODO fix the error message in upstream so it tells you how to
     # find where these are coming from
