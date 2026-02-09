@@ -50,7 +50,17 @@ boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
     # kernelPackages = pkgs.linuxPackages_4_9; # fix supsend maybe?
   };
 
-  environment.systemPackages = [monitor-script];
+  environment = {
+    systemPackages = [monitor-script];
+    variables = {
+  # This is the big one. It tells GTK applications to use
+  # modern touch events instead of legacy mouse clicks.
+  GDK_CORE_DEVICE_EVENTS = "1";
+
+  # Ensure the terminal uses the X11 backend properly
+  GDK_BACKEND = "x11";
+};
+  };
 
   security.sudo.extraRules = [
     { groups = [ "sudo" ]; commands = [{ command = "${pkgs.systemd}/bin/poweroff"; options = [ "NOPASSWD" ]; }]; }

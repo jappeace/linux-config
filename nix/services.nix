@@ -19,6 +19,7 @@
       RestartSec = 2;
     };
   };
+  programs.sway.enable = true;
 
   services = {
 
@@ -115,7 +116,7 @@
     };
 
     displayManager = {
-      defaultSession = "none+i3";
+      defaultSession = "sway";
       autoLogin = {
         user = "jappie";
       };
@@ -125,6 +126,29 @@
       enable = true;
     };
     xserver = {
+
+    # extra config for tablets, if the touchscreen is on, go behave
+    # like a touchscreen
+config = ''
+  Section "InputClass"
+    Identifier "Wacom Tablet Scroll Fix"
+    # Match the exact name the kernel is reporting
+    MatchProduct "Wacom HID 53FD Finger"
+    # This forces Xorg to treat it as a touchscreen even if it's unsure
+    MatchIsTouchscreen "on"
+    Driver "libinput"
+
+    # The 'Tablet Feel' settings
+    Option "NaturalScrolling" "true"
+    Option "ScrollMethod" "edge"
+    Option "Tapping" "on"
+
+    # IMPORTANT: This prevents 'Button 1' (Left Click) from
+    # being the only thing sent when you move your finger.
+    Option "SendCoreEvents" "true"
+  EndSection
+'';
+
       xkb = {
         layout = "us";
         options = "caps:swapescape";
