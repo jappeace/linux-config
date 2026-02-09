@@ -11,6 +11,9 @@
     after = [ "graphical-session-pre.target" ];
     partOf = [ "graphical-session.target" ];
     wantedBy = [ "graphical-session.target" ];
+    unitConfig = {
+      ConditionEnvironment = "WAYLAND_DISPLAY";
+    };
     serviceConfig = {
       Type = "dbus";
       BusName = "org.freedesktop.Notifications";
