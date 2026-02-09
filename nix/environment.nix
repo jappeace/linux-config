@@ -515,11 +515,7 @@ in
         lines = 100000;
       };
 key-bindings = {
-    "clipboard-copy" = "Control+c";
     "clipboard-paste" = "Control+v";
-  };
-  text-bindings = {
-    "Control+Shift+c" = "\\x03"; # Double backslash to escape in Nix string
   };
       };
 
