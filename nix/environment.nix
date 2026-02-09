@@ -3,7 +3,7 @@
 # I want the same programs on all machine, although it'll be a
 # little wasteful, saves me having to find and install stuff
 
-{ config, pkgs, ... }:
+{ pkgs, ... }:
 let
   sources = import ../npins;
 
@@ -26,6 +26,7 @@ let
       wrapProgram $out/bin/${pkg.pname or (builtins.parseDrvName pkg.name).name} \
         --set MOZ_X11_EGL "0" \
         --set MOZ_USE_XINPUT2 "1" \
+        --set MOZ_ENABLE_WAYLAND "1" \
         --set LIBVA_DRIVER_NAME "none"
     '';
   };
@@ -96,6 +97,8 @@ in
   environment = {
     systemPackages = with pkgs.xfce // pkgs; [
       clean-emacs
+      cliphist
+      wl-clipboard
 
       protobuf
       qemu_full
@@ -392,7 +395,6 @@ in
       [Settings]
       gtk-theme-name=Adwaita
       gtk-font-name = Noto Sans 18
-      gtk-monofont-name = Fira Code 18
     '';
 
     variables.QT_QPA_PLATFORMTHEME = "qt5ct";
@@ -505,7 +507,23 @@ in
     vim.enable = true;
     adb.enable = true;
     light.enable = true;
-    gnome-terminal.enable = true;
+    foot = {
+      enable = true;
+      theme = "molokai"; # Or any base16 theme
+      settings = {
+        scrollback = {
+        lines = 100000;
+      };
+key-bindings = {
+    "clipboard-copy" = "Control+c";
+    "clipboard-paste" = "Control+v";
+  };
+  text-bindings = {
+    "Control+Shift+c" = "\\x03"; # Double backslash to escape in Nix string
+  };
+      };
+
+    };
 
   };
 
