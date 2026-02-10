@@ -9,8 +9,10 @@
   systemd.user.services.dunst = {
     description = "Dunst notification daemon";
     after = [ "graphical-session-pre.target" ];
-    partOf = [ "graphical-session.target" ];
-    wantedBy = [ "graphical-session.target" ];
+
+    partOf = [ "sway-session.target" ];  # Stops dunst if sway-session stops
+    wantedBy = [ "sway-session.target" ]; # Starts dunst when sway-session starts
+
     unitConfig = {
       ConditionEnvironment = "WAYLAND_DISPLAY";
     };
@@ -20,7 +22,7 @@
       ExecStart = "${pkgs.dunst}/bin/dunst -config /etc/dunst/dunstrc";
       Restart = "always";
       RestartSec = 2;
-    };
+       };
   };
   programs.sway.enable = true;
 
