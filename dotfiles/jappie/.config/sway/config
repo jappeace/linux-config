@@ -273,3 +273,21 @@ exec_always "pkill waybar; sleep 0.2; waybar"
 # Ensure titlebars and thick borders are active
 default_border normal 5
 default_floating_border normal 5
+
+# Dracula Colors
+set $drac_bg      #282a36
+set $drac_curr    #44475a
+set $drac_fg      #f8f8f2
+set $drac_comment #6272a4
+set $drac_cyan    #8be9fd
+set $drac_green   #50fa7b
+set $drac_orange  #ffb86c
+set $drac_pink    #ff79c6
+set $drac_purple  #bd93f9
+set $drac_red     #ff5555
+set $drac_yellow  #f1fa8c
+
+client.focused          $drac_purple  $drac_purple  $drac_fg      $drac_pink    $drac_purple
+client.focused_inactive $drac_curr    $drac_curr    $drac_fg      $drac_curr    $drac_curr
+client.unfocused        $drac_bg      $drac_bg      $drac_comment $drac_bg      $drac_bg
+client.urgent           $drac_red     $drac_red     $drac_fg      $drac_red     $drac_red
