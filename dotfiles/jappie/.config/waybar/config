@@ -4,7 +4,11 @@
     "height": 35,
     "modules-left": ["cpu", "memory", "network", "pulseaudio"],
     "modules-center": ["sway/workspaces"],
-    "modules-right": ["battery", "clock"],
+    "modules-right": ["tray", "battery", "clock"],
+    "tray": {
+        "icon-size": 21,
+         "spacing": 10
+    },
 
     "sway/workspaces": {
         "disable-scroll": true,
