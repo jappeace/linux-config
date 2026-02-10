@@ -270,24 +270,22 @@ client.urgent #2f343a #900000 #ffffff #900000
 exec --no-startup-id while true; do swaymsg "output * bg $(find ~/docs/backgrounds/ -type f | shuf -n 1) fill"; sleep 600; done
 
 exec_always "pkill waybar; sleep 0.2; waybar"
+
 # Ensure titlebars and thick borders are active
 default_border normal 5
 default_floating_border normal 5
 
 # Dracula Colors
-set $drac_bg      #282a36
-set $drac_curr    #44475a
-set $drac_fg      #f8f8f2
-set $drac_comment #6272a4
-set $drac_cyan    #8be9fd
-set $drac_green   #50fa7b
-set $drac_orange  #ffb86c
-set $drac_pink    #ff79c6
-set $drac_purple  #bd93f9
-set $drac_red     #ff5555
-set $drac_yellow  #f1fa8c
+set $drac_bg          #282a36
+set $drac_curr        #44475a
+set $drac_fg          #f8f8f2
+set $drac_comment     #6272a4
+set $drac_pink        #ff79c6
+set $drac_purple      #bd93f9
+# A deeper, darker purple for better text contrast
+set $drac_purple_dark #6221ed 
 
-client.focused          $drac_purple  $drac_purple  $drac_fg      $drac_pink    $drac_purple
-client.focused_inactive $drac_curr    $drac_curr    $drac_fg      $drac_curr    $drac_curr
-client.unfocused        $drac_bg      $drac_bg      $drac_comment $drac_bg      $drac_bg
-client.urgent           $drac_red     $drac_red     $drac_fg      $drac_red     $drac_red
+# Target                Border             BG                 Text          Indicator     Child Border
+client.focused          $drac_purple_dark  $drac_purple_dark  $drac_fg      $drac_pink    $drac_purple_dark
+client.focused_inactive $drac_curr         $drac_curr         $drac_fg      $drac_curr    $drac_curr
+client.unfocused        $drac_bg           $drac_bg           $drac_comment $drac_bg
