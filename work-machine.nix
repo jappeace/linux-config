@@ -1,7 +1,5 @@
-{ config, pkgs, ... }:
+{ pkgs, ... }:
 let
-  sources = import ./npins;
-  unstable3 = import sources.unstable3 {};
 
   monitor-script = pkgs.writeShellScriptBin "monitor" ./scripts/work-machine-monitor.sh;
 

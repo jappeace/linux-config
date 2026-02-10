@@ -98,6 +98,7 @@ in
 
   environment = {
     systemPackages = with pkgs.xfce // pkgs; [
+      gsimplecal
       clean-emacs
       cliphist
       wl-clipboard

@@ -4,11 +4,7 @@
     "height": 35,
     "modules-left": ["cpu", "memory", "network", "pulseaudio"],
     "modules-center": ["sway/workspaces"],
-    "modules-right": ["tray", "battery", "clock"],
-    "tray": {
-        "icon-size": 21,
-         "spacing": 10
-    },
+    "modules-right": ["battery", "clock"],
 
     "sway/workspaces": {
         "disable-scroll": true,
@@ -18,15 +14,18 @@
     "clock": {
         "format": " {:%A, %d %h  %H:%M:%S}",
         "interval": 1,
-        "tooltip": false
+        "tooltip": false,
+        "on-click": "gsimplecal" ,
     },
     "cpu": {
         "format": "cpu {usage}%",
-        "tooltip": false
+        "tooltip": false,
+        "on-click": "foot -e btop" ,
     },
     "memory": {
         "format": "memory {percentage}%",
-        "tooltip": false
+        "tooltip": false,
+        "on-click": "foot -e btop" ,
     },
     "battery": {
         "states": {
@@ -43,13 +42,15 @@
         "format-wifi": " {bandwidthUpBits}  {bandwidthDownBits}",
         "format-ethernet": " {bandwidthUpBits}  {bandwidthDownBits}",
         "format-disconnected": "Disconnected",
-        "interval": 2
+        "interval": 2,
+        "on-click": "nm-connection-editor"
     },
     "pulseaudio": {
         "format": "{icon} {volume}%",
         "format-muted": " Muted",
         "format-icons": {
             "default": ["", "", ""]
-        }
+        },
+        "on-click": "pavucontrol" ,
     }
 }
