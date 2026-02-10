@@ -183,7 +183,7 @@ boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
   # time.timeZone = "Europe/London";
   # time.timeZone = "Europe/Amsterdam";
   # time. timeZone = "Europe/Reykjavik";
-  time.timeZone = "America/NewYork";
+  time.timeZone = "America/New_York";
   # time.timeZone = "US/Central"; # houston
 
   # List packages installed in system profile. To search, run:
