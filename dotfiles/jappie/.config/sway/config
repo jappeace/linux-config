@@ -9,6 +9,8 @@
 exec systemctl --user import-environment WAYLAND_DISPLAY XDG_CURRENT_DESKTOP
 exec dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP=sway
 
+exec systemctl --user start sway-session.target
+
 # i3 config file (v4)
 #
 # Please see http://i3wm.org/docs/userguide.html for a complete reference!
@@ -265,6 +267,6 @@ client.focused_inactive #333333 #5f676a #ffffff #484e50
 client.unfocused #222222 #222222 #888888 #292d2e
 client.urgent #2f343a #900000 #ffffff #900000
 
-exec --no-startup-id while true; do feh --bg-scale `files=(Afbeeldingen/wallpapers/*); printf "%s\n" "${files[RANDOM % ${#files[@]}]}"`; sleep 600; done
+exec --no-startup-id while true; do swaymsg "output * bg $(find ~/docs/backgrounds/ -type f | shuf -n 1) fill"; sleep 600; done
 
-exec_always waybar
+exec_always "pkill waybar; sleep 0.2; waybar"
