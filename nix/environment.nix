@@ -410,7 +410,7 @@ in
           ### Serif Style ###
           # 'Georgia' is high-legibility. If you want a more
           # classic look, you can use 'Times New Roman'.
-          font = Georgia 24
+          font = Georgia 18
 
           format = "<b>%s</b>\n%b"
           width = 600
