@@ -282,10 +282,9 @@ set $drac_fg          #f8f8f2
 set $drac_comment     #6272a4
 set $drac_pink        #ff79c6
 set $drac_purple      #bd93f9
-# A deeper, darker purple for better text contrast
 set $drac_purple_dark #6221ed 
 
-# Target                Border             BG                 Text          Indicator     Child Border
-client.focused          $drac_purple_dark  $drac_purple_dark  $drac_fg      $drac_pink    $drac_purple_dark
-client.focused_inactive $drac_curr         $drac_curr         $drac_fg      $drac_curr    $drac_curr
-client.unfocused        $drac_bg           $drac_bg           $drac_comment $drac_bg
+# Target                Border        BG                 Text      Indicator   Child Border
+client.focused          $drac_purple  $drac_purple_dark  $drac_fg  $drac_pink  $drac_purple
+client.focused_inactive $drac_curr    $drac_curr         $drac_fg  $drac_curr  $drac_curr
+client.unfocused        $drac_bg      $drac_bg           $drac_comment $drac_bg $drac_bg
