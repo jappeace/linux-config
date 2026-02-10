@@ -288,3 +288,5 @@ set $drac_purple_dark #6221ed
 client.focused          $drac_purple  $drac_purple_dark  $drac_fg  $drac_pink  $drac_purple
 client.focused_inactive $drac_curr    $drac_curr         $drac_fg  $drac_curr  $drac_curr
 client.unfocused        $drac_bg      $drac_bg           $drac_comment $drac_bg $drac_bg
+
+titlebar_padding 4 1
