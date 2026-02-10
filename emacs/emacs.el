@@ -44,7 +44,7 @@
 (add-hook 'before-save-hook  'force-backup-of-buffer)
 
 ;; font
-(push '(font . "firacode-14") default-frame-alist)
+(push '(font . "firacode-12") default-frame-alist)
 
 ;; me me me https://www.youtube.com/watch?v=1oQWvoXMWME
 (setq user-full-name "Jappie J. T. Klooster"
