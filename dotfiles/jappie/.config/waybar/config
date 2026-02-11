@@ -15,7 +15,7 @@
         "format": " {:%A, %d %h  %H:%M:%S}",
         "interval": 1,
         "tooltip": false,
-        "on-click": "gsimplecal" ,
+        "on-click": "firefox --new-tab https://calendar.google.com/" ,
     },
     "cpu": {
         "format": "cpu {usage}%",
