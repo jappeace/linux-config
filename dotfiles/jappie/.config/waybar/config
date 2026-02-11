@@ -4,7 +4,7 @@
     "height": 35,
     "modules-left": ["cpu", "memory", "network", "pulseaudio"],
     "modules-center": ["sway/workspaces"],
-    "modules-right": ["battery", "clock"],
+    "modules-right": ["custom/keyboard", "battery", "clock"],
 
     "sway/workspaces": {
         "disable-scroll": true,
@@ -17,6 +17,11 @@
         "tooltip": false,
         "on-click": "firefox --new-tab https://calendar.google.com/" ,
     },
+"custom/keyboard": {
+    "format": "⌨️",
+    "on-click": "pkill wvkbd || wvkbd-mobintl",
+    "tooltip": false
+},
     "cpu": {
         "format": "cpu {usage}%",
         "tooltip": false,

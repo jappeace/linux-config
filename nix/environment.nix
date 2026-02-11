@@ -114,6 +114,8 @@ in
       qrencode
       nixos
 
+      wvkbd # onscreen keyboard
+
       # gnome settings
       glib
       dconf
