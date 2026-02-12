@@ -27,19 +27,19 @@ set $mod Mod1
 
 # Use Mouse+$mod to drag floating windows to their wanted position
 bindsym --release $mod+Ctrl+e exec --no-startup-id "xdotool keyup ctrl keyup alt type --delay 5 jappieklooster@hotmail.com"
-bindsym --release $mod+Ctrl+o exec --no-startup-id "xdotool keyup ctrl keyup alt type --delay 5 jappie@openlearning.com"
-bindsym --release $mod+Ctrl+p exec --no-startup-id "xdotool keyup ctrl keyup alt type --delay 5 0031522\ 471280"
-bindsym --release $mod+Ctrl+m exec --no-startup-id "xdotool keyup ctrl keyup alt type --delay 5 00316\ 40166188"
-bindsym --release $mod+Ctrl+i exec --no-startup-id "xdotool keyup ctrl keyup alt type --delay 5 00628\ 7763810853"
-bindsym --release $mod+Ctrl+a exec --no-startup-id "xdotool keyup ctrl keyup alt type --delay 5 0061\ 452476854"
+bindsym --release $mod+Ctrl+o exec --no-startup-id "xdotool keyup ctrl keyup alt type --delay 5 hi@jappie.me"
+bindsym --release $mod+Ctrl+k exec --no-startup-id "xdotool keyup ctrl keyup alt type --delay 5 72671629"
+bindsym --release $mod+Ctrl+m exec --no-startup-id "xdotool keyup ctrl keyup alt type --delay 5 0644237437"
+bindsym --release $mod+Ctrl+p exec --no-startup-id "xdotool keyup ctrl keyup alt type --delay 5 5680820"
 bindsym --release $mod+Ctrl+s exec --no-startup-id "xdotool keyup ctrl keyup alt type --delay 5 Kerkdijk\ 2"
 bindsym --release $mod+Ctrl+c exec --no-startup-id "xdotool keyup ctrl keyup alt type --delay 5 The\ Netherlands"
-bindsym --release $mod+Ctrl+d exec --no-startup-id "xdotool keyup ctrl keyup alt type --delay 5 Drenthe"
-bindsym --release $mod+Ctrl+l exec --no-startup-id "xdotool keyup ctrl keyup alt type --delay 5 Ansen"
-bindsym --release $mod+Ctrl+z exec --no-startup-id "xdotool keyup ctrl keyup alt type --delay 5 7964KB"
+bindsym --release $mod+Ctrl+d exec --no-startup-id "xdotool keyup ctrl keyup alt type --delay 5 Overijssel"
+bindsym --release $mod+Ctrl+l exec --no-startup-id "xdotool keyup ctrl keyup alt type --delay 5 Kampen"
+bindsym --release $mod+Ctrl+z exec --no-startup-id "xdotool keyup ctrl keyup alt type --delay 5 8262AN"
 bindsym --release $mod+Ctrl+n exec --no-startup-id "xdotool keyup ctrl keyup alt type --delay 5 Jappie\ Klooster"
 bindsym --release $mod+Ctrl+1 exec --no-startup-id "xdotool keyup ctrl keyup alt type --delay 5 Jappie"
 bindsym --release $mod+Ctrl+2 exec --no-startup-id "xdotool keyup ctrl keyup alt type --delay 5 Klooster"
+bindsym --release $mod+Ctrl+w exec --no-startup-id "xdotool keyup ctrl keyup alt type --delay 5 https://jappie.me"
 
 # start a terminal
 bindsym $mod+Return exec foot
