@@ -102,6 +102,7 @@ in
       clean-emacs
       cliphist
       wl-clipboard
+      wtype
 
       protobuf
       qemu_full
