@@ -1,61 +1,61 @@
 {
-    "layer": "top",
-    "position": "bottom",
-    "height": 35,
-    "modules-left": ["cpu", "memory", "network", "pulseaudio"],
-    "modules-center": ["sway/workspaces"],
-    "modules-right": ["custom/keyboard", "battery", "clock"],
+  "layer": "top",
+  "position": "bottom",
+  "height": 35,
+  "modules-left": ["cpu", "memory", "network", "pulseaudio"],
+  "modules-center": ["sway/workspaces"],
+  "modules-right": ["custom/keyboard", "battery", "clock"],
 
-    "sway/workspaces": {
-        "disable-scroll": true,
-        "all-outputs": true,
-        "format": "{name}"
-    },
-    "clock": {
-        "format": " {:%A, %d %h  %H:%M:%S}",
-        "interval": 1,
-        "tooltip": false,
-        "on-click": "firefox --new-tab https://calendar.google.com/" ,
-    },
-"custom/keyboard": {
+  "sway/workspaces": {
+    "disable-scroll": true,
+    "all-outputs": true,
+    "format": "{name}"
+  },
+  "clock": {
+    "format": " {:%A, %d %h  %H:%M:%S}",
+    "interval": 1,
+    "tooltip": false,
+    "on-click": "firefox --new-tab https://calendar.google.com/"
+  },
+  "custom/keyboard": {
     "format": "⌨️",
     "on-click": "pkill wvkbd || wvkbd-mobintl",
     "tooltip": false
-},
-    "cpu": {
-        "format": "cpu {usage}%",
-        "tooltip": false,
-        "on-click": "foot -e btop" ,
+  },
+  "cpu": {
+    "format": "cpu {usage}%",
+    "tooltip": false,
+    "on-click": "foot -e btop"
+  },
+  "memory": {
+    "format": "memory {percentage}%",
+    "tooltip": false,
+    "on-click": "foot -e btop"
+  },
+  "battery": {
+    "states": {
+      "good": 95,
+      "warning": 30,
+      "critical": 15
     },
-    "memory": {
-        "format": "memory {percentage}%",
-        "tooltip": false,
-        "on-click": "foot -e btop" ,
+    "format": "{icon} {capacity}%",
+    "format-charging": "🔌 {capacity}%",
+    "format-plugged": "🔌 {capacity}%",
+    "format-icons": ["", "", "", "", ""]
+  },
+  "network": {
+    "format-wifi": " {bandwidthUpBits}  {bandwidthDownBits}",
+    "format-ethernet": " {bandwidthUpBits}  {bandwidthDownBits}",
+    "format-disconnected": "Disconnected",
+    "interval": 2,
+    "on-click": "nm-connection-editor"
+  },
+  "pulseaudio": {
+    "format": "{icon} {volume}%",
+    "format-muted": " Muted",
+    "format-icons": {
+      "default": ["", "", ""]
     },
-    "battery": {
-        "states": {
-            "good": 95,
-            "warning": 30,
-            "critical": 15
-        },
-        "format": "{icon} {capacity}%",
-        "format-charging": "🔌 {capacity}%",
-        "format-plugged": "🔌 {capacity}%",
-        "format-icons": ["", "", "", "", ""]
-    },
-    "network": {
-        "format-wifi": " {bandwidthUpBits}  {bandwidthDownBits}",
-        "format-ethernet": " {bandwidthUpBits}  {bandwidthDownBits}",
-        "format-disconnected": "Disconnected",
-        "interval": 2,
-        "on-click": "nm-connection-editor"
-    },
-    "pulseaudio": {
-        "format": "{icon} {volume}%",
-        "format-muted": " Muted",
-        "format-icons": {
-            "default": ["", "", ""]
-        },
-        "on-click": "pavucontrol" ,
-    }
+    "on-click": "pavucontrol"
+  }
 }

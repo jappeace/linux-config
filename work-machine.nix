@@ -180,7 +180,7 @@ in {
   #             --output HDMI-A-0   --auto --right-of DisplayPort-0
   # '';
 
-  # factored out because instead of a full graph we describe devices
+  # factored out because instead of a full graph we     describe devices
   # we're conecting with from this device perspective
   services.syncthing.settings.folders = {
         "/home/jappie/phone" = {

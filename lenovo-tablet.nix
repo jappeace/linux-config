@@ -1,4 +1,4 @@
-{  pkgs, ... }:
+  {  pkgs, ... }:
 let
   monitor-script = pkgs.writeShellScriptBin "monitor" ./scripts/laptop-monitor.sh;
 in
