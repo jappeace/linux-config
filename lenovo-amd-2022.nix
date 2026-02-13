@@ -1,7 +1,5 @@
-{  config, pkgs, ... }:
+{   pkgs, ... }:
 let
-  sources = import ./npins;
-
   monitor-script = pkgs.writeShellScriptBin "monitor" ./scripts/laptop-monitor.sh;
 
 in
@@ -339,10 +337,6 @@ boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
     };
     libvirtd.enable = false;
 
-  };
-# Enable XDG sound themes
-  xdg = {
-    sounds.enable = true;
   };
 
   powerManagement = {
