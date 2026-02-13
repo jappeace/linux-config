@@ -6,8 +6,6 @@
 #
 
 # sway stuff
-exec systemctl --user import-environment WAYLAND_DISPLAY XDG_CURRENT_DESKTOP
-exec dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP=sway
 
 exec systemctl --user start sway-session.target
 
@@ -215,6 +213,10 @@ input "type:keyboard" {
     xkb_options caps:swapescape
 }
 
+bindsym --whole-window --input-device="1267:12926:ELAN06FA:00_04F3:327E_Mouse" button2 seat - cursor press button1
+# Catch the middle click RELEASE and inject a left click RELEASE
+bindsym --whole-window --release --input-device="1267:12926:ELAN06FA:00_04F3:327E_Mouse" button2 seat - cursor release button1
+
 exec --no-startup-id xfce4-panel --disable-wm-check
 
 assign [class="Steam"] $w1
@@ -290,3 +292,7 @@ client.focused_inactive $drac_curr    $drac_curr         $drac_fg  $drac_curr  $
 client.unfocused        $drac_bg      $drac_bg           $drac_comment $drac_bg $drac_bg
 
 titlebar_padding 4 1
+
+# disable middle mosue for pasting
+# this just happens to often randomly and I never use it.
+bindsym --whole-window button2 seat - cursor press button1, seat - cursor release button1

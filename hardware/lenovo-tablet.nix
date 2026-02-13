@@ -16,6 +16,7 @@
   # experimental feature, try disabling it maybe that solves firefox freezes
   boot.kernelParams = [ "amdgpu.vpe_enable=0"
   "amdgpu.mes=0"
+  "ideapad_laptop.fn_lock=1" # flip f keys back
                       ];
 
   fileSystems."/" =
