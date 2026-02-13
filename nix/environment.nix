@@ -101,8 +101,10 @@ in
       gsimplecal
       clean-emacs
       cliphist
-      wl-clipboard
-      wtype
+      wl-clipboard # clipboard for wayland?
+      wtype # xdotool for wayland
+      pkgs.grim  # The screenshot tool
+      pkgs.slurp # The region selector
 
       protobuf
       qemu_full

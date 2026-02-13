@@ -172,10 +172,11 @@ bindsym $mod+Shift+r restart
 # exit i3 (logs you out of your X session)
 bindsym $mod+Shift+e exec "i3-nag bar -t warning -m 'Should I close this session sir?' -b 'Yes..' 'swaymsg exit'"
 
-# screenshot
-bindsym --release $mod+c exec gnome-screenshot -c
+# Screenshot whole screen to clipboard
+bindsym --release $mod+c exec grim - | wl-copy
+# Screenshot selected region to clipboard
+bindsym --release $mod+Shift+x exec grim -g "$(slurp)" - | wl-copy
 
-bindsym --release $mod+Shift+x exec gnome-screenshot -c -a
 # resize window (you can also use the mouse for that)
 mode "resize" {
 		# These bindings trigger as soon as you enter the resize mode
