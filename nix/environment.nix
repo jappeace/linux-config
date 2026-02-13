@@ -404,9 +404,6 @@ in
 
     variables.QT_QPA_PLATFORMTHEME = "qt5ct";
 
-    variables.TZ = ":/etc/localtime"; # https://github.com/NixOS/nixpkgs/issues/238025
-    # variables.QT_STYLE_OVERRIDE = "adwaita-dark";
-
     # make dunst less ug ug
     etc."dunst/dunstrc".text = ''
       [global]
