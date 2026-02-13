@@ -125,6 +125,10 @@
       autoLogin = {
         user = "jappie";
       };
+      sddm = {
+        enable = true;
+        wayland.enable = true;
+      }   ;
     };
 
     desktopManager.plasma6 = {
@@ -172,12 +176,6 @@ config = ''
         ${pkgs.xorg.xmodmap}/bin/xmodmap ~/.Xmodmap
       '';
 
-      displayManager = {
-        # I tried lightdm but id doesn't work with pam for some reason
-        lightdm = {
-          enable = true;
-        };
-      };
 
       enable = true;
     };

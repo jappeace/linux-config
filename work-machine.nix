@@ -173,12 +173,12 @@ in {
   # List packages installed in system profile. To search, run:
   # $ nix search wget
 
-  services.xserver.displayManager.setupCommands = ''
-        ${pkgs.xorg.xrandr}/bin/xrandr --output DisplayPort-1 --auto \
-              --output DisplayPort-2   --auto --left-of  DisplayPort-1 \
-              --output DisplayPort-0  --auto --right-of DisplayPort-1 \
-              --output HDMI-A-0   --auto --right-of DisplayPort-0
-  '';
+  # services.xserver.displayManager.setupCommands = ''
+  #       ${pkgs.xorg.xrandr}/bin/xrandr --output DisplayPort-1 --auto \
+  #             --output DisplayPort-2   --auto --left-of  DisplayPort-1 \
+  #             --output DisplayPort-0  --auto --right-of DisplayPort-1 \
+  #             --output HDMI-A-0   --auto --right-of DisplayPort-0
+  # '';
 
   # factored out because instead of a full graph we describe devices
   # we're conecting with from this device perspective

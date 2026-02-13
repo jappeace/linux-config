@@ -237,8 +237,6 @@ bindsym $mod+Shift+a exec --no-startup-id /home/jappie/bin/monitor-2
 
 #bindsym $mod+Shift+i exec sudo reboot
 
-#bind invert colors
-bindsym $mod+n exec xcalib -i -a
 
 #bind browser to b, use new window otherwise it'l complain
 bindsym $mod+b exec firefox -new-window
@@ -255,10 +253,10 @@ exec dbus-launch nm-applet &
 exec fcitx
 
 # exec i3-msg 'workspace $wf1; exec thunderbird' #... disabled cuase its addicting
-exec i3-msg 'workspace $w9; exec firefox'
-exec i3-msg 'workspace $w10;exec ksysguard'
-# exec i3-msg 'workspace $w1; exec deluge'
-exec i3-msg 'workspace $wf8; exec keepassxc'
+exec swaymsg 'workspace $w9; exec firefox'
+exec swaymsg 'workspace $w10;exec ksysguard'
+# exec swaymsg 'workspace $w1; exec deluge'
+exec swaymsg 'workspace $wf8; exec keepassxc'
 # exec i3-msg 'workspace $w2;exec konsole'
 # exec i3-msg 'workspace $w3;exec dolphin'
 #exec i3-msg 'workspace $w1;exec steam'
