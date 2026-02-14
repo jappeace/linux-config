@@ -383,11 +383,6 @@ boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
     libvirtd.enable = false;
 
   };
-# Enable XDG sound themes
-  xdg = {
-    sounds.enable = true;
-  };
-
   powerManagement = {
     enable = true;
     cpuFreqGovernor = "ondemand";
