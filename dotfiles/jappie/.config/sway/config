@@ -8,6 +8,7 @@
 # sway stuff
 
 exec systemctl --user start sway-session.target
+exec dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP
 
 # i3 config file (v4)
 #
@@ -270,7 +271,7 @@ client.urgent #2f343a #900000 #ffffff #900000
 
 exec --no-startup-id while true; do swaymsg "output * bg $(find ~/docs/backgrounds/ -type f | shuf -n 1) fill"; sleep 600; done
 
-exec_always "pkill waybar; sleep 0.2; waybar"
+# exec_always "pkill waybar; sleep 0.2; waybar"
 
 # Ensure titlebars and thick borders are active
 default_border normal 5

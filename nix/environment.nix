@@ -522,8 +522,10 @@ in
       };
     };
 
-    waybar.enable = true;
-
+    waybar = {
+      enable = true;
+      systemd.target = "sway-session.target";
+    };
   };
 
   nixpkgs.config = {
