@@ -19,5 +19,5 @@ in
         ];
         alwaysEnsure = true;
         config = configTxt;
-        package = pkgs.emacs-unstable;
+        package = pkgs.emacs-unstable-pgtk; # pgtk for wayland integration
   }
