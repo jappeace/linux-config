@@ -1,18 +1,17 @@
 {
   "pins": {
-    "leana-dotfiles": {
+    "Hexecute": {
       "type": "Git",
       "repository": {
-        "type": "Forgejo",
-        "server": "https://codeberg.org/",
-        "owner": "leana8959",
-        "repo": ".files"
+        "type": "GitHub",
+        "owner": "ThatOtherAndrew",
+        "repo": "Hexecute"
       },
-      "branch": "trunk",
+      "branch": "main",
       "submodules": false,
-      "revision": "5f665b4f556a6bb1edef57b2a98ce8b745469fb4",
-      "url": "https://codeberg.org/leana8959/.files/archive/5f665b4f556a6bb1edef57b2a98ce8b745469fb4.tar.gz",
-      "hash": "0zs8x70f10rjil0dk8zzbcpaw06bqi8x0djxdqcnkmik3fjp24bg"
+      "revision": "2105ee3f80a748bd4e270e8092fc12be4be927b6",
+      "url": "https://github.com/ThatOtherAndrew/Hexecute/archive/2105ee3f80a748bd4e270e8092fc12be4be927b6.tar.gz",
+      "hash": "1fasb1p8bc3nic4nhffxg98ay0mxrdcnp3nddzx31ksq0qp36x49"
     },
     "agenix": {
       "type": "Git",
@@ -55,6 +54,20 @@
       "revision": "ff81ac966bb2cae68946d5ed5fc4994f96d0ffec",
       "url": "https://api.github.com/repos/nixos/flake-compat/tarball/v1.1.0",
       "hash": "19d2z6xsvpxm184m41qrpi1bplilwipgnzv9jy17fgw421785q1m"
+    },
+    "leana-dotfiles": {
+      "type": "Git",
+      "repository": {
+        "type": "Forgejo",
+        "server": "https://codeberg.org/",
+        "owner": "leana8959",
+        "repo": ".files"
+      },
+      "branch": "trunk",
+      "submodules": false,
+      "revision": "5f665b4f556a6bb1edef57b2a98ce8b745469fb4",
+      "url": "https://codeberg.org/leana8959/.files/archive/5f665b4f556a6bb1edef57b2a98ce8b745469fb4.tar.gz",
+      "hash": "0zs8x70f10rjil0dk8zzbcpaw06bqi8x0djxdqcnkmik3fjp24bg"
     },
     "nixpkgs": {
       "type": "Git",

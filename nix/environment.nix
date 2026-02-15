@@ -10,12 +10,7 @@ let
   # unfuck the flake, unsubscribe from the mental health workshop.
   fuckingFlake = outPath: (import sources.flake-compat { src = outPath; }).outputs;
 
-  # Unfucks firefox and frens from freezing randomly by not using
-  # EGL. Apparantly this uses some better hardware freezes, but
-  # in practice it makes my system freeze (except the mouse).
-  # I just do it for all machiens because there seems little downside
-  # asside using a bit more cpu.
-  #
+  # Forces wayland,
   # also enables touch support
   tabletSafe =
     pkg:
@@ -26,10 +21,8 @@ let
       postBuild = ''
         # We find the main binary and wrap it with our safety flags
         wrapProgram $out/bin/${pkg.pname or (builtins.parseDrvName pkg.name).name} \
-          --set MOZ_X11_EGL "0" \
           --set MOZ_USE_XINPUT2 "1" \
-          --set MOZ_ENABLE_WAYLAND "1" \
-          --set LIBVA_DRIVER_NAME "none"
+          --set MOZ_ENABLE_WAYLAND "1"
       '';
     };
 
@@ -98,6 +91,7 @@ in
 
   environment = {
     systemPackages = with pkgs.xfce // pkgs; [
+      (fuckingFlake sources.Hexecute.outPath) # TODO would be fun but don't work
       gsimplecal
       clean-emacs
       cliphist

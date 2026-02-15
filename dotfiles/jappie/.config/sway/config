@@ -296,3 +296,5 @@ titlebar_padding 4 1
 # disable middle mosue for pasting
 # this just happens to often randomly and I never use it.
 bindsym --whole-window button2 seat - cursor press button1, seat - cursor release button1
+
+bindsym $mod+space exec hexecute
