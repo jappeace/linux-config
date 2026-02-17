@@ -130,6 +130,7 @@ boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
     hostName = "lenovo-amd-2022"; # Define your hostname.
     # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
     networkmanager.enable = true;
+    nameservers = [ "1.1.1.1" "8.8.8.8" ];
     # these are sites I've developed a 'mental hook' for, eg
     # randomly checking them, even several times in a row.
     # Blocking them permenantly for a week or so gets rid of that behavior
