@@ -146,6 +146,7 @@ boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
       0.0.0.0 www.understandingwar.org
       0.0.0.0 www.reddit.com
       0.0.0.0 www.linkedin.com
+      0.0.0.0 www.youtube.com
     '';
     #   0.0.0.0 discord.com
     #   0.0.0.0 discourse.haskell.org
