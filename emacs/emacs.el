@@ -150,6 +150,7 @@
    "<escape>" 'transient-quit-one)
   (general-define-key "C-'" 'avy-goto-word-1)
   (general-define-key "C-x b" 'consult-buffer)
+  (general-define-key "M-i" nil) ;; disable space insertion on opening new window. (this is already used by sway)
   (general-define-key
    :keymaps 'normal
    ;; simple command
@@ -223,7 +224,8 @@
    "a" '(:ignore t :which-key "Applications")
    "d" 'insert-date
    ";" 'comment-line
-   "ar" 'ranger))
+   "ar" 'ranger
+   ))
 
 (use-package package-lint
   :commands  (package-lint-current-buffer
