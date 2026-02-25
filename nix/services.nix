@@ -59,16 +59,12 @@
       dataDir = "/home/jappie/.config/syncthing-private";
     };
 
-    pulseaudio = {
-      enable = true;
-      support32Bit = true;
-      tcp = {
-        enable = true;
-        anonymousClients.allowAll = true; # bite me
-      };
+    pipewire = {
+      enable = false;
+      alsa.enable = true;
+      alsa.support32Bit = true;
+      pulse.enable = true;
     };
-
-    pipewire.enable = false;
 
     journald.extraConfig = ''
       SystemMaxUse=50M
