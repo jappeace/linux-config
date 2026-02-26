@@ -229,7 +229,6 @@ boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
   };
 
   hardware.bluetooth.enable = true;
-  services.pipewire.enable = false;
 
   # # reverse search sync
   # services.atuin.enable = true;
