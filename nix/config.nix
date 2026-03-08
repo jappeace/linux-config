@@ -36,6 +36,7 @@ in
 
     extraOptions = ''
       experimental-features = nix-command flakes
+      extra-deprecated-features = url-literals
     '';
     settings = {
 
