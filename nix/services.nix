@@ -76,6 +76,7 @@
     tor.client.enable = true;
 
     postgresql = {
+      enableTCPIP = true;
       enable = true; # postgres for local dev
       authentication = pkgs.lib.mkOverride 10 ''
         local all all trust
@@ -84,6 +85,8 @@
         host all all ::/0       md5
       '';
       settings = {
+        listen_addresses = "*";
+
         log_connections = true;
         log_statement = "all";
         log_disconnections = true;
