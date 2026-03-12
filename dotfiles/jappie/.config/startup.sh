@@ -32,7 +32,7 @@ if [ $? -eq 0 ]; then
 	cowfile=${cowfiles[$((((RANDOM % ((num_files - 1)))) + 1))]}
 
         mahFortune=$(fortune)
-        echo $mahFortune | espeak-ng &! # this was the best idea ever!!
+        echo $mahFortune | piper -m /linux-config/mahvoice/en_US-amy-medium.onnx --speaker 1 -f - | cvlc - 2> /dev/null &!
 	echo $mahFortune | cowsay -W 35 ${cow_mode[$rng]} -f $cowfile
 	fi
 fi
