@@ -32,7 +32,7 @@ if [ $? -eq 0 ]; then
 	cowfile=${cowfiles[$((((RANDOM % ((num_files - 1)))) + 1))]}
 
         mahFortune=$(fortune)
-        # echo $mahFortune | espeak &! # this was a horrible idea!
+        echo $mahFortune | espeak-ng &! # this was the best idea ever!!
 	echo $mahFortune | cowsay -W 35 ${cow_mode[$rng]} -f $cowfile
 	fi
 fi
