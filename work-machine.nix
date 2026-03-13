@@ -305,9 +305,9 @@ in {
   };
 virtualisation = {
     # enable either podman or docker, not both
-    # docker.enable = true;
+    docker.enable = true;
     podman = { # for arion
-       enable = true;
+       enable = false;
        dockerSocket.enable = true;
        dockerCompat = true;
        defaultNetwork.settings.dns_enabled = true;
