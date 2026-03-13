@@ -337,7 +337,10 @@ in
       feh
       dnsutils
       zoom-us
+
       espeak
+      piper-tts # another espeak
+
       pandoc
       wineWowPackages.stable
       winetricks
