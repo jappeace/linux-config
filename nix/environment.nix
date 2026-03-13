@@ -91,7 +91,7 @@ in
 
   environment = {
     systemPackages = with pkgs.xfce // pkgs; [
-      (fuckingFlake sources.Hexecute.outPath) # TODO would be fun but don't work
+      (fuckingFlake sources.Hexecute).packages.${pkgs.stdenv.hostPlatform.system}.default
       gsimplecal
       clean-emacs
       cliphist
