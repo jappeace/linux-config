@@ -93,6 +93,7 @@ in
     systemPackages = with pkgs.xfce // pkgs; [
       (fuckingFlake sources.Hexecute).packages.${pkgs.stdenv.hostPlatform.system}.default
       gsimplecal
+      qbittorrent
       clean-emacs
       cliphist
       wl-clipboard # clipboard for wayland?
