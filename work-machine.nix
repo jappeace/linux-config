@@ -134,6 +134,8 @@ in {
 
     # lmfao, why do I ope nall this?!
     # firewall.allowedTCPPorts = [ 6868 4713 8081 3000 22 8000];
+    firewall.allowedTCPPorts = [ 5432 ];
+    firewall.logRefusedConnections = true;
   };
 
   # Select internationalisation properties.
@@ -303,9 +305,9 @@ in {
   };
 virtualisation = {
     # enable either podman or docker, not both
-    # docker.enable = true;
+    docker.enable = true;
     podman = { # for arion
-       enable = true;
+       enable = false;
        dockerSocket.enable = true;
        dockerCompat = true;
        defaultNetwork.settings.dns_enabled = true;
