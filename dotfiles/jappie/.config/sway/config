@@ -223,10 +223,8 @@ exec --no-startup-id xfce4-panel --disable-wm-check
 
 assign [class="Steam"] $w1
 assign [class="transmission" instance="transmission-qt" title="Transmission"] $w1
-assign [class="Deluge"] $w1
 assign [class="Chromium"] $w8
 assign [class="ksysguard"] $w10
-assign [class="keepassxc"] $wf8
 
 client.background \#000000
 # class					border	backgr. text	indicator
@@ -258,7 +256,6 @@ exec fcitx
 exec swaymsg 'workspace $w9; exec firefox'
 exec swaymsg 'workspace $w10;exec ksysguard'
 # exec swaymsg 'workspace $w1; exec deluge'
-exec swaymsg 'workspace $wf8; exec keepassxc'
 # exec i3-msg 'workspace $w2;exec konsole'
 # exec i3-msg 'workspace $w3;exec dolphin'
 #exec i3-msg 'workspace $w1;exec steam'
