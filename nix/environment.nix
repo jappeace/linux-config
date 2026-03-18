@@ -93,7 +93,7 @@ in
     systemPackages = with pkgs.xfce // pkgs; [
       (fuckingFlake sources.Hexecute).packages.${pkgs.stdenv.hostPlatform.system}.default
       gsimplecal
-      qbittorrent
+      qbittorrent # bittorent
       clean-emacs
       cliphist
       wl-clipboard # clipboard for wayland?
@@ -319,7 +319,6 @@ in
       gparted # partitiioning for dummies, like me
 
       (tabletSafe thunderbird) # some day I'll use emacs for this
-      deluge # bittorrent
       # the spell to make openvpn work:   nmcli connection modify jappie vpn.data "key = /home/jappie/openvpn/website/jappie.key, ca = /home/jappie/openvpn/website/ca.crt, dev = tun, cert = /home/jappie/openvpn/website/jappie.crt, ns-cert-type = server, cert-pass-flags = 0, comp-lzo = adaptive, remote = jappieklooster.nl:1194, connection-type = tls"
       # from https://github.com/NixOS/nixpkgs/issues/30235
       openvpn # piratebay access
