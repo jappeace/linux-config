@@ -345,7 +345,7 @@
   :hook
   (haskell-mode . interactive-haskell-mode)
   :custom
-  (haskell-font-lock-symbols t)
+  ;; (haskell-font-lock-symbols t)
   (haskell-process-auto-import-loaded-modules t)
   (haskell-process-log t)
   (haskell-tags-on-save nil)
@@ -374,12 +374,24 @@
   (haskell-font-lock-symbols t)
   )
 
+
+
 (use-package evil-org
   :disabled
   )
 (use-package ox-reveal
   :disabled
   )
+
+(defun mah-symbols ()
+  "Better custom symbols using safe hex codes."
+  (setq prettify-symbols-alist
+        '(("<=<"  . ?\x1f41f)  ;; 🐟 (U+1F41F)
+          ("TODO" . ?\x1f527)))) ;; 🔧 (U+1F527)
+
+(add-hook 'prog-mode-hook #'mah-symbols)
+
+(add-hook 'prog-mode-hook #'prettify-symbols-mode)
 
 (use-package yasnippet
   :after lsp-mode
@@ -531,7 +543,9 @@ two prefix arguments, write out the day and month name."
 ;;     (add-hook 'scheme-mode-hook #'parinfer-mode)
 ;;     (add-hook 'lisp-mode-hook #'parinfer-mode)))
 
-(use-package pretty-symbols)
+;; (use-package pretty-symbols)
+
+
 (use-package cobol-mode)
 (use-package idris-mode)
 (use-package lua-mode)
