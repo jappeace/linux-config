@@ -52,7 +52,6 @@ in
         "https://nixcache.reflex-frp.org" # reflex
         "https://jappie.cachix.org"
         "https://nix-community.cachix.org"
-        "https://nix-cache.jappie.me"
         # "https://cache.iog.io"
         # "https://static-haskell-nix.cachix.org"
       ];
