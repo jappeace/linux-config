@@ -309,6 +309,8 @@ in
       zoxide # fasd # fasd died on me for some reason # try zoxide in future, it's rust based and active (this one is dead)
       fzf # used by zoxide
 
+      wdisplays # repair geoemtry of external monitors in wayland
+
       cowsay
       fortune
       vlc
