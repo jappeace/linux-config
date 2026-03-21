@@ -244,7 +244,7 @@ in
 
       crawlTiles
       mariadb
-      browsh # better browser # NB: may also need to be wrapped by tabletSafe
+      browsh # better browser, replaces elinks. # NB: leana agrees :):)
 
       macchanger # change mac address
       change-mac
