@@ -33,7 +33,11 @@ if [ $? -eq 0 ]; then
 
         mahFortune=$(fortune)
         # models are here https://huggingface.co/rhasspy/piper-voices/tree/main
-        echo $mahFortune | piper -m /linux-config/mahvoice/en_US-amy-medium.onnx --speaker 1 -f - | cvlc --gain 0.05 - 2> /dev/null &!
+        (
+            # Wait for the lock on file descriptor 200
+            flock 200
+            echo "$mahFortune" | piper -m /linux-config/mahvoice/en_US-amy-medium.onnx --speaker 1 -f - | cvlc --play-and-exit --gain 0.05 - 2> /dev/null
+        ) 200> /tmp/piper_fortune.lock & disown
 	echo $mahFortune | cowsay -W 35 ${cow_mode[$rng]} -f $cowfile
 	fi
 fi
