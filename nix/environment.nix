@@ -86,6 +86,21 @@ let
     NetworkManager
   '';
 
+  piper-amy-voice = pkgs.fetchgit {
+    url = "https://huggingface.co/rhasspy/piper-voices";
+    rev = "834f23262168a7e809179465e4113f23f5a7d1f7";
+    hash = "sha256-MKBOTTPy3WXUcKa+0+U7HOT5Nm/LuWVqCi7lTMIpo0Y=";
+    fetchLFS = true;
+    sparseCheckout = [
+      "en/en_US/amy/medium/en_US-amy-medium.onnx"
+      "en/en_US/amy/medium/en_US-amy-medium.onnx.json"
+    ];
+  };
+
+  piper = pkgs.writeShellScriptBin "piper" ''
+    ${pkgs.piper-tts}/bin/piper -m ${piper-amy-voice}/en/en_US/amy/medium/en_US-amy-medium.onnx "$@"
+  '';
+
 in
 {
 
@@ -341,7 +356,7 @@ in
       zoom-us
 
       espeak
-      piper-tts # another espeak
+      piper # piper-tts wrapper with Amy voice model
 
       pandoc
       wineWowPackages.stable
