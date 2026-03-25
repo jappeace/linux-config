@@ -330,6 +330,7 @@ in
       fortune
       vlc
       (tabletSafe firefox)
+      blueman
 
       chromium # NB: may also need to be wrapped by tablet safe
       pavucontrol
