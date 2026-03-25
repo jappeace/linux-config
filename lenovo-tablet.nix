@@ -229,6 +229,12 @@ boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
   };
 
   hardware.bluetooth.enable = true;
+  # supposedly fixes my bleutooth surround sound system.
+  hardware.bluetooth.settings = {
+    General = {
+      ControllerMode = "bredr";
+    };
+  };
 
   # # reverse search sync
   # services.atuin.enable = true;

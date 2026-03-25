@@ -12,6 +12,7 @@
   boot.initrd.kernelModules = [ "amdgpu" ];
   boot.kernelModules = [ "kvm-amd" ];
   boot.extraModulePackages = [ ];
+  boot.extraModprobeConfig = "options btusb enable_autosuspend=n";
 
   # experimental feature, try disabling it maybe that solves firefox freezes
   boot.kernelParams = [ "amdgpu.vpe_enable=0"
