@@ -7,7 +7,7 @@
 
 # sway stuff
 
-exec dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP SWAYSOCK
+exec dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP SWAYSOCK PATH
 exec systemctl --user start sway-session.target
 
 # i3 config file (v4)
