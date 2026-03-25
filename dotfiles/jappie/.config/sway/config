@@ -295,3 +295,8 @@ titlebar_padding 4 1
 bindsym --whole-window button2 seat - cursor press button1, seat - cursor release button1
 
 bindsym $mod+space exec hexecute
+
+
+# beamer setup wooo
+output DP-1 resolution 1280x720 position 0,0
+output eDP-1 resolution 2880x1800 position 0,720

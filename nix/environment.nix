@@ -325,6 +325,21 @@ in
       fzf # used by zoxide
 
       wdisplays # repair geoemtry of external monitors in wayland
+      /* TO MAKE IT PERMENANT
+      swaymsg -t get_outputs
+
+      modify sway/config with:
+      output <name> resolution <width>x<height> position <x>,<y>
+      for example:
+
+# beamer setup wooo
+output DP-1 resolution 1280x720 position 0,0
+output eDP-1 resolution 2880x1800 position 0,720
+
+# and so I forget the name of wdisplays again hahaha
+# I shall be the most useless software grifter this planet ever saw and shall see.
+      */
+
 
       cowsay
       fortune
@@ -366,12 +381,6 @@ in
 
       tmate
       cachix
-      (pkgs.polybar.override {
-        alsaSupport = true;
-        pulseSupport = true;
-        mpdSupport = true;
-        i3Support = true;
-      })
 
       anki
       cloc
