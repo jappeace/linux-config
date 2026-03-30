@@ -44,7 +44,6 @@ in
       min-free = 20 * 1024 * 1024 * 1024;
 
       trusted-users = [
-        "jappie"
         "root"
       ];
       extra-substituters = [
