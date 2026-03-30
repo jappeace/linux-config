@@ -1,9 +1,7 @@
 { pkgs, ... }:
-let
 
-  monitor-script = pkgs.writeShellScriptBin "monitor" ./scripts/work-machine-monitor.sh;
 
-in {
+{
   imports = [
     ./hardware/work-machine.nix
     ./emacs
@@ -154,7 +152,6 @@ in {
     };
   };
 
-  environment.systemPackages = [monitor-script];
   # Set your time zone.
   # https://en.wikipedia.org/wiki/List_of_tz_database_time_zones
   # time.timeZone = "Europe/Sofia";
