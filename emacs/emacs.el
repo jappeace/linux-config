@@ -245,6 +245,20 @@
 
 (use-package flx)
 
+(defun my-ranger-nix-result-extension (orig-fun filename &optional period)
+  "Trick Emacs into assigning 'nix-result' as the extension for extensionless Nix outputs."
+  (let ((ext (funcall orig-fun filename period))
+        (base (file-name-nondirectory filename)))
+    ;; If there is no actual extension AND the file starts with "result" (e.g., result, result-bin)
+    (if (and (null ext)
+             base
+             (string-prefix-p "result" base))
+        (if period ".nix-result" "nix-result")
+      ext)))
+
+;; Apply the advice to the native file-name-extension function
+(advice-add 'file-name-extension :around #'my-ranger-nix-result-extension)
+
 (use-package ranger
   :commands (ranger)
   :config
@@ -254,7 +268,7 @@
    ranger-max-preview-size 1
    ranger-dont-show-binary t
    ranger-preview-delay 0.040
-   ranger-excluded-extensions '("tar.gz" "mkv" "iso" "mp4")
+   ranger-excluded-extensions '("tar.gz" "mkv" "iso" "mp4" "nix-result")
    )
   )
 
