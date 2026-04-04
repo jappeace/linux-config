@@ -46,7 +46,7 @@ in
 
       trusted-users = [
         "root"
-        "nix-builder"
+        # "nix-builder" # interesting claude wants this.
       ];
       extra-substituters = [
         "https://cache.nixos.org"
