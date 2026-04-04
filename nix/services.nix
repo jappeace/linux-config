@@ -28,6 +28,15 @@
 
   services = {
 
+    # Allow Claude containers to SSH in for remote nix builds
+    openssh = {
+      enable = true;
+      settings = {
+        PasswordAuthentication = false;
+        PermitRootLogin = "no";
+      };
+    };
+
     syncthing = {
       overrideDevices = true;
       overrideFolders = true;
