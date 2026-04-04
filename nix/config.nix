@@ -5,9 +5,10 @@ let
 in
 {
   nixpkgs.overlays = [
-    # adds --delete-closure to nix-store --delete, so you can delete a build
+    # Use lix from nixpkgs-lix pin (matching haskell-vibes container)
+    # to ensure ssh-ng protocol compatibility for remote nix builds
     (final: _: {
-      nix = final.lixPackageSets.stable.lix;
+      nix = (import sources.nixpkgs-lix {}).lix;
     })
     (import sources.emacs-overlay)
 
