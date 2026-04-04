@@ -33,8 +33,7 @@
     openssh = {
       enable = true;
       listenAddresses = [
-        { addr = "127.0.0.1"; }
-        { addr = "172.17.0.1"; }
+        { addr = "0.0.0.0"; port = 22; }
       ];
       settings = {
         PasswordAuthentication = false;
