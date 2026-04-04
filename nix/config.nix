@@ -45,6 +45,7 @@ in
 
       trusted-users = [
         "root"
+        "nix-builder"
       ];
       extra-substituters = [
         "https://cache.nixos.org"
@@ -64,6 +65,19 @@ in
       ];
       auto-optimise-store = false;
     };
+  };
+
+  # Restricted user for Claude container remote nix builds
+  # No sudo, no wheel, no shell — only nix-daemon --stdio via SSH
+  users.users.nix-builder = {
+    isNormalUser = true;
+    home = "/var/lib/nix-builder";
+    createHome = true;
+    group = "nogroup";
+    shell = pkgs.shadow + "/bin/nologin";
+    openssh.authorizedKeys.keys = [
+      ''command="nix-daemon --stdio",no-port-forwarding,no-X11-forwarding,no-agent-forwarding ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIF9jwwrWQthxzsIDXpE0oA6jMDjXIPwUPrN6Evm6DY2L jappeace-sloth-tablet''
+    ];
   };
 
   system.nixos =

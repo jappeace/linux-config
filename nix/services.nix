@@ -28,6 +28,20 @@
 
   services = {
 
+    # Allow Claude containers to SSH in for remote nix builds
+    # Only listens on localhost and docker bridge — not reachable from the network
+    openssh = {
+      enable = true;
+      listenAddresses = [
+        { addr = "127.0.0.1"; }
+        { addr = "172.17.0.1"; }
+      ];
+      settings = {
+        PasswordAuthentication = false;
+        PermitRootLogin = "no";
+      };
+    };
+
     syncthing = {
       overrideDevices = true;
       overrideFolders = true;
