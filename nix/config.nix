@@ -69,13 +69,17 @@ in
   };
 
   # Restricted user for Claude container remote nix builds
-  # No sudo, no wheel, no shell — only nix-daemon --stdio via SSH
+  # No sudo, no wheel — only nix-daemon --stdio via SSH forced command
+  # Shell must be bash (not nologin) because sshd runs forced commands via
+  # the user's login shell: `$SHELL -c "nix-daemon --stdio"`.
+  # nologin ignores -c, prints "This account is currently not available."
+  # and exits — corrupting the nix ssh-ng protocol handshake.
   users.users.nix-builder = {
     isNormalUser = true;
     home = "/var/lib/nix-builder";
     createHome = true;
     group = "nogroup";
-    shell = pkgs.shadow + "/bin/nologin";
+    shell = pkgs.bash + "/bin/bash";
     openssh.authorizedKeys.keys = [
       ''command="nix-daemon --stdio",no-port-forwarding,no-X11-forwarding,no-agent-forwarding ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIF9jwwrWQthxzsIDXpE0oA6jMDjXIPwUPrN6Evm6DY2L jappeace-sloth-tablet''
     ];
