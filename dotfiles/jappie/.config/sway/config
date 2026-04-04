@@ -298,5 +298,5 @@ bindsym $mod+space exec hexecute
 
 
 # beamer setup wooo
-output DP-1 resolution 1280x720 position 0,0
-output eDP-1 resolution 2880x1800 position 0,720
+output DP-1 resolution 1920x1080 position 0,0
+output eDP-1 resolution 2880x1800 position 0,1080
