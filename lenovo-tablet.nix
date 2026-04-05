@@ -412,6 +412,7 @@ boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
   # Atomically swaps the queue file so new pushes don't get lost.
   systemd.services.nix-cache-push = {
     description = "Push queued nix store paths to binary cache";
+    path = [ pkgs.openssh ];
     serviceConfig = {
       Type = "oneshot";
       ExecStart = pkgs.writeShellScript "drain-cache-queue" ''
