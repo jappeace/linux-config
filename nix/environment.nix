@@ -365,8 +365,6 @@ in
       keepassxc # to open my passwords
       tree # sl
       # pkgsUnstable.obs-linuxbrowser # install instructions: https://github.com/NixOS/nixpkgs/blob/master/pkgs/applications/video/obs-studio/linuxbrowser.nix
-      xorg.xmodmap # rebind capslock to escape
-      xdotool # i3 auto type
 
       # theme shit
       blackbird
@@ -420,7 +418,6 @@ output eDP-1 resolution 2880x1800 position 0,720
       tcpdump
       ntfs3g
       qdirstat
-      htop
       feh
       dnsutils
       zoom-us

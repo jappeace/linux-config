@@ -432,6 +432,7 @@ boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
 
         echo "$DEDUPED" | while IFS= read -r path; do
           HASH=$(basename "$path" | cut -d- -f1)
+          echo "checking https://cache.nixos.org/$HASH.narinfo"
           if ${pkgs.curl}/bin/curl -sf "https://cache.nixos.org/$HASH.narinfo" > /dev/null 2>&1; then
             echo "skipping (on cache.nixos.org): $path" >&2
             continue
