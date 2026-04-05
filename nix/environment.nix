@@ -119,7 +119,7 @@ let
       exit 1
     fi
 
-    # Collect all paths first
+    # Collect all paths first, expanding runtime closures
     ALL_PATHS=""
     for arg in "$@"; do
       if [ -e /nix/store/"$(basename "$arg")" ] || echo "$arg" | grep -q '^/nix/store/'; then
@@ -132,7 +132,7 @@ let
         for inputDrv in $(${pkgs.nix}/bin/nix-store -qR "$DRV" | grep '\.drv$'); do
           for out in $(${pkgs.nix}/bin/nix-store -q --outputs "$inputDrv"); do
             if [ -e "$out" ]; then
-              ALL_PATHS="$ALL_PATHS $out"
+              ALL_PATHS="$ALL_PATHS $(${pkgs.nix}/bin/nix-store -qR "$out")"
             fi
           done
         done
