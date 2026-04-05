@@ -4,12 +4,14 @@ let
 
   # Push every successful build to the megavid binary cache.
   # Only on this machine — the work machines are used for client projects.
+  # The hook appends paths to a queue file and kicks the drain service.
+  # The service processes one path at a time, so we never spam the network.
+  cacheQueueDir = "/var/lib/nix-cache-queue";
+
   pushToCacheScript = pkgs.writeShellScript "push-to-binary-cache" ''
-    set -uf
-    echo "pushing to binary cache: $OUT_PATHS" >&2
-    NIX_SSHOPTS="-i /home/jappie/.ssh/id_ed25519 -o StrictHostKeyChecking=accept-new" \
-      ${pkgs.nix}/bin/nix copy --to ssh-ng://root@videocut.org $OUT_PATHS 2>&1 || \
-      echo "WARNING: failed to push to binary cache" >&2
+    mkdir -p ${cacheQueueDir}
+    echo "$OUT_PATHS" >> ${cacheQueueDir}/queue
+    ${pkgs.systemd}/bin/systemctl start --no-block nix-cache-push.service
   '';
 in
 {
@@ -405,5 +407,34 @@ boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
   };
 
   nix.settings.post-build-hook = "${pushToCacheScript}";
+
+  # Drain the cache push queue one path at a time.
+  # Atomically swaps the queue file so new pushes don't get lost.
+  systemd.services.nix-cache-push = {
+    description = "Push queued nix store paths to binary cache";
+    serviceConfig = {
+      Type = "oneshot";
+      ExecStart = pkgs.writeShellScript "drain-cache-queue" ''
+        set -uf
+        QUEUE="${cacheQueueDir}/queue"
+        WORK="${cacheQueueDir}/queue.work"
+
+        [ -s "$QUEUE" ] || exit 0
+
+        mv "$QUEUE" "$WORK"
+
+        export NIX_SSHOPTS="-i /home/jappie/.ssh/id_ed25519 -o StrictHostKeyChecking=accept-new"
+
+        while IFS= read -r path; do
+          [ -z "$path" ] && continue
+          echo "pushing: $path" >&2
+          ${pkgs.nix}/bin/nix copy --to ssh-ng://root@videocut.org $path 2>&1 || \
+            echo "WARNING: failed to push $path" >&2
+        done < "$WORK"
+
+        rm -f "$WORK"
+      '';
+    };
+  };
 
 }
