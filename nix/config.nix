@@ -10,7 +10,7 @@ let
     set -euf
     echo "pushing to binary cache: $OUT_PATHS" >&2
     NIX_SSHOPTS="-i /home/jappie/.ssh/id_ed25519 -o StrictHostKeyChecking=accept-new" \
-      ${pkgs.nix}/bin/nix copy --to ssh-ng://root@videocut.org $OUT_PATHS 2>&1
+      ${pkgs.nix}/bin/nix copy --to ssh://root@videocut.org $OUT_PATHS 2>&1
   '';
 in
 {
