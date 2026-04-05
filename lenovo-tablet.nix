@@ -424,9 +424,17 @@ boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
 
         mv "$QUEUE" "$WORK"
 
-        # Dedup before any IO
-        DEDUPED=$(sort -u "$WORK" | grep -v '^$')
+        # Expand runtime closures so deps are also checked
+        ALL_CLOSURE=""
+        while IFS= read -r path; do
+          [ -z "$path" ] && continue
+          ALL_CLOSURE="$ALL_CLOSURE
+$(${pkgs.nix}/bin/nix-store -qR "$path" 2>/dev/null || true)"
+        done < "$WORK"
         rm -f "$WORK"
+
+        # Dedup before any IO
+        DEDUPED=$(echo "$ALL_CLOSURE" | sort -u | grep '^/nix/store/')
 
         export NIX_SSHOPTS="-i /home/jappie/.ssh/id_ed25519 -o StrictHostKeyChecking=accept-new"
 
