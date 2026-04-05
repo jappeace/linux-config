@@ -1,6 +1,16 @@
   {  pkgs, ... }:
 let
   monitor-script = pkgs.writeShellScriptBin "monitor" ./scripts/laptop-monitor.sh;
+
+  # Push every successful build to the megavid binary cache.
+  # Only on this machine — the work machines are used for client projects.
+  pushToCacheScript = pkgs.writeShellScript "push-to-binary-cache" ''
+    set -uf
+    echo "pushing to binary cache: $OUT_PATHS" >&2
+    NIX_SSHOPTS="-i /home/jappie/.ssh/id_ed25519 -o StrictHostKeyChecking=accept-new" \
+      ${pkgs.nix}/bin/nix copy --to ssh-ng://root@videocut.org $OUT_PATHS 2>&1 || \
+      echo "WARNING: failed to push to binary cache" >&2
+  '';
 in
 {
 
@@ -393,5 +403,7 @@ boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
     enable = true;
     cpuFreqGovernor = "ondemand";
   };
+
+  nix.settings.post-build-hook = "${pushToCacheScript}";
 
 }
