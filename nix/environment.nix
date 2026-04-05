@@ -400,9 +400,9 @@ output eDP-1 resolution 2880x1800 position 0,720
       niixos-rebuild = "nixos-rebuild";
       nixos-rebuild = "nixos-rebuild --no-reexec";
       nix-build = "nom-build";
-      niix = "${pkgs.nix}/bin/nix -Lv --fallback";
-      niix-shell = "${pkgs.nix}/bin/nix-shell -Lv --fallback";
-      niix-build = "${pkgs.nix}/bin/nix-build -Lv --fallback";
+      niix = "${pkgs.nix}/bin/nix -v --fallback";
+      niix-shell = "${pkgs.nix}/bin/nix-shell -v --fallback";
+      niix-build = "${pkgs.nix}/bin/nix-build -v --fallback";
       vim = "nvim";
       cp = "cp --reflink=auto"; # btrfs shine
       ssh = "ssh -C"; # why is this not default?
