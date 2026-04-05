@@ -4,9 +4,12 @@ let
   sources = import ../npins;
 
   # After every successful build, push the result to the megavid binary cache.
+  # Uses jappie's SSH key since the nix daemon runs as root but root
+  # doesn't have its own key authorized on the remote.
   pushToCacheScript = pkgs.writeShellScript "push-to-binary-cache" ''
     set -euf
-    ${pkgs.nix}/bin/nix copy --to ssh-ng://root@videocut.org $OUT_PATHS
+    NIX_SSHOPTS="-i /home/jappie/.ssh/id_ed25519" \
+      ${pkgs.nix}/bin/nix copy --to ssh-ng://root@videocut.org $OUT_PATHS
   '';
 in
 {
