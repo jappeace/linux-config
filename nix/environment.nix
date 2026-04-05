@@ -101,6 +101,15 @@ let
     ${pkgs.piper-tts}/bin/piper -m ${piper-amy-voice}/en/en_US/amy/medium/en_US-amy-medium.onnx "$@"
   '';
 
+  # Skip paths already on the community cache
+  nixosCacheCheck = ''
+    HASH=$(basename "$path" | cut -d- -f1)
+    if ${pkgs.curl}/bin/curl -sf "https://cache.nixos.org/$HASH.narinfo" > /dev/null 2>&1; then
+      echo "skipping (on cache.nixos.org): $path" >&2
+      continue
+    fi
+  '';
+
   # Push full build closures (including build-time deps like cross-GHC)
   # to the binary cache on videocut.org
   push-jappie = pkgs.writeShellScriptBin "push-jappie" ''
@@ -109,28 +118,39 @@ let
       echo "Usage: push-jappie <nix-file-or-store-path> [nix-file...]" >&2
       exit 1
     fi
+
+    # Collect all paths first
+    ALL_PATHS=""
     for arg in "$@"; do
       if [ -e /nix/store/"$(basename "$arg")" ] || echo "$arg" | grep -q '^/nix/store/'; then
-        echo "Pushing closure of store path: $arg" >&2
-        ${pkgs.nix}/bin/nix copy --to ssh-ng://root@videocut.org \
-          $(${pkgs.nix}/bin/nix-store -qR "$arg")
+        echo "Collecting closure of store path: $arg" >&2
+        ALL_PATHS="$ALL_PATHS $(${pkgs.nix}/bin/nix-store -qR "$arg")"
       else
         echo "Instantiating: $arg" >&2
         DRV=$(${pkgs.nix}/bin/nix-instantiate "$arg")
         echo "Collecting realized build inputs from: $DRV" >&2
-        PATHS=""
         for inputDrv in $(${pkgs.nix}/bin/nix-store -qR "$DRV" | grep '\.drv$'); do
           for out in $(${pkgs.nix}/bin/nix-store -q --outputs "$inputDrv"); do
             if [ -e "$out" ]; then
-              PATHS="$PATHS $out"
+              ALL_PATHS="$ALL_PATHS $out"
             fi
           done
         done
-        DEDUPED=$(echo "$PATHS" | tr ' ' '\n' | sort -u | grep '^/nix/store/')
-        COUNT=$(echo "$DEDUPED" | wc -l)
-        echo "Pushing $COUNT paths to binary cache" >&2
-        echo "$DEDUPED" | xargs ${pkgs.nix}/bin/nix copy --to ssh-ng://root@videocut.org
       fi
+    done
+
+    # Dedup before any IO
+    DEDUPED=$(echo "$ALL_PATHS" | tr ' ' '\n' | sort -u | grep '^/nix/store/')
+    COUNT=$(echo "$DEDUPED" | wc -l)
+    echo "Pushing $COUNT unique paths (after dedup)" >&2
+
+    export NIX_SSHOPTS="-i /home/jappie/.ssh/id_ed25519 -o StrictHostKeyChecking=accept-new"
+
+    echo "$DEDUPED" | while IFS= read -r path; do
+      ${nixosCacheCheck}
+      echo "pushing: $path" >&2
+      ${pkgs.nix}/bin/nix copy --to ssh-ng://root@videocut.org "$path" || \
+        echo "WARNING: failed to push $path" >&2
     done
     echo "Done" >&2
   '';
