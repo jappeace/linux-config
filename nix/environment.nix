@@ -400,7 +400,6 @@ output eDP-1 resolution 2880x1800 position 0,720
       tcpdump
       ntfs3g
       qdirstat
-      google-cloud-sdk
       htop
       feh
       dnsutils
@@ -412,7 +411,6 @@ output eDP-1 resolution 2880x1800 position 0,720
       pandoc
       wineWowPackages.stable
       winetricks
-      teamviewer
 
       tmate
       cachix
