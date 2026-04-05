@@ -119,32 +119,38 @@ let
       exit 1
     fi
 
-    export NIX_SSHOPTS="-i /home/jappie/.ssh/id_ed25519 -o StrictHostKeyChecking=accept-new"
-
+    # Collect all paths first
+    ALL_PATHS=""
     for arg in "$@"; do
       if [ -e /nix/store/"$(basename "$arg")" ] || echo "$arg" | grep -q '^/nix/store/'; then
-        echo "Pushing closure of store path: $arg" >&2
-        for path in $(${pkgs.nix}/bin/nix-store -qR "$arg"); do
-          ${nixosCacheCheck}
-          echo "pushing: $path" >&2
-          ${pkgs.nix}/bin/nix copy --to ssh-ng://root@videocut.org "$path" || \
-            echo "WARNING: failed to push $path" >&2
-        done
+        echo "Collecting closure of store path: $arg" >&2
+        ALL_PATHS="$ALL_PATHS $(${pkgs.nix}/bin/nix-store -qR "$arg")"
       else
         echo "Instantiating: $arg" >&2
         DRV=$(${pkgs.nix}/bin/nix-instantiate "$arg")
         echo "Collecting realized build inputs from: $DRV" >&2
         for inputDrv in $(${pkgs.nix}/bin/nix-store -qR "$DRV" | grep '\.drv$'); do
-          for path in $(${pkgs.nix}/bin/nix-store -q --outputs "$inputDrv"); do
-            if [ -e "$path" ]; then
-              ${nixosCacheCheck}
-              echo "pushing: $path" >&2
-              ${pkgs.nix}/bin/nix copy --to ssh-ng://root@videocut.org "$path" || \
-                echo "WARNING: failed to push $path" >&2
+          for out in $(${pkgs.nix}/bin/nix-store -q --outputs "$inputDrv"); do
+            if [ -e "$out" ]; then
+              ALL_PATHS="$ALL_PATHS $out"
             fi
           done
         done
       fi
+    done
+
+    # Dedup before any IO
+    DEDUPED=$(echo "$ALL_PATHS" | tr ' ' '\n' | sort -u | grep '^/nix/store/')
+    COUNT=$(echo "$DEDUPED" | wc -l)
+    echo "Pushing $COUNT unique paths (after dedup)" >&2
+
+    export NIX_SSHOPTS="-i /home/jappie/.ssh/id_ed25519 -o StrictHostKeyChecking=accept-new"
+
+    echo "$DEDUPED" | while IFS= read -r path; do
+      ${nixosCacheCheck}
+      echo "pushing: $path" >&2
+      ${pkgs.nix}/bin/nix copy --to ssh-ng://root@videocut.org "$path" || \
+        echo "WARNING: failed to push $path" >&2
     done
     echo "Done" >&2
   '';

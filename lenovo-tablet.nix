@@ -424,10 +424,13 @@ boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
 
         mv "$QUEUE" "$WORK"
 
+        # Dedup before any IO
+        DEDUPED=$(sort -u "$WORK" | grep -v '^$')
+        rm -f "$WORK"
+
         export NIX_SSHOPTS="-i /home/jappie/.ssh/id_ed25519 -o StrictHostKeyChecking=accept-new"
 
-        while IFS= read -r path; do
-          [ -z "$path" ] && continue
+        echo "$DEDUPED" | while IFS= read -r path; do
           HASH=$(basename "$path" | cut -d- -f1)
           if ${pkgs.curl}/bin/curl -sf "https://cache.nixos.org/$HASH.narinfo" > /dev/null 2>&1; then
             echo "skipping (on cache.nixos.org): $path" >&2
@@ -436,9 +439,7 @@ boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
           echo "pushing: $path" >&2
           ${pkgs.nix}/bin/nix copy --to ssh-ng://root@videocut.org $path 2>&1 || \
             echo "WARNING: failed to push $path" >&2
-        done < "$WORK"
-
-        rm -f "$WORK"
+        done
       '';
     };
   };
