@@ -127,9 +127,9 @@ let
         ALL_PATHS="$ALL_PATHS $(${pkgs.nix}/bin/nix-store -qR "$arg")"
       else
         echo "Instantiating: $arg" >&2
-        DRV=$(${pkgs.nix}/bin/nix-instantiate "$arg")
-        echo "Collecting realized build inputs from: $DRV" >&2
-        for inputDrv in $(${pkgs.nix}/bin/nix-store -qR "$DRV" | grep '\.drv$'); do
+        DRVS=$(${pkgs.nix}/bin/nix-instantiate "$arg")
+        echo "Collecting realized build inputs from: $DRVS" >&2
+        for inputDrv in $(echo "$DRVS" | xargs ${pkgs.nix}/bin/nix-store -qR | grep '\.drv$'); do
           for out in $(${pkgs.nix}/bin/nix-store -q --outputs "$inputDrv"); do
             if [ -e "$out" ]; then
               ALL_PATHS="$ALL_PATHS $(${pkgs.nix}/bin/nix-store -qR "$out")"
