@@ -2,6 +2,13 @@
 { pkgs, ... }:
 let
   sources = import ../npins;
+
+  # After every successful build, push the result to the megavid binary cache.
+  # Best-effort: don't block builds if the server is unreachable.
+  pushToCacheScript = pkgs.writeShellScript "push-to-binary-cache" ''
+    set -uf
+    ${pkgs.nix}/bin/nix copy --to ssh-ng://root@videocut.org $OUT_PATHS 2>/dev/null || true
+  '';
 in
 {
   nixpkgs.overlays = [
@@ -53,6 +60,7 @@ in
         "https://nixcache.reflex-frp.org" # reflex
         "https://jappie.cachix.org"
         "https://nix-community.cachix.org"
+        "https://nix-cache.jappie.me"
         # "https://cache.iog.io"
         # "https://static-haskell-nix.cachix.org"
       ];
@@ -62,8 +70,9 @@ in
         "static-haskell-nix.cachix.org-1:Q17HawmAwaM1/BfIxaEDKAxwTOyRVhPG5Ji9K3+FvUU="
         "jappie.cachix.org-1:+5Liddfns0ytUSBtVQPUr/Wo6r855oNLgD4R8tm1AE4="
         "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
-        # "nix-cache.jappie.me:WjkKcvFtHih2i+n7bdsrJ3HuGboJiU2hA2CZbf9I9oc="
+        "nix-cache.jappie.me:WjkKcvFtHih2i+n7bdsrJ3HuGboJiU2hA2CZbf9I9oc="
       ];
+      post-build-hook = "${pushToCacheScript}";
       auto-optimise-store = false;
     };
   };
