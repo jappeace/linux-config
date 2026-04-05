@@ -101,6 +101,40 @@ let
     ${pkgs.piper-tts}/bin/piper -m ${piper-amy-voice}/en/en_US/amy/medium/en_US-amy-medium.onnx "$@"
   '';
 
+  # Push full build closures (including build-time deps like cross-GHC)
+  # to the binary cache on videocut.org
+  push-jappie = pkgs.writeShellScriptBin "push-jappie" ''
+    set -euf
+    if [ $# -eq 0 ]; then
+      echo "Usage: push-jappie <nix-file-or-store-path> [nix-file...]" >&2
+      exit 1
+    fi
+    for arg in "$@"; do
+      if [ -e /nix/store/"$(basename "$arg")" ] || echo "$arg" | grep -q '^/nix/store/'; then
+        echo "Pushing closure of store path: $arg" >&2
+        ${pkgs.nix}/bin/nix copy --to ssh-ng://root@videocut.org \
+          $(${pkgs.nix}/bin/nix-store -qR "$arg")
+      else
+        echo "Instantiating: $arg" >&2
+        DRV=$(${pkgs.nix}/bin/nix-instantiate "$arg")
+        echo "Collecting realized build inputs from: $DRV" >&2
+        PATHS=""
+        for inputDrv in $(${pkgs.nix}/bin/nix-store -qR "$DRV" | grep '\.drv$'); do
+          for out in $(${pkgs.nix}/bin/nix-store -q --outputs "$inputDrv"); do
+            if [ -e "$out" ]; then
+              PATHS="$PATHS $out"
+            fi
+          done
+        done
+        DEDUPED=$(echo "$PATHS" | tr ' ' '\n' | sort -u | grep '^/nix/store/')
+        COUNT=$(echo "$DEDUPED" | wc -l)
+        echo "Pushing $COUNT paths to binary cache" >&2
+        echo "$DEDUPED" | xargs ${pkgs.nix}/bin/nix copy --to ssh-ng://root@videocut.org
+      fi
+    done
+    echo "Done" >&2
+  '';
+
 in
 {
 
@@ -126,6 +160,7 @@ in
       unstable2.openapi-generator-cli
       qrencode
       nixos
+      push-jappie
 
       wvkbd # onscreen keyboard
 
