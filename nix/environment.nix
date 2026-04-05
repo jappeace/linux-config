@@ -355,7 +355,6 @@ in
       git-crypt # pgp based encryption for git repos (the dream is real)
       jq # deal with json on commandline
       sqlite-interactive # hack nixops
-      litecli
       gimp # edit my screenshots
       curl
       neovim # because emacs never breaks
@@ -364,7 +363,6 @@ in
       imagemagick
       keepassxc # to open my passwords
       tree # sl
-      # pkgsUnstable.obs-linuxbrowser # install instructions: https://github.com/NixOS/nixpkgs/blob/master/pkgs/applications/video/obs-studio/linuxbrowser.nix
 
       # theme shit
       blackbird
