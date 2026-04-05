@@ -428,6 +428,11 @@ boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
 
         while IFS= read -r path; do
           [ -z "$path" ] && continue
+          HASH=$(basename "$path" | cut -d- -f1)
+          if ${pkgs.curl}/bin/curl -sf "https://cache.nixos.org/$HASH.narinfo" > /dev/null 2>&1; then
+            echo "skipping (on cache.nixos.org): $path" >&2
+            continue
+          fi
           echo "pushing: $path" >&2
           ${pkgs.nix}/bin/nix copy --to ssh-ng://root@videocut.org $path 2>&1 || \
             echo "WARNING: failed to push $path" >&2
