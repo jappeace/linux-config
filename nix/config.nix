@@ -4,10 +4,9 @@ let
   sources = import ../npins;
 
   # After every successful build, push the result to the megavid binary cache.
-  # Best-effort: don't block builds if the server is unreachable.
   pushToCacheScript = pkgs.writeShellScript "push-to-binary-cache" ''
-    set -uf
-    ${pkgs.nix}/bin/nix copy --to ssh-ng://root@videocut.org $OUT_PATHS 2>/dev/null || true
+    set -euf
+    ${pkgs.nix}/bin/nix copy --to ssh-ng://root@videocut.org $OUT_PATHS
   '';
 in
 {
