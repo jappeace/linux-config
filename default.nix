@@ -1,6 +1,10 @@
 let
   sources = import ./npins;
   evalConfig = import (sources.nixpkgs + "/nixos/lib/eval-config.nix");
+  isoConfig = evalConfig {
+    system = "x86_64-linux";
+    modules = [ ./iso.nix ];
+  };
 in
 {
   work-machine = evalConfig {
@@ -15,4 +19,6 @@ in
     system = "x86_64-linux";
     modules = [ ./lenovo-tablet.nix ];
   };
+  iso = isoConfig;
+  isoImage = isoConfig.config.system.build.isoImage;
 }
