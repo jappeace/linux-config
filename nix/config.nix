@@ -2,17 +2,6 @@
 { pkgs, ... }:
 let
   sources = import ../npins;
-
-  # After every successful build, push the result to the megavid binary cache.
-  # Uses jappie's SSH key since the nix daemon runs as root but root
-  # doesn't have its own key authorized on the remote.
-  pushToCacheScript = pkgs.writeShellScript "push-to-binary-cache" ''
-    set -uf
-    echo "pushing to binary cache: $OUT_PATHS" >&2
-    NIX_SSHOPTS="-i /home/jappie/.ssh/id_ed25519 -o StrictHostKeyChecking=accept-new" \
-      ${pkgs.nix}/bin/nix copy --to ssh-ng://root@videocut.org $OUT_PATHS 2>&1 || \
-      echo "WARNING: failed to push to binary cache" >&2
-  '';
 in
 {
   nixpkgs.overlays = [
@@ -76,7 +65,6 @@ in
         "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
         "nix-cache.jappie.me:WjkKcvFtHih2i+n7bdsrJ3HuGboJiU2hA2CZbf9I9oc="
       ];
-      post-build-hook = "${pushToCacheScript}";
       auto-optimise-store = false;
     };
   };
