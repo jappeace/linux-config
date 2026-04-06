@@ -41,6 +41,11 @@ in
     '';
     settings = {
 
+      # x86_64 Linux can natively execute i686 binaries — no QEMU needed.
+      # Tells the nix daemon it may build i686-linux derivations (required by
+      # some Android SDK tools like ncurses-abi5-compat).
+      extra-platforms = [ "i686-linux" ];
+
       # starts the gc when there is less then 50GB in storage
       min-free = 20 * 1024 * 1024 * 1024;
 
