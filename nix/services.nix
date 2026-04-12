@@ -220,4 +220,30 @@ config = ''
   };
 
   location.provider = "geoclue2";
+
+  virtualisation = {
+    # enable either podman or docker, not both
+    docker = {
+      enable = true;
+      daemon.settings = {
+      "userns-remap" = "default";
+      };
+    };
+    podman = { # for arion
+       # enable = true;
+       dockerSocket.enable = true;
+       dockerCompat = true;
+       defaultNetwork.settings.dns_enabled = true;
+     };
+  };
+
+  # 2. Provision the 'dockremap' user and group required by Docker
+  users.groups.dockremap = {};
+  users.users.dockremap = {
+    isSystemUser = true;
+    group = "dockremap";
+      # Define the block of unprivileged UIDs/GIDs the container will map to on the host
+      subUidRanges = [{ startUid = 100000; count = 65536; }];
+      subGidRanges = [{ startGid = 100000; count = 65536; }];
+    };
 }

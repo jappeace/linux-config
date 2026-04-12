@@ -158,7 +158,6 @@ boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
       0.0.0.0 www.understandingwar.org
       0.0.0.0 www.reddit.com
       0.0.0.0 www.linkedin.com
-      0.0.0.0 www.youtube.com
     '';
     #   0.0.0.0 discord.com
     #   0.0.0.0 discourse.haskell.org
@@ -386,14 +385,6 @@ boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
 
   };
   virtualisation = {
-    # enable either podman or docker, not both
-    docker.enable = true;
-    podman = { # for arion
-       # enable = true;
-       dockerSocket.enable = true;
-       dockerCompat = true;
-       defaultNetwork.settings.dns_enabled = true;
-     };
     virtualbox.host = {
       enable = true;
       enableExtensionPack = true;

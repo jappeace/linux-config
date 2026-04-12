@@ -301,14 +301,6 @@
 
   };
 virtualisation = {
-    # enable either podman or docker, not both
-    docker.enable = true;
-    podman = { # for arion
-       enable = false;
-       dockerSocket.enable = true;
-       dockerCompat = true;
-       defaultNetwork.settings.dns_enabled = true;
-     };
     virtualbox.host = {
       enable = false;
       enableExtensionPack = true;
