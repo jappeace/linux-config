@@ -225,9 +225,10 @@ config = ''
     # enable either podman or docker, not both
     docker = {
       enable = true;
-      daemon.settings = {
-      "userns-remap" = "default";
-      };
+      # TODO, big security improvement, remaps the uids
+      # daemon.settings = {
+      # "userns-remap" = "default";
+      # };
     };
     podman = { # for arion
        # enable = true;
