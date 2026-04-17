@@ -194,7 +194,7 @@ in
       starsector
       fuckdirenv
       mosquitto
-      npins
+      (import sources.nixpkgs-lix {}).npins # the stupid vibes bot uses a newer one everywhere so I can't update unless I upgrade this, but I need this to upgrade so...
 
       nix-output-monitor # pretty nix graph
 
