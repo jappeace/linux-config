@@ -222,6 +222,13 @@ config = ''
   location.provider = "geoclue2";
 
   virtualisation = {
+
+    virtualbox.host = {
+      enable = false;
+      enableExtensionPack = true;
+    };
+    libvirtd.enable = false;
+
     # enable either podman or docker, not both
     docker = {
       enable = true;

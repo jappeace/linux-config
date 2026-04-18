@@ -384,14 +384,6 @@ boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
     # Linux work-machine 5.4.72 #1-NixOS SMP Sat Oct 17 08:11:24 UTC 2020 x86_64 GNU/Linux
 
   };
-  virtualisation = {
-    virtualbox.host = {
-      enable = true;
-      enableExtensionPack = true;
-    };
-    libvirtd.enable = false;
-
-  };
   powerManagement = {
     enable = true;
     cpuFreqGovernor = "ondemand";
