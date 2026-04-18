@@ -591,6 +591,10 @@ output eDP-1 resolution 2880x1800 position 0,720
         key-bindings = {
           "clipboard-paste" = "Control+v";
         };
+        url = {
+          launch = "xdg-open \${url}";
+          protocols = "http, https, ftp, ftps, file, gemini";
+        };
       };
     };
 
