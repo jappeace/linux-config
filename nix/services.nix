@@ -5,6 +5,21 @@
 
 { pkgs, ... }:
 {
+
+  # make screen less bright at night
+systemd.user.services.gammastep = {
+  description = "Gammastep Day/Night Gamma and Brightness Adjuster";
+  wantedBy = [ "graphical-session.target" ];
+  partOf = [ "graphical-session.target" ];
+  serviceConfig = {
+    # The -b flag controls brightness (DayBrightness:NightBrightness)
+    # 1.0 is 100%, 0.7 is 70%. Adjust 0.7 to however dim you want the evening.
+    ExecStart = "${pkgs.gammastep}/bin/gammastep -l 52.6:5.9 -b 1.0:0.40";
+    Restart = "on-failure";
+    RestartSec = "5";
+  };
+};
+
   # stops ff and thnderbird from freezing on notifications with i3
   systemd.user.services.dunst = {
     description = "Dunst notification daemon";
