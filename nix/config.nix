@@ -89,6 +89,7 @@ in
     openssh.authorizedKeys.keys = [
       ''command="nix-daemon --stdio",no-port-forwarding,no-X11-forwarding,no-agent-forwarding ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIF9jwwrWQthxzsIDXpE0oA6jMDjXIPwUPrN6Evm6DY2L jappeace-sloth-tablet''
       ''command="nix-daemon --stdio",no-port-forwarding,no-X11-forwarding,no-agent-forwarding ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOzVY6gnZ8mAGmS7dpohIGH2P8qnUy3osdQg+WRFhc3D jappeace-sloth-panorama''
+      ''command="nix-daemon --stdio",no-port-forwarding,no-X11-forwarding,no-agent-forwarding ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIAsio9GTRNcVEQs9RHJzwSZWPWUAUrNMbJZpBPxokv8S sloth-work-laptop''
     ];
   };
 
