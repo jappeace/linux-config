@@ -203,9 +203,10 @@ in
       kdePackages.konsole
       xfce4-terminal
 
-      yt-dlp
+      unstable2.yt-dlp
       rofi
-      unstable2.devenv
+      devenv
+
       pkgs.haskellPackages.greenclip
       unstable.nodejs_20 # the one in main is broken, segfautls
       unstable3.postgresql
@@ -224,7 +225,6 @@ in
       gptfdisk # gdisk
       clang-tools # clang-format
       lz4
-      yt-dlp
       pkgs.haskellPackages.fourmolu
       bluez
       awscli2
