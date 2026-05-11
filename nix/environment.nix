@@ -318,6 +318,14 @@ in
 
       macchanger # change mac address
       change-mac
+      (pkgs.haskellPackages.callCabal2nix "ruler" (fetchFromGitea {
+    domain = "git.confusedcompiler.org";
+    owner = "leana8959";
+    repo = "ruler";
+    rev = "44dabf46bfeff94c983308bb62145c88392c5c91";
+    hash = "sha256-DPBwl0tkb20kXL3sOoW0B7gadSxmnW6B/gOq9ZLsOPk=";
+      }) { })
+
       /*
         $ sudo service network-manager stop
         $ ifconfig wlp2s0b1 down
