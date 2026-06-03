@@ -33,7 +33,7 @@ let
   unstable3 = import sources.unstable3 { };
 
   hostdir = pkgs.writeShellScriptBin "hostdir" ''
-    ${pkgs.lib.getExe pkgs.python3} -m http.server
+    ${pkgs.lib.getExe pkgs.python3} -m http.server "$@"
   '';
 
   # phone makes pictures to big usually
