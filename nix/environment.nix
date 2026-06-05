@@ -611,6 +611,10 @@ output eDP-1 resolution 2880x1800 position 0,720
       systemd.target = "sway-session.target";
     };
   };
+  # allows the waybar config to just launch
+  # whatever program we've already in the environment.
+  #
+  # the default systemd isolation doesn't make sense for waybar.
   systemd.user.services.waybar.path = config.environment.systemPackages;
 
   nixpkgs.config = {
