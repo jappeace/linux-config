@@ -3,7 +3,7 @@
 # I want the same programs on all machine, although it'll be a
 # little wasteful, saves me having to find and install stuff
 
-{ pkgs, ... }:
+{ pkgs, config, ... }:
 let
   sources = import ../npins;
 
@@ -311,6 +311,7 @@ in
 
       fsv # browse files like a chad
       hostdir
+      steam-run
 
       crawlTiles
       mariadb
@@ -610,6 +611,7 @@ output eDP-1 resolution 2880x1800 position 0,720
       systemd.target = "sway-session.target";
     };
   };
+  systemd.user.services.waybar.path = config.environment.systemPackages;
 
   nixpkgs.config = {
     /*

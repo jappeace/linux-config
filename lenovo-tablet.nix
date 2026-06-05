@@ -1,6 +1,5 @@
   {  pkgs, ... }:
 let
-  monitor-script = pkgs.writeShellScriptBin "monitor" ./scripts/laptop-monitor.sh;
 
   # Push every successful build to the megavid binary cache.
   # Only on this machine — the work machines are used for client projects.
@@ -63,7 +62,7 @@ boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
   };
 
   environment = {
-    systemPackages = [monitor-script];
+    systemPackages = [pkgs.gamescope];
     variables = {
   # This is the big one. It tells GTK applications to use
   # modern touch events instead of legacy mouse clicks.
@@ -241,11 +240,6 @@ boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
 
   hardware.bluetooth.enable = true;
   # supposedly fixes my bleutooth surround sound system.
-  hardware.bluetooth.settings = {
-    General = {
-      ControllerMode = "bredr";
-    };
-  };
 
   # # reverse search sync
   # services.atuin.enable = true;
