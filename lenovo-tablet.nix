@@ -1,6 +1,5 @@
   {  pkgs, ... }:
 let
-  monitor-script = pkgs.writeShellScriptBin "monitor" ./scripts/laptop-monitor.sh;
 
   # Push every successful build to the megavid binary cache.
   # Only on this machine — the work machines are used for client projects.
@@ -63,7 +62,7 @@ boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
   };
 
   environment = {
-    systemPackages = [monitor-script];
+    systemPackages = [pkgs.gamescope];
     variables = {
   # This is the big one. It tells GTK applications to use
   # modern touch events instead of legacy mouse clicks.
@@ -74,6 +73,9 @@ boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
 
   security.sudo.extraRules = [
     { groups = [ "sudo" ]; commands = [{ command = "${pkgs.systemd}/bin/poweroff"; options = [ "NOPASSWD" ]; }]; }
+    # claude-env's claude.sh launcher shells out to systemd-nspawn, which has
+    # no rootless mode. Allowlist it so the launcher doesn't prompt.
+    { groups = [ "sudo" ]; commands = [{ command = "${pkgs.systemd}/bin/systemd-nspawn"; options = [ "NOPASSWD" ]; }]; }
   ];
   security.sudo.extraConfig = ''
     Defaults        timestamp_timeout=120
@@ -241,11 +243,6 @@ boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
 
   hardware.bluetooth.enable = true;
   # supposedly fixes my bleutooth surround sound system.
-  hardware.bluetooth.settings = {
-    General = {
-      ControllerMode = "bredr";
-    };
-  };
 
   # # reverse search sync
   # services.atuin.enable = true;

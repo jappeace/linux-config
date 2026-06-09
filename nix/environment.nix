@@ -3,7 +3,7 @@
 # I want the same programs on all machine, although it'll be a
 # little wasteful, saves me having to find and install stuff
 
-{ pkgs, ... }:
+{ pkgs, config, ... }:
 let
   sources = import ../npins;
 
@@ -33,7 +33,7 @@ let
   unstable3 = import sources.unstable3 { };
 
   hostdir = pkgs.writeShellScriptBin "hostdir" ''
-    ${pkgs.lib.getExe pkgs.python3} -m http.server
+    ${pkgs.lib.getExe pkgs.python3} -m http.server "$@"
   '';
 
   # phone makes pictures to big usually
@@ -311,6 +311,7 @@ in
 
       fsv # browse files like a chad
       hostdir
+      steam-run
 
       crawlTiles
       mariadb
@@ -318,6 +319,14 @@ in
 
       macchanger # change mac address
       change-mac
+      (pkgs.haskellPackages.callCabal2nix "ruler" (fetchFromGitea {
+    domain = "git.confusedcompiler.org";
+    owner = "leana8959";
+    repo = "ruler";
+    rev = "44dabf46bfeff94c983308bb62145c88392c5c91";
+    hash = "sha256-DPBwl0tkb20kXL3sOoW0B7gadSxmnW6B/gOq9ZLsOPk=";
+      }) { })
+
       /*
         $ sudo service network-manager stop
         $ ifconfig wlp2s0b1 down
@@ -602,6 +611,11 @@ output eDP-1 resolution 2880x1800 position 0,720
       systemd.target = "sway-session.target";
     };
   };
+  # allows the waybar config to just launch
+  # whatever program we've already in the environment.
+  #
+  # the default systemd isolation doesn't make sense for waybar.
+  systemd.user.services.waybar.path = config.environment.systemPackages;
 
   nixpkgs.config = {
     /*
