@@ -102,7 +102,7 @@ let
   '';
 
   # Speech-to-text dictation, the reverse of the piper TTS above.
-  # Decision: whisper.cpp, chosen over nerd-dictation/VOSK.
+  # -- Decision: whisper.cpp, chosen over nerd-dictation/VOSK.
   #   - whisper is far more accurate and is multilingual out of one model,
   #     so it handles Dutch as well as English. VOSK needs a separate model
   #     per language and transcribes worse.
