@@ -101,6 +101,66 @@ let
     ${pkgs.piper-tts}/bin/piper -m ${piper-amy-voice}/en/en_US/amy/medium/en_US-amy-medium.onnx "$@"
   '';
 
+  # Speech-to-text dictation, the reverse of the piper TTS above.
+  # Decision: whisper.cpp, chosen over nerd-dictation/VOSK.
+  #   - whisper is far more accurate and is multilingual out of one model,
+  #     so it handles Dutch as well as English. VOSK needs a separate model
+  #     per language and transcribes worse.
+  #   - nerd-dictation isn't packaged in our nixpkgs pin anyway.
+  #   - Push-to-talk (record while toggled, transcribe once on stop) rather
+  #     than streaming: simpler, and the second-or-two of latency is fine for
+  #     filling fields and writing prose. wtype injects the text into whatever
+  #     window has focus, same trick as the address bindings in the sway config.
+  # The "small" model (~466MB) balances accuracy against CPU transcription
+  # time; swap to ggml-medium.bin for better Dutch if the laptop can spare it.
+  whisper-model = pkgs.fetchurl {
+    name = "ggml-small.bin";
+    url = "https://huggingface.co/ggerganov/whisper.cpp/resolve/main/ggml-small.bin";
+    sha256 = "0ywqxbziyp2bv72riyjpw4brk9v46d4cfbjfwqvvjrrq0srakqqv";
+  };
+
+  dictate = pkgs.writeShellScriptBin "dictate" ''
+    set -uo pipefail
+    pidfile=/tmp/dictate.pid
+    wav=/tmp/dictate.wav
+    log=/tmp/dictate.log
+
+    if [ -f "$pidfile" ] && kill -0 "$(cat "$pidfile")" 2>/dev/null; then
+      # Second press: stop recording, transcribe, type into the focused window.
+      pid=$(cat "$pidfile")
+      # SIGINT so pw-record flushes a valid WAV header before exiting.
+      kill -INT "$pid"
+      rm -f "$pidfile"
+      # The recorder was started by a previous, already-exited invocation, so
+      # it is not our child and we cannot 'wait' on it. Poll until it is gone.
+      for _ in $(seq 1 50); do
+        kill -0 "$pid" 2>/dev/null || break
+        sleep 0.1
+      done
+      ${pkgs.libnotify}/bin/notify-send -t 1500 "Dictation" "transcribing..."
+      if ! text=$(${pkgs.whisper-cpp}/bin/whisper-cli \
+                    --model ${whisper-model} \
+                    --language auto \
+                    --no-timestamps \
+                    --no-prints \
+                    --file "$wav" 2>"$log"); then
+        ${pkgs.libnotify}/bin/notify-send -u critical "Dictation failed" "$(tail -n1 "$log")"
+        exit 1
+      fi
+      text=$(printf '%s' "$text" | tr '\n' ' ' | sed 's/  */ /g; s/^ //; s/ $//')
+      if [ -n "$text" ]; then
+        ${pkgs.wtype}/bin/wtype "$text"
+      else
+        ${pkgs.libnotify}/bin/notify-send -t 2000 "Dictation" "nothing heard"
+      fi
+    else
+      # First press: record 16kHz mono, the format whisper expects.
+      ${pkgs.libnotify}/bin/notify-send -t 1500 "Dictation" "listening..."
+      ${pkgs.pipewire}/bin/pw-record --rate 16000 --channels 1 --format s16 "$wav" &
+      echo $! > "$pidfile"
+    fi
+  '';
+
   # Skip paths already on the community cache
   nixosCacheCheck = ''
     HASH=$(basename "$path" | cut -d- -f1)
@@ -450,6 +510,8 @@ output eDP-1 resolution 2880x1800 position 0,720
       # deal with slow notifications
       dunst
       libnotify
+
+      dictate # speech-to-text, toggle with $mod+Ctrl+space in sway
     ];
     shellAliases = {
       nix = "nom";

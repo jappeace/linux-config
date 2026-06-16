@@ -40,6 +40,10 @@ bindsym --release $mod+Ctrl+1 exec --no-startup-id wtype -d 5 "Jappie"
 bindsym --release $mod+Ctrl+2 exec --no-startup-id wtype -d 5 "Klooster"
 bindsym --release $mod+Ctrl+w exec --no-startup-id wtype -d 5 "https://jappie.me"
 
+# Speech-to-text: first press starts recording, second press transcribes
+# (whisper.cpp) and types the result into the focused window.
+bindsym $mod+Ctrl+space exec --no-startup-id dictate
+
 # start a terminal
 bindsym $mod+Return exec foot
 
