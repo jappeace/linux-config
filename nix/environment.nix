@@ -131,8 +131,11 @@ let
       # SIGINT so pw-record flushes a valid WAV header before exiting.
       kill -INT "$pid"
       rm -f "$pidfile"
-      # The recorder was started by a previous, already-exited invocation, so
-      # it is not our child and we cannot 'wait' on it. Poll until it is gone.
+      # The recorder was started by a previous 'dictate' invocation that has
+      # already exited, so pw-record is not a child of this shell and 'wait'
+      # cannot see it. Poll instead until it is gone. The 5s cap (50 * 0.1s) is
+      # a safety bound; a clean SIGINT flush of a short clip takes well under a
+      # second, so in practice we break on the first iteration or two.
       for _ in $(seq 1 50); do
         kill -0 "$pid" 2>/dev/null || break
         sleep 0.1
