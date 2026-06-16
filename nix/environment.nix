@@ -166,14 +166,17 @@ let
       ${pkgs.libnotify}/bin/notify-send -t 1500 "Dictation" "transcribing..."
       # Transcribe against the warm whisper-server (model stays resident in RAM),
       # not a fresh whisper-cli that would reload the model on every press.
-      # -sf: fail loudly on any HTTP error instead of typing an error body.
+      # -s silent (no progress bar), -f exit non-zero on HTTP 4xx/5xx so a
+      # server error body is never mistaken for a transcription and typed out.
       if ! text=$(${pkgs.curl}/bin/curl -sf --max-time 120 \
                     "http://127.0.0.1:${toString whisper-port}/inference" \
                     -F file=@"$wav" \
                     -F response_format=text \
                     -F language=auto 2>"$log"); then
+        # Show curl's actual error (connection refused, HTTP 500, timeout, ...)
+        # plus a hint, rather than swallowing the real cause behind a guess.
         ${pkgs.libnotify}/bin/notify-send -u critical "Dictation failed" \
-          "whisper-server unreachable on :${toString whisper-port} (still loading? check: systemctl --user status whisper-server)"
+          "$(tail -n1 "$log") -- is whisper-server up on :${toString whisper-port}? systemctl --user status whisper-server"
         exit 1
       fi
       text=$(printf '%s' "$text" | tr '\n' ' ' | sed 's/  */ /g; s/^ //; s/ $//')
