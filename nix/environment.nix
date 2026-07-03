@@ -26,6 +26,23 @@ let
       '';
     };
 
+  # Decision: the Send Later addon (scheduled email sending) is installed
+  # through Thunderbird's enterprise policy ExtensionSettings, force_installed
+  # from addons.thunderbird.net. Alternatives considered: home-manager's
+  # programs.thunderbird (this repo doesn't use home-manager) and installing
+  # the addon by hand in the profile (not declarative, lost on profile wipe).
+  # force_installed keeps it declarative while ATN still provides updates.
+  thunderbirdWithSendLater = pkgs.thunderbird.override {
+    extraPolicies = {
+      ExtensionSettings = {
+        "sendlater3@kamens.us" = {
+          installation_mode = "force_installed";
+          install_url = "https://addons.thunderbird.net/thunderbird/downloads/latest/send-later-3/latest.xpi";
+        };
+      };
+    };
+  };
+
   agenix = fuckingFlake sources.agenix.outPath;
 
   unstable = import sources.unstable { };
@@ -474,7 +491,7 @@ output eDP-1 resolution 2880x1800 position 0,720
       pavucontrol
       gparted # partitiioning for dummies, like me
 
-      (tabletSafe thunderbird) # some day I'll use emacs for this
+      (tabletSafe thunderbirdWithSendLater) # some day I'll use emacs for this
       # the spell to make openvpn work:   nmcli connection modify jappie vpn.data "key = /home/jappie/openvpn/website/jappie.key, ca = /home/jappie/openvpn/website/ca.crt, dev = tun, cert = /home/jappie/openvpn/website/jappie.crt, ns-cert-type = server, cert-pass-flags = 0, comp-lzo = adaptive, remote = jappieklooster.nl:1194, connection-type = tls"
       # from https://github.com/NixOS/nixpkgs/issues/30235
       openvpn # piratebay access
