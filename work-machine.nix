@@ -9,6 +9,7 @@
     ./nix/environment.nix
     ./nix/email.nix
     ./nix/services.nix
+    /etc/nixos/cachix.nix
   ];
 
   # Use the systemd-boot EFI boot loader.
