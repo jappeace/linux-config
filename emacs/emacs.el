@@ -71,11 +71,6 @@
   (require 'use-package))
 
 (global-display-line-numbers-mode)
-(use-package linum-relative ;; TODO switch to C backend once on emacs 26: https://github.com/coldnew/linum-relative#linum-relative-on
-  :disabled
-  :config
-  (linum-relative-global-mode)
-  )
 
 ;;; theme
 (use-package monokai-theme
@@ -105,21 +100,23 @@
   (load-theme 'monokai t)
   (set-emacs-frames "dark"))
 
-(use-package undo-tree
-  :config
-  (setq undo-tree-history-directory-alist '(("." . "~/.emacs.d/undo")))
-  )
+;; Decision: undo-tree (unmaintained since 2021) is replaced by the
+;; built-in undo-redo system (emacs 28+) as evil's undo backend, with
+;; vundo (maintained, GNU ELPA) only for the tree visualizer, which
+;; has no built-in equivalent. Known regression: undo history no
+;; longer persists across sessions (undo-tree-history-directory-alist
+;; did that); add undo-fu-session if it turns out to be missed.
+(use-package vundo
+  :commands (vundo))
 ;; load packages
 (use-package evil
-  :after undo-tree
   :init
   (setq evil-want-keybinding nil)
   (setq evil-want-integration t)
-  (setq evil-undo-system 'undo-tree)
+  (setq evil-undo-system 'undo-redo)
   (setq evil-shift-width 2)
   :config
   (evil-mode 1)
-  (global-undo-tree-mode)
   )
 
 (use-package smartparens)
@@ -170,7 +167,7 @@
    "ec"  'eglot-code-actions ; allows you to select encryption keys from gpg
    "c"  'eglot-code-actions ; allows you to select encryption keys from gpg
 
-   "u"  'undo-tree-visualize
+   "u"  'vundo
    "!"  'shell
    "j"  'xref-find-definitions ; lsp find definition
    "J"  '(:ignore t :which-key "jump")
@@ -180,7 +177,6 @@
    "x"  'xref-find-references ; find usages
    "l"  'list-processes
    "t"  '(:ignore t :which-key "toggles")
-   "tp"  'parinfer-toggle-mode
    "tl"   'set-emacs-theme-light
    "td"   'set-emacs-theme-dark
    "f"   '(:ignore t :which-key "find/format/file")
@@ -343,12 +339,8 @@
   :mode "\\.md\\'")
 
 ;;; JS
-(use-package rjsx-mode
-                                        ; maybe this should work:
-                                        ; :mode ("\\.js\\" . rjsx-mode)
-  )
-                                        ; but no this instead:
-(add-to-list 'auto-mode-alist '("\\.js\\'" . rjsx-mode))
+;; rjsx-mode (dead since 2020) removed: built-in js-mode has handled
+;; JSX since emacs 27 and is the default for .js already.
 
 (use-package shakespeare-mode)
 
@@ -488,12 +480,9 @@ two prefix arguments, write out the day and month name."
 
 ;; rule 80 chars, if issues: https://github.com/company-mode/company-mode/issues/180#issuecomment-55047120
 ;; https://emacs.stackexchange.com/questions/147/how-can-i-get-a-ruler-at-column-80
-(use-package fill-column-indicator
-  :hook (prog-mode . turn-on-fci-mode)
-  :config
-                                        ; (setq fci-rule-color "white")
-  (setq fci-rule-width 2)
-  )
+;; was the fill-column-indicator package (dead since 2020); this is
+;; the built-in equivalent since emacs 27
+(add-hook 'prog-mode-hook #'display-fill-column-indicator-mode)
 
 (use-package ox-reveal)
 ;; https://emacs.stackexchange.com/questions/44361/org-mode-export-gets-weird-symbols-at-the-end-of-each-line-while-exporting-to-ht
@@ -502,25 +491,9 @@ two prefix arguments, write out the day and month name."
   :config
   (progn
 
-    ;; It is required to disable `fci-mode' when `htmlize-buffer' is called;
-    ;; otherwise the invisible fci characters show up as funky looking
-    ;; visible characters in the source code blocks in the html file.
-    ;; http://lists.gnu.org/archive/html/emacs-orgmode/2014-09/msg00777.html
-    (with-eval-after-load 'fill-column-indicator
-      (defvar modi/htmlize-initial-fci-state nil
-        "Variable to store the state of `fci-mode' when `htmlize-buffer' is called.")
-
-      (defun modi/htmlize-before-hook-fci-disable ()
-        (setq modi/htmlize-initial-fci-state fci-mode)
-        (when fci-mode
-          (fci-mode -1)))
-
-      (defun modi/htmlize-after-hook-fci-enable-maybe ()
-        (when modi/htmlize-initial-fci-state
-          (fci-mode 1)))
-
-      (add-hook 'htmlize-before-hook #'modi/htmlize-before-hook-fci-disable)
-      (add-hook 'htmlize-after-hook #'modi/htmlize-after-hook-fci-enable-maybe))
+    ;; (an fci-mode disable hack lived here; it left with the
+    ;; fill-column-indicator package, whose overlay glyphs leaked into
+    ;; htmlize output. The built-in indicator doesn't have that bug.)
 
     ;; `flyspell-mode' also has to be disabled because depending on the
     ;; theme, the squiggly underlines can either show up in the html file
@@ -548,24 +521,6 @@ two prefix arguments, write out the day and month name."
   ;; (remove-hook 'xref-backend-functions 'dante--xref-backend)
   )
 
-;; (use-package parinfer
-;;   :init
-;;   (progn
-;;     (setq parinfer-extensions
-;;           '(defaults       ; should be included.
-;;              pretty-parens  ; different paren styles for different modes.
-;;              evil           ; If you use Evil.
-;;              lispy          ; If you use Lispy. With this extension, you should install Lispy and do not enable lispy-mode directly.
-;;              paredit        ; Introduce some paredit commands.
-;;              smart-tab      ; C-b & C-f jump positions and smart shift with tab & S-tab.
-;;              smart-yank))   ; Yank behavior depend on mode.
-;;     (add-hook 'clojure-mode-hook #'parinfer-mode)
-;;     (add-hook 'emacs-lisp-mode-hook #'parinfer-mode)
-;;     (add-hook 'common-lisp-mode-hook #'parinfer-mode)
-;;     (add-hook 'scheme-mode-hook #'parinfer-mode)
-;;     (add-hook 'lisp-mode-hook #'parinfer-mode)))
-
-;; (use-package pretty-symbols)
 
 
 (use-package cobol-mode)
@@ -580,10 +535,10 @@ two prefix arguments, write out the day and month name."
   (add-hook 'prog-mode-hook #'ws-butler-mode)
   )
 
-(use-package flymake-shellcheck
-  :commands flymake-shellcheck-load
-  :init
-  (add-hook 'sh-mode-hook 'flymake-shellcheck-load))
+;; was the flymake-shellcheck package (archived; its own README says
+;; unnecessary on emacs 29+): sh-mode registers a shellcheck flymake
+;; backend itself, it only needs flymake-mode enabled
+(add-hook 'sh-mode-hook #'flymake-mode)
 
 ;;; this is an lsp client better then lsp-mode package
 (use-package eglot
