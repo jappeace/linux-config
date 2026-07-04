@@ -21,6 +21,24 @@ let
   # installing the addon by hand in the profile (not declarative, lost on
   # profile wipe). force_installed keeps it declarative while ATN still
   # provides updates.
+  # an email account on zoho's EU datacenter, preconfigured for thunderbird
+  zohoEuAccount = address: {
+    inherit address;
+    userName = address;
+    realName = "Jappie Klooster";
+    imap = {
+      host = "imap.zoho.eu";
+      port = 993;
+      tls.enable = true;
+    };
+    smtp = {
+      host = "smtp.zoho.eu";
+      port = 465;
+      tls.enable = true;
+    };
+    thunderbird.enable = true;
+  };
+
   thunderbirdWithSendLater = pkgs.thunderbird.override {
     extraPolicies = {
       ExtensionSettings = {
@@ -50,27 +68,18 @@ in
     # not something to bump on upgrades
     home.stateVersion = "25.11";
 
-    accounts.email.accounts.hotmail = {
-      primary = true;
-      address = "jappieklooster@hotmail.com";
-      realName = "Jappie Klooster";
-      # fills in outlook.office365.com imap and smtp.office365.com smtp
-      flavor = "outlook.office365.com";
-      thunderbird = {
-        enable = true;
-        # settings is a function: home-manager calls it with the account's
-        # generated id so the prefs below land on the right numbered
-        # server entries in the thunderbird profile.
-        # Microsoft only accepts OAuth2 for personal accounts, but the
-        # home-manager module defaults to password auth (3) for every
-        # flavor except gmail. 10 = OAuth2. The password itself is not
-        # declarative: thunderbird runs the microsoft login flow on first
-        # connect and stores the token in its own credential store.
-        settings = id: {
-          "mail.server.server_${id}.authMethod" = 10;
-          "mail.smtpserver.smtp_${id}.authMethod" = 10;
-        };
+    # Both mailboxes are hosted on zoho. The MX records of both domains
+    # point at mx.zoho.eu, so the EU datacenter servers apply, not the
+    # zoho.com ones. home-manager has no zoho flavor, hence explicit
+    # servers (zohoEuAccount below). Passwords are not declarative:
+    # thunderbird prompts on first connect and stores them itself. With
+    # two factor auth enabled on zoho, that password has to be an
+    # app-specific one, generated at https://accounts.zoho.eu.
+    accounts.email.accounts = {
+      personal = zohoEuAccount "hi@jappie.me" // {
+        primary = true;
       };
+      business = zohoEuAccount "hallo@jappiesoftware.com";
     };
 
     programs.thunderbird = {
