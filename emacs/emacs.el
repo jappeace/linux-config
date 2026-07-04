@@ -339,8 +339,9 @@
   :mode "\\.md\\'")
 
 ;;; JS
-;; rjsx-mode (dead since 2020) removed: built-in js-mode has handled
-;; JSX since emacs 27 and is the default for .js already.
+;; Decision: rjsx-mode (dead since 2020) removed in favor of built-in
+;; js-mode, which has handled JSX since emacs 27 and is the default
+;; for .js already.
 
 (use-package shakespeare-mode)
 
@@ -480,8 +481,8 @@ two prefix arguments, write out the day and month name."
 
 ;; rule 80 chars, if issues: https://github.com/company-mode/company-mode/issues/180#issuecomment-55047120
 ;; https://emacs.stackexchange.com/questions/147/how-can-i-get-a-ruler-at-column-80
-;; was the fill-column-indicator package (dead since 2020); this is
-;; the built-in equivalent since emacs 27
+;; Decision: the fill-column-indicator package (dead since 2020) is
+;; replaced by the built-in equivalent, available since emacs 27
 (add-hook 'prog-mode-hook #'display-fill-column-indicator-mode)
 
 (use-package ox-reveal)
@@ -535,9 +536,10 @@ two prefix arguments, write out the day and month name."
   (add-hook 'prog-mode-hook #'ws-butler-mode)
   )
 
-;; was the flymake-shellcheck package (archived; its own README says
-;; unnecessary on emacs 29+): sh-mode registers a shellcheck flymake
-;; backend itself, it only needs flymake-mode enabled
+;; Decision: the flymake-shellcheck package is dropped (archived; its
+;; own README says unnecessary on emacs 29+): sh-mode registers a
+;; shellcheck flymake backend itself, it only needs flymake-mode
+;; enabled
 (add-hook 'sh-mode-hook #'flymake-mode)
 
 ;;; this is an lsp client better then lsp-mode package
