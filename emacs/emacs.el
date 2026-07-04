@@ -224,7 +224,7 @@
    "a" '(:ignore t :which-key "Applications")
    "d" 'insert-date
    ";" 'comment-line
-   "ar" 'ranger
+   "ar" 'dirvish
    ))
 
 (use-package package-lint
@@ -245,30 +245,28 @@
 
 (use-package flx)
 
-(defun my-ranger-nix-result-extension (orig-fun filename &optional period)
-  "Trick Emacs into assigning 'nix-result' as the extension for extensionless Nix outputs."
-  (let ((ext (funcall orig-fun filename period))
-        (base (file-name-nondirectory filename)))
-    ;; If there is no actual extension AND the file starts with "result" (e.g., result, result-bin)
-    (if (and (null ext)
-             base
-             (string-prefix-p "result" base))
-        (if period ".nix-result" "nix-result")
-      ext)))
-
-;; Apply the advice to the native file-name-extension function
-(advice-add 'file-name-extension :around #'my-ranger-nix-result-extension)
-
-(use-package ranger
-  :commands (ranger)
+;; Decision: dirvish replaces ranger for file navigation. ranger.el
+;; reimplements dired (windows, previews, its own minor modes) and is
+;; unmaintained, which is where its bugs came from. dirvish is a layer
+;; on top of stock dired, so navigation and file operations are the
+;; battle-tested built-ins and dirvish only adds layout and previews.
+;; Also considered: plain dired + dired-preview (fewer features) and
+;; treemacs (sidebar tree, different workflow than ranger-style
+;; browsing).
+(use-package dirvish
+  :commands (dirvish)
+  :init
+  ;; make plain dired buffers use dirvish too
+  (dirvish-override-dired-mode)
   :config
   (setq
-   ranger-cleanup-eagerly t
-   ranger-parent-depth 0
-   ranger-max-preview-size 1
-   ranger-dont-show-binary t
-   ranger-preview-delay 0.040
-   ranger-excluded-extensions '("tar.gz" "mkv" "iso" "mp4" "nix-result")
+   ;; no parent pane (ranger-parent-depth 0): current dir 40%, preview 60%
+   dirvish-default-layout '(0 0.4 0.6)
+   ;; was ranger-excluded-extensions. The old nix "result" symlink hack
+   ;; (faking a nix-result extension via advice on file-name-extension)
+   ;; is gone: dirvish previews directories as listings and shows a
+   ;; placeholder for binaries instead of dumping them in a buffer.
+   dirvish-preview-disabled-exts '("tar.gz" "mkv" "iso" "mp4")
    )
   )
 
