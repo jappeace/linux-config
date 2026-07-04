@@ -83,6 +83,27 @@ in
         primary = true;
       };
       business = zohoEuAccount "hallo@jappiesoftware.com";
+
+      hotmail = {
+        address = "jacobtjeerd@hotmail.com";
+        realName = "Jappie Klooster";
+        # fills in outlook.office365.com imap and smtp.office365.com smtp
+        flavor = "outlook.office365.com";
+        thunderbird = {
+          enable = true;
+          # settings is a function: home-manager calls it with the
+          # account's generated id so the prefs land on the right
+          # numbered server entries in the thunderbird profile.
+          # Microsoft only accepts OAuth2 for personal accounts, but
+          # home-manager defaults to password auth (3) for every flavor
+          # except gmail. 10 = OAuth2. The login flow runs interactively
+          # once on first connect, thunderbird keeps the token.
+          settings = id: {
+            "mail.server.server_${id}.authMethod" = 10;
+            "mail.smtpserver.smtp_${id}.authMethod" = 10;
+          };
+        };
+      };
     };
 
     programs.thunderbird = {
