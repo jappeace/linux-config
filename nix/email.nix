@@ -116,6 +116,13 @@ in
       package = tabletSafe thunderbirdWithSendLater;
       profiles.jappie = {
         isDefault = true;
+        # ordering in the folder pane; independent of which account is
+        # primary (that stays personal)
+        accountsOrder = [
+          "business"
+          "personal"
+          "hotmail"
+        ];
       };
     };
   };
