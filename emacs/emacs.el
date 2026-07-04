@@ -273,6 +273,11 @@
    ;; instead of dumping them in a buffer.
    dirvish-preview-disabled-exts '("bin" "exe" "gpg" "elc" "eln" "gz" "mkv" "iso" "mp4")
    )
+  ;; ranger-style navigation. ranger.el shipped its own vim keymap;
+  ;; dirvish inherits dired's, where evil keeps h/l as char motions.
+  (evil-define-key 'normal dirvish-mode-map
+    "h" 'dired-up-directory
+    "l" 'dired-find-file)
   )
 
 ;;; show what keys are possible
