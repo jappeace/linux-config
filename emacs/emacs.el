@@ -280,15 +280,21 @@ directory; a name ending in / becomes a directory instead."
   "Create NAME in the current dired directory.
 A trailing / creates a directory, otherwise an empty file (parent
 directories are created as needed). Edited existing listing lines are
-rejected loudly rather than guessed at."
+rejected loudly rather than guessed at. An existing file is an error,
+never truncated: make-empty-file skips its own existence check when
+PARENTS is non-nil and would silently empty the file."
   (if (string-empty-p name)
       nil
     (if (string-match-p "^[-dl][rwxst-]\\{9\\}" name)
         (error "dirvish-oil: %S looks like an edited listing line, not a new name (renames belong in wdired, C-x C-q)"
                (substring-no-properties name))
-      (if (string-suffix-p "/" name)
-          (make-directory (expand-file-name name (dired-current-directory)) t)
-        (make-empty-file (expand-file-name name (dired-current-directory)) t)))))
+      (let ((target (expand-file-name name (dired-current-directory))))
+        (if (string-suffix-p "/" name)
+            (make-directory target t)
+          (if (file-exists-p target)
+              (error "dirvish-oil: %s already exists, refusing to truncate it"
+                     (substring-no-properties name))
+            (make-empty-file target t)))))))
 
 ;; Decision: dirvish replaces ranger for file navigation. ranger.el
 ;; reimplements dired (windows, previews, its own minor modes) and is
