@@ -6,6 +6,11 @@
 # exposes policies and preferences, it cannot declare accounts. home-manager's
 # thunderbird module generates the account prefs (mail.server.*,
 # mail.smtpserver.*, mail.identity.*) from a single accounts.email entry.
+# The motivating problem: machines got set up with different subsets of
+# accounts because adding them was manual and rare (about once a year),
+# so some address was always forgotten somewhere. Declaring them here
+# makes every machine converge on the same account list; only the
+# authentication of each account remains a manual, per machine step.
 # Adoption is deliberately narrow: only email lives in home-manager, all other
 # dotfiles keep using the symlink scheme from scripts/install-nixos.sh, which
 # allows live editing without a rebuild.
