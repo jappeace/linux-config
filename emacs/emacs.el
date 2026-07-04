@@ -278,9 +278,10 @@
     ;; (create dir, rename, copy, marks etc). Shadows evil's backward
     ;; search, which is no loss in a file listing.
     "?" 'dirvish-dispatch
-    ;; T as in touch, the create-file counterpart of + (create dir).
-    ;; Shadows dired-do-touch (timestamp bumping), an acceptable loss.
-    "T" 'dired-create-empty-file)
+    ;; i as in insert, the create-file counterpart of + (create dir).
+    ;; Shadows entering insert state, which is useless in a read-only
+    ;; listing anyway (wdired via C-x C-q still works for renames).
+    "i" 'dired-create-empty-file)
   )
 
 ;;; show what keys are possible
