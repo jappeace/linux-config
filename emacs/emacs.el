@@ -318,6 +318,16 @@ PARENTS is non-nil and would silently empty the file."
             (error "dirvish-oil: %s already exists, refusing to truncate it" name)
           (make-empty-file target t))))))
 
+(defun dirvish-toggle-mark ()
+  "Toggle the dired mark of the file at point, then move down a line.
+dired has mark (m) and unmark (u) but no single-file toggle; its t
+inverts every mark in the buffer, which is never what a ranger hand
+means by t."
+  (interactive)
+  (if (eq (char-after (line-beginning-position)) dired-marker-char)
+      (dired-unmark 1)
+    (dired-mark 1)))
+
 ;; Decision: dirvish replaces ranger for file navigation. ranger.el
 ;; reimplements dired (windows, previews, its own minor modes) and is
 ;; unmaintained, which is where its bugs came from. dirvish is a layer
@@ -349,6 +359,10 @@ PARENTS is non-nil and would silently empty the file."
   ;; ranger-style navigation. ranger.el shipped its own vim keymap;
   ;; dirvish inherits dired's, where evil keeps h/l as char motions.
   (evil-define-key 'normal dirvish-mode-map
+    ;; dired's own t is dired-toggle-marks, which inverts every mark
+    ;; in the buffer; ranger's t toggled only the file at point, which
+    ;; is what fingers expect. Invert-all stays reachable on * t.
+    "t" 'dirvish-toggle-mark
     "h" 'dired-up-directory
     "l" 'dired-find-file
     ;; menu of dirvish commands; its "c" entry is a dired cheatsheet
