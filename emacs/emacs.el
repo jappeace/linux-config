@@ -241,60 +241,75 @@
 
 (use-package flx)
 
-;; Decision: oil.nvim-style file creation is hand-rolled (~30 lines)
-;; instead of using grease.el (a young single-author "oil for emacs"
-;; package that replaces the file manager view) or wdired (renames
-;; only, cannot create). Entering insert via "i" makes the listing
-;; writable; every line added by the time insert state is left gets
-;; created, a trailing / makes it a directory.
-(defvar-local dirvish-oil-original-lines nil
-  "Buffer lines as they were when `dirvish-oil-insert' started.")
+;; Decision: oil.nvim-style file creation uses a magit-commit-style
+;; popup buffer instead of editing the listing in place. In-place
+;; editing was tried first and fails in real dirvish sessions: dirvish
+;; re-asserts read-only from its render hooks so typed names are
+;; rejected, and stray keys then run as dired commands (flagging files
+;; for deletion). grease.el replaces the whole file manager view for
+;; exactly this reason; the popup keeps dirvish untouched. wdired was
+;; also considered but can only rename, not create.
+(defvar dirvish-oil-target-directory nil
+  "Directory `dirvish-oil-commit' creates entries in.")
+
+(defvar dirvish-oil-listing-buffer nil
+  "The dired buffer to revert after `dirvish-oil-commit'.")
+
+;; fundamental-mode parent: text-mode hooks (flyspell) make no sense
+;; on file names
+(define-derived-mode dirvish-oil-edit-mode fundamental-mode "dirvish-oil"
+  "Type file names, one per line; C-c C-c creates them, C-c C-k cancels."
+  (setq header-line-format
+        "one name per line, trailing / = directory, C-c C-c create, C-c C-k cancel"))
+
+(define-key dirvish-oil-edit-mode-map (kbd "C-c C-c") #'dirvish-oil-commit)
+(define-key dirvish-oil-edit-mode-map (kbd "C-c C-k") #'dirvish-oil-cancel)
 
 (defun dirvish-oil-insert ()
-  "Make the dirvish buffer writable and enter insert state on a new line.
-On leaving insert state, each added line becomes an empty file in this
-directory; a name ending in / becomes a directory instead."
+  "Pop a small buffer to create files in the listed directory.
+One name per line; a trailing / makes a directory, parent directories
+are created as needed. C-c C-c creates everything, C-c C-k cancels."
   (interactive)
-  (setq dirvish-oil-original-lines (split-string (buffer-string) "\n"))
-  (read-only-mode -1)
-  (add-hook 'evil-insert-state-exit-hook #'dirvish-oil-apply nil t)
-  (evil-open-below 1))
+  (setq dirvish-oil-target-directory (dired-current-directory))
+  (setq dirvish-oil-listing-buffer (current-buffer))
+  (let ((popup (get-buffer-create "*dirvish-oil*")))
+    (with-current-buffer popup
+      (erase-buffer)
+      (dirvish-oil-edit-mode))
+    (pop-to-buffer popup '((display-buffer-below-selected)
+                           (window-height . 6)))
+    (evil-insert-state)))
 
-(defun dirvish-oil-apply ()
-  "Create the files named on lines added since `dirvish-oil-insert'."
-  (remove-hook 'evil-insert-state-exit-hook #'dirvish-oil-apply t)
-  ;; count original lines so N identical new lines aren't all
-  ;; swallowed by one identical original line
-  (let ((seen (make-hash-table :test 'equal)))
-    (dolist (line dirvish-oil-original-lines)
-      (puthash line (1+ (gethash line seen 0)) seen))
-    (setq dirvish-oil-original-lines nil)
-    (dolist (line (split-string (buffer-string) "\n"))
-      (if (> (gethash line seen 0) 0)
-          (puthash line (1- (gethash line seen)) seen)
-        (dirvish-oil-create-entry (string-trim line)))))
-  (read-only-mode 1)
-  (revert-buffer))
+(defun dirvish-oil-commit ()
+  "Create every non-empty line of the popup, then close it."
+  (interactive)
+  (dolist (line (split-string (buffer-string) "\n"))
+    (dirvish-oil-create-entry (string-trim line)))
+  (dirvish-oil-cancel)
+  (if (buffer-live-p dirvish-oil-listing-buffer)
+      (with-current-buffer dirvish-oil-listing-buffer
+        (revert-buffer))
+    nil))
+
+(defun dirvish-oil-cancel ()
+  "Close the popup without creating anything further."
+  (interactive)
+  (kill-buffer "*dirvish-oil*"))
 
 (defun dirvish-oil-create-entry (name)
-  "Create NAME in the current dired directory.
+  "Create NAME inside `dirvish-oil-target-directory'.
 A trailing / creates a directory, otherwise an empty file (parent
-directories are created as needed). Edited existing listing lines are
-rejected loudly rather than guessed at. An existing file is an error,
+directories are created as needed). An existing file is an error,
 never truncated: make-empty-file skips its own existence check when
 PARENTS is non-nil and would silently empty the file."
   (if (string-empty-p name)
       nil
-    (if (string-match-p "^[-dl][rwxst-]\\{9\\}" name)
-        (error "dirvish-oil: %S looks like an edited listing line, not a new name (renames belong in wdired, C-x C-q)"
-               (substring-no-properties name))
-      (let ((target (expand-file-name name (dired-current-directory))))
-        (if (string-suffix-p "/" name)
-            (make-directory target t)
-          (if (file-exists-p target)
-              (error "dirvish-oil: %s already exists, refusing to truncate it"
-                     (substring-no-properties name))
-            (make-empty-file target t)))))))
+    (let ((target (expand-file-name name dirvish-oil-target-directory)))
+      (if (string-suffix-p "/" name)
+          (make-directory target t)
+        (if (file-exists-p target)
+            (error "dirvish-oil: %s already exists, refusing to truncate it" name)
+          (make-empty-file target t))))))
 
 ;; Decision: dirvish replaces ranger for file navigation. ranger.el
 ;; reimplements dired (windows, previews, its own minor modes) and is
@@ -333,9 +348,10 @@ PARENTS is non-nil and would silently empty the file."
     ;; (create dir, rename, copy, marks etc). Shadows evil's backward
     ;; search, which is no loss in a file listing.
     "?" 'dirvish-dispatch
-    ;; i as in insert: oil.nvim-style creation, see dirvish-oil-insert.
-    ;; Shadows plain insert state, which is useless in a read-only
-    ;; listing anyway (wdired via C-x C-q still works for renames).
+    ;; i as in insert: pops the file creation buffer, see
+    ;; dirvish-oil-insert. Shadows plain insert state, which is useless
+    ;; in a read-only listing anyway (wdired via C-x C-q still works
+    ;; for renames).
     "i" 'dirvish-oil-insert)
   )
 
