@@ -25,6 +25,7 @@ boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
     ./emacs
     ./nix/config.nix
     ./nix/environment.nix
+    ./nix/email.nix
     ./nix/services.nix
   ];
 
