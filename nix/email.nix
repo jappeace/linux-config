@@ -21,18 +21,21 @@ let
   # installing the addon by hand in the profile (not declarative, lost on
   # profile wipe). force_installed keeps it declarative while ATN still
   # provides updates.
-  # an email account on zoho's EU datacenter, preconfigured for thunderbird
+  # an email account on zoho's EU datacenter, preconfigured for thunderbird.
+  # the "pro" hosts are zoho's servers for domain-based addresses; the
+  # plain imap.zoho.eu/smtp.zoho.eu ones are only for @zoho.com addresses
+  # (https://www.zoho.com/mail/help/imap-access.html)
   zohoEuAccount = address: {
     inherit address;
     userName = address;
     realName = "Jappie Klooster";
     imap = {
-      host = "imap.zoho.eu";
+      host = "imappro.zoho.eu";
       port = 993;
       tls.enable = true;
     };
     smtp = {
-      host = "smtp.zoho.eu";
+      host = "smtppro.zoho.eu";
       port = 465;
       tls.enable = true;
     };
