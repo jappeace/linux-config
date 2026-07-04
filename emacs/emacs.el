@@ -273,7 +273,14 @@
   ;; dirvish inherits dired's, where evil keeps h/l as char motions.
   (evil-define-key 'normal dirvish-mode-map
     "h" 'dired-up-directory
-    "l" 'dired-find-file)
+    "l" 'dired-find-file
+    ;; menu of dirvish commands; its "c" entry is a dired cheatsheet
+    ;; (create dir, rename, copy, marks etc). Shadows evil's backward
+    ;; search, which is no loss in a file listing.
+    "?" 'dirvish-dispatch
+    ;; T as in touch, the create-file counterpart of + (create dir).
+    ;; Shadows dired-do-touch (timestamp bumping), an acceptable loss.
+    "T" 'dired-create-empty-file)
   )
 
 ;;; show what keys are possible
