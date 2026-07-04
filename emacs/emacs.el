@@ -241,6 +241,55 @@
 
 (use-package flx)
 
+;; Decision: oil.nvim-style file creation is hand-rolled (~30 lines)
+;; instead of using grease.el (a young single-author "oil for emacs"
+;; package that replaces the file manager view) or wdired (renames
+;; only, cannot create). Entering insert via "i" makes the listing
+;; writable; every line added by the time insert state is left gets
+;; created, a trailing / makes it a directory.
+(defvar-local dirvish-oil-original-lines nil
+  "Buffer lines as they were when `dirvish-oil-insert' started.")
+
+(defun dirvish-oil-insert ()
+  "Make the dirvish buffer writable and enter insert state on a new line.
+On leaving insert state, each added line becomes an empty file in this
+directory; a name ending in / becomes a directory instead."
+  (interactive)
+  (setq dirvish-oil-original-lines (split-string (buffer-string) "\n"))
+  (read-only-mode -1)
+  (add-hook 'evil-insert-state-exit-hook #'dirvish-oil-apply nil t)
+  (evil-open-below 1))
+
+(defun dirvish-oil-apply ()
+  "Create the files named on lines added since `dirvish-oil-insert'."
+  (remove-hook 'evil-insert-state-exit-hook #'dirvish-oil-apply t)
+  ;; count original lines so N identical new lines aren't all
+  ;; swallowed by one identical original line
+  (let ((seen (make-hash-table :test 'equal)))
+    (dolist (line dirvish-oil-original-lines)
+      (puthash line (1+ (gethash line seen 0)) seen))
+    (setq dirvish-oil-original-lines nil)
+    (dolist (line (split-string (buffer-string) "\n"))
+      (if (> (gethash line seen 0) 0)
+          (puthash line (1- (gethash line seen)) seen)
+        (dirvish-oil-create-entry (string-trim line)))))
+  (read-only-mode 1)
+  (revert-buffer))
+
+(defun dirvish-oil-create-entry (name)
+  "Create NAME in the current dired directory.
+A trailing / creates a directory, otherwise an empty file (parent
+directories are created as needed). Edited existing listing lines are
+rejected loudly rather than guessed at."
+  (if (string-empty-p name)
+      nil
+    (if (string-match-p "^[-dl][rwxst-]\\{9\\}" name)
+        (error "dirvish-oil: %S looks like an edited listing line, not a new name (renames belong in wdired, C-x C-q)"
+               (substring-no-properties name))
+      (if (string-suffix-p "/" name)
+          (make-directory (expand-file-name name (dired-current-directory)) t)
+        (make-empty-file (expand-file-name name (dired-current-directory)) t)))))
+
 ;; Decision: dirvish replaces ranger for file navigation. ranger.el
 ;; reimplements dired (windows, previews, its own minor modes) and is
 ;; unmaintained, which is where its bugs came from. dirvish is a layer
@@ -278,10 +327,10 @@
     ;; (create dir, rename, copy, marks etc). Shadows evil's backward
     ;; search, which is no loss in a file listing.
     "?" 'dirvish-dispatch
-    ;; i as in insert, the create-file counterpart of + (create dir).
-    ;; Shadows entering insert state, which is useless in a read-only
+    ;; i as in insert: oil.nvim-style creation, see dirvish-oil-insert.
+    ;; Shadows plain insert state, which is useless in a read-only
     ;; listing anyway (wdired via C-x C-q still works for renames).
-    "i" 'dired-create-empty-file)
+    "i" 'dirvish-oil-insert)
   )
 
 ;;; show what keys are possible
