@@ -260,13 +260,18 @@
   (dirvish-override-dired-mode)
   :config
   (setq
-   ;; no parent pane (ranger-parent-depth 0): current dir 40%, preview 60%
+   ;; (DEPTH MAX-PARENT-WIDTH PREVIEW-WIDTH). depth 0 means no parent
+   ;; pane (was ranger-parent-depth 0) and makes the middle value
+   ;; unused; preview takes 60%, the current pane gets the rest.
    dirvish-default-layout '(0 0.4 0.6)
-   ;; was ranger-excluded-extensions. The old nix "result" symlink hack
-   ;; (faking a nix-result extension via advice on file-name-extension)
-   ;; is gone: dirvish previews directories as listings and shows a
-   ;; placeholder for binaries instead of dumping them in a buffer.
-   dirvish-preview-disabled-exts '("tar.gz" "mkv" "iso" "mp4")
+   ;; was ranger-excluded-extensions, merged with dirvish's own
+   ;; defaults (bin exe gpg elc eln). Matching uses only the last
+   ;; extension component, so "gz" is what covers tar.gz files.
+   ;; The old nix "result" symlink hack (faking a nix-result extension
+   ;; via advice on file-name-extension) is gone: dirvish previews
+   ;; directories as listings and shows a placeholder for binaries
+   ;; instead of dumping them in a buffer.
+   dirvish-preview-disabled-exts '("bin" "exe" "gpg" "elc" "eln" "gz" "mkv" "iso" "mp4")
    )
   )
 
