@@ -19,13 +19,6 @@ let
   sources = import ../npins;
   tabletSafe = import ./tablet-safe.nix pkgs;
 
-  # Decision: the Send Later addon (scheduled email sending) is installed
-  # through Thunderbird's enterprise policy ExtensionSettings, force_installed
-  # from addons.thunderbird.net. Alternatives considered: home-manager's
-  # extensions option (needs a manually pinned xpi hash that goes stale) and
-  # installing the addon by hand in the profile (not declarative, lost on
-  # profile wipe). force_installed keeps it declarative while ATN still
-  # provides updates.
   # an email account on zoho's EU datacenter, preconfigured for thunderbird.
   # the "pro" hosts are zoho's servers for domain-based addresses; the
   # plain imap.zoho.eu/smtp.zoho.eu ones are only for @zoho.com addresses
@@ -47,6 +40,13 @@ let
     thunderbird.enable = true;
   };
 
+  # Decision: the Send Later addon (scheduled email sending) is installed
+  # through Thunderbird's enterprise policy ExtensionSettings, force_installed
+  # from addons.thunderbird.net. Alternatives considered: home-manager's
+  # extensions option (needs a manually pinned xpi hash that goes stale) and
+  # installing the addon by hand in the profile (not declarative, lost on
+  # profile wipe). force_installed keeps it declarative while ATN still
+  # provides updates.
   thunderbirdWithSendLater = pkgs.thunderbird.override {
     extraPolicies = {
       ExtensionSettings = {
@@ -89,7 +89,7 @@ in
       };
       business = zohoEuAccount "hallo@jappiesoftware.com";
 
-      hotmail = {
+      backup-personal = {
         address = "jacobtjeerd@hotmail.com";
         realName = "Jappie Klooster";
         # fills in outlook.office365.com imap and smtp.office365.com smtp
@@ -121,7 +121,7 @@ in
         accountsOrder = [
           "business"
           "personal"
-          "hotmail"
+          "backup-personal"
         ];
       };
     };
