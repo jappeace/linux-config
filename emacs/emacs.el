@@ -249,11 +249,13 @@
 ;; for deletion). grease.el replaces the whole file manager view for
 ;; exactly this reason; the popup keeps dirvish untouched. wdired was
 ;; also considered but can only rename, not create.
-(defvar dirvish-oil-target-directory nil
-  "Directory `dirvish-oil-commit' creates entries in.")
+(defvar-local dirvish-oil-target-directory nil
+  "Directory `dirvish-oil-commit' creates entries in.
+Buffer-local to the *dirvish-oil* popup, set when it opens.")
 
-(defvar dirvish-oil-listing-buffer nil
-  "The dired buffer to revert after `dirvish-oil-commit'.")
+(defvar-local dirvish-oil-listing-buffer nil
+  "The dired buffer to revert after `dirvish-oil-commit'.
+Buffer-local to the *dirvish-oil* popup, set when it opens.")
 
 ;; fundamental-mode parent: text-mode hooks (flyspell) make no sense
 ;; on file names
@@ -270,12 +272,15 @@
 One name per line; a trailing / makes a directory, parent directories
 are created as needed. C-c C-c creates everything, C-c C-k cancels."
   (interactive)
-  (setq dirvish-oil-target-directory (dired-current-directory))
-  (setq dirvish-oil-listing-buffer (current-buffer))
-  (let ((popup (get-buffer-create "*dirvish-oil*")))
+  (let ((target (dired-current-directory))
+        (listing (current-buffer))
+        (popup (get-buffer-create "*dirvish-oil*")))
     (with-current-buffer popup
       (erase-buffer)
-      (dirvish-oil-edit-mode))
+      ;; major mode first: it kills local variables
+      (dirvish-oil-edit-mode)
+      (setq dirvish-oil-target-directory target)
+      (setq dirvish-oil-listing-buffer listing))
     (pop-to-buffer popup '((display-buffer-below-selected)
                            (window-height . 6)))
     (evil-insert-state)))
@@ -283,28 +288,30 @@ are created as needed. C-c C-c creates everything, C-c C-k cancels."
 (defun dirvish-oil-commit ()
   "Create every non-empty line of the popup, then close it."
   (interactive)
-  (dolist (line (split-string (buffer-string) "\n"))
-    (dirvish-oil-create-entry (string-trim line)))
-  (dirvish-oil-cancel)
-  (if (buffer-live-p dirvish-oil-listing-buffer)
-      (with-current-buffer dirvish-oil-listing-buffer
-        (revert-buffer))
-    nil))
+  (let ((target dirvish-oil-target-directory)
+        (listing dirvish-oil-listing-buffer))
+    (dolist (line (split-string (buffer-string) "\n"))
+      (dirvish-oil-create-entry (string-trim line) target))
+    (dirvish-oil-cancel)
+    (if (buffer-live-p listing)
+        (with-current-buffer listing
+          (revert-buffer))
+      nil)))
 
 (defun dirvish-oil-cancel ()
   "Close the popup without creating anything further."
   (interactive)
   (kill-buffer "*dirvish-oil*"))
 
-(defun dirvish-oil-create-entry (name)
-  "Create NAME inside `dirvish-oil-target-directory'.
+(defun dirvish-oil-create-entry (name target-directory)
+  "Create NAME inside TARGET-DIRECTORY.
 A trailing / creates a directory, otherwise an empty file (parent
 directories are created as needed). An existing file is an error,
 never truncated: make-empty-file skips its own existence check when
 PARENTS is non-nil and would silently empty the file."
   (if (string-empty-p name)
       nil
-    (let ((target (expand-file-name name dirvish-oil-target-directory)))
+    (let ((target (expand-file-name name target-directory)))
       (if (string-suffix-p "/" name)
           (make-directory target t)
         (if (file-exists-p target)
