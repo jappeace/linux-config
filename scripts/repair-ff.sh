@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 # sometimes my computer clock resets and firefox marks all extensions
 # as invalid because the signatures appear crazy.
