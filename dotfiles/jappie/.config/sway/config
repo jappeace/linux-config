@@ -25,12 +25,12 @@ set $mod Mod1
 # font pango:DejaVu Sans Mono 10
 
 # Use Mouse+$mod to drag floating windows to their wanted position
-bindsym --release $mod+Ctrl+e exec --no-startup-id wtype -d 5 "jappieklooster@hotmail.com"
-bindsym --release $mod+Ctrl+o exec --no-startup-id wtype -d 5 "hi@jappie.me"
+bindsym --release $mod+Ctrl+e exec --no-startup-id wtype -d 5 "hi@jappie.me"
+bindsym --release $mod+Ctrl+o exec --no-startup-id wtype -d 5 "hallo@jappiesoftware.com"
 bindsym --release $mod+Ctrl+k exec --no-startup-id wtype -d 5 "72671629"
 bindsym --release $mod+Ctrl+m exec --no-startup-id wtype -d 5 "0644237437"
 bindsym --release $mod+Ctrl+p exec --no-startup-id wtype -d 5 "5680820"
-bindsym --release $mod+Ctrl+s exec --no-startup-id wtype -d 5 "Kerkdijk 2"
+bindsym --release $mod+Ctrl+s exec --no-startup-id wtype -d 5 "Ooienvaarstraat 38"
 bindsym --release $mod+Ctrl+c exec --no-startup-id wtype -d 5 "The Netherlands"
 bindsym --release $mod+Ctrl+d exec --no-startup-id wtype -d 5 "Overijssel"
 bindsym --release $mod+Ctrl+l exec --no-startup-id wtype -d 5 "Kampen"
@@ -39,6 +39,7 @@ bindsym --release $mod+Ctrl+n exec --no-startup-id wtype -d 5 "Jappie Klooster"
 bindsym --release $mod+Ctrl+1 exec --no-startup-id wtype -d 5 "Jappie"
 bindsym --release $mod+Ctrl+2 exec --no-startup-id wtype -d 5 "Klooster"
 bindsym --release $mod+Ctrl+w exec --no-startup-id wtype -d 5 "https://jappie.me"
+bindsym --release $mod+Ctrl+W exec --no-startup-id wtype -d 5 "https://jappiesoftware.com"
 
 # Speech-to-text: first press starts recording, second press transcribes
 # (whisper.cpp) and types the result into the focused window.
