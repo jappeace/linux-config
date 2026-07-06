@@ -373,7 +373,22 @@ means by t."
     ;; dirvish-oil-insert. Shadows plain insert state, which is useless
     ;; in a read-only listing anyway (wdired via C-x C-q still works
     ;; for renames).
-    "i" 'dirvish-oil-insert)
+    "i" 'dirvish-oil-insert
+    ;; ranger-style copy/paste, via the dirvish-yank extension (part of
+    ;; the dirvish package). The dired marks ARE the clipboard: t marks
+    ;; files (in any dired buffer, dirvish-yank-sources defaults to
+    ;; all), then p copies them into the directory shown here. No
+    ;; separate yank step like ranger's yy; with nothing marked p
+    ;; errors with "no marked files". Shadows evil-paste-after, which
+    ;; is useless in a read-only listing.
+    "p" 'dirvish-yank
+    ;; same clipboard, but move instead of copy (ranger's dd + pp).
+    ;; Shadows evil-paste-before, useless here for the same reason.
+    "P" 'dirvish-move
+    ;; menu with the remaining paste flavours (symlink, hardlink,
+    ;; relative symlink) plus yank/move again. Shadows the evil yank
+    ;; operator, which can't edit a read-only listing anyway.
+    "y" 'dirvish-yank-menu)
   )
 
 ;;; show what keys are possible
