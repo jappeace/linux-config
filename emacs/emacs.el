@@ -318,6 +318,42 @@ PARENTS is non-nil and would silently empty the file."
             (error "dirvish-oil: %s already exists, refusing to truncate it" name)
           (make-empty-file target t))))))
 
+;; Decision: ranger-style copy/paste needs a clipboard that survives
+;; navigating between directories, so dirvish-file-clipboard is a
+;; global variable, the same shape as ranger's copy ring or emacs'
+;; own kill-ring. Using the dired marks directly as the clipboard
+;; (dirvish-yank's model: paste acts on whatever is marked right now)
+;; was tried first and rejected: ranger fingers expect an explicit
+;; yank step, and a snapshot doesn't shift under you when marks
+;; change between yank and paste.
+(defvar dirvish-file-clipboard nil
+  "Absolute file names captured by `dirvish-yank-to-clipboard'.
+`dirvish-paste-clipboard' copies them into the listed directory.")
+
+(defun dirvish-yank-to-clipboard ()
+  "Put the marked files on `dirvish-file-clipboard' (ranger's yy).
+With nothing marked the file at point is yanked instead. The
+clipboard survives navigation: yank here, walk somewhere else with
+h/l, paste with p."
+  (interactive)
+  (setq dirvish-file-clipboard (dired-get-marked-files))
+  (message "dirvish: yanked %s"
+           (mapconcat #'file-name-nondirectory dirvish-file-clipboard ", ")))
+
+(defun dirvish-paste-clipboard ()
+  "Copy the clipboard files into the listed directory (ranger's pp).
+The clipboard is kept afterwards so one yank can paste repeatedly.
+Name collisions prompt before overwriting. The copy runs through the
+dirvish-yank machinery: an async child emacs, progress in the mode
+line."
+  (interactive)
+  (require 'dirvish-yank)
+  (if (null dirvish-file-clipboard)
+      (user-error "dirvish: file clipboard is empty, yank files with yy first")
+    (dirvish-yank-default-handler
+     'dired-copy-file dirvish-file-clipboard
+     (expand-file-name (dired-current-directory)))))
+
 (defun dirvish-toggle-mark ()
   "Toggle the dired mark of the file at point, then move down a line.
 dired has mark (m) and unmark (u) but no single-file toggle; its t
@@ -374,21 +410,19 @@ means by t."
     ;; in a read-only listing anyway (wdired via C-x C-q still works
     ;; for renames).
     "i" 'dirvish-oil-insert
-    ;; ranger-style copy/paste, via the dirvish-yank extension (part of
-    ;; the dirvish package). The dired marks ARE the clipboard: t marks
-    ;; files (in any dired buffer, dirvish-yank-sources defaults to
-    ;; all), then p copies them into the directory shown here. No
-    ;; separate yank step like ranger's yy; with nothing marked p
-    ;; errors with "no marked files". Shadows evil-paste-after, which
-    ;; is useless in a read-only listing.
-    "p" 'dirvish-yank
-    ;; same clipboard, but move instead of copy (ranger's dd + pp).
-    ;; Shadows evil-paste-before, useless here for the same reason.
-    "P" 'dirvish-move
-    ;; menu with the remaining paste flavours (symlink, hardlink,
-    ;; relative symlink) plus yank/move again. Shadows the evil yank
-    ;; operator, which can't edit a read-only listing anyway.
-    "y" 'dirvish-yank-menu)
+    ;; ranger-style copy/paste: yy snapshots the marked files (or the
+    ;; file at point) onto dirvish-file-clipboard, p copies them into
+    ;; the directory shown here. yy shadows the evil yank operator and
+    ;; p shadows evil-paste-after, both useless in a read-only listing.
+    "yy" 'dirvish-yank-to-clipboard
+    "p" 'dirvish-paste-clipboard
+    ;; menu with the other paste flavours (move, symlink, hardlink,
+    ;; relative symlink), from the dirvish-yank extension. These act on
+    ;; the dired marks, not on dirvish-file-clipboard: mark with t,
+    ;; walk to the target directory, Y m moves the marked files here.
+    ;; Also reachable as ? y. Shadows evil-yank-line, useless in a
+    ;; read-only listing.
+    "Y" 'dirvish-yank-menu)
   )
 
 ;;; show what keys are possible
