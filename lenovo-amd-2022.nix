@@ -245,6 +245,18 @@ boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
             "lenovo-amd-2022"
           ];
         };
+        # Shared client-deliveries inbox (merchant uploads: Elizabeth/kruidje,
+        # Ellen/waardegebaar). The vibes runner (jappeace/vibes claude.sh)
+        # read-only-mounts this same path into every instance at
+        # ~/aanleveringen, so instances can read what lands here.
+        "/home/jappie/aanleveringen" = {
+          id = "aanleveringen";
+          devices = [
+            "work-machine"
+            "lenovo-amd-2022"
+            "lenovo-tablet"
+          ];
+        };
       };
 
     logind = {
