@@ -123,6 +123,16 @@ in
           "personal"
           "backup-personal"
         ];
+        # Newest mail on top, never threaded. These are the default view a
+        # folder gets the first time it is opened; a folder already opened
+        # keeps the sort cached in its .msf, so a wiped profile (or a fresh
+        # machine, the common case here) is what makes these take effect.
+        # 18 = sort by date, 2 = descending, 0 = unthreaded flat list.
+        settings = {
+          "mailnews.default_sort_type" = 18;
+          "mailnews.default_sort_order" = 2;
+          "mailnews.default_view_flags" = 0;
+        };
       };
     };
   };
