@@ -19,6 +19,14 @@ let
   sources = import ../npins;
   tabletSafe = import ./tablet-safe.nix pkgs;
 
+  # Decision: backup and retention are unconditional, with no per-machine enable
+  # flag. An earlier mailBackupEnabled/inboxRetentionEnabled pair gated them off
+  # by default for a staggered, machine-by-machine rollout; once the agenix keys
+  # and .age secrets were on every machine the gating stopped earning its
+  # complexity. Consequence: every machine must carry the two mail-*.age secrets
+  # or agenix aborts `nixos-rebuild switch` at decrypt time. That loud failure is
+  # preferred over silently leaving a machine's mail unbacked-up.
+
   # Decision: back up the zoho accounts into a local Maildir under ~/docs/email
   # with isync/mbsync, pulling one-way from the server and never deleting
   # locally (remove = none, expunge = none). So the local copy is append-only:
