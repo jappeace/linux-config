@@ -19,39 +19,33 @@ let
   sources = import ../npins;
   tabletSafe = import ./tablet-safe.nix pkgs;
 
-  # Master switch, off until this machine's agenix secrets actually exist in
-  # ~/docs/email/secrets. agenix decrypts every referenced .age at activation
-  # and aborts the switch if one is missing, so enabling the backup before the
-  # secrets have synced would break `nixos-rebuild switch`. Flip to true per
-  # machine once its secrets are in place (which also lets the rollout happen
-  # one machine at a time). While false the whole backup is inert: no secrets,
-  # no mbsync config, no timer.
-  mailBackupEnabled = true;
+  # Decision: backup and retention are unconditional, with no per-machine enable
+  # flag. An earlier mailBackupEnabled/inboxRetentionEnabled pair gated them off
+  # by default for a staggered, machine-by-machine rollout; once the agenix keys
+  # and .age secrets were on every machine the gating stopped earning its
+  # complexity. Consequence: every machine must carry the two mail-*.age secrets
+  # or agenix aborts `nixos-rebuild switch` at decrypt time. That loud failure is
+  # preferred over silently leaving a machine's mail unbacked-up.
 
   # Decision: back up the zoho accounts into a local Maildir under ~/docs/email
   # with isync/mbsync, pulling one-way from the server and never deleting
   # locally (remove = none, expunge = none). So the local copy is append-only:
-  # when the server later drops 30-day-old inbox mail (a deliberately deferred
-  # second step), ~/docs/email keeps it. ~/docs is already a syncthing folder,
-  # so the backup lands on every machine and is itself backed up. The same
-  # Maildir is what mu4e/notmuch will read once email moves into emacs, the
-  # actual end goal here; Thunderbird stays only as the interim reader.
-  # The account password comes from an agenix secret decrypted to /run/agenix
-  # (see age.secrets below), read at sync time via passwordCommand.
-  additiveBackup =
-    secretName:
-    if mailBackupEnabled then
-      {
-        passwordCommand = "cat /run/agenix/${secretName}";
-        mbsync = {
-          enable = true;
-          create = "maildir";
-          remove = "none";
-          expunge = "none";
-        };
-      }
-    else
-      { };
+  # when the server drops 30-day-old inbox mail (the imapfilter retention
+  # below), ~/docs/email keeps it. ~/docs is already a syncthing folder, so the
+  # backup lands on every machine and is itself backed up. The same Maildir is
+  # what mu4e/notmuch will read once email moves into emacs, the actual end goal
+  # here; Thunderbird stays only as the interim reader. The account password
+  # comes from an agenix secret decrypted to /run/agenix (see age.secrets
+  # below), read at sync time via passwordCommand.
+  additiveBackup = secretName: {
+    passwordCommand = "cat /run/agenix/${secretName}";
+    mbsync = {
+      enable = true;
+      create = "maildir";
+      remove = "none";
+      expunge = "none";
+    };
+  };
 
   # Decision: stagger the sync across machines by weekday so only one machine
   # writes into the shared ~/docs/email Maildir on any given day. Two machines
@@ -65,17 +59,71 @@ let
     lenovo-amd-2022 = "Tue,Fri *-*-* 13:00:00";
     lenovo-tablet = "Wed,Sat *-*-* 13:00:00";
   };
-  # The lookup only happens once the backup is enabled, keeping the "off is
-  # inert" promise: a machine that has not opted in builds fine even if it has
-  # no slot. Enabling the backup on a host missing from the table above fails
-  # evaluation on purpose, so a machine cannot start syncing unscheduled. The
-  # "daily" fallback is dead while disabled (the timer is not generated then);
-  # it only exists so the option stays a valid string.
-  syncFrequency =
-    if mailBackupEnabled then
-      syncFrequencyByHost.${config.networking.hostName}
-    else
-      "daily";
+  # A host missing from the table above fails evaluation on purpose, so a new
+  # machine cannot start syncing without a weekday slot assigned.
+  syncFrequency = syncFrequencyByHost.${config.networking.hostName};
+
+  # Phase 2, inbox retention. After a successful backup, delete server INBOX
+  # mail older than retentionDays on the zoho accounts. Wired as mbsync's
+  # postExec (systemd ExecStartPost), which runs only when the sync (ExecStart)
+  # succeeded, so anything deleted here was mirrored into ~/docs/email moments
+  # earlier in the same run, and mbsync's remove=none keeps that local copy.
+  # INBOX only: Sent, Archive and the rest are never touched.
+  retentionDays = 30;
+
+  # Decision: imapfilter does the age-based INBOX deletion. Alternatives:
+  # Thunderbird's own message retention (rejected earlier, its retention is
+  # per-folder-default and cannot cleanly target INBOX only without also
+  # trimming Sent/Archive); mbsync itself (no age-based expiry, only mirror
+  # deletion which remove=none deliberately disables); server-side Sieve
+  # (zoho does not expose a date-based expiry filter); a hand-rolled
+  # curl/imaps or python-imaplib script (more code to get the SEARCH BEFORE +
+  # STORE \Deleted + EXPUNGE flow right and to maintain). imapfilter is a
+  # small, purpose-built tool in nixpkgs whose is_older(N):delete_messages()
+  # expresses exactly this, and reads the password at runtime so no secret is
+  # baked in.
+  #
+  # imapfilter reads the app password at runtime from the agenix-decrypted file,
+  # so no secret is written into this world-readable store file. options.expunge
+  # makes the delete take effect immediately rather than waiting for an
+  # interactive mailbox close that never happens in a service.
+  # The two addresses and /run/agenix names below repeat the personal and
+  # business entries in accounts.email.accounts and age.secrets; if either is
+  # renamed, update it here too (only these zoho accounts are retention-cleaned,
+  # never the hotmail one).
+  inboxRetentionConfig = pkgs.writeText "imapfilter-inbox-retention.lua" ''
+    options.timeout = 120
+    options.expunge = true
+
+    local function read_secret(path)
+      local file = assert(io.open(path, "r"))
+      local secret = file:read("*l")
+      file:close()
+      return secret
+    end
+
+    local function clean_inbox(username, secret_path)
+      local account = IMAP {
+        server = "imappro.zoho.eu",
+        port = 993,
+        ssl = "tls1.2",
+        username = username,
+        password = read_secret(secret_path),
+      }
+      account.INBOX:is_older(${toString retentionDays}):delete_messages()
+    end
+
+    clean_inbox("hi@jappie.me", "/run/agenix/mail-personal")
+    clean_inbox("hallo@jappiesoftware.com", "/run/agenix/mail-business")
+  '';
+
+  # imapfilter links OpenSSL, which needs a CA bundle to verify zoho's cert
+  # non-interactively (a service has no stdin to accept an unknown cert). Point
+  # it at the nixpkgs bundle rather than relying on /etc being populated.
+  inboxRetentionScript = pkgs.writeShellScript "inbox-retention" ''
+    export SSL_CERT_FILE=${pkgs.cacert}/etc/ssl/certs/ca-bundle.crt
+    exec ${pkgs.imapfilter}/bin/imapfilter -c ${inboxRetentionConfig}
+  '';
 
   # an email account on zoho's EU datacenter, preconfigured for thunderbird.
   # the "pro" hosts are zoho's servers for domain-based addresses; the
@@ -133,20 +181,16 @@ in
   # user's mbsync can read it. The passwords still have to be generated by hand
   # once (the zoho login password, or an app-specific one if 2FA is on) and
   # encrypted with `agenix -e`; only the ciphertext is machine-shareable.
-  age.secrets =
-    if mailBackupEnabled then
-      {
-        mail-personal = {
-          file = "/home/jappie/docs/email/secrets/mail-personal.age";
-          owner = "jappie";
-        };
-        mail-business = {
-          file = "/home/jappie/docs/email/secrets/mail-business.age";
-          owner = "jappie";
-        };
-      }
-    else
-      { };
+  age.secrets = {
+    mail-personal = {
+      file = "/home/jappie/docs/email/secrets/mail-personal.age";
+      owner = "jappie";
+    };
+    mail-business = {
+      file = "/home/jappie/docs/email/secrets/mail-business.age";
+      owner = "jappie";
+    };
+  };
 
   # reuse the system nixpkgs (with overlays) instead of a private import,
   # and install user packages via the system profile
@@ -205,14 +249,16 @@ in
       };
     };
 
-    programs.mbsync.enable = mailBackupEnabled;
+    programs.mbsync.enable = true;
 
     # the systemd user timer that runs `mbsync -a`. frequency is this host's
     # staggered weekday slot (see syncFrequencyByHost); every machine has the
-    # config, only its own day fires.
+    # config, only its own day fires. postExec runs the inbox retention, but
+    # only after a successful sync (ExecStartPost).
     services.mbsync = {
-      enable = mailBackupEnabled;
+      enable = true;
       frequency = syncFrequency;
+      postExec = "${inboxRetentionScript}";
     };
 
     programs.thunderbird = {
