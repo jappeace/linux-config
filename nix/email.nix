@@ -87,6 +87,18 @@ let
   inboxRetentionEnabled = false;
   retentionDays = 30;
 
+  # Decision: imapfilter does the age-based INBOX deletion. Alternatives:
+  # Thunderbird's own message retention (rejected earlier, its retention is
+  # per-folder-default and cannot cleanly target INBOX only without also
+  # trimming Sent/Archive); mbsync itself (no age-based expiry, only mirror
+  # deletion which remove=none deliberately disables); server-side Sieve
+  # (zoho does not expose a date-based expiry filter); a hand-rolled
+  # curl/imaps or python-imaplib script (more code to get the SEARCH BEFORE +
+  # STORE \Deleted + EXPUNGE flow right and to maintain). imapfilter is a
+  # small, purpose-built tool in nixpkgs whose is_older(N):delete_messages()
+  # expresses exactly this, and reads the password at runtime so no secret is
+  # baked in.
+  #
   # imapfilter reads the app password at runtime from the agenix-decrypted file,
   # so no secret is written into this world-readable store file. options.expunge
   # makes the delete take effect immediately rather than waiting for an
