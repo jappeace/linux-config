@@ -61,9 +61,9 @@ let
   # machine that is off on its day just skips: the sync is additive, so nothing
   # is lost, and the next machine's day catches up. Sunday is left idle.
   syncFrequencyByHost = {
-    panorama-tower = "Mon,Thu *-*-* 09:00:00";
-    lenovo-amd-2022 = "Tue,Fri *-*-* 09:00:00";
-    lenovo-tablet = "Wed,Sat *-*-* 09:00:00";
+    panorama-tower = "Mon,Thu *-*-* 13:00:00";
+    lenovo-amd-2022 = "Tue,Fri *-*-* 13:00:00";
+    lenovo-tablet = "Wed,Sat *-*-* 13:00:00";
   };
   # The lookup only happens once the backup is enabled, keeping the "off is
   # inert" promise: a machine that has not opted in builds fine even if it has
