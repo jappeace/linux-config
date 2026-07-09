@@ -77,6 +77,54 @@ let
     else
       "daily";
 
+  # Phase 2, inbox retention. After a successful backup, delete server INBOX
+  # mail older than retentionDays on the zoho accounts. Off by default and
+  # destructive: enable only once the backup is trusted. Wired as mbsync's
+  # postExec (systemd ExecStartPost), which runs only when the sync (ExecStart)
+  # succeeded, so anything deleted here was mirrored into ~/docs/email moments
+  # earlier in the same run, and mbsync's remove=none keeps that local copy.
+  # INBOX only: Sent, Archive and the rest are never touched.
+  inboxRetentionEnabled = false;
+  retentionDays = 30;
+
+  # imapfilter reads the app password at runtime from the agenix-decrypted file,
+  # so no secret is written into this world-readable store file. options.expunge
+  # makes the delete take effect immediately rather than waiting for an
+  # interactive mailbox close that never happens in a service.
+  inboxRetentionConfig = pkgs.writeText "imapfilter-inbox-retention.lua" ''
+    options.timeout = 120
+    options.expunge = true
+
+    local function read_secret(path)
+      local file = assert(io.open(path, "r"))
+      local secret = file:read("*l")
+      file:close()
+      return secret
+    end
+
+    local function clean_inbox(username, secret_path)
+      local account = IMAP {
+        server = "imappro.zoho.eu",
+        port = 993,
+        ssl = "tls1.2",
+        username = username,
+        password = read_secret(secret_path),
+      }
+      account.INBOX:is_older(${toString retentionDays}):delete_messages()
+    end
+
+    clean_inbox("hi@jappie.me", "/run/agenix/mail-personal")
+    clean_inbox("hallo@jappiesoftware.com", "/run/agenix/mail-business")
+  '';
+
+  # imapfilter links OpenSSL, which needs a CA bundle to verify zoho's cert
+  # non-interactively (a service has no stdin to accept an unknown cert). Point
+  # it at the nixpkgs bundle rather than relying on /etc being populated.
+  inboxRetentionScript = pkgs.writeShellScript "inbox-retention" ''
+    export SSL_CERT_FILE=${pkgs.cacert}/etc/ssl/certs/ca-bundle.crt
+    exec ${pkgs.imapfilter}/bin/imapfilter -c ${inboxRetentionConfig}
+  '';
+
   # an email account on zoho's EU datacenter, preconfigured for thunderbird.
   # the "pro" hosts are zoho's servers for domain-based addresses; the
   # plain imap.zoho.eu/smtp.zoho.eu ones are only for @zoho.com addresses
@@ -213,6 +261,12 @@ in
     services.mbsync = {
       enable = mailBackupEnabled;
       frequency = syncFrequency;
+      # runs only after a successful sync; null (no retention) while disabled
+      postExec =
+        if inboxRetentionEnabled then
+          "${inboxRetentionScript}"
+        else
+          null;
     };
 
     programs.thunderbird = {
