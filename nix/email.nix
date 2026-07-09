@@ -91,6 +91,10 @@ let
   # so no secret is written into this world-readable store file. options.expunge
   # makes the delete take effect immediately rather than waiting for an
   # interactive mailbox close that never happens in a service.
+  # The two addresses and /run/agenix names below repeat the personal and
+  # business entries in accounts.email.accounts and age.secrets; if either is
+  # renamed, update it here too (only these zoho accounts are retention-cleaned,
+  # never the hotmail one).
   inboxRetentionConfig = pkgs.writeText "imapfilter-inbox-retention.lua" ''
     options.timeout = 120
     options.expunge = true
