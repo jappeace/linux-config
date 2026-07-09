@@ -97,13 +97,36 @@ let
   #     than streaming: simpler, and the second-or-two of latency is fine for
   #     filling fields and writing prose. wtype injects the text into whatever
   #     window has focus, same trick as the address bindings in the sway config.
-  # The "small" model (~466MB) balances accuracy against CPU transcription
-  # time; swap to ggml-medium.bin for better Dutch if the laptop can spare it.
+  # -- Decision: warm whisper-server + ggml-base.q5_1, not cold whisper-cli per
+  #   press, because the cli reloaded the whole model from disk on every single
+  #   dictation (hundreds of ms of dead latency) and defaulted to 4 threads.
+  #   The whisper-server systemd user service below keeps the model resident in
+  #   RAM and uses every core (-t nproc); 'dictate' just POSTs the WAV to it.
+  #   base.q5_1 (~57MB, 5-bit quantized) transcribes several times faster than
+  #   small on CPU and is accurate enough for filling fields and writing prose.
+  #   Swap to ggml-small or ggml-medium here for better Dutch if the laptop can
+  #   spare the CPU; the server picks up whatever model this points at.
   whisper-model = pkgs.fetchurl {
-    name = "ggml-small.bin";
-    url = "https://huggingface.co/ggerganov/whisper.cpp/resolve/main/ggml-small.bin";
-    sha256 = "0ywqxbziyp2bv72riyjpw4brk9v46d4cfbjfwqvvjrrq0srakqqv";
+    name = "ggml-base-q5_1.bin";
+    url = "https://huggingface.co/ggerganov/whisper.cpp/resolve/main/ggml-base-q5_1.bin";
+    sha256 = "sha256-Qi8a5FKt5vMKAE1+XGpDGV5EM7w3C/I/rJzFkfAaiJg=";
   };
+
+  # Loopback port the warm whisper-server listens on, shared between the
+  # systemd service and the 'dictate' client below.
+  whisper-port = 18181;
+
+  # ExecStart wrapper so we can pass -t "$(nproc)": systemd ExecStart is not a
+  # shell, so the command substitution needs a real shell to expand.
+  whisper-server-start = pkgs.writeShellScript "whisper-server-start" ''
+    exec ${pkgs.whisper-cpp}/bin/whisper-server \
+      --model ${whisper-model} \
+      --threads "$(${pkgs.coreutils}/bin/nproc)" \
+      --language auto \
+      --no-timestamps \
+      --host 127.0.0.1 \
+      --port ${toString whisper-port}
+  '';
 
   dictate = pkgs.writeShellScriptBin "dictate" ''
     set -uo pipefail
@@ -127,13 +150,19 @@ let
         sleep 0.1
       done
       ${pkgs.libnotify}/bin/notify-send -t 1500 "Dictation" "transcribing..."
-      if ! text=$(${pkgs.whisper-cpp}/bin/whisper-cli \
-                    --model ${whisper-model} \
-                    --language auto \
-                    --no-timestamps \
-                    --no-prints \
-                    --file "$wav" 2>"$log"); then
-        ${pkgs.libnotify}/bin/notify-send -u critical "Dictation failed" "$(tail -n1 "$log")"
+      # Transcribe against the warm whisper-server (model stays resident in RAM),
+      # not a fresh whisper-cli that would reload the model on every press.
+      # -s silent (no progress bar), -f exit non-zero on HTTP 4xx/5xx so a
+      # server error body is never mistaken for a transcription and typed out.
+      if ! text=$(${pkgs.curl}/bin/curl -sf --max-time 120 \
+                    "http://127.0.0.1:${toString whisper-port}/inference" \
+                    -F file=@"$wav" \
+                    -F response_format=text \
+                    -F language=auto 2>"$log"); then
+        # Show curl's actual error (connection refused, HTTP 500, timeout, ...)
+        # plus a hint, rather than swallowing the real cause behind a guess.
+        ${pkgs.libnotify}/bin/notify-send -u critical "Dictation failed" \
+          "$(tail -n1 "$log") -- is whisper-server up on :${toString whisper-port}? systemctl --user status whisper-server"
         exit 1
       fi
       text=$(printf '%s' "$text" | tr '\n' ' ' | sed 's/  */ /g; s/^ //; s/ $//')
@@ -667,6 +696,21 @@ output eDP-1 resolution 2880x1800 position 0,720
   #
   # the default systemd isolation doesn't make sense for waybar.
   systemd.user.services.waybar.path = config.environment.systemPackages;
+
+  # Warm speech-to-text backend for the 'dictate' command. Holds the whisper
+  # model resident in RAM so each dictation skips the cold model load; see the
+  # Decision near whisper-model. Tied to the sway session like dunst so it is
+  # already listening by the time the first $mod+Ctrl+space fires.
+  systemd.user.services.whisper-server = {
+    description = "Warm whisper.cpp server backing the dictate command";
+    partOf = [ "sway-session.target" ];
+    wantedBy = [ "sway-session.target" ];
+    serviceConfig = {
+      ExecStart = whisper-server-start;
+      Restart = "on-failure";
+      RestartSec = 5;
+    };
+  };
 
   nixpkgs.config = {
     /*
