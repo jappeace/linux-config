@@ -59,15 +59,23 @@ let
   # messages and syncthing would merge them into duplicates; separating them in
   # time lets syncthing converge the Maildir and mbsync state between runs. A
   # machine that is off on its day just skips: the sync is additive, so nothing
-  # is lost, and the next machine's day catches up. Sunday is left idle. A host
-  # not listed here fails evaluation on purpose, so a new machine cannot
-  # silently run without a slot assigned.
+  # is lost, and the next machine's day catches up. Sunday is left idle.
   syncFrequencyByHost = {
     panorama-tower = "Mon,Thu *-*-* 09:00:00";
     lenovo-amd-2022 = "Tue,Fri *-*-* 09:00:00";
     lenovo-tablet = "Wed,Sat *-*-* 09:00:00";
   };
-  syncFrequency = syncFrequencyByHost.${config.networking.hostName};
+  # The lookup only happens once the backup is enabled, keeping the "off is
+  # inert" promise: a machine that has not opted in builds fine even if it has
+  # no slot. Enabling the backup on a host missing from the table above fails
+  # evaluation on purpose, so a machine cannot start syncing unscheduled. The
+  # "daily" fallback is dead while disabled (the timer is not generated then);
+  # it only exists so the option stays a valid string.
+  syncFrequency =
+    if mailBackupEnabled then
+      syncFrequencyByHost.${config.networking.hostName}
+    else
+      "daily";
 
   # an email account on zoho's EU datacenter, preconfigured for thunderbird.
   # the "pro" hosts are zoho's servers for domain-based addresses; the
