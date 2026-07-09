@@ -26,7 +26,7 @@ let
   # machine once its secrets are in place (which also lets the rollout happen
   # one machine at a time). While false the whole backup is inert: no secrets,
   # no mbsync config, no timer.
-  mailBackupEnabled = false;
+  mailBackupEnabled = true;
 
   # Decision: back up the zoho accounts into a local Maildir under ~/docs/email
   # with isync/mbsync, pulling one-way from the server and never deleting
