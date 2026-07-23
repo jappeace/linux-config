@@ -282,6 +282,18 @@ in
           "mailnews.default_sort_type" = 18;
           "mailnews.default_sort_order" = 2;
           "mailnews.default_view_flags" = 0;
+
+          # Decision: European dd-mm-yyyy dates via an explicit pattern
+          # override. Thunderbird formats dates with its bundled en-US app
+          # locale and ignores the nl_NL OS locale of these machines, so the
+          # message list showed 7/23/2026. The alternative,
+          # intl.regional_prefs.use_os_locales = true, was rejected: it
+          # switches every regional format at once and only says
+          # "follow the OS", while this states the wanted format outright.
+          # ICU skeleton: dd = 2-digit day, MM = 2-digit month, yyyy = year.
+          # Unlike the sort prefs above this applies on next start, no
+          # profile wipe needed.
+          "intl.date_time.pattern_override.date_short" = "dd-MM-yyyy";
         };
       };
     };
