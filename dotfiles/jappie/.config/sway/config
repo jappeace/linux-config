@@ -39,7 +39,7 @@ bindsym --release $mod+Ctrl+n exec --no-startup-id wtype -d 5 "Jappie Klooster"
 bindsym --release $mod+Ctrl+1 exec --no-startup-id wtype -d 5 "Jappie"
 bindsym --release $mod+Ctrl+2 exec --no-startup-id wtype -d 5 "Klooster"
 bindsym --release $mod+Ctrl+w exec --no-startup-id wtype -d 5 "https://jappie.me"
-bindsym --release $mod+Ctrl+W exec --no-startup-id wtype -d 5 "https://jappiesoftware.com"
+# bindsym --release $mod+Ctrl+W exec --no-startup-id wtype -d 5 "https://jappiesoftware.com"
 
 # Speech-to-text: first press starts recording, second press transcribes
 # (whisper.cpp) and types the result into the focused window.
