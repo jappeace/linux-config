@@ -283,7 +283,7 @@ in
           "mailnews.default_sort_order" = 2;
           "mailnews.default_view_flags" = 0;
 
-          # Decision: European dd-mm-yyyy dates via an explicit pattern
+          # Decision: European dd-MM-yyyy dates via an explicit pattern
           # override. Thunderbird formats dates with its bundled en-US app
           # locale and ignores the nl_NL OS locale of these machines, so the
           # message list showed 7/23/2026. The alternative,
