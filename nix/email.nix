@@ -290,7 +290,7 @@ in
           # intl.regional_prefs.use_os_locales = true, was rejected: it
           # switches every regional format at once and only says
           # "follow the OS", while this states the wanted format outright.
-          # ICU skeleton: dd = 2-digit day, MM = 2-digit month, yyyy = year.
+          # ICU pattern: dd = 2-digit day, MM = 2-digit month, yyyy = year.
           # Unlike the sort prefs above this applies on next start, no
           # profile wipe needed.
           "intl.date_time.pattern_override.date_short" = "dd-MM-yyyy";
