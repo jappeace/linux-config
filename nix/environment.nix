@@ -41,6 +41,20 @@ let
 
   fuckdirenv = pkgs.writeShellScriptBin "fuckdirenv" ''fd -t d -IH direnv --exec rm -r'';
 
+  # Decision: reset SIGPIPE for shells that nix-shell spawns, via a
+  # NIX_BUILD_SHELL wrapper rather than patching Lix. Lix ignores SIGPIPE
+  # in its own process and never restores it before exec'ing bash, so
+  # every nix-shell inherits the ignore, and bash cannot undo an
+  # inherited ignore (not even interactively). One visible symptom:
+  # ble.sh implements `history -a` with `builtin history | head -1`,
+  # which then prints "bash: history: schrijffout: Broken pipe" twice
+  # per prompt. Alternatives considered: `trap - PIPE` in .bashrc (a
+  # no-op for inherited ignores) and patching Lix (not our lever).
+  # Verified 2026-09-12 with Lix 2.95.2: SigIgn bit 0x1000 clears.
+  bash-default-sigpipe = pkgs.writeShellScript "bash-default-sigpipe" ''
+    exec ${pkgs.coreutils}/bin/env --default-signal=PIPE ${pkgs.bashInteractive}/bin/bash "$@"
+  '';
+
   reload-emacs = pkgs.writeShellScriptBin "reload-emacs" ''
     sudo nixos-rebuild switch && systemctl daemon-reload --user &&    systemctl restart emacs --user
   '';
@@ -521,6 +535,8 @@ in
     };
     variables = {
       LESS = "-F -X -R";
+      # see the bash-default-sigpipe decision above
+      NIX_BUILD_SHELL = "${bash-default-sigpipe}";
     };
     pathsToLink = [
       "/share/nix-direnv"
