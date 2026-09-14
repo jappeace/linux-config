@@ -504,6 +504,11 @@ in
           # still fails with this on, IPv6 was not it either and the
           # MOZ_LOG capture the diagnose command prints is the next
           # instrument. Applies on next Thunderbird start.
+          # Outcome (Jappie, 14 sep 2026): sending works with this on.
+          # That confirms the fix, not the mechanism: whether the
+          # laptop's IPv6 path to smtp.gmail.com is actually broken is
+          # still unmeasured until `thunderbird-smtp-diagnose` output
+          # says so. Keep the pref until that measurement exists.
           "network.dns.disableIPv6" = true;
         };
       };
