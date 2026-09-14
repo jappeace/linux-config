@@ -211,6 +211,72 @@ let
     Jappie Klooster
     https://jappie.me'';
 
+  # Decision: a diagnose command ships with the mail config, because the
+  # webwinkelverhuis SMTP timeout has now survived one fix that was
+  # reasoned rather than measured on the laptop itself (PR #50, auth
+  # method). The 2 sep measurement behind that fix ran in the agent
+  # container, which has NO IPv6 route at all (a v6 connect fails there
+  # instantly with "Network is unreachable", measured 14 sep 2026), so
+  # it proved the IPv4 path only. This command measures the things the
+  # laptop can differ on: IPv6 presence, the AAAA/A answers, a TLS
+  # handshake per address family and port, and the SMTP prefs
+  # Thunderbird actually holds. Run it as `thunderbird-smtp-diagnose`
+  # and paste the output into the next fix.
+  thunderbirdSmtpProbe = pkgs.writeText "thunderbird-smtp-probe.py" ''
+    import socket, ssl, time
+    targets = [
+        ("smtp.gmail.com", 465, False),
+        ("smtp.gmail.com", 587, True),
+        ("imap.gmail.com", 993, False),
+    ]
+    for host, port, starttls in targets:
+        for family, name in [(socket.AF_INET, "IPv4"), (socket.AF_INET6, "IPv6")]:
+            started = time.time()
+            try:
+                address = socket.getaddrinfo(host, port, family, socket.SOCK_STREAM)[0][4]
+                raw = socket.socket(family, socket.SOCK_STREAM)
+                raw.settimeout(8)
+                raw.connect(address)
+                if starttls:
+                    raw.recv(500)
+                    raw.sendall(b"EHLO diagnose\r\n")
+                    raw.recv(1000)
+                    raw.sendall(b"STARTTLS\r\n")
+                    raw.recv(200)
+                secured = ssl.create_default_context().wrap_socket(raw, server_hostname=host)
+                print(f"{host}:{port} {name} {address[0]}: TLS ok ({secured.version()}) in {time.time() - started:.1f}s")
+                secured.close()
+            except Exception as failure:
+                print(f"{host}:{port} {name}: FAIL {type(failure).__name__}: {failure} after {time.time() - started:.1f}s")
+  '';
+
+  thunderbird-smtp-diagnose = pkgs.writeShellScriptBin "thunderbird-smtp-diagnose" ''
+    set -u
+    echo "== IPv6 op deze machine"
+    ${pkgs.iproute2}/bin/ip -6 addr show scope global | grep inet6 || echo "geen globaal IPv6-adres"
+    ${pkgs.iproute2}/bin/ip -6 route show default || echo "geen IPv6 default route"
+    echo
+    echo "== DNS-antwoorden"
+    for host in smtp.gmail.com imap.gmail.com; do
+      echo "$host A: $(${pkgs.dig}/bin/dig +short "$host" A | tr '\n' ' ')"
+      echo "$host AAAA: $(${pkgs.dig}/bin/dig +short "$host" AAAA | tr '\n' ' ')"
+    done
+    echo
+    echo "== TLS-handshake per adresfamilie en poort (8 s timeout)"
+    ${pkgs.python3}/bin/python3 ${thunderbirdSmtpProbe}
+    echo
+    echo "== SMTP-prefs in het Thunderbird-profiel (user.js wint van prefs.js)"
+    for file in "$HOME/.thunderbird/jappie/user.js" "$HOME/.thunderbird/jappie/prefs.js"; do
+      echo "-- $file"
+      grep -h 'smtpserver\|smtp.defaultserver\|mail.smtpservers\|disableIPv6\|tcptimeout' "$file" 2>/dev/null \
+        || echo "(geen SMTP-prefs gevonden)"
+    done
+    echo
+    echo "== Als versturen daarna nog faalt: Thunderbird met SMTP-log starten"
+    echo "  MOZ_LOG=SMTP:5,Socket:5 MOZ_LOG_FILE=/tmp/tb-smtp.log thunderbird"
+    echo "  (één mail versturen, dan: grep -i 'smtp\|connect\|error' /tmp/tb-smtp.log | tail -50)"
+  '';
+
   # Decision: the Send Later addon (scheduled email sending) is installed
   # through Thunderbird's enterprise policy ExtensionSettings, force_installed
   # from addons.thunderbird.net. Alternatives considered: home-manager's
@@ -271,6 +337,8 @@ in
     # version of home-manager option defaults at first adoption,
     # not something to bump on upgrades
     home.stateVersion = "25.11";
+
+    home.packages = [ thunderbird-smtp-diagnose ];
 
     # Both mailboxes are hosted on zoho. The MX records of both domains
     # point at mx.zoho.eu, so the EU datacenter servers apply, not the
@@ -416,6 +484,27 @@ in
           # prefs shadow this default): any account added by hand in the
           # UI also starts out composing plain text.
           "mail.identity.default.compose_html" = false;
+
+          # Decision: IPv6 off inside Thunderbird only. Sending via
+          # smtp.gmail.com kept failing ("timed out" / "connection
+          # interrupted") after PR #50 moved SMTP to password auth, so
+          # auth was not it. What IS measured (14 sep 2026): the 2 sep
+          # test that "proved" the network ran in the agent container,
+          # which has no IPv6 route, so only IPv4 was ever exercised;
+          # smtp.gmail.com answers with an AAAA (2a00:1450:4025:402::6c)
+          # and Thunderbird tries that family first. A half-working
+          # IPv6 path yields exactly these two symptoms, a hang until
+          # mailnews.tcptimeout (100 s) or a reset, before any fallback
+          # to IPv4. This pref pins Thunderbird to the path that was
+          # measured working. What is NOT measured: whether this
+          # laptop's IPv6 is actually broken; `thunderbird-smtp-diagnose`
+          # measures that. Alternatives rejected: disabling IPv6
+          # system-wide (wider than the symptom), raising tcptimeout
+          # (masks a failing path instead of avoiding it). If sending
+          # still fails with this on, IPv6 was not it either and the
+          # MOZ_LOG capture the diagnose command prints is the next
+          # instrument. Applies on next Thunderbird start.
+          "network.dns.disableIPv6" = true;
         };
       };
     };
