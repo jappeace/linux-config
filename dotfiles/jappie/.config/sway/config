@@ -233,8 +233,8 @@ client.background \#000000
 # class					border	backgr. text	indicator
 
 #bind brightness ctl
-bindsym XF86MonBrightnessDown exec brightness-
-bindsym XF86MonBrightnessUp exec brightness+
+bindsym XF86MonBrightnessDown exec brightnessctl --class=backlight set 1%-
+bindsym XF86MonBrightnessUp exec brightnessctl --class=backlight set +1%
 bindsym $mod+Shift+z exec --no-startup-id /home/jappie/bin/monitor
 bindsym $mod+Shift+a exec --no-startup-id /home/jappie/bin/monitor-2
 
@@ -262,7 +262,10 @@ exec swaymsg 'workspace $w10;exec ksysguard'
 # exec i3-msg 'workspace $w2;exec konsole'
 # exec i3-msg 'workspace $w3;exec dolphin'
 #exec i3-msg 'workspace $w1;exec steam'
-exec sudo brightness 500
+# Decision: set startup brightness relative to the panel's reported maximum.
+# A fixed raw value of 500 is barely visible on amdgpu_bl1 with max 496000.
+# Use 40% instead, without tying the config to one driver or device name.
+exec brightnessctl --class=backlight set 40%
 
 client.focused #3b1261 #3b1261 #ffffff #662b9c
 client.focused_inactive #333333 #5f676a #ffffff #484e50

@@ -121,6 +121,12 @@ Examples from the 25.11 to 26.05 migration:
 | `wineWowPackages.stable` | `wineWow64Packages.stable` |
 | `services.logind.lidSwitch` | `services.logind.settings.Login.HandleLidSwitch` (already present on the tablet) |
 
+Hardware ranges can change too. After this upgrade, an AMD backlight reported
+a maximum of 496000, making the old raw startup setting of 500 about 0.1%.
+Check `brightnessctl`'s reported range and use percentage-based startup settings
+and keybindings, targeting `--class=backlight` to avoid keyboard LEDs. Both Sway
+and i3 now start at 40% rather than relying on the panel's old raw scale.
+
 ## 5. Build the real application, then the host closure
 
 Run the repository check:

@@ -227,8 +227,8 @@ assign [class="keepassxc"] $wf1
 # class					border	backgr. text	indicator
 
 #bind brightness ctl
-bindsym XF86MonBrightnessUp exec brightnessctl set +1%
-bindsym XF86MonBrightnessDown exec brightnessctl set 1%-
+bindsym XF86MonBrightnessUp exec brightnessctl --class=backlight set +1%
+bindsym XF86MonBrightnessDown exec brightnessctl --class=backlight set 1%-
 bindsym $mod+Shift+z exec --no-startup-id monitor
 # bindsym $mod+Shift+a exec --no-startup-id /home/jappie/bin/monitor-2
 
@@ -265,7 +265,9 @@ exec i3-msg 'workspace $wf1; exec keepassxc; exec plasma-systemmonitor'
 # exec i3-msg 'workspace $w2;exec konsole'
 # exec i3-msg 'workspace $w3;exec dolphin'
 #exec i3-msg 'workspace $w1;exec steam'
-exec sudo brightness 500
+# Decision: use the same device-relative startup brightness as Sway; raw 500
+# became nearly black when the AMD panel's maximum changed to 496000.
+exec brightnessctl --class=backlight set 40%
 
 
 client.focused #3b1261 #3b1261 #ffffff #662b9c
