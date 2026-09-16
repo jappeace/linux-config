@@ -33,6 +33,29 @@ but the default one can be generated anyway
 
 run `nixos-rebuild switch`
 
+## NixOS 26.05 upgrade
+
+The main nixpkgs pin tracks `nixos-26.05`, with Home Manager on
+`release-26.05`. This supplies Foot 1.27.0, including the fix for
+[Foot #2335](https://codeberg.org/dnkl/foot/issues/2335): OpenCode's OSC 99
+notification-capability query could abort older Foot versions with
+`xsnprintf.c:42: xvsnprintf: No buffer space available`.
+
+From the `/linux-config` checkout, build and activate using the pinned nixpkgs:
+
+```sh
+bash scripts/rebuild.sh build
+bash scripts/rebuild.sh switch
+```
+
+Open a fresh Foot process afterward and verify `foot --version` reports at
+least 1.27.0. NixOS and Home Manager `stateVersion` values describe existing
+installation defaults and are intentionally retained during release upgrades.
+
+NixOS 26.05 removes `programs.adb` and the unmaintained `light` package.
+`android-tools` now supplies adb with systemd-managed device access, and
+`brightnessctl` supplies brightness control, including the i3 brightness keys.
+
 ## Key managment
 
 1. Setup syncthing.

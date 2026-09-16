@@ -1,4 +1,7 @@
 let
+  # Decision: track NixOS 26.05 and Home Manager release-26.05 together. Stable
+  # now includes Foot 1.27.0, fixing the OSC 99 crash triggered by OpenCode
+  # (foot#2335), so a terminal-only unstable override is unnecessary.
   sources = import ./npins;
   evalConfig = import (sources.nixpkgs + "/nixos/lib/eval-config.nix");
 in

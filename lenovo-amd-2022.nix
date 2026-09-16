@@ -288,7 +288,6 @@ boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
       "audio"
       "disk"
       "networkmanager"
-      "adbusers"
       "docker"
       "vboxusers"
       "podman"

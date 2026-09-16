@@ -234,6 +234,11 @@ in
       pkgs.slurp # The region selector
 
       protobuf
+      # NixOS 26.05 supplies Android device access through systemd uaccess;
+      # programs.adb was removed, so install its CLI explicitly.
+      android-tools
+      # Replaces the removed, unmaintained light package on NixOS 26.05.
+      brightnessctl
       qemu_full
       kdePackages.kdenlive
       # for those sweet global installs
@@ -277,7 +282,7 @@ in
       xclip
       filezilla
       slop
-      xorg.xhost
+      xhost
       unzip
       krita
       chatterino2 # TODO this doesn't work, missing xcb
@@ -499,7 +504,7 @@ in
       piper # piper-tts wrapper with Amy voice model
 
       pandoc
-      wineWowPackages.stable
+      wineWow64Packages.stable
       winetricks
 
       tmate
@@ -508,7 +513,7 @@ in
       anki
       cloc
       lshw # list hardware
-      pkgs.xorg.xev # monitor x events
+      pkgs.xev # monitor x events
 
       direnv # https://direnv.net/
       nix-direnv
@@ -662,8 +667,6 @@ tmux = {
     };
     vim.defaultEditor = true;
     vim.enable = true;
-    adb.enable = true;
-    light.enable = true;
     foot = {
       enable = true;
       theme = "molokai"; # Or any base16 theme

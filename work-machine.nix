@@ -241,7 +241,6 @@
       "audio"
       "disk"
       "networkmanager"
-      "adbusers"
       "docker"
       "vboxusers"
       "podman"

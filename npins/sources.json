@@ -62,12 +62,11 @@
         "owner": "nix-community",
         "repo": "home-manager"
       },
-      "branch": "release-25.11",
+      "branch": "release-26.05",
       "submodules": false,
-      "revision": "3ee51fbdac8c8bdfe1e7e1fcaba6520a563f394f",
-      "url": "https://github.com/nix-community/home-manager/archive/3ee51fbdac8c8bdfe1e7e1fcaba6520a563f394f.tar.gz",
-      "hash": "sha256-QOD/CNm196nCJRheux/URi4/HE66fthdOMqCJoPP1Y0=",
-      "frozen": false
+      "revision": "ec172013fa62135f58fb58dd17ae9651e8f39727",
+      "url": "https://github.com/nix-community/home-manager/archive/ec172013fa62135f58fb58dd17ae9651e8f39727.tar.gz",
+      "hash": "sha256-LWiBv9yAYFi2LPbUhDGHPGKYskJQjj2fw12OlyO1uQo="
     },
     "leana-dotfiles": {
       "type": "Git",
@@ -87,14 +86,14 @@
       "type": "Git",
       "repository": {
         "type": "GitHub",
-        "owner": "nixos",
+        "owner": "NixOS",
         "repo": "nixpkgs"
       },
-      "branch": "nixos-25.11",
+      "branch": "nixos-26.05",
       "submodules": false,
-      "revision": "09eb77e94fa25202af8f3e81ddc7353d9970ac1b",
-      "url": "https://github.com/nixos/nixpkgs/archive/09eb77e94fa25202af8f3e81ddc7353d9970ac1b.tar.gz",
-      "hash": "sha256-mSD5Ob7a+T2RNjvPvOA1dkJHGVrNVl8ZOrAwBjKBDQo="
+      "revision": "b67c7a60c3732edd4b947a7df8af06215851a614",
+      "url": "https://github.com/NixOS/nixpkgs/archive/b67c7a60c3732edd4b947a7df8af06215851a614.tar.gz",
+      "hash": "sha256-JOaadoI/IC9qEvwlnjwAhwdcWkCDqEeOJ+cOtUH/8RQ="
     },
     "nixpkgs-lix": {
       "type": "Channel",
