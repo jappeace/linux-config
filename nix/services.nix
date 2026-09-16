@@ -200,7 +200,7 @@ config = ''
       windowManager.i3.extraPackages = [ pkgs.adwaita-qt ];
       windowManager.i3.extraSessionCommands = ''
         sleep 1;
-        ${pkgs.xorg.xmodmap}/bin/xmodmap ~/.Xmodmap
+        ${pkgs.xmodmap}/bin/xmodmap ~/.Xmodmap
       '';
 
 

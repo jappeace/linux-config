@@ -314,7 +314,6 @@ boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
     };
 
     logind = {
-      lidSwitch = "suspend-then-hibernate";
       # https://www.freedesktop.org/software/systemd/man/logind.conf.html
       # https://man.archlinux.org/man/systemd-sleep.conf.5
       # https://unix.stackexchange.com/questions/620202/how-to-redefine-action-for-power-button-on-nixos
@@ -342,7 +341,6 @@ boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
       "audio"
       "disk"
       "networkmanager"
-      "adbusers"
       "docker"
       "vboxusers"
       "podman"

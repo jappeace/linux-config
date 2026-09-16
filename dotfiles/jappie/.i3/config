@@ -227,8 +227,8 @@ assign [class="keepassxc"] $wf1
 # class					border	backgr. text	indicator
 
 #bind brightness ctl
-bindsym XF86MonBrightnessUp exec light -A 1
-bindsym XF86MonBrightnessDown exec light -U 1
+bindsym XF86MonBrightnessUp exec brightnessctl set +1%
+bindsym XF86MonBrightnessDown exec brightnessctl set 1%-
 bindsym $mod+Shift+z exec --no-startup-id monitor
 # bindsym $mod+Shift+a exec --no-startup-id /home/jappie/bin/monitor-2
 

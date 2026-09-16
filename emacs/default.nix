@@ -31,7 +31,7 @@ in {
         pkgs.haskellPackages.ormolu
         shfmt
         html-tidy
-        pkgs.nodePackages.prettier
+        pkgs.prettier
         pkgs.python3Packages.sqlparse # sqlforamt
         pkgs.shellcheck
         (pkgs.agda.withPackages (p: [ p.standard-library ]))
@@ -42,7 +42,7 @@ in {
 
         # nix language server
         pkgs.nil
-        pkgs.nixfmt-rfc-style
+        pkgs.nixfmt
 	  ];
   };
 
