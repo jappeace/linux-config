@@ -636,6 +636,10 @@ in
 
   services.dbus.packages = [ pkgs.dconf ]; # Ensure dconf has dbus access
   programs = {
+tmux = {
+  enable = true;
+  clock24 = true;
+};
     # Force GNOME Terminal to use Fira Code 12
     dconf.enable = true;
 
