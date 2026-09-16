@@ -1,3 +1,6 @@
+;;; emacs.el --- Personal editor configuration -*- lexical-binding: nil; -*-
+
+;; Keep the existing dynamic-binding semantics explicit for Emacs 31.
 ;; globals
 ;; (set-default 'truncate-lines nil)
 (setq-default indent-tabs-mode nil) ;; disable tabs

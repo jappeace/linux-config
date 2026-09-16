@@ -56,6 +56,17 @@ NixOS 26.05 removes `programs.adb` and the unmaintained `light` package.
 `android-tools` now supplies adb with systemd-managed device access, and
 `brightnessctl` supplies brightness control, including the i3 brightness keys.
 
+Check Emacs compatibility after changing nixpkgs or the Emacs overlay:
+
+```sh
+nix-build nix/ci.nix
+```
+
+This builds the configured PGTK editor, including its packages, and runs the
+headless ERT suite using the same overlay's no-X Emacs release. Building only
+`emacs-tests` does not check the PGTK build. The overlay must remain compatible
+with the pinned nixpkgs Tree-sitter API.
+
 ## Key managment
 
 1. Setup syncthing.

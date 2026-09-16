@@ -4,7 +4,7 @@
 #
 # Builds the same package set emacs.nix does (emacsWithPackagesFromUsePackage
 # reads the use-package forms straight out of emacs.el, so the tests run
-# against the packages the real config asks for), but on emacs-nox rather
+# against the packages the real config asks for), but on emacs-unstable-nox rather
 # than emacs-unstable-pgtk: a pgtk build cannot create tty frames and this
 # has to run headless in a nix builder.
 #
@@ -33,7 +33,9 @@ let
     ];
     alwaysEnsure = true;
     config = configTxt;
-    package = pkgs.emacs-nox;
+    # Use the same overlay release as the installed PGTK editor. The stable
+    # nixpkgs emacs-nox can lag behind and mask source/API incompatibilities.
+    package = pkgs.emacs-unstable-nox;
   };
 in
 pkgs.runCommand "emacs-tests"
@@ -46,6 +48,7 @@ pkgs.runCommand "emacs-tests"
   passthru.tests = { };
 } ''
   export HOME=$TMPDIR
+  mkdir -p "$HOME/.emacs.d"
   emacs -q --batch \
     -l ${init}/share/emacs/site-lisp/default.el \
     -l ${./emacs-test.el} \
