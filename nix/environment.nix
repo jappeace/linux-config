@@ -390,13 +390,9 @@ in
 
       macchanger # change mac address
       change-mac
-      (pkgs.haskellPackages.callCabal2nix "ruler" (fetchFromGitea {
-    domain = "git.confusedcompiler.org";
-    owner = "leana8959";
-    repo = "ruler";
-    rev = "44dabf46bfeff94c983308bb62145c88392c5c91";
-    hash = "sha256-DPBwl0tkb20kXL3sOoW0B7gadSxmnW6B/gOq9ZLsOPk=";
-      }) { })
+      # Decision: disable the optional ruler tool on NixOS 26.05 because its
+      # tasty/tasty-golden bounds block the system build. Prefer omitting it
+      # over maintaining a local dependency-bound override.
 
       /*
         $ sudo service network-manager stop
