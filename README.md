@@ -33,6 +33,10 @@ but the default one can be generated anyway
 
 run `nixos-rebuild switch`
 
+For release and dependency updates, follow the [upgrade guide](UPGRADING.md).
+It covers pin updates, overlay compatibility, machine evaluation, actual package
+builds, daemon diagnostics, activation, and rollback.
+
 ## NixOS 26.05 upgrade
 
 The main nixpkgs pin tracks `nixos-26.05`, with Home Manager on
