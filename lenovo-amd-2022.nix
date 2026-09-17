@@ -57,7 +57,7 @@ boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
   environment.systemPackages = [monitor-script];
 
   security.sudo.extraRules = [
-    { groups = [ "sudo" ]; commands = [{ command = "${pkgs.systemd}/bin/poweroff"; options = [ "NOPASSWD" ]; }]; }
+    { groups = [ "wheel" ]; commands = [{ command = "${pkgs.systemd}/bin/poweroff"; options = [ "NOPASSWD" ]; }]; }
   ];
   security.sudo.extraConfig = ''
     Defaults        timestamp_timeout=120
