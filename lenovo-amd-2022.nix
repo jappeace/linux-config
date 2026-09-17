@@ -24,6 +24,7 @@ boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
     ./hardware/lenovo-amd-2022.nix
     ./emacs
     ./nix/config.nix
+    ./nix/claude-launcher-sudo.nix
     ./nix/environment.nix
     ./nix/email.nix
     ./nix/services.nix
@@ -57,9 +58,6 @@ boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
 
   security.sudo.extraRules = [
     { groups = [ "sudo" ]; commands = [{ command = "${pkgs.systemd}/bin/poweroff"; options = [ "NOPASSWD" ]; }]; }
-    # claude-env's claude.sh launcher shells out to systemd-nspawn, which has
-    # no rootless mode. Allowlist it so the launcher doesn't prompt.
-    { groups = [ "sudo" ]; commands = [{ command = "${pkgs.systemd}/bin/systemd-nspawn"; options = [ "NOPASSWD" ]; }]; }
   ];
   security.sudo.extraConfig = ''
     Defaults        timestamp_timeout=120
