@@ -20,6 +20,11 @@
 # systemd the system actually installs. sudo matches the sudoers path against
 # the invoked binary by device and inode, so the /run/current-system symlink
 # the user's PATH resolves to still matches the store path written here.
+# The rule targets the wheel group: that is the admin group NixOS's sudo
+# module uses and the one jappie is in. An earlier version copied the host
+# files' "sudo" group, which no NixOS module creates, so the rules matched
+# nobody and every launch kept prompting. Sudoers "%group" lines apply only
+# to actual members; check with `id` before trusting a group name.
 # Wildcards are scoped to machine-*.scope units and machinectl terminate;
 # a sudoers "*" also matches spaces, so the widest thing these rules permit
 # is stopping or resetting extra machine scopes, never arbitrary units.
@@ -30,7 +35,7 @@ in
 {
   security.sudo.extraRules = [
     {
-      groups = [ "sudo" ];
+      groups = [ "wheel" ];
       commands = [
         { command = "${systemdBin}/systemd-nspawn"; options = [ "NOPASSWD" ]; }
         { command = "${systemdBin}/systemctl reset-failed machine-*.scope"; options = [ "NOPASSWD" ]; }
