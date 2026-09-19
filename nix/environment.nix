@@ -233,6 +233,8 @@ in
       pkgs.grim  # The screenshot tool
       pkgs.slurp # The region selector
 
+      sc-im # spreadsheets!!! accessible to clankers too
+
       protobuf
       # NixOS 26.05 supplies Android device access through systemd uaccess;
       # programs.adb was removed, so install its CLI explicitly.
