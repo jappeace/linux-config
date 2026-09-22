@@ -57,11 +57,28 @@
 # controller or child device that never finishes probing looks like. The
 # 2026 i2c-designware "defer probe until child GpioInt controllers are bound"
 # change was checked and is NOT in linux-6.18.y, so it is not the cause here.
+#
+# Finding (22 sep 2026, evening, touchpad-diagnose on lenovo-tablet): on both
+# boots that day the kernel enumerated no touchpad at all because the firmware
+# reported ACPI _STA=0 for every touchpad candidate (ELAN06FA, FTCS0038,
+# SYNA2BA6, GXTP5100 under \_SB_.I2CD, PNP0C50 under I2CC) and left the
+# AMDI0010:00/:01 i2c controllers disabled. That is decided at POST, below
+# sway and below the kernel, so the watcher above cannot log it and the
+# lenovo_ymc blacklist cannot fix it. The diagnose script therefore also
+# prints the touchpad enumeration per boot (which boot lost it, on which
+# kernel), the ACPI path of each i2c controller, and the decompiled _STA
+# methods of the touchpad devices, so the variable or EC field the firmware
+# checks can be read off instead of guessed. Candidate causes still open: EC
+# state latched across reboots (EC reset: power off, unplug, hold power 30 s),
+# the BIOS setup touchpad option, BIOS QXCN20WW vs QXCN21WW (2025-10-28).
 { pkgs, ... }:
 let
   swaymsg = "${pkgs.sway}/bin/swaymsg";
   jq = "${pkgs.jq}/bin/jq";
   evtest = "${pkgs.evtest}/bin/evtest";
+  acpidump = "${pkgs.acpica-tools}/bin/acpidump";
+  acpixtract = "${pkgs.acpica-tools}/bin/acpixtract";
+  iasl = "${pkgs.acpica-tools}/bin/iasl";
 
   # jq filter: every input device sway considers a touchpad whose send_events
   # mode is anything other than "enabled". Prints identifier and mode.
@@ -161,11 +178,12 @@ let
       printf '%s name=%s\n' "$(basename "$i2c")" "$(cat "$i2c/name" 2>/dev/null || echo '?')"
     done
     echo
-    echo "i2c designware controllers (ACPI status; the touchpad sits behind one of these):"
+    echo "i2c designware controllers (ACPI status and path; the touchpad sits behind one of these):"
     for acpi in /sys/bus/acpi/devices/AMDI0010:*; do
-      printf '%s status=%s driver=%s\n' "$(basename "$acpi")" \
+      printf '%s status=%s driver=%s path=%s\n' "$(basename "$acpi")" \
         "$(cat "$acpi/status" 2>/dev/null || echo '?')" \
-        "$(basename "$(readlink "$acpi/physical_node/driver" 2>/dev/null || echo 'unbound')")"
+        "$(basename "$(readlink "$acpi/physical_node/driver" 2>/dev/null || echo 'unbound')")" \
+        "$(cat "$acpi/path" 2>/dev/null || echo '?')"
     done
     echo
     echo "devices stuck in deferred probe (a controller listed here never came up, silently):"
@@ -176,6 +194,37 @@ let
     echo
     echo "loaded modules of interest:"
     lsmod | grep -E '^(lenovo_ymc|ideapad_laptop|i2c_hid_acpi|i2c_hid|hid_multitouch|i2c_designware_platform)\b' || echo "none of lenovo_ymc/ideapad_laptop/i2c_hid_acpi/hid_multitouch loaded"
+
+    section "touchpad enumeration per boot (journal): on which boot did it vanish"
+    echo "boot	kernel	touchpad-lines	first-message"
+    sudo journalctl --list-boots -o json | ${jq} -r '.[] | "\(.index) \(.first_entry)"' \
+      | while read -r index first_entry; do
+        kernel="$(sudo journalctl -b "$index" -k -o cat --no-pager 2>/dev/null \
+          | sed -n 's/^Linux version \([^ ]*\).*/\1/p' | head -n 1)"
+        touchpad_lines="$(sudo journalctl -b "$index" -k -o cat --no-pager 2>/dev/null \
+          | grep -c -E 'ELAN06FA|SYNA2BA6|FTCS0038|GXTP5100|PNP0C50')"
+        printf '%s\t%s\t%s\t%s\n' "$index" "''${kernel:-?}" "$touchpad_lines" \
+          "$(date -d "@$((first_entry / 1000000))" '+%F %T')"
+      done
+    echo "reading: a boot with 0 touchpad lines never had the touchpad; compare the"
+    echo "kernel column with the date to see whether the 16 sep 2026 upgrade matters."
+
+    section "firmware: what decides the touchpad's ACPI status (decompiled _STA)"
+    acpi_dir="$(mktemp -d "''${TMPDIR:-/tmp}/touchpad-acpi.XXXXXX")"
+    (
+      cd "$acpi_dir" || exit 1
+      sudo ${acpidump} -o acpi.dump >/dev/null
+      sudo chown "$(id -u)" acpi.dump
+      ${acpixtract} -a acpi.dump >/dev/null 2>&1
+      for table in ./*.dat; do
+        ${iasl} -d "$table" >/dev/null 2>&1
+      done
+    )
+    echo "decompiled tables in $acpi_dir (the .dsl files; hand them over when asked)"
+    for device in TPD0 TPD1 TPD2 TPD3 ELAN I2CC I2CD; do
+      echo "--- Device ($device), first 40 lines of every definition ---"
+      grep -h -A40 "Device ($device)" "$acpi_dir"/*.dsl || echo "not defined in any table"
+    done
 
     section "tablet mode switch state (evtest exit 10 = tablet mode ON, 0 = off)"
     for node in /dev/input/event*; do
