@@ -220,6 +220,19 @@ input "type:keyboard" {
     xkb_options caps:swapescape
 }
 
+# Decision: the touchpad stays on, also with a bluetooth mouse connected.
+# `events enabled` is libinput's default, it is spelled out so nothing can
+# claim the config asked for disabled_on_external_mouse. This block alone did
+# not hold (22 sep 2026): it applies once at config load, so the
+# touchpad-keep-enabled user service from nix/touchpad.nix re-applies it on
+# every input device change. Run touchpad-diagnose when the touchpad dies.
+input "type:touchpad" {
+    events enabled
+    tap enabled
+    natural_scroll enabled
+    dwt enabled
+}
+
 bindsym --whole-window --input-device="1267:12926:ELAN06FA:00_04F3:327E_Mouse" button2 seat - cursor press button1
 # Catch the middle click RELEASE and inject a left click RELEASE
 bindsym --whole-window --release --input-device="1267:12926:ELAN06FA:00_04F3:327E_Mouse" button2 seat - cursor release button1
