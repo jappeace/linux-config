@@ -44,7 +44,12 @@
 # how libinput and udev classify the touchpad, whether the kernel enumerated
 # a touchpad at all (ACPI status, i2c bus, loaded modules), the tablet mode
 # switch state, the watcher's log, and a short raw-event capture that tells
-# kernel-level dead from compositor-level dead.
+# kernel-level dead from compositor-level dead. The deferred-probe list is
+# there because the 16 sep 2026 upgrade to NixOS 26.05 moved the kernel from
+# 6.12 to 6.18, and a 2026 i2c-designware change (defer probe until the child
+# GpioInt controllers are bound, written for the Yoga 7 14AGP11 WACF2200
+# touchscreen) is known to cost AMD laptops their touchpad; a controller
+# stuck in deferral produces no dmesg line at all, which matches the dump.
 { pkgs, ... }:
 let
   swaymsg = "${pkgs.sway}/bin/swaymsg";
@@ -148,6 +153,19 @@ let
     for i2c in /sys/bus/i2c/devices/*; do
       printf '%s name=%s\n' "$(basename "$i2c")" "$(cat "$i2c/name" 2>/dev/null || echo '?')"
     done
+    echo
+    echo "i2c designware controllers (ACPI status; the touchpad sits behind one of these):"
+    for acpi in /sys/bus/acpi/devices/AMDI0010:*; do
+      printf '%s status=%s driver=%s\n' "$(basename "$acpi")" \
+        "$(cat "$acpi/status" 2>/dev/null || echo '?')" \
+        "$(basename "$(readlink "$acpi/physical_node/driver" 2>/dev/null || echo 'unbound')")"
+    done
+    echo
+    echo "devices stuck in deferred probe (a controller listed here never came up, silently):"
+    sudo cat /sys/kernel/debug/devices_deferred 2>/dev/null || echo "debugfs not readable"
+    echo
+    echo "i2c designware dmesg lines:"
+    sudo dmesg | grep -i 'designware\|AMDI0010' || echo "none"
     echo
     echo "loaded modules of interest:"
     lsmod | grep -E '^(lenovo_ymc|ideapad_laptop|i2c_hid_acpi|i2c_hid|hid_multitouch|i2c_designware_platform)\b' || echo "none of lenovo_ymc/ideapad_laptop/i2c_hid_acpi/hid_multitouch loaded"
