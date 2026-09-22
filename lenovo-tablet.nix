@@ -39,6 +39,7 @@ boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
     ./nix/email.nix
     ./nix/services.nix
     ./nix/sway.nix
+    ./nix/touchpad.nix
   ];
 
   # Use the systemd-boot EFI boot loader.
