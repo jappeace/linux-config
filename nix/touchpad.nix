@@ -44,12 +44,13 @@
 # how libinput and udev classify the touchpad, whether the kernel enumerated
 # a touchpad at all (ACPI status, i2c bus, loaded modules), the tablet mode
 # switch state, the watcher's log, and a short raw-event capture that tells
-# kernel-level dead from compositor-level dead. The deferred-probe list is
-# there because the 16 sep 2026 upgrade to NixOS 26.05 moved the kernel from
-# 6.12 to 6.18, and a 2026 i2c-designware change (defer probe until the child
-# GpioInt controllers are bound, written for the Yoga 7 14AGP11 WACF2200
-# touchscreen) is known to cost AMD laptops their touchpad; a controller
-# stuck in deferral produces no dmesg line at all, which matches the dump.
+# kernel-level dead from compositor-level dead. The deferred-probe list and
+# the i2c controller status are there because the 16 sep 2026 upgrade to
+# NixOS 26.05 moved the kernel from 6.12 to 6.18 and the touchpad stopped
+# being enumerated at all (no dmesg line, no error), which is what a
+# controller or child device that never finishes probing looks like. The
+# 2026 i2c-designware "defer probe until child GpioInt controllers are bound"
+# change was checked and is NOT in linux-6.18.y, so it is not the cause here.
 { pkgs, ... }:
 let
   swaymsg = "${pkgs.sway}/bin/swaymsg";
