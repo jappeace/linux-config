@@ -29,10 +29,16 @@
 # WMI mode query (GUID 06129D99-6083-4164-81AD-F092F9D773A6, visible in the
 # lenovo-tablet dmesg of 22 sep 2026). libinput pairs every internal touchpad
 # and keyboard with such a switch and suspends them as long as it reports
-# tablet mode. The driver is known to report tablet mode while the machine
-# sits open as a laptop on several Yoga models (upstream carries an
-# ec_trigger DMI quirk list for exactly that), and Jappie saw the tablet
-# state asserted while the touchpad was dead. Nothing in this config consumes
+# tablet mode. Why this started with the 16 sep 2026 upgrade (kernel 6.12.61
+# to 6.18.52): stable commit d7cd3e4d7603 "platform/x86: lenovo/ymc: Only
+# match lower byte in WMI lid switch query response", in 6.18.50 and not in
+# 6.12.y, makes the switch work for the first time on 2025 Yogas whose
+# firmware answers 0x5000x instead of 0x0x. Before it the driver matched
+# nothing and the switch stayed silent, so libinput never touched the
+# touchpad; after it every mode the firmware reports is acted on, and Jappie
+# saw tablet mode asserted while the machine sat open as a laptop. Upstream
+# also carries an ec_trigger DMI quirk list for Yogas whose mode report is
+# wrong without an EC poke. Nothing in this config consumes
 # the switch (no bindswitch, no rotation daemon), so a missing switch costs
 # nothing while a lying one costs the touchpad. Alternative considered:
 # `input <switch> events disabled` in sway, rejected because libinput pairs
