@@ -23,4 +23,11 @@ in
   # Loads emacs.el headlessly and runs emacs/emacs-test.el against it, so a
   # change that stops the config loading fails here rather than at login.
   emacs-tests = import ./emacs/tests.nix { };
+
+  # nix-build -A touchpad-rescue-test
+  # Drives the touchpad-rescue script against a fake sysfs tree and asserts it
+  # picks the right recovery path; fails here if that branch logic regresses.
+  touchpad-rescue-test = import ./nix/touchpad-rescue-test.nix {
+    pkgs = import sources.nixpkgs { };
+  };
 }

@@ -9,4 +9,7 @@ in
   # Cachix import, so its service package can be checked in a clean checkout.
   emacs-pgtk = machines.lenovo-tablet.config.services.emacs.package;
   emacs-tests = machines.emacs-tests;
+
+  # Asserts the touchpad-rescue branch logic against a fake sysfs tree.
+  touchpad-rescue-test = machines.touchpad-rescue-test;
 }
