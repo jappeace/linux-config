@@ -18,6 +18,7 @@ pkgs.runCommand "touchpad-rescue-test" { nativeBuildInputs = [ pkgs.coreutils ];
     TOUCHPAD_RESCUE_HID_DRIVER="$root/hiddrv" \
     TOUCHPAD_RESCUE_I2C_DEVICES="$root/devices" \
     TOUCHPAD_RESCUE_PLATFORM_DRIVER="$root/platdrv" \
+    TOUCHPAD_RESCUE_VPC_TOUCHPAD="$root/vpc-touchpad" \
     TOUCHPAD_RESCUE_SLEEP=true \
       ${rescue}
   }
@@ -46,8 +47,11 @@ pkgs.runCommand "touchpad-rescue-test" { nativeBuildInputs = [ pkgs.coreutils ];
   root="$(mktemp -d)"
   mkdir -p "$root/hiddrv" "$root/devices/i2c-ELAN06FA:01" "$root/platdrv"
   touch "$root/hiddrv/bind"
+  echo 1 > "$root/vpc-touchpad"
   result="$(run_rescue)"
   assert_output "$result" "binding existing client i2c-ELAN06FA:01" "rebinding AMDI0010:03"
+  # With an EC touchpad control present it must be toggled before the bind.
+  assert_output "$result" "EC touchpad enable was 1, toggling off and on" "skipping the EC kick"
   echo "case B (unbound client, light path): ok"
 
   # Case C: no client at all. The rescue must take the heavy path (rebind the

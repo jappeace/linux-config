@@ -101,6 +101,15 @@ in
 {
   boot.initrd.prepend = [ "${touchpad-ssdt-initrd}" ];
 
+  # Decision: let ideapad_laptop control the touchpad through the EC. With
+  # this option the driver exposes /sys/bus/platform/devices/VPC2004:00/touchpad,
+  # the EC's own touchpad-enable switch (the one the Fn touchpad key drives),
+  # readable and writable. touchpad-rescue toggles it before every bind and
+  # touchpad-diagnose prints it. Without the option the attribute does not
+  # exist on this model, which is what the earlier dumps showed. Side effect
+  # accepted: the driver also syncs that EC state on resume and Fn events.
+  boot.kernelParams = [ "ideapad_laptop.touchpad_ctrl_via_ec=1" ];
+
   environment.systemPackages = [ touchpad-firmware-vars touchpad-rescue ];
 
   # Ordered late and delayed a few seconds so the PSP/EC has released the

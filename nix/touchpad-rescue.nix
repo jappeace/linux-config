@@ -49,6 +49,28 @@ pkgs.writeShellScriptBin "touchpad-rescue" ''
   i2c_devices="''${TOUCHPAD_RESCUE_I2C_DEVICES:-/sys/bus/i2c/devices}"
   platform_driver="''${TOUCHPAD_RESCUE_PLATFORM_DRIVER:-${platformDriver}}"
   settle="''${TOUCHPAD_RESCUE_SLEEP:-${sleep}}"
+  vpc_touchpad="''${TOUCHPAD_RESCUE_VPC_TOUCHPAD:-/sys/bus/platform/devices/VPC2004:00/touchpad}"
+
+  # The EC's own touchpad enable, exposed by ideapad_laptop when it runs with
+  # touchpad_ctrl_via_ec=1 (nix/touchpad-ssdt.nix sets that): reading it asks
+  # the EC (VPCCMD_R_TOUCHPAD), writing it tells the EC (VPCCMD_W_TOUCHPAD).
+  # This is the same switch the Fn touchpad key drives on Lenovo consumer
+  # models, and EC state survives a warm reboot. Toggling it off and on is
+  # the one power-cycle-like action available from software, so it runs
+  # before every bind attempt. Absent attribute: model or module option not
+  # in place, logged and skipped.
+  kick_ec_touchpad() {
+    if [ ! -w "$vpc_touchpad" ]; then
+      echo "no EC touchpad control at $vpc_touchpad, skipping the EC kick"
+      return
+    fi
+    echo "EC touchpad enable was $(cat "$vpc_touchpad" 2>/dev/null || echo '?'), toggling off and on"
+    echo 0 > "$vpc_touchpad" 2>/dev/null || echo "  write 0 failed"
+    "$settle" 1
+    echo 1 > "$vpc_touchpad" 2>/dev/null || echo "  write 1 failed"
+    "$settle" 1
+    echo "EC touchpad enable now $(cat "$vpc_touchpad" 2>/dev/null || echo '?')"
+  }
 
   # 0 while any ELAN touchpad HID client is bound to its driver (a working
   # touchpad, whether via the BIOS's TPD0 or our TPDL), 1 while none is.
@@ -123,6 +145,7 @@ pkgs.writeShellScriptBin "touchpad-rescue" ''
     fi
 
     echo "no touchpad bound (attempt $attempt), rescuing"
+    kick_ec_touchpad
     if elan_client_exists; then
       bind_existing_clients
     else
