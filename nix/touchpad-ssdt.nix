@@ -81,12 +81,15 @@ let
           $3 + $4 * 256 + $5 * 65536 + $6 * 16777216, $7 + $8 * 256, $9 + $10 * 256, $11 + $12 * 256, $13 }'
     fi
 
-    echo "EC RAM (ERAM at 0xFEEC2300, first 32 bytes):"
-    ec="$(read_bytes $((0xFEEC2300)) 32)"
+    echo "EC RAM (ERAM at 0xFEEC2300, all 256 bytes, hex rows of 16; diff a good boot against a bad one):"
+    ec="$(read_bytes $((0xFEEC2300)) 256)"
     if [ -z "$ec" ]; then
       echo "  /dev/mem read refused, cannot show EC state"
     else
-      echo "  raw: $ec"
+      echo "$ec" | tr -s ' ' '\n' | sed '/^$/d' | awk '{
+        if ((NR - 1) % 16 == 0) printf "  %02X:", NR - 1;
+        printf " %02X", $1;
+        if (NR % 16 == 0) printf "\n" }'
       echo "$ec" | awk '{
         printf "  LID2=%d PCMD=%d (tablet mode byte behind the Yoga WMI query) TPEN=%d (EC touchpad enable) HING=%d\n",
           int($17 / 2) % 2, $19, int($23 / 16) % 2, int($24 / 64) % 2 }'

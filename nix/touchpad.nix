@@ -79,6 +79,7 @@ let
   swaymsg = "${pkgs.sway}/bin/swaymsg";
   jq = "${pkgs.jq}/bin/jq";
   evtest = "${pkgs.evtest}/bin/evtest";
+  i2cdetect = "${pkgs.i2c-tools}/bin/i2cdetect";
   acpidump = "${pkgs.acpica-tools}/bin/acpidump";
   acpixtract = "${pkgs.acpica-tools}/bin/acpixtract";
   iasl = "${pkgs.acpica-tools}/bin/iasl";
@@ -281,6 +282,22 @@ let
         sudo dmesg | tail -n 8 | sed 's/^/    /'
       fi
     done
+
+    section "touchpad power state: raw ACK at 0x15 and GPIO pins (diff a good boot against a bad one)"
+    # The 6.18 i2c-hid probe starts with a one-byte SMBus read at the pad's
+    # address and returns ENXIO silently when nothing ACKs; i2cdetect -r does
+    # the same read, so this shows directly whether the pad is electrically
+    # awake. The GPIO dump is for diffing: the BIOS sets up whatever power or
+    # reset line the pad needs only on boots where its own probe found it.
+    echo "raw i2c ACK test at the pad's address on its own bus ('15' = answers, '--' = silent, 'UU' = a driver holds it):"
+    for bus in /sys/bus/platform/devices/AMDI0010:03/i2c-*; do
+      if [ -e "$bus" ]; then
+        number="''${bus##*/i2c-}"
+        sudo ${i2cdetect} -y -r "$number" 0x15 0x15 2>&1 | sed 's/^/  /'
+      fi
+    done
+    echo "GPIO controller pin states (/sys/kernel/debug/gpio):"
+    sudo cat /sys/kernel/debug/gpio 2>/dev/null | sed 's/^/  /' || echo "  debugfs gpio not readable"
 
     section "tablet mode switch state (evtest exit 10 = tablet mode ON, 0 = off)"
     for node in /dev/input/event*; do
