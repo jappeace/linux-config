@@ -71,6 +71,9 @@
 # checks can be read off instead of guessed. Candidate causes still open: EC
 # state latched across reboots (EC reset: power off, unplug, hold power 30 s),
 # the BIOS setup touchpad option, BIOS QXCN20WW vs QXCN21WW (2025-10-28).
+# Follow-up (23 sep 2026): the decompiled tables showed _STA depends on
+# TPTY, a byte the BIOS writes at POST from its own touchpad probe; the fix
+# that makes the touchpad work regardless lives in nix/touchpad-ssdt.nix.
 { pkgs, ... }:
 let
   swaymsg = "${pkgs.sway}/bin/swaymsg";
@@ -225,6 +228,13 @@ let
       echo "--- Device ($device), first 40 lines of every definition ---"
       grep -h -A40 "Device ($device)" "$acpi_dir"/*.dsl || echo "not defined in any table"
     done
+
+    section "firmware variables live (BIOS touchpad record and EC RAM, lenovo-tablet only)"
+    if command -v touchpad-firmware-vars >/dev/null; then
+      touchpad-firmware-vars
+    else
+      echo "touchpad-firmware-vars not installed on this machine (nix/touchpad-ssdt.nix)"
+    fi
 
     section "tablet mode switch state (evtest exit 10 = tablet mode ON, 0 = off)"
     for node in /dev/input/event*; do
