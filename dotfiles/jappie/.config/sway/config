@@ -229,7 +229,9 @@ input "type:keyboard" {
 input "type:touchpad" {
     events enabled
     tap enabled
-    natural_scroll enabled
+    # Traditional scrolling on the pad (content follows the scrollbar, not the
+    # finger); the touchscreen has no block and stays finger-follows-content.
+    natural_scroll disabled
     dwt enabled
 }
 
