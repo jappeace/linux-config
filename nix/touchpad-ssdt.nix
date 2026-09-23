@@ -41,10 +41,16 @@
 # allows it): TPTY and the addresses the BIOS recorded, the EC's tablet-mode
 # byte PCMD, its touchpad-enable bit TPEN, the hinge and lid bits. Offsets
 # come from the ERAM field list in the DSDT (region 0xFEEC2300).
+#
+# The SSDT is necessary but, on a boot where the shared i2c bus is contended,
+# not sufficient: the pad is presented but its first probe loses arbitration.
+# nix/touchpad-rescue.nix is the runtime half that re-probes it, and carries
+# that finding and decision.
 { pkgs, ... }:
 let
   dd = "${pkgs.coreutils}/bin/dd";
   od = "${pkgs.coreutils}/bin/od";
+  sleep = "${pkgs.coreutils}/bin/sleep";
 
   touchpad-ssdt-initrd = pkgs.runCommand "touchpad-ssdt-initrd" {
     nativeBuildInputs = [ pkgs.acpica-tools pkgs.cpio ];
@@ -86,9 +92,32 @@ let
           int($17 / 2) % 2, $19, int($23 / 16) % 2, int($24 / 64) % 2 }'
     fi
   '';
+
+  # Runtime half: re-probe the touchpad after the boot-time i2c bus contention.
+  # Its own file so the test can drive the same built script; see there for the
+  # lost-arbitration finding and the decision.
+  touchpad-rescue = import ./touchpad-rescue.nix { inherit pkgs; };
 in
 {
   boot.initrd.prepend = [ "${touchpad-ssdt-initrd}" ];
 
-  environment.systemPackages = [ touchpad-firmware-vars ];
+  environment.systemPackages = [ touchpad-firmware-vars touchpad-rescue ];
+
+  # Ordered late and delayed a few seconds so the PSP/EC has released the
+  # shared i2c bus before the rescue re-probes. Restart=no: it retries
+  # internally and a persistent failure is a real "cold boot needed" signal,
+  # not something to loop on.
+  systemd.services.touchpad-rescue = {
+    description = "Re-probe the touchpad if the boot-time i2c bus contention lost it";
+    after = [ "multi-user.target" ];
+    wantedBy = [ "multi-user.target" ];
+    serviceConfig = {
+      Type = "oneshot";
+      # 3 s past multi-user.target is comfortably after the PSP/EC has released
+      # the shared i2c bus (the arbitration loss is logged around 10 s, before
+      # this point), so the first rescue pass meets a quiet bus.
+      ExecStartPre = "${sleep} 3";
+      ExecStart = "${touchpad-rescue}/bin/touchpad-rescue";
+    };
+  };
 }
