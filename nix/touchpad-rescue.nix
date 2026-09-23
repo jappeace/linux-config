@@ -2,34 +2,43 @@
 # nix/touchpad-ssdt.nix, which presents the device). Kept in its own file so
 # nix/touchpad-rescue-test.nix can drive the exact same built script.
 #
-# Finding (23 sep 2026, first dump on the SSDT kernel): the override works,
-# ELAN06FA:01 at \_SB.I2CD.TPDL is present (status 15) and an i2c client
-# i2c-ELAN06FA:01 is created, but no pointer appears because the touchpad's
-# controller logs one
-#     i2c_designware AMDI0010:03: i2c_dw_handle_tx_abort: lost arbitration
-# during early boot and i2c-hid gives up on that first failed transaction
-# without retrying. "Lost arbitration" (not a NAK or timeout) means the PSP or
-# EC was still driving the shared bus when i2c-hid probed, an AMD shared-i2c
-# contention also seen upstream on the ThinkPad T14s and the Yoga touchscreen.
-# It is a boot-time transient: by the time a desktop is up the bus is quiet.
-# It also explains TPTY=0, the BIOS hit the same busy bus at POST. The
-# touchscreen is on a different controller (AMDI0010:02) and is unaffected.
+# Findings (23 sep 2026, three dumps on the SSDT kernel):
+#   - The override works: on a bad boot ELAN06FA:01 at \_SB.I2CD.TPDL is
+#     present (status 15) and an i2c client i2c-ELAN06FA:01 exists.
+#   - Yet i2c_hid_acpi never binds it, and a manual bind fails with ENXIO.
+#     In the 6.18 i2c-hid probe that comes from one place only: the first
+#     one-byte read at the pad's address (0x15) gets no ACK, logged at debug
+#     level only. So the pad is electrically silent on bad boots; the BIOS
+#     probe at POST (TPTY=0) and Linux agree. An earlier "lost arbitration"
+#     line on AMDI0010:03 was a red herring: a failed i2c-hid probe always
+#     logs an error, and there was none.
+#   - EC state on a bad boot looked normal (TPEN=1, PCMD=1), and the pad's
+#     ACPI power methods are empty, so whatever cuts it is an EC or BIOS
+#     line the ACPI tables do not describe. Every bad boot seen so far was a
+#     warm reboot; i2c-hid puts a bound pad into HID sleep and D3cold at
+#     shutdown, which is the prime suspect for why the BIOS then cannot see
+#     it.
+#   - 11:56 warm boot was BIOS-good (TPTY=1, TPD0 used, TPDL hidden as
+#     designed); the rescue had nothing to do and its EC toggle has not yet
+#     been exercised on a bad boot.
 #
-# Decision: touchpad-rescue re-runs the touchpad probe once userspace is up
-# and the bus is quiet, if and only if no ELAN touchpad HID is bound. It binds
-# the already-instantiated i2c client (light path), or rebinds the AMDI0010:03
-# controller if the client is not there (heavy path, re-instantiates the ACPI
-# children). Binding runs i2c-hid's probe, which resets the pad, so one that
-# was left asleep or missed once comes back. On good boots a touchpad is
-# already bound and it exits without touching anything.
+# Decision: touchpad-rescue runs once userspace is up and, if and only if no
+# ELAN touchpad HID is bound, toggles the EC's touchpad enable (the switch
+# the Fn touchpad key drives on this family, exposed by ideapad_laptop with
+# touchpad_ctrl_via_ec=1) and then re-runs the probe: it binds the
+# already-instantiated i2c client (light path), or rebinds the AMDI0010:03
+# controller if the client is not there (heavy path, re-instantiates the
+# ACPI children). Binding runs i2c-hid's probe, which resets the pad. On
+# good boots a touchpad is already bound and it exits without touching
+# anything.
 # Alternatives considered:
-#   - Only the SSDT. Necessary but not sufficient on a contended boot.
+#   - Only the SSDT. Necessary but not sufficient: the pad has to answer.
 #   - Reverting the kernel i2c-designware defer-probe change. Not this bug
 #     (that commit is not in 6.18.y) and a kernel fork is far heavier.
 #   - A cold power cycle by hand every time. That is the thing we remove.
-# If the rescue still cannot bind after its retries, the pad is dead on the
-# wire this boot (a NAK/timeout in dmesg rather than lost arbitration); the
-# service logs exactly that, the signal that only a full power-off clears it.
+# If the rescue still cannot bind after its retries, the EC toggle did not
+# wake the pad either; the service logs that, and the next lever is stopping
+# i2c-hid from sleeping the pad at shutdown (unbind before reboot).
 { pkgs }:
 let
   sleep = "${pkgs.coreutils}/bin/sleep";

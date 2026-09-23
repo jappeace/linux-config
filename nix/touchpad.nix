@@ -205,8 +205,13 @@ let
       | while read -r index first_entry; do
         kernel="$(sudo journalctl -b "$index" -k -o cat --no-pager 2>/dev/null \
           | sed -n 's/^Linux version \([^ ]*\).*/\1/p' | head -n 1)"
+        # Count input-device registrations only. Since the SSDT override, a
+        # bad boot also mentions ELAN06FA (the TPDL client), so any-mention
+        # counting stopped telling good from bad on 23 sep 2026. PNP0C50 is
+        # the generic HID-over-I2C compatible id, never the name in an
+        # "input:" line, so it is dropped here.
         touchpad_lines="$(sudo journalctl -b "$index" -k -o cat --no-pager 2>/dev/null \
-          | grep -c -E 'ELAN06FA|SYNA2BA6|FTCS0038|GXTP5100|PNP0C50')"
+          | grep -c -E 'input: (ELAN06FA|SYNA2BA6|FTCS0038|GXTP5100)')"
         printf '%s\t%s\t%s\t%s\n' "$index" "''${kernel:-?}" "$touchpad_lines" \
           "$(date -d "@$((first_entry / 1000000))" '+%F %T')"
       done
@@ -317,6 +322,11 @@ let
 
     section "touchpad-keep-enabled journal, this boot"
     journalctl --user -b -u touchpad-keep-enabled --no-pager -n 60 || echo "no journal"
+
+    section "touchpad-rescue journal, this boot (what the EC toggle and the binds reported)"
+    sudo journalctl -b -u touchpad-rescue --no-pager -n 60 || echo "no journal"
+    echo "reboot kind this boot (0xCF9 = warm reset by software, absent = cold power-on):"
+    sudo dmesg | grep -m1 'Previous system reset reason' || echo "  no reset-reason line: cold power-on"
 
     section "raw kernel events, 5 seconds: MOVE A FINGER ON THE TOUCHPAD NOW"
     for node in /dev/input/event*; do

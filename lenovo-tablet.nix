@@ -1,3 +1,13 @@
+# Machine: Lenovo Yoga 7 2-in-1 Gen 10, 14AKP10, order code 83JRCTO1WWNL2.
+# Identify it from a dump before chasing anything: DMI "LENOVO
+# 83JR/LNVNB161216", BIOS QXCN20WW 10/09/2025 (QXCN21WW of 2025-10-28
+# exists), AMD Ryzen AI 7 350 with Radeon 860M (Strix Point), 6.18 kernel
+# since the NixOS 26.05 upgrade of 16 sep 2026. Input hardware as the DSDT
+# and dumps of 22/23 sep 2026 name it: touchpad ELAN06FA (04F3:327E) at i2c
+# 0x15 on \_SB.I2CD = AMDI0010:03, its interrupt GPIO 9 on \_SB.GPIO;
+# touchscreen and pen Wacom WACF2200 (056A:53FD) on \_SB.I2CC = AMDI0010:02;
+# EC RAM at 0xFEEC2300, ideapad VPC2004:00 for EC commands; tablet-mode via
+# the Yoga WMI (lenovo_ymc). The touchpad saga lives in nix/touchpad*.nix.
   {  pkgs, ... }:
 let
 

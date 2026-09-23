@@ -42,10 +42,11 @@
 # byte PCMD, its touchpad-enable bit TPEN, the hinge and lid bits. Offsets
 # come from the ERAM field list in the DSDT (region 0xFEEC2300).
 #
-# The SSDT is necessary but, on a boot where the shared i2c bus is contended,
-# not sufficient: the pad is presented but its first probe loses arbitration.
-# nix/touchpad-rescue.nix is the runtime half that re-probes it, and carries
-# that finding and decision.
+# The SSDT is necessary but not sufficient: on a bad boot the pad is
+# presented, yet it does not ACK at 0x15 at all (ENXIO from the driver), so it
+# is electrically off or asleep, not merely mis-described. nix/touchpad-rescue.nix
+# is the runtime half that kicks the EC and re-probes, and carries that
+# finding and decision.
 { pkgs, ... }:
 let
   dd = "${pkgs.coreutils}/bin/dd";
@@ -112,6 +113,10 @@ in
   # exist on this model, which is what the earlier dumps showed. Side effect
   # accepted: the driver also syncs that EC state on resume and Fn events.
   boot.kernelParams = [ "ideapad_laptop.touchpad_ctrl_via_ec=1" ];
+
+  # i2c-dev gives touchpad-diagnose /dev/i2c-N for its raw ACK test at 0x15;
+  # without it the 23 sep good-boot dump had no bus node to probe.
+  boot.kernelModules = [ "i2c-dev" ];
 
   environment.systemPackages = [ touchpad-firmware-vars touchpad-rescue ];
 
