@@ -121,9 +121,15 @@ let
     fi
   '';
 
+  # Two sysfs trees, deliberately both consulted below. A .../bus/i2c/devices/
+  # entry exists whenever the i2c client was instantiated (from the ACPI
+  # namespace), bound or not. A .../bus/i2c/drivers/i2c_hid_acpi/ entry exists
+  # only while that client is bound to its driver, i.e. its probe succeeded.
+  # After a lost-arbitration probe the client is in the first tree but not the
+  # second, which is exactly the state this service repairs.
   hidDriver = "/sys/bus/i2c/drivers/i2c_hid_acpi";
   platformDriver = "/sys/bus/platform/drivers/i2c_designware";
-  touchpadController = "AMDI0010:03";
+  touchpadControllerId = "AMDI0010:03";
 
   touchpad-rescue = pkgs.writeShellScriptBin "touchpad-rescue" ''
     set -u
@@ -156,10 +162,10 @@ let
     # its ACPI children (our TPDL among them) and re-runs their probes. Used
     # only when no ELAN client exists to bind directly.
     rebind_controller() {
-      echo "rebinding ${touchpadController} on i2c_designware"
-      echo "${touchpadController}" > ${platformDriver}/unbind 2>&1 || echo "  unbind write failed"
+      echo "rebinding ${touchpadControllerId} on i2c_designware"
+      echo "${touchpadControllerId}" > ${platformDriver}/unbind 2>&1 || echo "  unbind write failed"
       ${sleep} 1
-      echo "${touchpadController}" > ${platformDriver}/bind 2>&1 || echo "  bind write failed"
+      echo "${touchpadControllerId}" > ${platformDriver}/bind 2>&1 || echo "  bind write failed"
     }
 
     # An ELAN i2c client exists (bound or not) iff one of these paths is real.
@@ -172,6 +178,11 @@ let
       return 1
     }
 
+    # A bind write can itself lose arbitration if the bus is not yet quiet;
+    # that is why the loop retries rather than trusting one attempt. Each
+    # write's outcome is logged, and the loop's authority on success is
+    # touchpad_is_bound, checked afresh at the top of every pass, not the exit
+    # status of the write. The 2 s between passes lets a still-busy bus settle.
     attempt=1
     while [ "$attempt" -le 3 ]; do
       if touchpad_is_bound; then
@@ -213,6 +224,9 @@ in
     wantedBy = [ "multi-user.target" ];
     serviceConfig = {
       Type = "oneshot";
+      # 3 s past multi-user.target is comfortably after the PSP/EC has released
+      # the shared i2c bus (the arbitration loss is logged around 10 s, before
+      # this point), so the first rescue pass meets a quiet bus.
       ExecStartPre = "${sleep} 3";
       ExecStart = "${touchpad-rescue}/bin/touchpad-rescue";
     };
