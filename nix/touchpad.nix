@@ -236,6 +236,52 @@ let
       echo "touchpad-firmware-vars not installed on this machine (nix/touchpad-ssdt.nix)"
     fi
 
+    section "override device binding: why does i2c_hid_acpi not take the ELAN client"
+    # The driver only matches an i2c client by ACPI id when that client is the
+    # FIRST physical node of the ACPI device (acpi_companion_match). So list
+    # every physical node in order, the ids the client advertises, whether a
+    # platform device stole the first slot, and what a manual bind says.
+    for acpi in /sys/bus/acpi/devices/ELAN06FA:*; do
+      if [ -e "$acpi" ]; then
+        echo "$(basename "$acpi"): status=$(cat "$acpi/status" 2>/dev/null) modalias=$(cat "$acpi/modalias" 2>/dev/null)"
+        for node in "$acpi"/physical_node*; do
+          if [ -e "$node" ]; then
+            echo "  $(basename "$node") -> $(readlink -f "$node")"
+          fi
+        done
+      fi
+    done
+    echo "platform devices named after the touchpad (none expected; one would take the ACPI match):"
+    platform_found=no
+    for platform in /sys/bus/platform/devices/ELAN06FA:*; do
+      if [ -e "$platform" ]; then
+        echo "  $(basename "$platform")"
+        platform_found=yes
+      fi
+    done
+    if [ "$platform_found" = no ]; then
+      echo "  none"
+    fi
+    echo "i2c drivers present:"
+    for driver in /sys/bus/i2c/drivers/*; do
+      printf '%s ' "$(basename "$driver")"
+    done
+    echo
+    for client in /sys/bus/i2c/devices/i2c-ELAN06FA:*; do
+      if [ -e "$client" ]; then
+        name="$(basename "$client")"
+        echo "$name: modalias=$(cat "$client/modalias" 2>/dev/null) driver=$(basename "$(readlink "$client/driver" 2>/dev/null || echo none)")"
+        echo "  manual bind of $name to i2c_hid_acpi:"
+        if message="$( { echo "$name" | sudo tee /sys/bus/i2c/drivers/i2c_hid_acpi/bind >/dev/null; } 2>&1 )"; then
+          echo "  bind succeeded"
+        else
+          echo "  bind failed: $message"
+        fi
+        echo "  kernel log tail after the bind attempt:"
+        sudo dmesg | tail -n 8 | sed 's/^/    /'
+      fi
+    done
+
     section "tablet mode switch state (evtest exit 10 = tablet mode ON, 0 = off)"
     for node in /dev/input/event*; do
       if udevadm info --query=property --name="$node" 2>/dev/null | grep -q '^ID_INPUT_SWITCH=1'; then

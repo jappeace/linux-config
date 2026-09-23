@@ -74,7 +74,14 @@ pkgs.writeShellScriptBin "touchpad-rescue" ''
       if [ -e "$device" ] && [ ! -e "$device/driver" ]; then
         name="$(basename "$device")"
         echo "binding existing client $name"
-        echo "$name" > "$hid_driver/bind" 2>&1 || echo "  bind write failed"
+        # Capture the shell's write error (e.g. "write error: No such device"),
+        # which carries the kernel's errno; a plain redirect would send it
+        # into the sysfs file and lose it.
+        if message="$( { echo "$name" > "$hid_driver/bind"; } 2>&1 )"; then
+          echo "  bind write ok"
+        else
+          echo "  bind write failed: $message"
+        fi
       fi
     done
   }
@@ -84,9 +91,13 @@ pkgs.writeShellScriptBin "touchpad-rescue" ''
   # when no ELAN client exists to bind directly.
   rebind_controller() {
     echo "rebinding ${touchpadControllerId} on i2c_designware"
-    echo "${touchpadControllerId}" > "$platform_driver/unbind" 2>&1 || echo "  unbind write failed"
+    if ! message="$( { echo "${touchpadControllerId}" > "$platform_driver/unbind"; } 2>&1 )"; then
+      echo "  unbind write failed: $message"
+    fi
     "$settle" 1
-    echo "${touchpadControllerId}" > "$platform_driver/bind" 2>&1 || echo "  bind write failed"
+    if ! message="$( { echo "${touchpadControllerId}" > "$platform_driver/bind"; } 2>&1 )"; then
+      echo "  bind write failed: $message"
+    fi
   }
 
   # An ELAN i2c client exists (bound or not) iff one of these paths is real.
