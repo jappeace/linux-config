@@ -207,7 +207,9 @@ let
           | sed -n 's/^Linux version \([^ ]*\).*/\1/p' | head -n 1)"
         # Count input-device registrations only. Since the SSDT override, a
         # bad boot also mentions ELAN06FA (the TPDL client), so any-mention
-        # counting stopped telling good from bad on 23 sep 2026.
+        # counting stopped telling good from bad on 23 sep 2026. PNP0C50 is
+        # the generic HID-over-I2C compatible id, never the name in an
+        # "input:" line, so it is dropped here.
         touchpad_lines="$(sudo journalctl -b "$index" -k -o cat --no-pager 2>/dev/null \
           | grep -c -E 'input: (ELAN06FA|SYNA2BA6|FTCS0038|GXTP5100)')"
         printf '%s\t%s\t%s\t%s\n' "$index" "''${kernel:-?}" "$touchpad_lines" \
