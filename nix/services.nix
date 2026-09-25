@@ -208,7 +208,7 @@ config = ''
     };
 
     redshift = {
-      enable = true;
+      enable = false;
     };
 
     # https://github.com/rfjakob/earlyoom
