@@ -12,6 +12,12 @@
     ./nix/services.nix
     ./nix/sway.nix
     /etc/nixos/cachix.nix
+    ( x: {
+  home-manager.programs.jujutsu.settings.user = {
+    email = "hi@jappie.me";
+    name = "Jappie";
+  };
+    })
   ];
 
   # Use the systemd-boot EFI boot loader.

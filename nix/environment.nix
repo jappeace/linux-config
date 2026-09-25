@@ -233,6 +233,8 @@ in
       pkgs.grim  # The screenshot tool
       pkgs.slurp # The region selector
 
+      jujutsu
+
       sc-im # spreadsheets!!! accessible to clankers too
 
       protobuf
@@ -691,6 +693,8 @@ tmux = {
   #
   # the default systemd isolation doesn't make sense for waybar.
   systemd.user.services.waybar.path = config.environment.systemPackages;
+
+
 
   nixpkgs.config = {
     /*
