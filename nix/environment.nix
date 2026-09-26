@@ -220,9 +220,21 @@ let
 
 in
 {
+  imports = [
+    ( x: {
+      home-manager.users.jappie.programs.jujutsu = {
+        enable = true;
+       settings.user = {
+    email = "hi@jappie.me";
+    name = "Jappie";
+    };
+      };
+    })
+  ];
 
   environment = {
     systemPackages = with pkgs.xfce // pkgs; [
+      deltachat-desktop
       (fuckingFlake sources.Hexecute).packages.${pkgs.stdenv.hostPlatform.system}.default
       gsimplecal
       qbittorrent # bittorent
@@ -232,8 +244,6 @@ in
       wtype # xdotool for wayland
       pkgs.grim  # The screenshot tool
       pkgs.slurp # The region selector
-
-      jujutsu
 
       sc-im # spreadsheets!!! accessible to clankers too
 
