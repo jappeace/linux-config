@@ -46,11 +46,11 @@ With the correct address the connection still fails:
 - check-host.net reaches `162.159.136.6:443` within milliseconds from
   Germany, France, Israel, Iran, Slovenia and a Dutch hosting network. The
   address is up everywhere except on Delta.
-- The blackhole covers more than TPB's two addresses. The neighbouring
-  `162.159.137.1` also times out from Delta, but answers from Italy,
-  Kazakhstan and Serbia. Whether BREIN's list includes it or Delta drops a
-  wider prefix cannot be seen from outside. Either way, any other site that
-  Cloudflare serves from those addresses is unreachable on Delta as well.
+- The blackhole is exact. Neighbouring addresses (`162.159.136.1`,
+  `162.159.136.7`, `162.159.137.1`) accept TCP from Delta and even serve TPB
+  when asked with the right SNI. Only the two listed `.6` addresses are
+  dropped. (Probe with SNI or a raw TCP connect: `curl -k https://<ip>/`
+  sends no SNI, and Cloudflare's handshake failure looks like a dead host.)
 
 No packets come back at all, so this is routing (a null route or an ACL),
 not content inspection. Delta never looks at the SNI.
@@ -150,6 +150,7 @@ The refusal is per address, not per range. Scan from Delta on 2026-10-01:
 | `104.24.0.1`, `104.25.0.1`   | TPB index page |
 | `172.66.0.1`     | TPB index page            |
 | `188.114.96.1`   | TPB index page            |
+| `162.159.136.1`  | TPB index page (next door to a blackholed address) |
 | `172.64.0.1`, `172.67.0.1`   | no answer within 5 s |
 
 How Cloudflare decides which address may serve which zone is not public, so
