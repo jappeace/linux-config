@@ -6,6 +6,7 @@
     ./hardware/work-machine.nix
     ./emacs
     ./nix/config.nix
+    ./nix/delta-block-bypass.nix
     ./nix/claude-launcher-sudo.nix
     ./nix/environment.nix
     ./nix/email.nix

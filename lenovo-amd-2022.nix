@@ -24,6 +24,7 @@ boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
     ./hardware/lenovo-amd-2022.nix
     ./emacs
     ./nix/config.nix
+    ./nix/delta-block-bypass.nix
     ./nix/claude-launcher-sudo.nix
     ./nix/environment.nix
     ./nix/email.nix
