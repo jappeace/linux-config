@@ -169,7 +169,6 @@ boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
     # Blocking them permenantly for a week or so gets rid of that behavior
     extraHosts = ''
       0.0.0.0 news.ycombinator.com
-      0.0.0.0 www.facebook.com
       0.0.0.0 www.understandingwar.org
       0.0.0.0 www.reddit.com
       0.0.0.0 www.linkedin.com
