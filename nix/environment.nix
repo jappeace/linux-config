@@ -234,7 +234,6 @@ in
 
   environment = {
     systemPackages = with pkgs.xfce // pkgs; [
-      deltachat-desktop
       (fuckingFlake sources.Hexecute).packages.${pkgs.stdenv.hostPlatform.system}.default
       gsimplecal
       qbittorrent # bittorent
