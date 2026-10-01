@@ -4,6 +4,6 @@
 {
   # Decision: pin an unblocked Cloudflare edge IP; public DNS only yields the
   # blackholed ones, and a VPN adds a hop. 104.17.0.1 served the zone on
-  # 2026-10-01; if it breaks, try another from https://www.cloudflare.com/ips/.
+  # 2026-10-01; DELTA-BLOCK-BYPASS.md has the measurements and spare IPs.
   networking.hosts."104.17.0.1" = [ "thepiratebay.org" ];
 }
