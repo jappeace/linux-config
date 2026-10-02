@@ -189,7 +189,13 @@ exclude the domain from it.
 |-----------------------------------|-----------------------------------|------------------------------------------------|
 | `error code: 1034`                | Cloudflare restricted the address | rerun the scan, pin a working address          |
 | timeout on the pinned address only | BREIN listed it, Delta dropped it | rerun the scan, pin a working address          |
-| timeout on every Cloudflare address | Delta started filtering by SNI   | ECH (encrypted SNI) or a tunnel, see below     |
+| timeout on every Cloudflare address | Delta started filtering by SNI   | a tunnel, see below (ECH can't help, see note) |
+
+ECH (Encrypted Client Hello) hides the SNI only when the site publishes an
+ECH key in its DNS `HTTPS` record. On 2026-10-02 `thepiratebay.org` had an
+`HTTPS` record without one (`dig +short HTTPS thepiratebay.org @1.1.1.1`),
+while 1337x.to, eztvx.to, kickasstorrents.to and apibay.org did. The hosts
+entry also skips DNS, so the browser never sees that record for this name.
 
 ## Reproducing the measurements
 
