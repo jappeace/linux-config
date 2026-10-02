@@ -46,11 +46,19 @@ With the correct address the connection still fails:
 - check-host.net reaches `162.159.136.6:443` within milliseconds from
   Germany, France, Israel, Iran, Slovenia and a Dutch hosting network. The
   address is up everywhere except on Delta.
-- The blackhole is exact. Neighbouring addresses (`162.159.136.1`,
-  `162.159.136.7`, `162.159.137.1`) accept TCP from Delta and even serve TPB
-  when asked with the right SNI. Only the two listed `.6` addresses are
-  dropped. (Probe with SNI or a raw TCP connect: `curl -k https://<ip>/`
-  sends no SNI, and Cloudflare's handshake failure looks like a dead host.)
+- The blackhole is exact in addresses. Neighbouring addresses
+  (`162.159.136.1`, `162.159.136.7`, `162.159.137.1`) accept TCP from Delta
+  and even serve TPB when asked with the right SNI. Only the two listed `.6`
+  addresses are dropped. (Probe with SNI or a raw TCP connect:
+  `curl -k https://<ip>/` sends no SNI, and Cloudflare's handshake failure
+  looks like a dead host.)
+- It is not exact in sites. Cloudflare puts other zones on the same
+  addresses: on 2026-10-02 an unrelated domain resolved to `162.159.137.6`
+  and `162.159.138.6`, and from Delta only the second one answered. This is
+  the mechanism behind Spain's LaLiga blocks, where a few shared Cloudflare
+  IPs take out hundreds of thousands of sites during matches
+  ([OONI](https://ooni.org/post/2026-laliga-collateral/)); Delta does it at
+  the scale of two addresses.
 
 No packets come back at all, so this is routing (a null route or an ACL),
 not content inspection. Delta never looks at the SNI.
