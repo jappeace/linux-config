@@ -52,13 +52,18 @@ With the correct address the connection still fails:
   addresses are dropped. (Probe with SNI or a raw TCP connect:
   `curl -k https://<ip>/` sends no SNI, and Cloudflare's handshake failure
   looks like a dead host.)
-- It is not exact in sites. Cloudflare puts other zones on the same
-  addresses: on 2026-10-02 an unrelated domain resolved to `162.159.137.6`
-  and `162.159.138.6`, and from Delta only the second one answered. This is
-  the mechanism behind Spain's LaLiga blocks, where a few shared Cloudflare
-  IPs take out hundreds of thousands of sites during matches
-  ([OONI](https://ooni.org/post/2026-laliga-collateral/)); Delta does it at
-  the scale of two addresses.
+- Whether it is exact in sites is unknown. If Cloudflare serves other zones
+  from these four addresses (two IPv4, two IPv6), Delta blocks those too;
+  there is no public way to list them. The one unrelated domain found
+  pointing at `162.159.137.6` is not an example: its owner set that record
+  by hand, and Cloudflare refuses it everywhere with error 1034. At scale,
+  shared-address collateral is real: Spain's LaLiga blocks take out
+  hundreds of thousands of sites with a few Cloudflare IPs per match window
+  ([OONI](https://ooni.org/post/2026-laliga-collateral/)).
+- Other covenant sites (1337x.to, eztvx.to, kickasstorrents.to) get the same
+  DNS rewrite to `217.102.255.19`, but their real addresses connect from
+  Delta (2026-10-02). For them a public resolver is enough; only TPB was
+  also blackholed.
 
 No packets come back at all, so this is routing (a null route or an ACL),
 not content inspection. Delta never looks at the SNI.
