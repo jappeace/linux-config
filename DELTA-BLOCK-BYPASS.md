@@ -46,11 +46,24 @@ With the correct address the connection still fails:
 - check-host.net reaches `162.159.136.6:443` within milliseconds from
   Germany, France, Israel, Iran, Slovenia and a Dutch hosting network. The
   address is up everywhere except on Delta.
-- The blackhole is exact. Neighbouring addresses (`162.159.136.1`,
-  `162.159.136.7`, `162.159.137.1`) accept TCP from Delta and even serve TPB
-  when asked with the right SNI. Only the two listed `.6` addresses are
-  dropped. (Probe with SNI or a raw TCP connect: `curl -k https://<ip>/`
-  sends no SNI, and Cloudflare's handshake failure looks like a dead host.)
+- The blackhole is exact in addresses. Neighbouring addresses
+  (`162.159.136.1`, `162.159.136.7`, `162.159.137.1`) accept TCP from Delta
+  and even serve TPB when asked with the right SNI. Only the two listed `.6`
+  addresses are dropped. (Probe with SNI or a raw TCP connect:
+  `curl -k https://<ip>/` sends no SNI, and Cloudflare's handshake failure
+  looks like a dead host.)
+- Whether it is exact in sites is unknown. If Cloudflare serves other zones
+  from these four addresses (two IPv4, two IPv6), Delta blocks those too;
+  there is no public way to list them. The one unrelated domain found
+  pointing at `162.159.137.6` is not an example: its owner set that record
+  by hand, and Cloudflare refuses it everywhere with error 1034. At scale,
+  shared-address collateral is real: Spain's LaLiga blocks take out
+  hundreds of thousands of sites with a few Cloudflare IPs per match window
+  ([OONI](https://ooni.org/post/2026-laliga-collateral/)).
+- Other covenant sites (1337x.to, eztvx.to, kickasstorrents.to) get the same
+  DNS rewrite to `217.102.255.19`, but their real addresses connect from
+  Delta (2026-10-02). For them a public resolver is enough; only TPB was
+  also blackholed.
 
 No packets come back at all, so this is routing (a null route or an ACL),
 not content inspection. Delta never looks at the SNI.
@@ -176,7 +189,13 @@ exclude the domain from it.
 |-----------------------------------|-----------------------------------|------------------------------------------------|
 | `error code: 1034`                | Cloudflare restricted the address | rerun the scan, pin a working address          |
 | timeout on the pinned address only | BREIN listed it, Delta dropped it | rerun the scan, pin a working address          |
-| timeout on every Cloudflare address | Delta started filtering by SNI   | ECH (encrypted SNI) or a tunnel, see below     |
+| timeout on every Cloudflare address | Delta started filtering by SNI   | a tunnel, see below (ECH can't help, see note) |
+
+ECH (Encrypted Client Hello) hides the SNI only when the site publishes an
+ECH key in its DNS `HTTPS` record. On 2026-10-02 `thepiratebay.org` had an
+`HTTPS` record without one (`dig +short HTTPS thepiratebay.org @1.1.1.1`),
+while 1337x.to, eztvx.to, kickasstorrents.to and apibay.org did. The hosts
+entry also skips DNS, so the browser never sees that record for this name.
 
 ## Reproducing the measurements
 
