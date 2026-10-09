@@ -39,7 +39,8 @@ pkgs.runCommand "wifi-diagnose-test" { } ''
   assert_output "$result" "nm-link-timeout  *-  *2" "sent us away"
   assert_output "$result" "kernel-beacon-loss  *-  *2"
   assert_output "$result" "reason=4 (ours)"
-  assert_output "$result" "the popup"
+  # Without the INFO-level reason line the outcome is unknown, so no popup claim.
+  assert_output "$result" "stayed down 15 s" "the popup"
   assert_output "$result" "beacons stopped arriving" "chip reset itself"
   echo "case A (beacon loss): ok"
 
@@ -70,18 +71,26 @@ pkgs.runCommand "wifi-diagnose-test" { } ''
   assert_output "$result" "no drop cause" "beacons stopped"
   echo "case C (chip reset, deliberate disconnect): ok"
 
-  # Case D: an INFO-level failure line alone is enough for the popup verdict,
-  # and only supplicant-timeout earns it.
+  # Case D: NM logs "link timed out." before either outcome; only the
+  # INFO-level reason line says which one. supplicant-timeout (router still
+  # seen) is the popup, ssid-not-found (router gone) is not.
   result="$(${summary} <<'EOF'
+  <warn>  [1760000000.0001] device (wlp3s0): link timed out.
   <info>  [1760000000.0002] device (wlp3s0): state change: activated -> failed (reason 'supplicant-timeout', managed-type: 'full')
-  <info>  [1760000200.0002] device (wlp3s0): state change: config -> failed (reason 'ssid-not-found', managed-type: 'full')
+  <warn>  [1760000200.0001] device (wlp3s0): link timed out.
+  <info>  [1760000200.0002] device (wlp3s0): state change: activated -> failed (reason 'ssid-not-found', managed-type: 'full')
   EOF
   )"
   assert_output "$result" "nm-failed  *supplicant-timeout  *1"
   assert_output "$result" "nm-failed  *ssid-not-found  *1"
+  assert_output "$result" "nm-link-timeout  *-  *2"
   assert_output "$result" "the popup"
   assert_output "$result" "network vanished"
-  result="$(echo "<info>  [1] device (wlp3s0): state change: config -> failed (reason 'ssid-not-found', managed-type: 'full')" | ${summary})"
+  result="$(${summary} <<'EOF'
+  <warn>  [1760000200.0001] device (wlp3s0): link timed out.
+  <info>  [1760000200.0002] device (wlp3s0): state change: activated -> failed (reason 'ssid-not-found', managed-type: 'full')
+  EOF
+  )"
   assert_output "$result" "network vanished" "the popup"
   echo "case D (NetworkManager failure reasons): ok"
 

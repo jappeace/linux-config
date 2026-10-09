@@ -7,14 +7,15 @@
 # lang" (reason supplicant-timeout) and wifi cutting out at random. In
 # NetworkManager 1.56 link_timeout_cb raises that reason when a connected
 # link drops and wpa_supplicant sees the AP again but has not reassociated
-# within 15 s. So the popup is not a password or 802.1X problem; it is the
-# random drop, reported once it outlasts 15 s. Both the laptop and the
-# router are suspects. wifi-drop-summary sorts the journal into: beacons
-# stopped arriving, the network vanished, the router sent us away, or the
-# chip reset itself. Beacons stopping fits either side, so wifi-link-log
-# records signal, tx failures and gateway ping every 10 s: a strong steady
-# link that stops dead points at the router, a fading one at range or the
-# laptop.
+# within 15 s (30 s while a scan runs); if the AP is gone from scans it says
+# ssid-not-found instead, after the same "link timed out." line. So the
+# popup is not a password or 802.1X problem; it is the random drop, reported
+# once it outlasts that timer. Both the laptop and the router are suspects.
+# wifi-drop-summary sorts the journal into: beacons stopped arriving, the
+# network vanished, the router sent us away, or the chip reset itself.
+# Beacons stopping fits either side, so wifi-link-log records signal, tx
+# failures and gateway ping every 10 s: a strong steady link that stops dead
+# points at the router, a fading one at range or the laptop.
 #
 # Ruled out: "Limiting TX power to 0 (-128 - 0) dBm" in the 22 sep dmesg is
 # mac80211 reading a hotspot's country element; rtw89 never reads that value

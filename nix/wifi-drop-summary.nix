@@ -39,8 +39,10 @@ pkgs.writeShellScriptBin "wifi-drop-summary" ''
         printf "%-26s %-34s %d\n", part[1], part[2], tally[keys[i]]
       }
       print "verdict:"
-      if (total["nm-link-timeout"] > 0 || tally["nm-failed\tsupplicant-timeout"] > 0)
-        say("supplicant-timeout = a connected link dropped and was not back within 15 s (the popup)")
+      if (total["nm-link-timeout"] > 0)
+        say("a connected link dropped and stayed down 15 s (30 s if scanning); the NM reason tells the outcome")
+      if (tally["nm-failed\tsupplicant-timeout"] > 0)
+        say("supplicant-timeout (the popup): router still in scans, reassociation did not finish")
       if (total["kernel-beacon-loss"] > 0 || tally["kernel-local-deauth\t4=DISASSOC_DUE_TO_INACTIVITY"] > 0)
         say("beacons stopped arriving: router went quiet, or the laptop slept through them (see wifi-link-log)")
       if (tally["nm-failed\tssid-not-found"] > 0)
