@@ -12,4 +12,8 @@ in
 
   # Asserts the touchpad-rescue branch logic against a fake sysfs tree.
   touchpad-rescue-test = machines.touchpad-rescue-test;
+
+  # Asserts wifi-drop-summary tells beacon loss, AP kicks and chip resets apart
+  # and wifi-station-line reads an iw station dump correctly.
+  wifi-diagnose-test = machines.wifi-diagnose-test;
 }

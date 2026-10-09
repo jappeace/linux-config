@@ -30,4 +30,11 @@ in
   touchpad-rescue-test = import ./nix/touchpad-rescue-test.nix {
     pkgs = import sources.nixpkgs { };
   };
+
+  # nix-build -A wifi-diagnose-test
+  # Feeds journal lines for each wifi drop cause to wifi-drop-summary and
+  # asserts the verdict blames the right layer; checks the iw parsing too.
+  wifi-diagnose-test = import ./nix/wifi-diagnose-test.nix {
+    pkgs = import sources.nixpkgs { };
+  };
 }
