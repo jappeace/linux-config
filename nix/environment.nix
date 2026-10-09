@@ -440,7 +440,6 @@ in
       gource
       p7zip
       steam
-      bc # random calcualtions
       thunar
       inkscape # gotta make that artwork for site etc
       gnupg # for private keys
@@ -539,6 +538,7 @@ in
     ];
     shellAliases = {
       nix = "nom";
+      bc = "calc";
       nix-shell = "nom-shell";
       niixos-rebuild = "nixos-rebuild";
       nixos-rebuild = "nixos-rebuild --no-reexec";
@@ -549,7 +549,6 @@ in
       vim = "nvim";
       cp = "cp --reflink=auto"; # btrfs shine
       ssh = "ssh -C"; # why is this not default?
-      bc = "bc -l"; # fix scale
     };
     variables = {
       LESS = "-F -X -R";
