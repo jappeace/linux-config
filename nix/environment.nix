@@ -100,6 +100,9 @@ let
   piper = pkgs.writeShellScriptBin "piper" ''
     ${pkgs.piper-tts}/bin/piper -m ${piper-amy-voice}/en/en_US/amy/medium/en_US-amy-medium.onnx "$@"
   '';
+  calc = pkgs.writeShellScriptBin "calc" ''
+    ${pkgs.ghc}/bin/ghci "$@"
+  '';
 
   # Speech-to-text dictation, the reverse of the piper TTS above.
   # -- Decision: whisper.cpp, chosen over nerd-dictation/VOSK.
@@ -235,6 +238,7 @@ in
   environment = {
     systemPackages = with pkgs.xfce // pkgs; [
       (fuckingFlake sources.Hexecute).packages.${pkgs.stdenv.hostPlatform.system}.default
+      calc
       gsimplecal
       qbittorrent # bittorent
       clean-emacs
