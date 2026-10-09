@@ -46,6 +46,7 @@ boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
     ./nix/config.nix
     ./nix/delta-block-bypass.nix
     ./nix/claude-launcher-sudo.nix
+    ./nix/rtw89-wifi.nix
     ./nix/environment.nix
     ./nix/email.nix
     ./nix/services.nix
