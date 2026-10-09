@@ -34,7 +34,8 @@ let
   sources = import ../npins;
 
   # Positions are absolute in a shared coordinate space, so each stanza needs
-  # the resolution of its neighbours to place itself. Refresh rate is left off
+  # the logical size (resolution divided by scale) of its neighbours to place
+  # itself. Refresh rate is left off
   # deliberately: sway picks the preferred mode, and pinning a rate that the
   # dump rounds differently (DP-1 reports 60.000 but advertises 59.934) is a
   # way to end up with an output that silently refuses to come up.
@@ -54,18 +55,25 @@ let
   #                          +----------+
   #
   # DP-2 is the big Philips in the middle and the one everything else is
-  # placed against. The three tops line up at y=0; HDMI-A-1 hangs below DP-2,
-  # centred under it (DP-2 spans x 1600..5440, midpoint 3520, minus half of
-  # 1360).
+  # placed against. At scale 1 its 140 dpi left foot's text unreadably small;
+  # at 1.25 it is 3072x1728 logical. The three tops line up at y=0; HDMI-A-1
+  # hangs below DP-2, centred under it (DP-2 spans x 1600..4672, midpoint
+  # 3136, minus half of 1360).
+  #
+  # Decision: scale DP-2 rather than set foot's dpi-aware=yes. That option
+  # sizes text by each screen's EDID dpi, so it would also shrink foot's text
+  # by a third on the 60-70 dpi LG TVs and resize it on the laptops. The scale
+  # touches only DP-2, at the cost of enlarging every app there and blurring
+  # XWayland ones.
   panoramaTower = ''
     # DP-3      HP LA2006          left of DP-2
     # DP-2      Philips PHL 328E1  middle
     # DP-1      LG 32LG5000        right of DP-2
     # HDMI-A-1  LG 26LG4000-ZA     below DP-2, centred
     output DP-3 resolution 1600x900 position 0,0
-    output DP-2 resolution 3840x2160 position 1600,0
-    output DP-1 resolution 1920x1080 position 5440,0
-    output HDMI-A-1 resolution 1360x768 position 2840,2160
+    output DP-2 resolution 3840x2160 scale 1.25 position 1600,0
+    output DP-1 resolution 1920x1080 position 4672,0
+    output HDMI-A-1 resolution 1360x768 position 2456,1728
   '';
 
   # Both laptops: the internal panel with the beamer projecting above it, so
