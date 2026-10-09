@@ -55,16 +55,12 @@ let
   #                          +----------+
   #
   # DP-2 is the big Philips in the middle and the one everything else is
-  # placed against. At scale 1 its 140 dpi left foot's text unreadably small;
-  # at 1.25 it is 3072x1728 logical. The three tops line up at y=0; HDMI-A-1
-  # hangs below DP-2, centred under it (DP-2 spans x 1600..4672, midpoint
-  # 3136, minus half of 1360).
+  # placed against; at scale 1.25 it is 3072x1728 logical. The three tops line
+  # up at y=0; HDMI-A-1 hangs centred below it (midpoint 3136 minus half 1360).
   #
-  # Decision: scale DP-2 rather than set foot's dpi-aware=yes. That option
-  # sizes text by each screen's EDID dpi, so it would also shrink foot's text
-  # by a third on the 60-70 dpi LG TVs and resize it on the laptops. The scale
-  # touches only DP-2, at the cost of enlarging every app there and blurring
-  # XWayland ones.
+  # Decision: scale DP-2 (140 dpi) rather than set foot's dpi-aware=yes, which
+  # sizes text by EDID dpi on every host and would shrink it by a third on the
+  # 60-70 dpi LG TVs. Cost: every app on DP-2 grows and XWayland ones blur.
   panoramaTower = ''
     # DP-3      HP LA2006          left of DP-2
     # DP-2      Philips PHL 328E1  middle
