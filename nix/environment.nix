@@ -41,6 +41,11 @@ let
 
   fuckdirenv = pkgs.writeShellScriptBin "fuckdirenv" ''fd -t d -IH direnv --exec rm -r'';
 
+  # For tools whose fix hasn't reached any pin yet, eg `bleeding-edge -p yt-dlp`.
+  bleeding-edge = pkgs.writeShellScriptBin "bleeding-edge" ''
+    exec nix-shell -I nixpkgs=https://github.com/NixOS/nixpkgs/archive/master.tar.gz "$@"
+  '';
+
   # Decision: reset SIGPIPE for shells that nix-shell spawns, via a
   # NIX_BUILD_SHELL wrapper rather than patching Lix. Lix ignores SIGPIPE
   # in its own process and never restores it before exec'ing bash, so
@@ -278,6 +283,7 @@ in
       openrct2
       starsector
       fuckdirenv
+      bleeding-edge
       mosquitto
       (import sources.nixpkgs-lix {}).npins # the stupid vibes bot uses a newer one everywhere so I can't update unless I upgrade this, but I need this to upgrade so...
 
