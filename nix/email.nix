@@ -18,7 +18,6 @@
 { pkgs, config, ... }:
 let
   sources = import ../npins;
-  tabletSafe = import ./tablet-safe.nix pkgs;
 
   # Decision: backup and retention are unconditional, with no per-machine enable
   # flag. An earlier mailBackupEnabled/inboxRetentionEnabled pair gated them off
@@ -440,7 +439,7 @@ in
 
     programs.thunderbird = {
       enable = true;
-      package = tabletSafe thunderbirdWithSendLater;
+      package = thunderbirdWithSendLater;
       profiles.jappie = {
         isDefault = true;
         # ordering in the folder pane; independent of which account is

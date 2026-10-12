@@ -10,8 +10,6 @@ let
   # unfuck the flake, unsubscribe from the mental health workshop.
   fuckingFlake = outPath: (import sources.flake-compat { src = outPath; }).outputs;
 
-  tabletSafe = import ./tablet-safe.nix pkgs;
-
   agenix = fuckingFlake sources.agenix.outPath;
 
   unstable = import sources.unstable { };
@@ -289,7 +287,7 @@ in
 
       nix-output-monitor # pretty nix graph
 
-      (tabletSafe tor-browser)
+      tor-browser
       kdePackages.kdenlive
       kdePackages.konsole
       xfce4-terminal
@@ -493,10 +491,10 @@ in
       cowsay
       fortune
       vlc
-      (tabletSafe firefox)
+      (import ./firefox.nix pkgs)
       blueman
 
-      chromium # NB: may also need to be wrapped by tablet safe
+      chromium
       pavucontrol
       gparted # partitiioning for dummies, like me
 
