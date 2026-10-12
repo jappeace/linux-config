@@ -12,4 +12,7 @@ in
 
   # Asserts the touchpad-rescue branch logic against a fake sysfs tree.
   touchpad-rescue-test = machines.touchpad-rescue-test;
+
+  # Asserts Firefox's scrollbar is 24 px and not an overlay.
+  firefox-scrollbar-test = machines.firefox-scrollbar-test;
 }

@@ -493,7 +493,7 @@ in
       cowsay
       fortune
       vlc
-      (tabletSafe firefox)
+      (import ./firefox.nix pkgs)
       blueman
 
       chromium # NB: may also need to be wrapped by tablet safe
