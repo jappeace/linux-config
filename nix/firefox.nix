@@ -1,16 +1,14 @@
-# Firefox with scrollbar prefs and extensions declared as enterprise policies,
-# the mechanism email.nix already uses for Thunderbird's Send Later addon.
+# Firefox with scrollbar prefs and extensions declared as enterprise policies.
 #
-# Decision: the policies are baked into the package with pkgs.firefox.override.
-# Alternatives considered: the NixOS programs.firefox module (it wraps
-# cfg.package itself, which does not compose with tabletSafe's symlinkJoin)
-# and home-manager's profile extensions (NUR xpis with pinned hashes that go
-# stale). force_installed from AMO keeps every machine and every fresh profile
-# on the same set, while AMO still ships the updates.
+# Decision: the policies are baked into the package with pkgs.firefox.override,
+# as email.nix does for Thunderbird's Send Later addon. Alternatives
+# considered: the NixOS programs.firefox module (writes the same policies to
+# /etc/firefox/policies, no gain over the package) and home-manager's profile
+# extensions (NUR xpis with pinned hashes that go stale). force_installed from
+# AMO keeps every machine and every fresh profile on the same set, while AMO
+# still ships the updates.
 pkgs:
 let
-  tabletSafe = import ./tablet-safe.nix pkgs;
-
   # Extension id (the "ID" column of about:support) to its AMO slug. To list
   # what a profile has installed:
   #   jq -r '.addons[] | select(.location == "app-profile") | "\(.id) \(.defaultLocale.name)"' ~/.mozilla/firefox/*/extensions.json
@@ -20,7 +18,7 @@ let
     "keepassxc-browser@keepassxc.org" = "keepassxc-browser";
   };
 in
-tabletSafe (pkgs.firefox.override {
+pkgs.firefox.override {
   extraPolicies = {
     ExtensionSettings = builtins.mapAttrs (id: slug: {
       installation_mode = "force_installed";
@@ -43,4 +41,4 @@ tabletSafe (pkgs.firefox.override {
       };
     };
   };
-})
+}
