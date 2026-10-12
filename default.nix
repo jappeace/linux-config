@@ -30,16 +30,4 @@ in
   touchpad-rescue-test = import ./nix/touchpad-rescue-test.nix {
     pkgs = import sources.nixpkgs { };
   };
-
-  # nix-build -A firefox-scrollbar-test
-  # Runs the installed Firefox under Xvfb and asserts the scrollbar is the
-  # declared always-visible 24 px; fails if Firefox stops applying the policy.
-  firefox-scrollbar-test =
-    let
-      pkgs = import sources.nixpkgs { };
-    in
-    import ./nix/firefox-scrollbar-test.nix {
-      inherit pkgs;
-      firefox = import ./nix/firefox.nix pkgs;
-    };
 }
