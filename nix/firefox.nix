@@ -16,7 +16,8 @@ let
   #   jq -r '.addons[] | select(.location == "app-profile") | "\(.id) \(.defaultLocale.name)"' ~/.mozilla/firefox/*/extensions.json
   extensions = {
     "uBlock0@raymondhill.net" = "ublock-origin";
-    "leechblockng@proginosko.com" = "leechblock-ng";
+    "@news-feed-eradicator" = "news-feed-eradicator";
+    "keepassxc-browser@keepassxc.org" = "keepassxc-browser";
   };
 in
 tabletSafe (pkgs.firefox.override {
