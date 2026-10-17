@@ -353,16 +353,62 @@ h/l, paste with p."
 (defun dirvish-refresh-listing ()
   "Re-read the directory this listing shows, from disk (gr, or <f5>).
 Use after something changed the directory behind dirvish' back: a git
-pull in a terminal, a build, an rm.
-
-Passes IGNORE-AUTO explicitly rather than calling `revert-buffer' bare.
-dirvish caches per-file data (sizes, attributes) next to the listing and
-`dirvish-revert' only drops that cache when IGNORE-AUTO is set, which
-`revert-buffer' fills in from `current-prefix-arg' when a human invokes
-it and leaves nil when elisp calls it. Naming the command means the key
-and `dirvish-paste-clipboard' get the same full refresh."
+pull in a terminal, a build, an rm. Drops every dirvish cache and
+redraws the preview, see Note [dirvish caches]."
   (interactive)
+  (let ((session (or (dirvish-curr) (user-error "Not a dirvish buffer"))))
+    (dirvish-reread-from-disk session)
+    (let ((file-at-point (dired-get-filename nil t)))
+      (if file-at-point
+          (dirvish--preview-update session file-at-point)
+        nil))
+    (force-mode-line-update t)))
+
+;; Note [dirvish caches]
+;; dired's revert re-reads the listing, but dirvish keeps more next to it:
+;; per-file attributes (sizes, file counts), the text of every previewed
+;; file, the rendered preview buffers and parent listings. None of that
+;; looks at the disk again, so in a live session a rewritten a.txt kept
+;; previewing its old contents after gr. dirvish also hands back its
+;; existing buffer when a directory is revisited, bypassing
+;; dired-auto-revert-buffer, so a file added while away stayed missing.
+;;
+;; gr and <f5> therefore drop all of it (`dirvish-reread-from-disk') and
+;; redraw the preview themselves: dirvish redraws it only when point moves
+;; to a different file. Entering a directory drops it too, through
+;; `dirvish-reread-revisited-listing' on dirvish-find-entry-hook.
+
+(defun dirvish-reread-from-disk (session)
+  "Re-read the current listing and drop SESSION's cached file contents.
+Passes IGNORE-AUTO to `revert-buffer' explicitly: `dirvish-revert' only
+drops the per-file attribute cache when it is set, and `revert-buffer'
+fills it in from `current-prefix-arg' for a human but leaves it nil when
+elisp calls it. See Note [dirvish caches]."
+  (clrhash (dv-preview-hash session))
+  (clrhash (dv-parent-hash session))
+  ;; the fallback preview reuses any live buffer named after the file,
+  ;; so the cached text is only gone once these are
+  (mapc #'dirvish--kill-buffer (dv-preview-buffers session))
   (revert-buffer t t))
+
+(defvar-local dirvish-listing-read-before nil
+  "Non-nil once dirvish has handed out this listing at least once.
+The first hand-out is the fresh read itself; every later one is a
+revisit that `dirvish-reread-revisited-listing' re-reads.")
+
+(defun dirvish-reread-revisited-listing (_directory find-function)
+  "Re-read a listing dirvish hands out again, see Note [dirvish caches].
+For `dirvish-find-entry-hook'. dirvish runs it with FIND-FUNCTION `dired'
+and the listing current on every hand-out, although the hook's docstring
+says first creation only; a test guards that. Before a file opens it
+runs with `find-file' and friends, where non-nil cancels the open, so
+this always returns nil."
+  (if (eq find-function 'dired)
+      (if dirvish-listing-read-before
+          (dirvish-reread-from-disk (dirvish-curr))
+        (setq dirvish-listing-read-before t))
+    nil)
+  nil)
 
 (defun dirvish-paste-collides-p (source-file target-directory)
   "Non-nil when pasting SOURCE-FILE into TARGET-DIRECTORY hits an existing name.
@@ -474,7 +520,7 @@ child emacs, progress in the mode line."
         nil))))
 
 ;; Decision: nothing watches git for us. Listings stay fresh through
-;; dired-auto-revert-buffer (re-read on revisit) and
+;; `dirvish-reread-revisited-listing' (re-read on revisit) and
 ;; `dirvish-refresh-listing' on gr or <f5> for an explicit refresh.
 ;;
 ;; A third layer used to sit on top: a global core.hooksPath whose
@@ -534,8 +580,10 @@ means by t."
    ;; directories as listings and shows a placeholder for binaries
    ;; instead of dumping them in a buffer.
    dirvish-preview-disabled-exts '("bin" "exe" "gpg" "elc" "eln" "gz" "mkv" "iso" "mp4")
-   ;; re-read the listing from disk when revisiting a dired buffer, so
-   ;; walking away and back never shows a stale directory
+   ;; plain dired's re-read on revisit. dirvish' dired-noselect advice
+   ;; returns its cached buffer before dired consults this, so under
+   ;; dirvish `dirvish-reread-revisited-listing' does the re-read, see
+   ;; Note [dirvish caches]
    dired-auto-revert-buffer t
    )
   ;; ranger-style navigation. ranger.el shipped its own vim keymap;
@@ -554,9 +602,9 @@ means by t."
     ;; manual refresh for when the directory changed under the listing
     ;; (a git pull in a terminal, rm, a build). gr is the evil
     ;; convention for revert, <f5> is the one every other program uses
-    ;; and needs no modifier. This is the only refresh that is not tied
-    ;; to revisiting a buffer, see the comment above about the git hook
-    ;; that used to push one.
+    ;; and needs no modifier. Besides re-reading on revisit this is the
+    ;; only refresh, see the comment above about the git hook that used
+    ;; to push one.
     "gr" 'dirvish-refresh-listing
     (kbd "<f5>") 'dirvish-refresh-listing
     ;; i as in insert: pops the file creation buffer, see
@@ -576,7 +624,14 @@ means by t."
     ;; walk to the target directory, Y m moves the marked files here.
     ;; Also reachable as ? y. Shadows evil-yank-line, useless in a
     ;; read-only listing.
-    "Y" 'dirvish-yank-menu)
+    "Y" 'dirvish-yank-menu
+    ;; ranger.el's ; prefix: ; followed by any plain dired key, so ;+
+    ;; creates a directory, ;C copies, ;R renames, ;D deletes. ranger
+    ;; bound ; to a copy of dired-mode-map; the live map is used here so
+    ;; later dired bindings show up too. Shadows evil-repeat-find-char,
+    ;; which has no use in a listing.
+    ";" dired-mode-map)
+  (add-hook 'dirvish-find-entry-hook #'dirvish-reread-revisited-listing)
   )
 
 ;;; show what keys are possible
