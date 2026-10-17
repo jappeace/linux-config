@@ -173,9 +173,10 @@ update stops running dirvish-find-entry-hook on revisits."
         (should (dired-goto-file added))))))
 
 (ert-deftest dirvish-revisit-keeps-unfinished-wdired-edits ()
-  "A revisit does not re-read a listing with pending wdired renames.
+  "A rename typed in wdired can still be finished with C-c C-c after a revisit.
 dired-jump or find-file on the directory hands the wdired buffer out
-again, and re-reading it would drop the typed name."
+again; re-reading it would drop the typed name, and dirvish's own setup
+of the buffer would leave C-c C-c unbound."
   (dirvish-test-in-session '(("a.txt" . "a"))
     (let ((listing (current-buffer)))
       (wdired-change-to-wdired-mode)
@@ -185,12 +186,13 @@ again, and re-reading it would drop the typed name."
             (search-forward "a.txt")
             (replace-match "renamed.txt" t t)
             (with-temp-buffer (dired-noselect directory))
-            (with-current-buffer listing
-              (should (buffer-modified-p))
-              (goto-char (point-min))
-              (should (search-forward "renamed.txt" nil t))))
+            (execute-kbd-macro (kbd "C-c C-c"))
+            (should (file-exists-p (expand-file-name "renamed.txt" directory)))
+            (should-not (file-exists-p (expand-file-name "a.txt" directory))))
         (with-current-buffer listing
-          (wdired-abort-changes))))))
+          (if (derived-mode-p 'wdired-mode)
+              (wdired-abort-changes)
+            nil))))))
 
 (ert-deftest dirvish-semicolon-plus-creates-a-directory ()
   "; + in a listing creates a directory, as ranger.el's ; prefix did."

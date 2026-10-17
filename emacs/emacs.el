@@ -404,18 +404,31 @@ says first creation only; a test guards that. Before a file opens it
 runs with `find-file' and friends, where non-nil cancels the open, so
 this always returns nil.
 
-A listing in wdired is left alone: re-reading it would throw away the
-names typed so far. Plain dired never reuses a wdired buffer (it looks
-listings up by major mode), dirvish hands it out anyway."
+A listing in wdired is not re-read, that would throw away the names
+typed so far; see `dirvish-restore-wdired' for what it gets instead.
+Plain dired never reuses a wdired buffer (it looks listings up by major
+mode), dirvish hands it out anyway."
   (if (eq find-function 'dired)
       (cond ((not dirvish-listing-read-before)
              (setq dirvish-listing-read-before t))
             ((derived-mode-p 'wdired-mode)
+             (dirvish-restore-wdired)
              (message "dirvish: %s has unfinished wdired edits, not re-reading it"
                       (abbreviate-file-name default-directory)))
             (t (dirvish-reread-from-disk (dirvish-curr))))
     nil)
   nil)
+
+(defun dirvish-restore-wdired ()
+  "Make a wdired listing dirvish handed out again editable again.
+dirvish's dired-noselect advice sets the buffer up as a plain listing
+before `dirvish-find-entry-hook' runs: its own keymap, so C-c C-c and ZZ
+no longer finish the edit and gr can drop it, and its own revert
+function in place of wdired's. This puts back what
+`wdired-change-to-wdired-mode' and dirvish's own wdired advice install."
+  (use-local-map wdired-mode-map)
+  (add-function :override (local 'revert-buffer-function) #'wdired-revert)
+  (dirvish-wdired-enter-a))
 
 (defun dirvish-paste-collides-p (source-file target-directory)
   "Non-nil when pasting SOURCE-FILE into TARGET-DIRECTORY hits an existing name.
