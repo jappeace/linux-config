@@ -402,11 +402,18 @@ For `dirvish-find-entry-hook'. dirvish runs it with FIND-FUNCTION `dired'
 and the listing current on every hand-out, although the hook's docstring
 says first creation only; a test guards that. Before a file opens it
 runs with `find-file' and friends, where non-nil cancels the open, so
-this always returns nil."
+this always returns nil.
+
+A listing in wdired is left alone: re-reading it would throw away the
+names typed so far. Plain dired never reuses a wdired buffer (it looks
+listings up by major mode), dirvish hands it out anyway."
   (if (eq find-function 'dired)
-      (if dirvish-listing-read-before
-          (dirvish-reread-from-disk (dirvish-curr))
-        (setq dirvish-listing-read-before t))
+      (cond ((not dirvish-listing-read-before)
+             (setq dirvish-listing-read-before t))
+            ((derived-mode-p 'wdired-mode)
+             (message "dirvish: %s has unfinished wdired edits, not re-reading it"
+                      (abbreviate-file-name default-directory)))
+            (t (dirvish-reread-from-disk (dirvish-curr))))
     nil)
   nil)
 

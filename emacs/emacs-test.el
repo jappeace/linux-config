@@ -146,7 +146,7 @@ same generated name would pass the single-paste test and lose files here."
   (dirvish-test-in-directory '(("template.txt" . "original"))
     (should-error (dirvish-paste-clipboard) :type 'user-error)))
 
-;; Note [dirvish caches] in emacs.el has the cases these three cover.
+;; Note [dirvish caches] in emacs.el has the cases the tests below cover.
 
 (ert-deftest dirvish-refresh-listing-redraws-a-stale-preview ()
   "After gr the preview shows what the file holds now, not the cached text.
@@ -171,6 +171,26 @@ update stops running dirvish-find-entry-hook on revisits."
       (with-temp-file added (insert "x"))
       (with-current-buffer (dired-noselect directory)
         (should (dired-goto-file added))))))
+
+(ert-deftest dirvish-revisit-keeps-unfinished-wdired-edits ()
+  "A revisit does not re-read a listing with pending wdired renames.
+dired-jump or find-file on the directory hands the wdired buffer out
+again, and re-reading it would drop the typed name."
+  (dirvish-test-in-session '(("a.txt" . "a"))
+    (let ((listing (current-buffer)))
+      (wdired-change-to-wdired-mode)
+      (unwind-protect
+          (progn
+            (goto-char (point-min))
+            (search-forward "a.txt")
+            (replace-match "renamed.txt" t t)
+            (with-temp-buffer (dired-noselect directory))
+            (with-current-buffer listing
+              (should (buffer-modified-p))
+              (goto-char (point-min))
+              (should (search-forward "renamed.txt" nil t))))
+        (with-current-buffer listing
+          (wdired-abort-changes))))))
 
 (ert-deftest dirvish-semicolon-plus-creates-a-directory ()
   "; + in a listing creates a directory, as ranger.el's ; prefix did."
