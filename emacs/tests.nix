@@ -49,7 +49,13 @@ pkgs.runCommand "emacs-tests"
 } ''
   export HOME=$TMPDIR
   mkdir -p "$HOME/.emacs.d"
+  # package-activate-all is what the daemon's normal startup runs and -q
+  # skips. Without it every autoloaded command the config calls at load
+  # time is void, and use-package only logs that: dirvish-override-dired-mode
+  # never ran here, so listings were plain dired and dirvish's revisit and
+  # preview behaviour went untested.
   emacs -q --batch \
+    --eval '(package-activate-all)' \
     -l ${init}/share/emacs/site-lisp/default.el \
     -l ${./emacs-test.el} \
     -f ert-run-tests-batch-and-exit

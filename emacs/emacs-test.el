@@ -1,4 +1,4 @@
-;;; emacs-test.el --- tests for the dirvish paste helpers -*- lexical-binding: t; -*-
+;;; emacs-test.el --- tests for the dirvish behaviour emacs.el adds -*- lexical-binding: t; -*-
 
 ;; Run with emacs/tests.nix:
 ;;
@@ -8,16 +8,13 @@
 ;; emacs ships) and then this file, so the tests exercise the config that
 ;; actually gets installed rather than a copy of it.
 ;;
-;; Scope: the paste logic added for ranger-style yy/p, which is the only
-;; part of emacs.el with an algorithm worth asserting (pick a free name,
-;; never overwrite, keep counting while names are taken). The rest of the
-;; file is package configuration and keybindings, where the value is in
+;; Scope: the dirvish behaviour emacs.el adds on top of the package. The
+;; paste logic for ranger-style yy/p (pick a free name, never overwrite,
+;; keep counting while names are taken), the cache busting behind gr and
+;; revisits, and the ; prefix, which is driven by its keys because the
+;; binding composing with evil and dired-mode-map is the whole feature.
+;; The rest of the file is package configuration, where the value is in
 ;; whether emacs starts, not in an assertion.
-;;
-;; dirvish-refresh-listing is deliberately not tested: it is a one line
-;; wrapper whose whole content is the arguments it hands to revert-buffer,
-;; so a test would be asserting that revert-buffer works, and libraries are
-;; assumed to work.
 
 (require 'ert)
 (require 'dired)
@@ -40,6 +37,34 @@ afterwards, so a test never sees another test's files."
                  (progn ,@body)
                (kill-buffer))))
        (delete-directory directory t))))
+
+(defmacro dirvish-test-in-session (bindings &rest body)
+  "Run BODY in a full dirvish session on a fresh temporary directory.
+BINDINGS are files as in `dirvish-test-in-directory'. Unlike that macro
+the listing is opened by the dirvish command, in the selected window with
+its preview pane, so keys and previews behave as they do interactively.
+BODY sees the directory as `directory' and the session as `session'."
+  (declare (indent 1))
+  `(let ((directory (file-name-as-directory (make-temp-file "dirvish-test" t))))
+     (unwind-protect
+         (progn
+           (dolist (file ,bindings)
+             (with-temp-file (expand-file-name (car file) directory)
+               (insert (cdr file))))
+           (dirvish directory)
+           (let ((session (dirvish-curr)))
+             ;; interactively redisplay builds the layout; batch emacs
+             ;; never redisplays
+             (dirvish--build-layout session)
+             (unwind-protect
+                 (progn ,@body)
+               (dirvish-quit))))
+       (delete-directory directory t))))
+
+(defun dirvish-test-preview-text (session)
+  "Return the text SESSION's preview pane shows."
+  (with-current-buffer (window-buffer (dv-preview-window session))
+    (buffer-string)))
 
 (defun dirvish-test-contents (path)
   "Return the contents of PATH as a string."
@@ -120,6 +145,62 @@ same generated name would pass the single-paste test and lose files here."
   "Pasting with nothing yanked says so instead of failing obscurely."
   (dirvish-test-in-directory '(("template.txt" . "original"))
     (should-error (dirvish-paste-clipboard) :type 'user-error)))
+
+;; Note [dirvish caches] in emacs.el has the cases the tests below cover.
+
+(ert-deftest dirvish-refresh-listing-redraws-a-stale-preview ()
+  "After gr the preview shows what the file holds now, not the cached text.
+dirvish caches preview text per file and only redraws when point moves to
+another file, so without the cache busting this still reads old."
+  (dirvish-test-in-session '(("a.txt" . "old"))
+    (let ((file (expand-file-name "a.txt" directory)))
+      (dired-goto-file file)
+      ;; what point landing on the file does interactively
+      (dirvish--preview-update session file)
+      (with-temp-file file (insert "new"))
+      (dirvish-refresh-listing)
+      (should (equal (dirvish-test-preview-text session) "new")))))
+
+(ert-deftest dirvish-revisit-rereads-the-listing ()
+  "Coming back to a directory lists a file that was added while away.
+h, l and dired-jump all reach the listing through dired-noselect, where
+dirvish hands back its existing buffer. This also fails if a dirvish
+update stops running dirvish-find-entry-hook on revisits."
+  (dirvish-test-in-session '()
+    (let ((added (expand-file-name "added-while-away.txt" directory)))
+      (with-temp-file added (insert "x"))
+      (with-current-buffer (dired-noselect directory)
+        (should (dired-goto-file added))))))
+
+(ert-deftest dirvish-revisit-keeps-unfinished-wdired-edits ()
+  "A rename typed in wdired can still be finished with C-c C-c after a revisit.
+dired-jump or find-file on the directory hands the wdired buffer out
+again; re-reading it would drop the typed name, and dirvish's own setup
+of the buffer would leave C-c C-c unbound."
+  (dirvish-test-in-session '(("a.txt" . "a"))
+    (let ((listing (current-buffer)))
+      (wdired-change-to-wdired-mode)
+      (unwind-protect
+          (progn
+            (goto-char (point-min))
+            (search-forward "a.txt")
+            (replace-match "renamed.txt" t t)
+            (with-temp-buffer (dired-noselect directory))
+            (execute-kbd-macro (kbd "C-c C-c"))
+            (should (file-exists-p (expand-file-name "renamed.txt" directory)))
+            (should-not (file-exists-p (expand-file-name "a.txt" directory))))
+        (with-current-buffer listing
+          (if (derived-mode-p 'wdired-mode)
+              (wdired-abort-changes)
+            nil))))))
+
+(ert-deftest dirvish-semicolon-plus-creates-a-directory ()
+  "; + in a listing creates a directory, as ranger.el's ; prefix did."
+  (dirvish-test-in-session '()
+    (cl-letf (((symbol-function 'read-file-name)
+               (lambda (&rest _) (expand-file-name "made-by-keys" directory))))
+      (execute-kbd-macro (kbd "; +")))
+    (should (file-directory-p (expand-file-name "made-by-keys" directory)))))
 
 (provide 'emacs-test)
 ;;; emacs-test.el ends here
