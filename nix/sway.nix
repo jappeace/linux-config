@@ -55,8 +55,9 @@ let
   #                          +----------+
   #
   # DP-2 is the big Philips in the middle and the one everything else is
-  # placed against; at scale 1.25 it is 3072x1728 logical. The three tops line
-  # up at y=0; HDMI-A-1 hangs centred below it (midpoint 3136 minus half 1360).
+  # placed against; at scale 1.5 it is 2560x1440 logical. The three tops line
+  # up at y=0; HDMI-A-1 hangs centred below it (midpoint 2880 minus half 1360).
+  # 1.5 sizes foot's text as on a 96 dpi screen; 1.25 was still too small.
   #
   # Decision: scale DP-2 (140 dpi) rather than set foot's dpi-aware=yes, which
   # sizes text by EDID dpi on every host and would shrink it by a third on the
@@ -67,9 +68,9 @@ let
     # DP-1      LG 32LG5000        right of DP-2
     # HDMI-A-1  LG 26LG4000-ZA     below DP-2, centred
     output DP-3 resolution 1600x900 position 0,0
-    output DP-2 resolution 3840x2160 scale 1.25 position 1600,0
-    output DP-1 resolution 1920x1080 position 4672,0
-    output HDMI-A-1 resolution 1360x768 position 2456,1728
+    output DP-2 resolution 3840x2160 scale 1.5 position 1600,0
+    output DP-1 resolution 1920x1080 position 4160,0
+    output HDMI-A-1 resolution 1360x768 position 2200,1440
   '';
 
   # Both laptops: the internal panel with the beamer projecting above it, so
