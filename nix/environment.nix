@@ -692,6 +692,9 @@ tmux = {
         };
         key-bindings = {
           "clipboard-paste" = "Control+v";
+          # Decision: swallow Control+z in foot rather than `stty susp undef`
+          # in the shell, so an accidental press suspends nothing, ssh included.
+          noop = "Control+z";
         };
         url = {
           launch = "xdg-open \${url}";
