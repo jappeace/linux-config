@@ -71,15 +71,13 @@
     "leana-dotfiles": {
       "type": "Git",
       "repository": {
-        "type": "Forgejo",
-        "server": "https://codeberg.org/",
-        "owner": "leana8959",
-        "repo": ".files"
+        "type": "Git",
+        "url": "https://codeberg.org/leana8959/jardin.git"
       },
       "branch": "trunk",
       "submodules": false,
       "revision": "5f665b4f556a6bb1edef57b2a98ce8b745469fb4",
-      "url": "https://codeberg.org/leana8959/.files/archive/5f665b4f556a6bb1edef57b2a98ce8b745469fb4.tar.gz",
+      "url": null,
       "hash": "sha256-bxFxpRsz1mkZbl020FHEywCuLlv/o9kAjTKD4MDpSH8="
     },
     "nixpkgs": {
