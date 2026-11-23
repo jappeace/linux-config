@@ -12,6 +12,9 @@ in
     })
     (import sources.emacs-overlay)
 
+    # Decision: leana-dotfiles is a plain git pin, not a Forgejo one. Codeberg's
+    # archive endpoint gave no first byte within 150 s (23 nov 2026) while git
+    # fetched the same revision in seconds, and the source is GC'd between rebuilds.
     (import (sources.leana-dotfiles + "/nix/overlays/nix-monitored.nix"))
   ];
 
