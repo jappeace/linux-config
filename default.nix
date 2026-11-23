@@ -30,4 +30,11 @@ in
   touchpad-rescue-test = import ./nix/touchpad-rescue-test.nix {
     pkgs = import sources.nixpkgs { };
   };
+
+  # nix-build -A claude-launcher-sudo-test
+  # Boots a VM and runs the vibes launcher's sudo calls as a wheel user; fails
+  # if any of them would ask for a password.
+  claude-launcher-sudo-test = import ./nix/claude-launcher-sudo-test.nix {
+    pkgs = import sources.nixpkgs { };
+  };
 }

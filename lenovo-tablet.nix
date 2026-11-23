@@ -88,7 +88,9 @@ boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
   };
 
   security.sudo.extraRules = [
-    { groups = [ "wheel" ]; commands = [{ command = "${pkgs.systemd}/bin/poweroff"; options = [ "NOPASSWD" ]; }]; }
+    # A systemd store path never matches `sudo poweroff`, see the path
+    # Decision in nix/claude-launcher-sudo.nix.
+    { groups = [ "wheel" ]; commands = [{ command = "/run/current-system/sw/bin/poweroff"; options = [ "NOPASSWD" ]; }]; }
   ];
   security.sudo.extraConfig = ''
     Defaults        timestamp_timeout=120

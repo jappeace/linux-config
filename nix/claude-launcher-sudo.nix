@@ -15,11 +15,14 @@
 # Decision: one shared module imported by every host instead of the rule
 # copied into work-machine.nix, lenovo-amd-2022.nix and lenovo-tablet.nix.
 # The nspawn rule already drifted across three copies once; the launcher is
-# the same on every machine so its sudo needs are too. The commands use
-# config.systemd.package rather than pkgs.systemd so the rule tracks whatever
-# systemd the system actually installs. sudo matches the sudoers path against
-# the invoked binary by device and inode, so the /run/current-system symlink
-# the user's PATH resolves to still matches the store path written here.
+# the same on every machine so its sudo needs are too.
+# Decision: the rules name /run/current-system/sw/bin, the directory the
+# launcher's bare command names resolve to, not the systemd store path.
+# Since 1.9.14 sudo first compares the canonical parent directories of the
+# invoked and the sudoers command, which here are .../system-path/bin and
+# .../systemd-<version>/bin, so the store-path rules never matched (same
+# inode or not) and every launch prompted. nix/claude-launcher-sudo-test.nix
+# runs the launcher's calls against these rules in a VM.
 # The rule targets the wheel group: that is the admin group NixOS's sudo
 # module uses and the one jappie is in. An earlier version copied the host
 # files' "sudo" group, which no NixOS module creates, so the rules matched
@@ -28,19 +31,18 @@
 # Wildcards are scoped to machine-*.scope units and machinectl terminate;
 # a sudoers "*" also matches spaces, so the widest thing these rules permit
 # is stopping or resetting extra machine scopes, never arbitrary units.
-{ config, ... }:
 let
-  systemdBin = "${config.systemd.package}/bin";
+  systemBin = "/run/current-system/sw/bin";
 in
 {
   security.sudo.extraRules = [
     {
       groups = [ "wheel" ];
       commands = [
-        { command = "${systemdBin}/systemd-nspawn"; options = [ "NOPASSWD" ]; }
-        { command = "${systemdBin}/systemctl reset-failed machine-*.scope"; options = [ "NOPASSWD" ]; }
-        { command = "${systemdBin}/systemctl stop machine-*.scope"; options = [ "NOPASSWD" ]; }
-        { command = "${systemdBin}/machinectl terminate *"; options = [ "NOPASSWD" ]; }
+        { command = "${systemBin}/systemd-nspawn"; options = [ "NOPASSWD" ]; }
+        { command = "${systemBin}/systemctl reset-failed machine-*.scope"; options = [ "NOPASSWD" ]; }
+        { command = "${systemBin}/systemctl stop machine-*.scope"; options = [ "NOPASSWD" ]; }
+        { command = "${systemBin}/machinectl terminate *"; options = [ "NOPASSWD" ]; }
       ];
     }
   ];

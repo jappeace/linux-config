@@ -12,4 +12,7 @@ in
 
   # Asserts the touchpad-rescue branch logic against a fake sysfs tree.
   touchpad-rescue-test = machines.touchpad-rescue-test;
+
+  # Runs the vibes launcher's sudo calls in a VM; fails if one asks for a password.
+  claude-launcher-sudo-test = machines.claude-launcher-sudo-test;
 }
