@@ -170,6 +170,8 @@ let
     fi
   '';
 
+  screenshot-save = import ./screenshot-save.nix { inherit pkgs; };
+
   # Skip paths already on the community cache
   nixosCacheCheck = ''
     HASH=$(basename "$path" | cut -d- -f1)
@@ -539,6 +541,7 @@ in
       libnotify
 
       dictate # speech-to-text, toggle with $mod+Ctrl+space in sway
+      screenshot-save # region screenshot to a file, $mod+Ctrl+Shift+x in sway
     ];
     shellAliases = {
       nix = "nom";
