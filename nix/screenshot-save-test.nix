@@ -3,11 +3,12 @@
 # nothing behind, and that a failing grim is reported.
 { pkgs ? import (import ../npins).nixpkgs { } }:
 let
+  # The messages and exit codes are those of the real slurp 1.5.0 and zenity 4.2.2.
   fakeSlurp = pkgs.writeShellScript "fake-slurp" ''
-    if [ "''${FAKE_SLURP:-}" = cancel ]; then
-      echo "selection cancelled" >&2
-      exit 1
-    fi
+    case "''${FAKE_SLURP:-}" in
+      cancel) echo "selection cancelled" >&2; exit 1 ;;
+      fail) echo "failed to create display" >&2; exit 1 ;;
+    esac
     echo "10,20 30x40"
   '';
   # Called as: grim -g REGION FILE
@@ -20,9 +21,10 @@ let
   '';
   fakeZenity = pkgs.writeShellScript "fake-zenity" ''
     printf '%s\n' "$@" > "$ZENITY_ARGS"
-    if [ "$FAKE_ZENITY" = cancel ]; then
-      exit 1
-    fi
+    case "$FAKE_ZENITY" in
+      cancel) exit "''${ZENITY_CANCEL:-1}" ;;
+      fail) echo "Gtk-WARNING **: Failed to open display" >&2; exit 1 ;;
+    esac
     echo "$FAKE_ZENITY"
   '';
   fakeNotifySend = pkgs.writeShellScript "fake-notify-send" ''
@@ -84,14 +86,33 @@ pkgs.runCommand "screenshot-save-test" { } ''
   assert_clean C
   echo "case C (selection cancelled): ok"
 
-  # Case D: a failing grim is a critical notification carrying its message.
+  # Fail case $1 unless the run exits non-zero with a critical notification
+  # carrying $2, the failing tool's message.
+  assert_reported() {
+    if ${screenshot-save}/bin/screenshot-save; then fail "$1: exited zero"; fi
+    grep -q -- "-u critical .*$2" "$NOTIFICATIONS" \
+      || fail "$1: no critical notification with: $2"
+  }
+
+  # Case D: a failing grim is reported and never opens the dialog.
   new_case D
   export FAKE_GRIM=fail FAKE_ZENITY="$root/picked/shot.png"
-  if ${screenshot-save}/bin/screenshot-save; then fail "D: grim failure exited zero"; fi
-  grep -q -- "-u critical .*wlr-screencopy" "$NOTIFICATIONS" \
-    || fail "D: no critical notification with grim's message"
+  assert_reported D "wlr-screencopy"
   [ ! -e "$ZENITY_ARGS" ] || fail "D: dialog opened without a screenshot"
   echo "case D (grim failed): ok"
+
+  # Case E: a slurp failure is not mistaken for Escape.
+  new_case E
+  export FAKE_SLURP=fail FAKE_ZENITY="$root/picked/shot.png"
+  assert_reported E "failed to create display"
+  [ ! -e "$ZENITY_ARGS" ] || fail "E: dialog opened without a selection"
+  echo "case E (slurp failed): ok"
+
+  # Case F: zenity failing to start is not mistaken for Cancel.
+  new_case F
+  export FAKE_ZENITY=fail
+  assert_reported F "Failed to open display"
+  echo "case F (zenity failed): ok"
 
   echo "all screenshot-save cases passed" > $out
 ''

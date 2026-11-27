@@ -39,13 +39,16 @@ pkgs.writeShellScriptBin "screenshot-save" ''
   ${grim} -g "$region" "$workdir/shot.png" 2>"$workdir/grim.err" \
     || fail "grim: $(cat "$workdir/grim.err")"
 
+  # zenity exits 1 for Cancel and Escape and also when it cannot start (no
+  # display), so the two dismissals are moved to a code of their own.
+  dismissed=10
   suggestion="$HOME/aanleveringen/screenshot-$(date +%Y-%m-%d_%H-%M-%S).png"
-  target=$(${zenity} --file-selection --save --title="Save screenshot" \
+  target=$(ZENITY_CANCEL=$dismissed ZENITY_ESC=$dismissed \
+           ${zenity} --file-selection --save --title="Save screenshot" \
              --filename="$suggestion" 2>"$workdir/zenity.err")
   case $? in
     0) ;;
-    # Cancel, Escape or closing the window.
-    1) exit 0 ;;
+    "$dismissed") exit 0 ;;
     *) fail "zenity: $(cat "$workdir/zenity.err")" ;;
   esac
 
