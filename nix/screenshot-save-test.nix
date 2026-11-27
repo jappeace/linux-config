@@ -23,6 +23,7 @@ let
     printf '%s\n' "$@" > "$ZENITY_ARGS"
     case "$FAKE_ZENITY" in
       cancel) exit "''${ZENITY_CANCEL:-1}" ;;
+      escape) exit "''${ZENITY_ESC:-1}" ;;
       fail) echo "Gtk-WARNING **: Failed to open display" >&2; exit 1 ;;
     esac
     echo "$FAKE_ZENITY"
@@ -70,13 +71,17 @@ pkgs.runCommand "screenshot-save-test" { } ''
   assert_clean A
   echo "case A (saved where picked): ok"
 
-  # Case B: cancelling the dialog saves nothing and reports nothing.
-  new_case B
-  export FAKE_ZENITY=cancel
-  ${screenshot-save}/bin/screenshot-save || fail "B: cancel exited non-zero"
-  [ -z "$(find "$root/picked" "$HOME/aanleveringen" -type f)" ] || fail "B: a file was saved"
-  assert_clean B
-  echo "case B (dialog cancelled): ok"
+  # Case B: dismissing the dialog saves nothing and reports nothing. zenity
+  # reports the Cancel button and Escape through different exit codes.
+  for dismissal in cancel escape; do
+    new_case "B-$dismissal"
+    export FAKE_ZENITY=$dismissal
+    ${screenshot-save}/bin/screenshot-save || fail "B $dismissal: exited non-zero"
+    [ -z "$(find "$root/picked" "$HOME/aanleveringen" -type f)" ] \
+      || fail "B $dismissal: a file was saved"
+    assert_clean "B $dismissal"
+    echo "case B (dialog dismissed by $dismissal): ok"
+  done
 
   # Case C: Escape during the selection never opens the dialog.
   new_case C
