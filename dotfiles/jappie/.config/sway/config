@@ -182,6 +182,8 @@ bindsym $mod+Shift+e exec "i3-nag bar -t warning -m 'Should I close this session
 bindsym --release $mod+c exec grim - | wl-copy
 # Screenshot selected region to clipboard
 bindsym --release $mod+Shift+x exec grim -g "$(slurp)" - | wl-copy
+# Screenshot selected region to a file, the save dialog opens in ~/aanleveringen
+bindsym --release $mod+Ctrl+Shift+x exec screenshot-save
 
 # resize window (you can also use the mouse for that)
 mode "resize" {
