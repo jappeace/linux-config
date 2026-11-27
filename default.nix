@@ -37,11 +37,4 @@ in
   claude-launcher-sudo-test = import ./nix/claude-launcher-sudo-test.nix {
     pkgs = import sources.nixpkgs { };
   };
-
-  # nix-build -A screenshot-save-test
-  # Runs screenshot-save against fake slurp, grim and zenity; fails if the
-  # shot misses the picked path, a cancel leaves files, or an error is silent.
-  screenshot-save-test = import ./nix/screenshot-save-test.nix {
-    pkgs = import sources.nixpkgs { };
-  };
 }

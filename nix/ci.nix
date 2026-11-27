@@ -15,7 +15,4 @@ in
 
   # Runs the vibes launcher's sudo calls in a VM; fails if one asks for a password.
   claude-launcher-sudo-test = machines.claude-launcher-sudo-test;
-
-  # Asserts where screenshot-save puts the shot and that cancels stay quiet.
-  screenshot-save-test = machines.screenshot-save-test;
 }

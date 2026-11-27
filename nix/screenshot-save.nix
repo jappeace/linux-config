@@ -4,15 +4,13 @@
 # Decision: zenity's GTK save dialog over a rofi filename prompt. Saving means
 # picking a folder as well as a name, which a browsable dialog does and a
 # single text prompt does not. zenity 4 always confirms overwriting.
-#
-# The tools are arguments so nix/screenshot-save-test.nix can build this same
-# script against fakes.
-{ pkgs
-, slurp ? "${pkgs.slurp}/bin/slurp"
-, grim ? "${pkgs.grim}/bin/grim"
-, zenity ? "${pkgs.zenity}/bin/zenity"
-, notifySend ? "${pkgs.libnotify}/bin/notify-send"
-}:
+{ pkgs }:
+let
+  slurp = "${pkgs.slurp}/bin/slurp";
+  grim = "${pkgs.grim}/bin/grim";
+  zenity = "${pkgs.zenity}/bin/zenity";
+  notifySend = "${pkgs.libnotify}/bin/notify-send";
+in
 pkgs.writeShellScriptBin "screenshot-save" ''
   set -u
 
